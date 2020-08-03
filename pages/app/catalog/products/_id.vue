@@ -1,0 +1,571 @@
+<template>
+    <div>
+        <v-card>
+            <v-tabs dark background-color="#161537" v-model="tabs">
+                <v-tab>Product Details</v-tab>
+                <v-tab>Product Variants</v-tab>
+            </v-tabs>
+            <v-divider/>
+            <v-container v-if="product !== undefined">
+                <div v-if="tabs === 0">
+                    <div v-if="$apollo.queries.product.loading">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <v-progress-circular
+                                    indeterminate
+                                    color="#161537"
+                            ></v-progress-circular>
+                        </div>
+                    </div>
+                    <div v-if="!$apollo.queries.product.loading">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div>
+                                    <v-alert
+                                            dense
+                                            outlined
+                                            type="error"
+                                            v-if="(product.collection === null || product.collection.name === 'default')"
+                                    >
+                                        The product is in default collection. It will not come up in any search history.
+                                    </v-alert>
+                                </div>
+                                <div class="form-group">
+                                    <label>Product Name</label>
+                                    <a-input v-model="name"></a-input>
+                                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Slug</label>
+                                    <a-input v-model="slug" disabled></a-input>
+                                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Collection</label>
+                                    <div>
+                                        <div v-if="product.collection !== null">
+                                            <span style="font-weight: bold; font-size: 20px">{{product.collection.name}}</span>
+                                        </div>
+                                        <v-btn class="ma-2" tile small outlined color="primary" @click="selectCats = true">
+                                            <v-icon left>mdi-plus</v-icon>
+                                            {{(product.collection === null || product.collection.name === 'default') ? 'Select' : 'Change'}} Collection
+                                        </v-btn>
+                                        <v-dialog v-model="selectCats" scrollable max-width="300px">
+                                            <v-card>
+                                                <v-card-title>Select Category</v-card-title>
+                                                <v-divider></v-divider>
+                                                <v-card-text style="height: 300px;">
+                                                    <a-tree
+                                                            :tree-data="allCollections"
+                                                            defaultExpandAll
+                                                            showLine
+                                                            switcherIcon
+                                                            @select="onUpdateCollection"
+                                                    ></a-tree>
+                                                </v-card-text>
+                                                <v-divider></v-divider>
+                                                <v-card-actions>
+                                                    <v-btn color="#1b55e3" text @click="selectCats = false">Close</v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-dialog>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Facets</label>
+                                    <div>
+                                        <v-btn class="ma-2" tile small outlined color="success" @click="addFacet = true">
+                                            <v-icon left>mdi-plus</v-icon>
+                                            Add Facet
+                                        </v-btn>
+                                        <v-dialog v-model="addFacet" scrollable max-width="400px">
+                                            <v-card>
+                                                <v-card-title>Select Facet</v-card-title>
+                                                <v-divider></v-divider>
+                                                <v-card-text style="height: 300px;">
+                                                    <v-list dense>
+                                                        <v-list-item-group color="primary">
+                                                            <v-text-field
+                                                                    v-model="facetSearch"
+                                                                    label="Search"
+                                                                    clearable
+                                                                    solo
+                                                            ></v-text-field>
+                                                            <v-list-item
+                                                                    v-for="items in allFacets"
+                                                                    :key="items.id"
+                                                                    @click="onClickSelect(items.node)"
+                                                            >
+                                                                <v-list-item-content>
+                                                                    <v-chip
+                                                                            class="ma-2"
+                                                                            :color="onSelectTrace(items.node) ? '#1b55e3' : 'white'"
+                                                                            style="color: white"
+                                                                    >
+                                                                        {{items.node.facet.name.toUpperCase()}}
+                                                                        {{items.node.code}}
+                                                                    </v-chip>
+                                                                </v-list-item-content>
+                                                            </v-list-item>
+                                                        </v-list-item-group>
+                                                    </v-list>
+                                                </v-card-text>
+                                                <v-divider></v-divider>
+                                                <v-card-actions>
+                                                    <v-btn color="#1b55e3" text @click="addFacet = false">Close</v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-dialog>
+                                    </div>
+                                    <hr style="margin-top: 4px; margin-bottom: 4px"/>
+                                    <div>
+                                        <v-chip v-for="ites in selectedFacet" :key="ites.id"
+                                                class="ma-2"
+                                                color="#1b55e3"
+                                                outlined
+                                                pill
+                                                small
+                                                style="margin: 3px"
+                                        >
+                                            {{ites.facet.name.toUpperCase()}} {{ites.code}}
+                                        </v-chip>
+                                    </div>
+                                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <v-card outlined>
+                                    <v-img :contain="true"
+                                           :src="featuredAssets === null ? 'https://via.placeholder.com/200' : `${assetUrl}/${featuredAssets.preview}`"
+                                           height="200px"
+                                    ></v-img>
+                                    <v-card-title>
+                                        Assets
+                                    </v-card-title>
+                                    <hr/>
+                                    <v-card-actions>
+                                        <a-button type="primary" size="small" @click="addAsset = true">Add Asset</a-button>
+                                        <v-spacer></v-spacer>
+                                        <v-btn small icon @click="showassets = !showassets">
+                                            <v-icon>{{ showassets ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                                        </v-btn>
+                                    </v-card-actions>
+                                    <v-expand-transition>
+                                        <div v-show="showassets" style="padding: 10px">
+                                            <v-divider></v-divider>
+                                            <v-row>
+                                                <v-col
+                                                        v-for="n in selectedAssets"
+                                                        :key="n.id"
+                                                        class="d-flex child-flex"
+                                                        cols="3"
+                                                >
+                                                    <v-card flat tile class="d-flex" @click="onImageClicked($event, n)">
+                                                        <v-img :contain="true"
+                                                               :src="`${assetUrl}/${n.preview}`"
+                                                               aspect-ratio="1"
+                                                               class="grey lighten-2"
+                                                        >
+                                                        </v-img>
+                                                    </v-card>
+                                                </v-col>
+                                            </v-row>
+                                        </div>
+                                    </v-expand-transition>
+                                </v-card>
+                                <v-menu
+                                        v-model="showMenu"
+                                        :position-x="x"
+                                        :position-y="y"
+                                        absolute
+                                        offset-y
+                                >
+                                    <v-list>
+                                        <v-list-item>
+                                            <v-list-item-title>Preview</v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item @click="onSelectFeatured" :disabled="featureActive">
+                                            <v-list-item-title>Set as Featured</v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-title>Remove Asset</v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <client-only>
+                                <editor api-key="no-api-key" :init="{
+                            height: 800,
+                            plugins: ['image', 'preview', 'link', 'advlist', 'autolink', 'lists', 'hr'],
+                            file_picker_callback: filePickerCallBack,
+                            file_picker_types: 'image',
+                            automatic_uploads: true,
+                            images_upload_handler: imageUploadHandler,
+                            branding: false,
+                            setup: onSetupEditor,
+                            content_style: 'body { font-family: Arial; }'
+                        }" v-model="editorModel"/>
+                            </client-only>
+                            <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                        </div>
+                        <v-card-actions>
+                            <a-button type="primary" size="large" @click="updateProduct">
+                                Update Product
+                            </a-button>
+                        </v-card-actions>
+                    </div>
+                </div>
+                <div v-if="tabs === 1">
+                    <ProductOptions :id="$route.params.id"/>
+                </div>
+            </v-container>
+        </v-card>
+        <v-dialog v-model="addAsset" fullscreen transition="dialog-bottom-transition">
+            <v-card style="border-radius: 0px">
+                <v-toolbar color="#1b55e3">
+                    <v-btn icon dark @click="addAsset = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title style="color: white">Add Assets</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                        <v-btn text dark @click="addAsset = false">Select</v-btn>
+                    </v-toolbar-items>
+                </v-toolbar>
+                <div style="background-color: white">
+                    <v-container>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <v-row>
+                                    <v-col
+                                            v-for="n in assets.edges"
+                                            :key="n.node.id"
+                                            class="d-flex child-flex"
+                                            cols="2"
+                                    >
+                                        <v-card flat tile class="d-flex" :color="getSelectedColor(n.node.id)" hover
+                                                @click="onClickSelectAsset(n.node)" style="padding: 5px">
+                                            <v-img
+                                                    :src="`${assetUrl}/${n.node.preview}`"
+                                                    aspect-ratio="1"
+                                                    class="grey lighten-2"
+                                            >
+                                                <template v-slot:placeholder>
+                                                    <v-row
+                                                            class="fill-height ma-0"
+                                                            align="center"
+                                                            justify="center"
+                                                    >
+                                                        <v-progress-circular indeterminate
+                                                                             color="grey lighten-5"></v-progress-circular>
+                                                    </v-row>
+                                                </template>
+                                            </v-img>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </div>
+                        </div>
+                    </v-container>
+                </div>
+            </v-card>
+        </v-dialog>
+    </div>
+</template>
+
+<script lang="ts">
+    import {Component, Vue, Watch} from 'vue-property-decorator';
+    import {
+        Asset, Collection,
+        CreateAssetDocument,
+        GetAllAssetsDocument, GetallcollectionDocument, GetAllFacetsDocument,
+        GetFacetValuesDocument,
+        GetOneProductDocument, UpdateProductCollectionDocument, UpdateProductDocument
+    } from '../../../../gql';
+    import {assetsURL} from '../../../../constants/GlobalURL';
+    import Editor from '@tinymce/tinymce-vue';
+    import ProductOptions from '../../../../components/products/product-options.vue';
+
+    @Component({
+        layout: 'console',
+        components: {
+            ProductOptions,
+            'editor': Editor
+        },
+        apollo: {
+            GetCollectionTree: {
+                query: GetallcollectionDocument
+            },
+            product: {
+                query: GetOneProductDocument,
+                variables() {
+                    return {
+                        id: this.$route.params.id
+                    }
+                },
+                pollInterval: 3000
+            },
+            assets: {
+                query: GetAllAssetsDocument,
+                variables() {
+                    return {
+                        first: 50
+                    }
+                }
+            },
+            facetValues: {
+                query: GetFacetValuesDocument,
+                variables() {
+                    return {
+                        first: 30,
+                        search: `${this.facetSearch}%`
+                    }
+                }
+            }
+        }
+    })
+    export default class ProductEdit extends Vue {
+        private tabs = 0;
+        private name: string = '';
+        private slug: string = '';
+        private showassets = false;
+        private addAsset = false;
+        private myAssets: Asset[] = [];
+        private assetUrl = assetsURL;
+        private selectedAssets: Asset[] = [];
+        private featuredAssets: Asset | null = null;
+        private addFacet = false;
+        private selectCats = false;
+        private allFacets: any[] = [];
+        private selectedFacet: any[] = [];
+        private editorModel: string = '';
+        private editorRef: any = null;
+        private showMenu: boolean = false;
+        private x = 0;
+        private y = 0;
+        private menuId: any = null;
+        private featureActive: boolean = true;
+        private GetCollectionTree;
+        private product;
+        private allCollections: any[] = [];
+        private selectedCollection: Collection | null = null
+        private editorDesc = ''
+
+        private assets
+
+        private facetSearch = ''
+        private facetValues: any
+
+        @Watch('GetCollectionTree')
+        onGetCollections() {
+            let onechindren: any[] = [];
+            for (let vls of this.GetCollectionTree) {
+                let twochildren: any[] = [];
+                if (vls.children.edges.length > 0) {
+                    for (let second of vls.children.edges) {
+                        let thirdchild: any[] = [];
+                        if (second.node.children.edges.length > 0) {
+                            for (let third of second.node.children.edges) {
+                                let thnode = {
+                                    key: third.node.id,
+                                    title: third.node.name,
+                                    menu: third.node.inMenu,
+                                    add: false,
+                                    edit: true
+                                };
+                                thirdchild.push(thnode);
+                            }
+                        }
+                        let twonode = {
+                            key: second.node.id,
+                            title: second.node.name,
+                            menu: second.node.inMenu,
+                            add: true,
+                            edit: true,
+                            children: thirdchild
+                        };
+                        twochildren.push(twonode);
+                    }
+                }
+                let onNode = {
+                    key: vls.id,
+                    title: vls.name,
+                    menu: vls.inMenu,
+                    add: true,
+                    edit: true,
+                    children: twochildren
+                };
+                onechindren.push(onNode);
+            }
+            this.allCollections = onechindren;
+        }
+
+        @Watch('product')
+        onGetOneProdDoc() {
+            this.name = this.product.productName;
+            this.slug = this.product.slug;
+            this.selectedFacet = this.product.facets.edges.map(item => item.node);
+            this.selectedAssets = this.product.assets.edges.map(item => item.node.asset);
+            this.editorDesc = this.product.description
+            this.featuredAssets = this.product.featuredAsset;
+            this.menuId = this.product.featuredAsset;
+            if (this.product.collection !== null) {
+                this.selectedCollection = this.product.collection
+            }
+            if (this.editorRef !== null) {
+                this.editorModel = this.editorRef.setContent(this.product.description);
+            }
+        }
+
+        @Watch('editorRef')
+        onEditorModelLoaded() {
+            if (this.editorRef !== null) {
+                this.editorModel = this.editorRef.setContent(this.editorDesc);
+            }
+        }
+
+        @Watch('assets')
+        onChangeAssets() {
+        }
+
+        onImageClicked(e, node) {
+            e.preventDefault();
+            this.showMenu = false;
+            this.menuId = node;
+            if (this.featuredAssets === null) {
+                this.featureActive = false;
+            } else {
+                this.featureActive = this.featuredAssets!.id === node.id;
+            }
+            this.x = e.clientX;
+            this.y = e.clientY;
+            this.$nextTick(() => {
+                this.showMenu = true;
+            });
+        }
+
+        onSelectFeatured() {
+            this.featuredAssets = this.menuId;
+        }
+
+        updateProduct() {
+            const load: any = this.$Message.loading('Action in progress..');
+            this.$apollo.mutate({
+                mutation: UpdateProductDocument,
+                variables: {
+                    id: this.$route.params.id,
+                    name: this.name,
+                    desc: this.editorModel,
+                    facet: this.selectedFacet.map(item => item.id),
+                    asset: this.selectedAssets.map(item => item.id),
+                    featured: this.featuredAssets!.id
+                }
+            }).then(value => {
+                load()
+                this.$notification.success({
+                    description: 'Product Updated',
+                    message: 'Product updating Successful'
+                });
+            });
+        }
+
+        onClickSelect(item) {
+            if (this.selectedFacet.find(ids => ids.id === item.id) === undefined) {
+                this.selectedFacet.push(item);
+            } else {
+                this.selectedFacet = this.selectedFacet.filter(its => its.id !== item.id);
+            }
+        }
+
+        onSetupEditor(editor) {
+            this.editorRef = editor;
+        }
+
+        onUpdateCollection(selected, info) {
+            this.$apollo.mutate({
+                mutation: UpdateProductCollectionDocument,
+                variables: {
+                    id: this.$route.params.id,
+                    collectionId: selected[0]
+                }
+            }).then(value => {
+                this.selectCats = false
+            }).catch(error => console.log(error))
+        }
+
+        @Watch('facetValues')
+        onChangeFacetValue() {
+            this.allFacets = this.facetValues.edges
+        }
+
+        mounted() {
+            /*this.$apollo.watchQuery({
+                query: GetFacetValuesDocument,
+                variables: {
+                    first: 30
+                }
+            }).subscribe(value => {
+                this.allFacets = value.data!.facetValues.edges;
+            });*/
+        }
+
+        getSelectedColor(id): string {
+            if (this.selectedAssets.find(item => item.id === id) !== undefined) {
+                return '#1F7087';
+            } else {
+                return 'white';
+            }
+        }
+
+        onSelectTrace(item) {
+            return this.selectedFacet.find(ids => ids.id === item.id) !== undefined;
+        }
+
+        filePickerCallBack(callback, value, meta) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            const apollo = this.$apollo;
+            input.onchange = function(event: any) {
+                // @ts-ignore
+                const file = this.files[0];
+                apollo.mutate({
+                    mutation: CreateAssetDocument,
+                    variables: {
+                        file: file
+                    }
+                }).then(value1 => {
+                    callback(`${assetsURL}/` + value1.data.createAsset.source, {title: file.filename});
+                });
+            };
+            input.click();
+        }
+
+        imageUploadHandler(blobinfo, success, failure) {
+            const file = new File([blobinfo.blob()], blobinfo.filename());
+            this.$apollo.mutate({
+                mutation: CreateAssetDocument,
+                variables: {
+                    file: file
+                }
+            }).then(value => {
+                success(`${assetsURL}/` + value.data.createAsset.source);
+            }).catch(error => {
+                failure(error);
+            });
+        }
+
+    }
+</script>
+
+<style>
+    .v-dialog__content {
+        z-index: 100000 !important;
+    }
+
+    .v-sheet {
+        border-radius: 0px;
+    }
+</style>

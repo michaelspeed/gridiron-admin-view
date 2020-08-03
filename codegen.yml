@@ -1,0 +1,11 @@
+overwrite: true
+schema: "http://localhost:5588/admin-api"
+documents: "gql/*.graphql"
+generates:
+  gql/index.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-vue-apollo
+    config:
+      withCompositionFunctions: false

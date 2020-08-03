@@ -1,0 +1,852 @@
+query GetAdministratorData {
+    GetAdministratorData {
+        id
+        firstName
+        lastName
+        emailAddress
+        type
+    }
+}
+
+query GetVendorInfo {
+    GetVendorInfo {
+        id
+        vendorName
+        phoneNumber
+        email
+        store {
+            id
+            storeName
+            rentalStore
+            GSTIN
+        }
+    }
+}
+
+query GetDefaultStore {
+    GetDefaultStore {
+        id
+        storeName
+        phoneNumber
+        officialemail
+        zipcode
+        streetAddress1
+        streetAddress2
+        GSTIN
+        singleStore
+        rentalStore
+        channelMarkets
+        country {
+            id
+            name
+        }
+    }
+}
+
+query GetAllCountries {
+    GetAllCountries {
+        id
+        code
+        name
+        enabled
+    }
+}
+
+query GetAllZones {
+    zones {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+}
+
+query GetTaxRules ($first: Int, $iLike: String, $after: ConnectionCursor, $last: Int, $before: ConnectionCursor){
+    taxCategories(
+        paging:{
+            first: $first,
+            after: $after
+            last: $last,
+            before: $before
+        },
+        filter:{
+            name: {
+                like: $iLike
+            }
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+}
+
+query GetTaxRates($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int){
+    taxRates(
+        paging:{
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            endCursor
+            startCursor
+        }
+        edges {
+            node {
+                id
+                name
+                value
+                enabled
+                zone {
+                    id
+                    name
+                }
+                category {
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
+
+query GetAllChannels($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int, $search: String){
+    channels(
+        filter: {
+            code: {
+                like: $search
+            }
+        }
+        paging:{
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        }
+        sorting: {
+            field:createdAt,
+            direction:DESC
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            endCursor
+            startCursor
+        }
+        edges {
+            node {
+                id
+                code
+                defaultLanguageCode
+                currencyCode
+                pricesIncludeTax
+            }
+        }
+    }
+}
+
+query getallcollection {
+    GetCollectionTree {
+        id
+        isRoot
+        inMenu
+        name
+        description
+        children {
+            edges {
+                node {
+                    id
+                    isRoot
+                    inMenu
+                    name
+                    description
+                    children {
+                        edges {
+                            node {
+                                id
+                                isRoot
+                                inMenu
+                                name
+                                description
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query GetOneCollection($id: ID!){
+    collection(id:$id) {
+        id
+        name
+        isRoot
+        inMenu
+        description
+        seo {
+            id
+            urlKey
+            metadesc
+            metatitle
+            metakeywords
+        }
+    }
+}
+
+query GetAllAssets($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int){
+    assets(
+        paging:{
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        },
+        sorting:{
+            field: createdAt,
+            direction: DESC
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                createdAt
+                name
+                type
+                mimeType
+                source
+                preview
+                fileSize
+                width
+                height
+            }
+        }
+    }
+}
+
+query GetAllFacets($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int) {
+    facets(
+        paging:{
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        },
+        sorting:{
+            field: createdAt,
+            direction: DESC
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                createdAt
+                name
+                isPrivate
+                code
+            }
+        }
+    }
+}
+
+query GetFacetValues($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int, $search: String){
+    facetValues(
+        paging: {
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        }
+        sorting: {
+            direction:ASC,
+            field:code
+        },
+        filter:{
+            code: {
+                like: $search
+            }
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                code
+                facet {
+                    id
+                    name
+                    code
+                }
+            }
+        }
+    }
+}
+
+query GetAllProducts($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int){
+    products(
+        paging: {
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                slug
+                productName
+                description
+                featuredAsset {
+                    id
+                    preview
+                    source
+                }
+                facets {
+                    edges {
+                        node {
+                            id
+                            code
+                            facet {
+                                id
+                                name
+                                code
+                            }
+                        }
+                    }
+                }
+                assets {
+                    edges {
+                        node {
+                            id
+                            asset {
+                                id
+                                name
+                                type
+                                mimeType
+                                preview
+                                source
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query GetFacet($id: ID!){
+    facet(id: $id) {
+        id
+        isPrivate
+        name
+        code
+        values {
+            edges {
+                node {
+                    id
+                    code
+                }
+            }
+        }
+    }
+}
+
+query GetOneProduct($id: ID!){
+    product(id: $id) {
+        id
+        productName
+        slug
+        description
+        collection {
+            id
+            name
+            description
+        }
+        featuredAsset {
+            id
+            preview
+            source
+        }
+        facets {
+            edges {
+                node {
+                    id
+                    code
+                    facet {
+                        id
+                        name
+                        code
+                    }
+                }
+            }
+        }
+        assets {
+            edges {
+                node {
+                    id
+                    asset {
+                        id
+                        source
+                        preview
+                    }
+                }
+            }
+        }
+    }
+}
+
+query GetAllVendurePlans($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int){
+    vendorPlans(
+        paging:{
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                isActive
+                name
+                planValue
+                priceStrategy
+                tenureStrategy
+            }
+        }
+    }
+}
+
+query GetProductVariant($id: ID!){
+    product(id: $id) {
+        id
+        variants {
+            edges {
+                node {
+                    id
+                    name
+                    enabled
+                    sku
+                    trackInventory
+                    dum_price
+                    seo {
+                        id
+                        urlKey
+                        metatitle
+                        metakeywords
+                        metadesc
+                    }
+                    specs {
+                        id
+                        specs
+                    }
+                    price {
+                        id
+                        price
+                        tax{
+                            id
+                            value
+                        }
+                        taxIncluded
+                    }
+                    asset {
+                        id
+                        asset {
+                            id
+                            preview
+                        }
+                    }
+                }
+            }
+        }
+        options {
+            edges {
+                node {
+                    id
+                    name
+                    code
+                    options {
+                        edges {
+                            node {
+                                id
+                                name
+                                code
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query GetAllTaxRates {
+    GetAllTaxRates{
+        id
+        name
+        value
+        enabled
+        category {
+            id
+            name
+        }
+        zone {
+            id
+            name
+        }
+    }
+}
+
+query ZoneFindMany {
+    ZoneFindMany {
+        id
+        name
+    }
+}
+
+query FindAllVendorPlans {
+    FindAllVendorPlans {
+        id
+        isActive
+        name
+        planValue
+        priceStrategy
+        priceStrategy
+    }
+}
+
+query GetAllRoles{
+    roles(
+        sorting: {
+            field:createdAt,
+            direction:DESC
+        }
+    ) {
+        edges {
+            node {
+                id
+                code
+                description
+                type
+            }
+        }
+    }
+}
+
+query GetRole($id: ID!){
+    role(
+        id: $id
+    ) {
+        id
+        code
+        description
+        permissions
+        type
+    }
+}
+
+query GetAllAdministrator($search: String){
+    GetAllAdministrator(search: $search) {
+        id
+        firstName
+        lastName
+        emailAddress
+        type
+    }
+}
+
+query GetSingleProductVariant($id: ID!){
+    productVariant(id: $id) {
+        id
+        name
+        dum_price
+        enabled
+        sku
+        name
+        trackInventory
+        specs {
+            id
+            specs
+        }
+    }
+}
+
+query GetBillingAgreementByVendor{
+    GetBillingAgreementByVendor{
+        id
+        value
+        type
+        state
+        request {
+            id
+            value
+            state
+        }
+        collection {
+            id
+            name
+            description
+            isPrivate
+            parent {
+                id
+                name
+            }
+        }
+    }
+}
+
+query GetAllSeo($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int){
+    seos(
+        paging:{
+            before: $before,
+            after: $after,
+            first: $first,
+            last: $last
+        },
+        sorting:{
+            field: createdAt,
+            direction: DESC
+        }
+    ) {
+        pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+                id
+                urlKey
+                metatitle
+                metadesc
+                metakeywords
+                collection {
+                    id
+                    name
+                }
+                variant {
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
+
+query GetOneSeo($id: ID!){
+    seo(id: $id){
+        urlKey,
+        metadesc,
+        metatitle,
+        metakeywords,
+        collection {
+            id
+            name
+        }
+        variant {
+            id
+            name
+        }
+    }
+}
+
+query GetBillingAgreement($id: ID!){
+    GetBillingAgreement(id: $id) {
+        id
+        value
+        type
+        state
+        createdAt
+        updatedAt
+    }
+}
+
+query GetBillingRequestForAgreement($id: String!) {
+    GetBillingRequestForAgreement(id: $id) {
+        id
+        createdAt
+        updatedAt
+        value
+        state
+    }
+}
+
+query ZoneFindOne($id: ID!){
+    ZoneFindOne(id: $id) {
+        id
+        name
+        members {
+            edges {
+                node {
+                    id
+                    code
+                    name
+                    enabled
+                }
+            }
+        }
+    }
+}
+
+query GetAllTaxCategory {
+    GetAllTaxCategory {
+        id
+        name
+    }
+}
+
+query GetStockKeepingVendor($variantId: ID!, $vendorId: ID){
+    getStockKeepingVendor(
+        variantId: $variantId,
+        vendorId: $vendorId
+    ) {
+        id
+        quantity
+        threshold
+        multiple
+        backorder
+        stockstatus
+        sku
+    }
+}
+
+query FindAllZip {
+    findAllZip {
+        id
+        name
+        slug
+        code
+    }
+}
+
+query GetStockKeepingByStore {
+    getStockKeepingByStore {
+        id
+        sku
+        variant {
+            id
+            name
+        }
+        quantity
+        threshold
+        multiple
+        backorder
+        stockstatus
+    }
+}
+
+query GetMenuTree {
+    GetMenuTree {
+        menu
+    }
+}
+
+query SearchProductVariants($search: String){
+    productVariants(
+        filter:{
+            name: {
+                like: $search
+            }
+        }
+    ){
+        edges {
+            node {
+                id
+                name
+                enabled
+            }
+        }
+    }
+}
+
+query SearchCollection($search: String){
+    collections(
+        filter: {
+            name: {
+                like: $search
+            }
+        }
+    ){
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+}
+
+query SearchFacetValue($search: String){
+    facetValues(
+        filter:{
+            code: {
+                like: $search
+            }
+        }
+    ) {
+        edges {
+            node {
+                id
+                facet {
+                    id
+                    name
+                }
+                code
+            }
+        }
+    }
+}

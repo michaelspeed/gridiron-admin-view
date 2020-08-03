@@ -1,0 +1,612 @@
+type StoreTypeEnum
+
+mutation administratorLogin($email: String!, $password: String!){
+    administratorLogin(email: $email, password: $password) {
+        user {
+            firstName
+            lastName
+            verified
+            phoneNumber
+            address
+            administrator {
+                id
+            }
+        }
+        token
+        store {
+            id
+        }
+    }
+}
+
+mutation CreateDefaultStore(
+    $countryId: String!,
+    $zipcode: String!,
+    $streetAddress2: String!,
+    $streetAddress1: String!,
+    $GSTIN: String!,
+    $officialemail: String!,
+    $phoneNumber: String!,
+    $storeName: String!
+) {
+    CreateDefaultStore(
+        countryId: $countryId,
+        zipcode: $zipcode,
+        streetAddress2: $streetAddress2,
+        streetAddress1: $streetAddress1,
+        GSTIN: $GSTIN,
+        officialemail: $officialemail,
+        phoneNumber: $phoneNumber,
+        storeName: $storeName
+    ){
+        id
+    }
+}
+
+mutation createOneStore(
+    $storeName: String,
+    $phoneNumber: String,
+    $officialemail: String,
+    $type: StoreTypeEnum,
+    $GSTIN: String,
+    $streetAddress1: String,
+    $streetAddress2: String,
+    $zipcode: String
+){
+    createOneStore(
+        input: {
+            store: {
+                storeName: $storeName,
+                phoneNumber: $phoneNumber,
+                officialemail: $officialemail,
+                type: $type,
+                GSTIN: $GSTIN,
+                streetAddress1: $streetAddress1,
+                streetAddress2: $streetAddress2
+                zipcode: $zipcode
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation setCountryOnStore ($countryId: ID!, $storeId: ID!){
+    setCountryOnStore(input:{
+        id: $storeId,
+        relationId: $countryId
+    }) {
+        id
+    }
+}
+
+mutation createOneZone ($zone: String){
+    createOneZone(
+        input: {
+            zone:{
+                name: $zone
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation updateOneStore(
+    $id: ID!
+    $storeName: String,
+    $phoneNumber:  String,
+    $officialemail:  String,
+    $zipcode: String,
+    $streetAddress1: String,
+    $streetAddress2: String,
+    $GSTIN: String,
+    $singleStore: Boolean,
+    $rentalStore: Boolean
+){
+    updateOneStore(input:{
+        id: $id,
+        update: {
+            storeName: $storeName,
+            phoneNumber: $phoneNumber,
+            officialemail: $officialemail,
+            zipcode: $zipcode,
+            streetAddress1: $streetAddress1,
+            streetAddress2: $streetAddress2,
+            GSTIN: $GSTIN,
+            singleStore: $singleStore,
+            rentalStore: $rentalStore
+        }
+    }){
+        id
+    }
+}
+
+mutation CreateTaxRule ($name: String){
+    createOneTaxCategory(
+        input:{
+            taxCategory :{
+                name: $name
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation CreateTaxRate($name: String, $value: Float, $enabled: Boolean){
+    createOneTaxRate(
+        input:{
+            taxRate: {
+                name: $name,
+                value: $value
+                enabled: $enabled
+            }
+        }
+    ) {
+        id
+    }
+}
+
+
+mutation SetZoneOnTaxRate($id: ID!, $zoneID: ID!){
+    setZoneOnTaxRate(
+        input:{
+            id: $id,
+            relationId: $zoneID
+        }
+    ) {
+        id
+    }
+}
+
+mutation SetCategoryOnTaxRate($id: ID!, $categoryId: ID!){
+    setCategoryOnTaxRate(
+        input: {
+            id: $id,
+            relationId: $categoryId
+        }
+    ) {
+        id
+    }
+}
+
+mutation CreateOneChannel($code: String, $token: String, $currencyCode: String, $pricesIncludeTax: Boolean, $defaultLanguageCode: String!){
+    createOneChannel(
+        input:{
+            channel:{
+                code:$code,
+                token: $token,
+                defaultLanguageCode: $defaultLanguageCode,
+                currencyCode: $currencyCode,
+                pricesIncludeTax:$pricesIncludeTax
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation CreateOneCollection($isRoot: Boolean, $name: String, $desc: String){
+    createOneCollection(
+        input: {
+            collection:{
+                isRoot: $isRoot,
+                name: $name,
+                description: $desc
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation AddParentToChildCollection($parentId: String!, $childId: String!){
+    AddParentToChildCollection(parentId: $parentId, childId: $childId){
+        id
+    }
+}
+
+mutation CreateOneSeo($urlKey: String, $metatitle: String, $metakeywords: [String!], $metadesc: String){
+    createOneSeo(
+        input:{
+            seo:{
+                urlKey: $urlKey,
+                metatitle: $metatitle,
+                metakeywords: $metakeywords,
+                metadesc: $metadesc
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation SetSeoOnCollection($id: ID!, $relationId: ID!){
+    setSeoOnCollection(input:{
+        id: $id,
+        relationId: $relationId
+    }) {
+        id
+    }
+}
+
+mutation UpdateCollection($colId: ID!, $seoID: ID!, $name: String, $inMenu: Boolean, $desc: String, $urlKey: String, $metatitle: String, $metadesc: String, $metakeywords: [String!]!){
+    updateOneCollection(input:{
+        id: $colId,
+        update: {
+            name: $name
+            inMenu: $inMenu,
+            description: $desc
+        }
+    }) {
+        id
+    }
+    updateOneSeo(input:{
+        id: $seoID,
+        update:{
+            urlKey: $urlKey,
+            metatitle:$metatitle,
+            metadesc:$metadesc,
+            metakeywords:$metakeywords
+        }
+    }) {
+        id
+    }
+}
+
+mutation CreateAsset($file: Upload!){
+    createAsset(file: $file) {
+        id
+        source
+        preview
+    }
+}
+
+mutation CreateFacet($name: String, $isPrivate: Boolean, $code: String){
+    createOneFacet(
+        input: {
+            facet: {
+                name: $name
+                isPrivate: $isPrivate,
+                code: $code
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation CreateFacetValue($code: String){
+    createOneFacetValue(
+        input: {
+            facetValue: {
+                code: $code
+            }
+        }
+    ){
+        id
+    }
+}
+
+mutation SetFacetOnValue($id: ID!, $rel: ID!){
+    setFacetOnFacetValue(
+        input: {
+            id:$id,
+            relationId:$rel
+        }
+    ) {
+        id
+    }
+}
+
+mutation CreateProduct($name: String!, $slug: String!, $desc: String!, $facet: [String!]!, $asset: [String!]!, $featured: String!){
+    CreateProduct(
+        name: $name,
+        slug: $slug,
+        desc: $desc,
+        facet: $facet,
+        asset: $asset,
+        featured: $featured
+    ) {
+        id
+    }
+}
+
+mutation UpdateProduct($name: String!, $id: ID!, $desc: String!, $facet: [String!]!, $asset: [String!]!, $featured: String!){
+    updateProduct(
+        facet: $facet,
+        asset: $asset,
+        id: $id,
+        desc: $desc,
+        name: $name,
+        featured: $featured
+    ) {
+        id
+    }
+}
+
+mutation CreatePlan($value: Float!, $name: String!, $priceStrategy: VendorPlanPrice!, $tenureStrategy: VendorPlanTenure!){
+    CreatePlan(value: $value, name: $name, priceStrategy: $priceStrategy, tenureStrategy: $tenureStrategy) {
+        id
+    }
+}
+
+mutation UpdatePlan($id: ID!, $status: Boolean!){
+    UpdatePlan(id: $id, status: $status){
+        id
+    }
+}
+
+mutation CreateProductVariants($prodId: ID!, $options: String!){
+    CreateProductVariants(
+        prodId: $prodId,
+        options: $options
+    ) {
+        id
+    }
+}
+
+mutation CreateVariantPrice($taxId: ID!, $price: Float!, $variantId: ID!, $taxIncluded: Boolean!){
+    CreateVariantPrice(taxId:$taxId, price:$price, variantId: $variantId, taxIncluded: $taxIncluded) {
+        id
+    }
+}
+
+mutation UpdateVariantPrice($taxId: ID!, $price: Float!, $variantPriceId: ID!, $taxIncluded: Boolean!){
+    UpdateVariantPrice(taxId: $taxId, price: $price, variantPriceId: $variantPriceId, taxIncluded: $taxIncluded) {
+        id
+    }
+}
+
+mutation RegisterVendor (
+    $firstname: String!,
+    $lastname: String!,
+    $email: String!,
+    $phone: String!,
+    $password: String!,
+    $storeName: String!,
+    $storeNumber: String!,
+    $officialEmail: String!,
+    $region: ID!,
+    $zipcode: String!,
+    $streetAddress1: String!,
+    $streetAddress2: String!,
+    $rentals: Boolean!,
+    $planID: String!
+) {
+    RegisterVendor(
+        firstname: $firstname,
+        lastname: $lastname,
+        email: $email,
+        phone: $phone,
+        password: $password,
+        storeName: $storeName,
+        storeNumber: $storeNumber,
+        officialEmail: $officialEmail,
+        region: $region,
+        zipcode: $zipcode,
+        streetAddress1: $streetAddress1,
+        streetAddress2: $streetAddress2,
+        rentals: $rentals,
+        planID: $planID
+    ) {
+        user{
+            id
+        }
+        vendor {
+            id
+        }
+        token
+    }
+}
+
+mutation LoginVendor($email: String!, $password: String!) {
+    LoginVendor(email: $email, password:$password) {
+        vendor {
+            id
+        }
+        token
+        user {
+            id
+        }
+    }
+}
+
+mutation createRole($roles: [Permission!]!, $description: String!, $code: String!){
+    createRole(roles: $roles, description: $description, code: $code){
+        id
+    }
+}
+
+mutation updateRole($roles: [Permission!]!, $description: String!, $id: ID!){
+    updateRole(roles: $roles, description: $description, id: $id){
+        id
+    }
+}
+
+mutation createAdministrator($type: AdministratorEnum!,$email: String! ,$lname: String!, $fname: String!, $phone: String!){
+    createAdministrator(
+        type: $type,
+        email: $email,
+        lname: $lname,
+        fname: $fname,
+        phone: $phone
+    ) {
+        id
+    }
+}
+
+mutation CreateProductVariantSpecification(
+    $specs: JSON!,
+    $variantId: ID!
+){
+    CreateProductVariantSpecification(
+        specs: $specs,
+        variantId: $variantId
+    ) {
+        id
+        specs
+    }
+}
+
+mutation UpdateProductVariantSpecification(
+    $specs: JSON!,
+    $id: ID!
+){
+    UpdateProductVariantSpecification(
+        specs: $specs,
+        id: $id
+    ) {
+        id
+        specs
+    }
+}
+
+mutation UpdateProductCollection($id: ID!, $collectionId: ID!) {
+    UpdateProductCollection(id: $id,collectionId: $collectionId) {
+        id
+    }
+}
+
+mutation UpdateOneSeo($id: ID!, $metatitle: String, $metakeywords: [String!]!, $metadesc: String){
+    updateOneSeo(input:{
+        id: $id,
+        update: {
+            metatitle: $metatitle,
+            metakeywords: $metakeywords,
+            metadesc: $metadesc
+        }
+    }) {
+        id
+    }
+}
+
+mutation CreateBillingRequest($id: String!, $value: String!) {
+    CreateBillingRequest(id: $id, value: $value) {
+        id
+    }
+}
+
+mutation UpdateBillingRequest($id: String!, $value: String!) {
+    UpdateBillingRequest(id: $id, value: $value) {
+        id
+    }
+}
+
+mutation AddCountryToZone($id: ID!, $countryId: ID!) {
+    AddCountryToZone(id: $id, countryId: $countryId) {
+        id
+        name
+    }
+}
+
+mutation DeleteOneFacet($id: ID!){
+    deleteOneFacet(input:{
+        id: $id
+    }) {
+        id
+    }
+}
+
+mutation DeleteOneFacetValue($id: ID!){
+    deleteOneFacetValue(input:{
+        id: $id
+    }) {
+        id
+    }
+}
+
+mutation CreateProductVariantAsset($assetId: ID!, $id: ID!){
+    CreateProductVariantAsset(assetId: $assetId, id: $id){
+        id
+    }
+}
+
+
+mutation CreateProductSeo($variantId: ID!, $metadesc: String!, $metakeywords: [String!]!, $urlKey: String!, $metatitle: String!){
+    createProductSeo(
+        variantId: $variantId,
+        metadesc: $metadesc,
+        metakeywords: $metakeywords,
+        urlKey: $urlKey,
+        metatitle: $metatitle
+    ) {
+        id
+    }
+}
+
+mutation updateProductSeo($seoId: ID!, $metadesc: String!, $metakeywords: [String!]!, $urlKey: String!, $metatitle: String!){
+    updateProductSeo(
+        seoId: $seoId,
+        metadesc: $metadesc,
+        metakeywords: $metakeywords,
+        urlKey: $urlKey,
+        metatitle: $metatitle
+    ) {
+        id
+    }
+}
+
+mutation CreateOrUpdateStock(
+    $quantity: Float!,
+    $threshold: Float!,
+    $sku: String!,
+    $multiple: Boolean!,
+    $backorder: Boolean!,
+    $stockstatus: Boolean!,
+    $variantId: ID,
+    $stockId: ID,
+    $storeId: ID,
+    $type: StockKeepingType
+) {
+    createOrUpdateStock(
+        quantity: $quantity,
+        threshold: $threshold,
+        sku: $sku,
+        multiple: $multiple,
+        backorder: $backorder,
+        stockstatus: $stockstatus,
+        variantId: $variantId,
+        stockId: $stockId,
+        storeId: $storeId,
+        type: $type
+    ) {
+        id
+    }
+}
+
+mutation createOneZip($code: Float!){
+    createOneZip(input:{
+        zip:{
+            code: $code
+        }
+    }) {
+        id
+    }
+}
+
+mutation createOneMenu($title: String, $targetId: String, $target: String){
+    createOneMenu(
+        input: {
+            menu: {
+                title: $title,
+                targetId: $targetId,
+                target: $target
+            }
+        }
+    ){
+        id
+    }
+}
+
+mutation CreateMenuChildNode($nodeId: ID!, $target: String!, $targetId: String!, $title: String!){
+    CreateMenuChildNode(
+        nodeId: $nodeId,
+        target: $target,
+        title: $title,
+        targetId: $targetId
+    ) {
+        id
+    }
+}
