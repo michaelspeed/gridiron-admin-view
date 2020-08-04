@@ -1,5 +1,7 @@
+import {NuxtConfig} from "@nuxt/types/config";
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-export default {
+const config = {
   server: {
     port: 8080, // default: 3000
   },
@@ -25,97 +27,20 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     script: [
-      { src: '/vendors/jquery/dist/jquery.min.js' },
-      { src: '/vendors/popper.js/dist/umd/popper.js' },
-      { src: '/vendors/bootstrap/dist/js/bootstrap.js' },
-      { src: '/vendors/jquery-mousewheel/jquery.mousewheel.min.js' },
-      { src: '/vendors/perfect-scrollbar/js/perfect-scrollbar.jquery.js' },
-      { src: '/vendors/chartist/dist/chartist.min.js' },
-      { src: '/vendors/chart.js/dist/Chart.min.js' },
-      { src: '/vendors/jqvmap/dist/jquery.vmap.min.js' },
-      { src: '/vendors/jqvmap/dist/maps/jquery.vmap.usa.js' },
-      { src: '/vendors/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js' },
-      { src: '/vendors/d3/d3.min.js' },
-      { src: '/vendors/d3-dsv/dist/d3-dsv.js' },
-      { src: '/vendors/d3-time-format/dist/d3-time-format.js' },
-      { src: '/vendors/c3/c3.min.js' },
-      { src: '/vendors/peity/jquery.peity.min.js' },
-      { src: '/vendors/editable-table/mindmup-editabletable.js' },
-      { src: '/vendors/moment/min/moment.min.js' },
-      { src: '/vendors/tempus-dominus-bs4/build/js/tempusdominus-bootstrap-4.min.js' },
-      { src: '/vendors/fullcalendar/dist/fullcalendar.min.js' },
-      { src: '/vendors/owl.carousel/dist/owl.carousel.min.js' },
-      { src: '/vendors/ionrangeslider/js/ion.rangeSlider.min.js' },
-      { src: '/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js' },
-      { src: '/vendors/bootstrap-sweetalert/dist/sweetalert.min.js' },
-      { src: '/vendors/nprogress/nprogress.js' },
-      { src: '/vendors/summernote/dist/summernote.min.js' },
-      { src: '/vendors/nestable/jquery.nestable.js' },
-      { src: '/vendors/jquery-typeahead/dist/jquery.typeahead.min.js' },
-      { src: '/vendors/autosize/dist/autosize.min.js' },
-      { src: '/vendors/bootstrap-show-password/dist/bootstrap-show-password.min.js' },
-      { src: '/vendors/dropify/dist/js/dropify.min.js' },
-      { src: '/vendors/html5-form-validation/dist/jquery.validation.min.js' },
-      { src: '/vendors/jquery-steps/build/jquery.steps.min.js' },
-      { src: '/vendors/jquery-mask-plugin/dist/jquery.mask.min.js' },
-      { src: '/vendors/select2/dist/js/select2.full.min.js' },
-      { src: '/vendors/bootstrap-select/dist/js/bootstrap-select.min.js' },
-      { src: '/vendors/d3-dsv/dist/d3-dsv.js' },
-      { src: '/vendors/d3-time-format/dist/d3-time-format.js' },
-      { src: '/vendors/techan/dist/techan.min.js' },
-      { src: '/vendors/Stickyfill/dist/stickyfill.min.js' },
-      { src: 'https://cdn.datatables.net/v/bs4/dt-1.10.18/fc-3.2.5/r-2.2.2/datatables.min.js' },
-      { src: '/components/core/index.js' },
-      { src: '/components/menu-left/index.js' },
-      { src: '/components/menu-top/index.js' },
-      { src: '/components/sidebar/index.js' },
-      { src: '/components/topbar/index.js' },
-      { src: '/components/topbar/index.js' },
-      { src: '/components/chat/index.js' },
+      { src: '/js/initScript.js', body: true },
+      { src: '/plugins/global/plugins.bundle.js?v=7.0.6', body: true },
+      { src: '/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.6', body: true },
+      { src: '/plugins/custom/fullcalendar/fullcalendar.bundle.js?v=7.0.6', body: true },
+      { src: '/js/pages/widgets.js?v=7.0.6', body: true },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i,900'},
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap'},
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700'},
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp'},
-      { rel: 'stylesheet', href: '/vendors/bootstrap/dist/css/bootstrap.css'},
-      { rel: 'stylesheet', href: '/vendors/font-feathericons/dist/feather.css'},
-      { rel: 'stylesheet', href: '/vendors/font-awesome/css/font-awesome.min.css'},
-      { rel: 'stylesheet', href: '/vendors/font-linearicons/style.css'},
-      { rel: 'stylesheet', href: '/vendors/font-icomoon/style.css'},
-      { rel: 'stylesheet', href: '/vendors/perfect-scrollbar/css/perfect-scrollbar.css'},
-      { rel: 'stylesheet', href: '/vendors/chart.js/dist/Chart.min.css'},
-      { rel: 'stylesheet', href: '/vendors/jqvmap/dist/jqvmap.min.css'},
-      { rel: 'stylesheet', href: '/vendors/c3/c3.min.css'},
-      { rel: 'stylesheet', href: '/vendors/tempus-dominus-bs4/build/css/tempusdominus-bootstrap-4.min.css'},
-      { rel: 'stylesheet', href: '/vendors/fullcalendar/dist/fullcalendar.min.css'},
-      { rel: 'stylesheet', href: '/vendors/owl.carousel/dist/assets/owl.carousel.min.css'},
-      { rel: 'stylesheet', href: '/vendors/ionrangeslider/css/ion.rangeSlider.css'},
-      { rel: 'stylesheet', href: '/vendors/bootstrap-sweetalert/dist/sweetalert.css'},
-      { rel: 'stylesheet', href: '/vendors/nprogress/nprogress.css'},
-      { rel: 'stylesheet', href: '/vendors/summernote/dist/summernote.css'},
-      { rel: 'stylesheet', href: '/vendors/dropify/dist/css/dropify.min.css'},
-      { rel: 'stylesheet', href: '/vendors/jquery-steps/demo/css/jquery.steps.css'},
-      { rel: 'stylesheet', href: '/vendors/select2/dist/css/select2.min.css'},
-      { rel: 'stylesheet', href: '/vendors/bootstrap-select/dist/css/bootstrap-select.min.css'},
-      { rel: 'stylesheet', href: '/components/vendors/style.css'},
-      { rel: 'stylesheet', href: '/components/core/style.css'},
-      { rel: 'stylesheet', href: '/components/widgets/style.css'},
-      { rel: 'stylesheet', href: '/components/system/style.css'},
-      { rel: 'stylesheet', href: '/components/menu-left/style.css'},
-      { rel: 'stylesheet', href: '/components/menu-top/style.css'},
-      { rel: 'stylesheet', href: '/components/footer/style.css'},
-      { rel: 'stylesheet', href: '/components/footer-dark/style.css'},
-      { rel: 'stylesheet', href: '/components/topbar/style.css'},
-      { rel: 'stylesheet', href: '/components/topbar-dark/style.css'},
-      { rel: 'stylesheet', href: '/components/subbar/style.css'},
-      { rel: 'stylesheet', href: '/components/sidebar/style.css'},
-      { rel: 'stylesheet', href: '/components/chat/style.css'},
-      { rel: 'stylesheet', href: '/components/apps/style.css'},
-      { rel: 'stylesheet', href: '/components/extra-apps/style.css'},
-      { rel: 'stylesheet', href: '/components/ecommerce/style.css'},
-      { rel: 'stylesheet', href: '/components/dashboards/crypto-terminal/style.css'},
-      { rel: 'stylesheet', href: 'https://cdn.datatables.net/v/bs4/dt-1.10.18/fc-3.2.5/r-2.2.2/datatables.min.css'}
+      { rel: 'stylesheet', href: '/plugins/global/plugins.bundle.css?v=7.0.6'},
+      { rel: 'stylesheet', href: '/plugins/custom/prismjs/prismjs.bundle.css?v=7.0.6'},
+      { rel: 'stylesheet', href: '/css/style.bundle.css?v=7.0.6'},
     ]
   },
   vue: {
@@ -135,7 +60,8 @@ export default {
     {src: 'primevue/resources/primevue.min.css'},
     {src: 'primevue/resources/themes/md-light-indigo/theme.css'},
     {src: 'primeicons/primeicons.css'},
-    {src: '@/assets/agGridStyleOverride.scss', lang: 'scss'},
+    {src: 'ag-grid-community/dist/styles/ag-grid.css'},
+    {src: 'ag-grid-community/dist/styles/ag-theme-material.css'},
   ],
   /*
   ** Plugins to load before mounting the App
@@ -143,13 +69,18 @@ export default {
   */
   plugins: [
       '~/plugins/vue-perfect-scrollbar.ts',
+      '~/plugins/bootstrap-vue.ts',
+      '~/plugins/portal-vue.ts',
+      '~/plugins/inline-svg.ts',
+      '~/plugins/perfect-scrollbar.ts',
       '~/plugins/vue-design-plugin.ts',
       '~/plugins/antd-vue-plugin.ts',
     {src: '~/plugins/tinymce-vue.ts', mode: 'client'},
     {src: '~/plugins/ag-grid.client.ts', mode: 'client'},
     { src: '~/plugins/tag-input-plugin.ts', ssr: false },
     { src: '~/plugins/vue-notify.ts', ssr: false },
-    {src:'~/plugins/primevue.ts', mode: 'client'}
+    {src:'~/plugins/primevue.ts', mode: 'client'},
+    {src:'~/plugins/apexchart.ts', mode: 'client'},
   ],
   /*
   ** Auto import components
@@ -242,7 +173,15 @@ export default {
           ]
     },*/
     extend (config, ctx) {
+
     },
+    plugins: [
+      new ForkTsCheckerWebpackPlugin({
+        typescript:{
+          memoryLimit: 4096
+        }
+      })
+    ],
     loaders: {
       less: {
         lessOptions: {
@@ -257,3 +196,5 @@ export default {
   },
   vendor: ['@johmun/vue-tags-input']
 }
+
+export default config

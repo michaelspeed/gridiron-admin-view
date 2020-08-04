@@ -1,50 +1,60 @@
 <template>
-    <div style="padding: 20px" v-if="productVariant !== undefined">
-        <div style="display: flex; justify-content: space-between; align-items: center">
-            <div class="d-flex align-items-center">
-                <v-btn fab @click="$router.back()"><v-icon>arrow_back</v-icon></v-btn>
-                <h1 style="margin-left: 10px">Specs for: {{productVariant.name}}</h1>
-            </div>
+  <div class="d-flex flex-column-fluid">
+    <div class=" container-fluid ">
+      <div class="card" v-if="productVariant !== undefined">
+        <div class="card-header border-0 d-flex justify-content-between align-items-center">
+          <h3 class="card-title align-items-start flex-column">
+            <a href="javascript:;" @click="$router.back()">
+              <i class="fas fa-arrow-left font-size-h3 text-primary"></i>
+            </a>
+            <span class="card-label font-weight-bolder text-dark ml-6">Specs for: {{productVariant.name}}</span>
+          </h3>
+          <div class="card-toolbar">
+            <a href="#" class="btn btn-light-primary font-weight-bolder font-size-sm" @click="onSave">Save</a>
+            <a href="#" class="btn btn-light-primary font-weight-bolder font-size-sm" @click="onClickAddSpecsHeader">Add Specs Group</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
             <div>
-                <v-btn outlined color="primary" small @click="onSave">Save</v-btn>
-                <v-btn outlined small color="primary" @click="onClickAddSpecsHeader">Add Specs Group</v-btn>
-            </div>
-        </div>
-        <div style="padding-left: 20px; padding-right: 20px; margin-top: 20px">
-            <div style="overflow-y: auto">
+              <div style="overflow-y: auto">
                 <div v-for="(group, index) in master" :key="index">
-                    <v-text-field
-                            label="Group"
-                            filled
-                            v-model="group.header"
-                    ></v-text-field>
-                    <div style="margin-bottom: 5px">
-                        <v-btn outlined small color="primary" @click="onClickAddSpecs(index)">Add Specs</v-btn>
+                  <v-text-field
+                    label="Group"
+                    filled
+                    v-model="group.header"
+                  ></v-text-field>
+                  <div style="margin-bottom: 5px">
+                    <a href="#" class="btn btn-light-primary font-weight-bolder font-size-sm" @click="onClickAddSpecs(index)">Add Specs</a>
+                  </div>
+                  <div>
+                    <div v-for="(spec, specindex) in group.child" :key="specindex">
+                      <div class="d-flex justify-content-between align-items-center gutter">
+                        <v-text-field
+                          label="Key"
+                          filled
+                          dense
+                          style="margin-right: 10px"
+                          v-model="spec.key"
+                        ></v-text-field>
+                        <v-text-field
+                          label="Value"
+                          filled
+                          dense
+                          style="margin-left: 10px"
+                          v-model="spec.value"
+                        ></v-text-field>
+                      </div>
                     </div>
-                    <div>
-                        <div v-for="(spec, specindex) in group.child" :key="specindex">
-                            <div class="d-flex justify-content-between align-items-center gutter">
-                                <v-text-field
-                                        label="Key"
-                                        filled
-                                        dense
-                                        style="margin-right: 10px"
-                                        v-model="spec.key"
-                                ></v-text-field>
-                                <v-text-field
-                                        label="Value"
-                                        filled
-                                        dense
-                                        style="margin-left: 10px"
-                                        v-model="spec.value"
-                                ></v-text-field>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">

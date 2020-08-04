@@ -1,40 +1,83 @@
 <template>
     <div>
-        <div class="air__utils__heading">
-            <h5>Collections</h5>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header card-header-flex align-items-center">
-                        <div class="d-flex flex-column justify-content-center mr-auto">
-                            <span class="mb-0 text-dark">All Collections</span>
-                        </div>
-                        <div>
-                            <a-button type="primary" size="small" @click="onClickCreateNewRootCollection">Add Root-Collection</a-button>
-                        </div>
+      <div class="d-flex flex-column-fluid">
+        <div class=" container-fluid ">
+          <div class="subheader py-2 py-lg-4  subheader-transparent " id="kt_subheader">
+            <div class=" container  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+              <!--begin::Details-->
+              <div class="d-flex align-items-center flex-wrap mr-2">
+
+                <!--begin::Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Collections</h5>
+                <!--end::Title-->
+
+                <!--begin::Separator-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                <!--end::Separator-->
+
+                <!--begin::Search Form-->
+                <div class="d-flex align-items-center" id="kt_subheader_search">
+                  <div class="ml-5">
+                    <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
+                      <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
+                      <div class="input-group-append">
+                        <i class="fas fa-search"></i>
+                      </div>
                     </div>
-                    <div class="card-body">
-                        <a-tree
-                                :tree-data="allCollections"
-                                defaultExpandAll
-                                showLine
-                                switcherIcon
-                                @select="onUpdateCollection"
-                        ></a-tree>
-                    </div>
-                    <div class="card-footer" v-if="selected !== null">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a-button type="primary" size="small" @click="onClickSubCollection">Add</a-button>
-                            <a-button type="danger" size="small">Delete</a-button>
-                        </div>
-                    </div>
+                  </div>
                 </div>
+                <!--end::Search Form-->
+              </div>
+              <!--end::Details-->
+
+              <!--begin::Toolbar-->
+              <div class="d-flex align-items-center">
+                <!--begin::Button-->
+                <a href="#" class="">
+
+                </a>
+                <!--end::Button-->
+
+                <!--begin::Button-->
+                <a href="javascript:;" class="btn btn-light-primary font-weight-bold ml-2" @click="onClickCreateNewRootCollection">
+                  Add Root-Collection
+                </a>
+                <!--end::Button-->
+              </div>
+              <!--end::Toolbar-->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card card-custom gutter-b">
+                <div class="card-header border-0 py-5">
+                  <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bolder text-dark">All Collections</span>
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <div v-if="selected !== null" class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <a href="javascript:;" class="btn btn-sm btn-light-primary font-weight-bold mr-2"  @click="onClickSubCollection">Add</a>
+                      <a href="javascript:;" class="btn btn-sm btn-light-danger font-weight-bold mr-2">Delete</a>
+                    </div>
+                  </div>
+                  <a-tree
+                    :tree-data="allCollections"
+                    defaultExpandAll
+                    showLine
+                    switcherIcon
+                    @select="onUpdateCollection"
+                  ></a-tree>
+                </div>
+              </div>
             </div>
             <div class="col-md-8">
-                <collection-edit :id="selected" v-if="selected"/>
+              <collection-edit :id="selected" v-if="selected"/>
             </div>
+          </div>
         </div>
+      </div>
     </div>
 </template>
 

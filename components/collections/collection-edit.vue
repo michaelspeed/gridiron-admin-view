@@ -1,14 +1,11 @@
 <template>
     <div>
         <div class="card">
-            <div class="card-header card-header-flex align-items-center">
-                <div class="d-flex flex-column justify-content-center mr-auto">
-                    <h5 class="mb-0">{{name}}</h5>
-                </div>
-                <div>
-
-                </div>
-            </div>
+          <div class="card-header border-0 py-5">
+            <h3 class="card-title align-items-start flex-column">
+              <span class="card-label font-weight-bolder text-dark">{{name}}</span>
+            </h3>
+          </div>
             <div class="card-body" style="overflow: auto">
                 <a-collapse v-model="activeNames">
                     <a-collapse-panel header="Basic" key="1">
@@ -64,7 +61,7 @@
                     </a-collapse-panel>
                 </a-collapse>
                 <div style="margin-top: 20px">
-                    <button type="button" class="btn btn-primary" @click="onUpdate">Save Collection</button>
+                    <button type="button" class="btn btn-light-primary font-weight-bold" @click="onUpdate">Save Collection</button>
                 </div>
             </div>
         </div>

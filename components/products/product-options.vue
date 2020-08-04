@@ -13,65 +13,63 @@
                 <v-btn class="ma-2" outlined small color="#3F51B5" @click="addOption = true">Add Product Variant</v-btn>
             </div>
             <div>
-                <v-card
-                        outlined
+                <div
                         v-for="(variants, index) of allVariants"
-                        class="mx-auto"
-                        style="margin: 12px"
+                        class="card mt-3 mb-3"
                         :key="index"
                 >
                     <product-options-card :variants="variants" :all-prod-options="allProdOptions"/>
-                </v-card>
+                </div>
             </div>
-        </div>
-        <v-bottom-sheet v-model="addOption" inset>
+          <v-bottom-sheet v-model="addOption" inset>
             <v-sheet>
-                <v-toolbar flat>
-                    <v-btn small fab @click="addOption = false"><v-icon>arrow_back</v-icon></v-btn>
-                    <v-toolbar-title>Add Product Options</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <div>
-                        <v-btn small fab @click="onAddOption"><v-icon>mdi-plus</v-icon></v-btn>
-                    </div>
-                </v-toolbar>
-                <div class="row p-2">
-                    <div class="col-md-12">
-                        <v-alert type="error" style="background-color: #F44336">
-                            Product Variants can be added only once
-                        </v-alert>
-                    </div>
+              <v-toolbar flat>
+                <v-btn small fab @click="addOption = false"><v-icon>arrow_back</v-icon></v-btn>
+                <v-toolbar-title>Add Product Options</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <div>
+                  <v-btn small fab @click="onAddOption"><v-icon>mdi-plus</v-icon></v-btn>
                 </div>
-                <div class="row pl-4 pr-4" v-for="(opts, index) in allOptions" style="overflow: auto">
-                    <div class="col-md-4" style="padding: 0px">
-                        <div class="bg-white">
-                            <div class="form-group pl-2 pr-2">
-                                <label>Options</label>
-                                <a-input v-model="opts.optionname"></a-input>
-                                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" style="padding: 0px">
-                        <div class="bg-white">
-                            <div class="form-group pl-2 pr-2">
-                                <label>Option Values</label>
-                                <vue-tags-input
-                                        v-model="opts.optionKey" @tags-changed="newTags => opts.optionTags = newTags"
-                                        :tags="opts.optionTags" placeholder="Options Value"
-                                />
-                                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 pt-4">
-                        <v-btn color="#F44336" style="color: white" small fab @click="onRemoveOption(index)"><v-icon>mdi-delete</v-icon></v-btn>
-                    </div>
+              </v-toolbar>
+              <div class="row p-2">
+                <div class="col-md-12">
+                  <v-alert type="error" style="background-color: #F44336">
+                    Product Variants can be added only once
+                  </v-alert>
                 </div>
-                <div class="p-1 bg-white">
-                    <button type="button" class="btn btn-primary" @click="onCreateProductionVariant">Add Product Variant</button>
+              </div>
+              <div class="row pl-4 pr-4" v-for="(opts, index) in allOptions" style="overflow: auto">
+                <div class="col-md-4" style="padding: 0px">
+                  <div class="bg-white">
+                    <div class="form-group pl-2 pr-2">
+                      <label>Options</label>
+                      <a-input v-model="opts.optionname"></a-input>
+                      <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                  </div>
                 </div>
+                <div class="col-md-6" style="padding: 0px">
+                  <div class="bg-white">
+                    <div class="form-group pl-2 pr-2">
+                      <label>Option Values</label>
+                      <vue-tags-input
+                        v-model="opts.optionKey" @tags-changed="newTags => opts.optionTags = newTags"
+                        :tags="opts.optionTags" placeholder="Options Value"
+                      />
+                      <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 pt-4">
+                  <v-btn color="#F44336" style="color: white" small fab @click="onRemoveOption(index)"><v-icon>mdi-delete</v-icon></v-btn>
+                </div>
+              </div>
+              <div class="p-1 bg-white">
+                <button type="button" class="btn btn-primary" @click="onCreateProductionVariant">Add Product Variant</button>
+              </div>
             </v-sheet>
-        </v-bottom-sheet>
+          </v-bottom-sheet>
+        </div>
     </div>
 </template>
 

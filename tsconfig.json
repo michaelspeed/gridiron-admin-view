@@ -19,6 +19,7 @@
     "strictPropertyInitialization": false,
     "baseUrl": ".",
     "noImplicitAny": false,
+    "resolveJsonModule": true,
     "paths": {
       "~/*": [
         "./*"
@@ -40,6 +41,7 @@
     "node_modules",
     ".nuxt",
     "dist",
-    "gql"
+    "gql",
+    "static"
   ]
 }

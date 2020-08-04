@@ -53,7 +53,7 @@
             </div>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <a-button type="primary" @click="onCreateStock" :loading="loading">Add New Stock</a-button>
+                <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="onCreateStock">Add / Update Stock</a>
             </v-card-actions>
         </div>
         <div v-if="$apollo.queries.getStockKeepingVendor.loading">

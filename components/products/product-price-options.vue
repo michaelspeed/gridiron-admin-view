@@ -1,6 +1,11 @@
 <template>
-    <v-card style="padding: 20px" tile>
-        <div>
+    <div class="card">
+      <div class="card-header border-0 py-5 d-flex justify-content-between">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label font-weight-bolder text-dark">Price</span>
+        </h3>
+      </div>
+        <div class="card-body">
             <div class="">
                 <v-select
                         label="Tax Rule"
@@ -14,8 +19,12 @@
                         v-model="mainprice"
                         type="number"
                 ></v-text-field>
+              <div v-if="price !== null" style="margin-top: 4px">
+                <h6>Price: ₹{{mainprice}}</h6>
+                <span v-if="!taxIncluded">Tax: {{price.tax.value}} %</span>
+              </div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <a-button type="primary" size="small" @click="onUpdatePrice">Set Price</a-button>
+                  <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="onUpdatePrice">Set Price</a>
                     <v-switch
                             v-model="taxIncluded"
                             label="TaxIncluded"
@@ -24,12 +33,8 @@
                     ></v-switch>
                 </div>
             </div>
-            <div v-if="price !== null" style="margin-top: 4px">
-                <h6>Price: ₹{{mainprice}}</h6>
-                <span v-if="!taxIncluded">Tax: {{price.tax.value}} %</span>
-            </div>
         </div>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts">

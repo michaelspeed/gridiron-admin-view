@@ -1,65 +1,148 @@
 <template>
   <v-app>
-    <div>
-      <div class="air__auth">
-        <div class="pt-5 pb-5 d-flex align-items-end mt-auto">
-          <img src="/components/core/img/air-logo.png" alt="AIR UI Logo" />
-          <div class="air__utils__logo__text">
-            <div class="air__utils__logo__name text-uppercase text-dark font-size-21">{{$t('pages.appname')}}</div>
-            <div class="air__utils__logo__descr text-uppercase font-size-12 text-gray-6">
-              {{$t('pages.tag-line')}}
+    <div class="d-flex flex-column flex-root">
+      <div
+        class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white"
+        id="kt_login"
+      >
+        <!--begin::Aside-->
+        <div
+          class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-15"
+          :style="{ backgroundImage: `url(/media/bg/bg-4.jpg)` }"
+        >
+          <!--begin: Aside Container -->
+          <div class="d-flex flex-row-fluid flex-column justify-content-between">
+            <!--begin: Aside header -->
+            <a href="#" class="flex-column-auto">
+              <img src="/media/logos/logo-letter-1.png" class="h-25" />
+            </a>
+            <!--end: Aside header -->
+            <!--begin: Aside content -->
+            <div
+              class="flex-column-fluid d-flex flex-column justify-content-center"
+            >
+              <h3 class="font-size-h1 mt-10 mb-5 text-white">
+                Welcome to Air Economics!
+              </h3>
+              <p class="font-weight-lighter text-white opacity-80">
+                The ultimate Ecommerce Framework
+              </p>
+            </div>
+            <!--end: Aside content -->
+            <!--begin: Aside footer for desktop -->
+            <div
+              class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
+            >
+              <div class="opacity-70 font-weight-bold text-white">
+                © 2020 Air Economics
+              </div>
+              <div class="d-flex">
+                <a href="#" class="text-white">Privacy</a>
+                <a href="#" class="text-white ml-10">Legal</a>
+                <a href="#" class="text-white ml-10">Contact</a>
+              </div>
+            </div>
+            <!--end: Aside footer for desktop -->
+          </div>
+          <!--end: Aside Container -->
+        </div>
+        <!--begin::Aside-->
+
+        <!--begin::Content-->
+        <div
+          class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden"
+        >
+          <div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
+            <div>
+              <!--begin::Content header-->
+              <div
+                class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
+              >
+      <span class="font-weight-bold font-size-3 text-dark-60">
+        Are you a vendor?
+      </span>
+                <a
+                  href="#"
+                  class="font-weight-bold font-size-3 ml-2"
+                >
+                  Sign Up!
+                </a>
+              </div>
+              <!--end::Content header-->
+
+              <!--begin::Signin-->
+              <div class="login-form login-signin">
+                <div class="text-center mb-10 mb-lg-20">
+                  <h3 class="font-size-h1">Sign In</h3>
+                  <p class="text-muted font-weight-semi-bold">
+                    Enter your username and password
+                  </p>
+                </div>
+
+                <!--begin::Form-->
+                <div style="width: 30vw">
+
+                  <b-form-group
+                    id="example-input-group-1"
+                    label=""
+                    label-for="example-input-1"
+                  >
+                    <b-form-input
+                      class="form-control form-control-solid h-auto py-5 px-6"
+                      id="example-input-1"
+                      name="example-input-1"
+                      placeholder="email"
+                      v-model="email"
+                      aria-describedby="input-1-live-feedback"
+                    ></b-form-input>
+
+                  </b-form-group>
+
+                  <b-form-group
+                    id="example-input-group-2"
+                    label=""
+                    label-for="example-input-2"
+                  >
+                    <b-form-input
+                      class="form-control form-control-solid h-auto py-5 px-6"
+                      type="password"
+                      id="example-input-2"
+                      name="example-input-2"
+                      placeholder="password"
+                      v-model="password"
+                      aria-describedby="input-2-live-feedback"
+                    ></b-form-input>
+
+                  </b-form-group>
+
+                  <!--begin::Action-->
+                  <div
+                    class="form-group d-flex flex-wrap justify-content-between align-items-center"
+                  >
+                    <a
+                      href="#"
+                      class="text-dark-60 text-hover-primary my-3 mr-2"
+                      id="kt_login_forgot"
+                    >
+                      Forgot Password ?
+                    </a>
+                    <button
+                      ref="kt_login_signin_submit"
+                      @click="onAdminLogin"
+                      class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
+                    >
+                      Sign In
+                    </button>
+                  </div>
+                  <!--end::Action-->
+                </div>
+                <!--end::Form-->
+              </div>
+              <!--end::Signin-->
             </div>
           </div>
         </div>
-        <div class="air__auth__container pl-5 pr-5 pt-5 pb-5 bg-white text-center">
-          <div class="text-dark font-size-30 mb-4 font-weight-bold">Administrator</div>
-          <div class="mb-4">
-            <div class="form-group mb-4">
-              <input type="email" class="form-control" placeholder="Email Address" v-model="email" />
-            </div>
-            <div class="form-group mb-4">
-              <input type="password" class="form-control" placeholder="Password" v-model="password"/>
-            </div>
-            <v-btn @click="onAdminLogin" color="primary" tile style="width: 100%" v-if="!loading">
-              Log In
-            </v-btn>
-            <div v-if="loading">
-              <div class="d-flex justify-content-center align-items-center">
-                <v-progress-circular
-                        indeterminate
-                        color="primary"
-                ></v-progress-circular>
-              </div>
-            </div>
-          </div>
-          <div class="mb-4">
-            <div class="row">
-              <div class="col-md-6">
-                <v-btn class="ma-2" text color="#1b55e3" href="/vendors/register">Vendor Registration</v-btn>
-              </div>
-              <div class="col-md-6">
-                <v-btn class="ma-2" text color="#1b55e3" href="/vendors/login">Vendor Login</v-btn>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mt-auto pb-5 pt-5">
-          <ul class="air__auth__footerNav list-unstyled d-flex mb-2 flex-wrap justify-content-center">
-            <li>
-              <a href="#">Terms of Use</a>
-            </li>
-            <li>
-              <a href="#">Compliance</a>
-            </li>
-            <li>
-              <a href="#">Support</a>
-            </li>
-            <li>
-              <a href="#">Contacts</a>
-            </li>
-          </ul>
-          <div class="text-gray-4 text-center">{{$t('general.copyright')}}</div>
-        </div>
+        <!--end::Content-->
       </div>
     </div>
   </v-app>
@@ -69,7 +152,8 @@
 import {Component, Vue} from "vue-property-decorator";
 import {AdministratorLoginDocument, AdministratorLoginMutationVariables, Store, User} from '../gql';
 
-@Component
+@Component({
+})
 export default class Index extends Vue {
   private email: string = ''
   private password: string = ''

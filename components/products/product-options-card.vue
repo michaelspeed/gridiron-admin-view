@@ -1,19 +1,17 @@
 <template>
     <div v-if="!$apollo.queries.assets.loading">
-        <v-card-title style="width: 100%">
-            <div class="d-flex justify-space-between align-items-center flex-row w-100">
-                <div>
-                    <h5>{{variants.node.name}}</h5>
-                </div>
-                <v-switch
-                        v-model="variants.node.enabled"
-                        label="Enabled"
-                        dense
-                ></v-switch>
-            </div>
-        </v-card-title>
-        <hr/>
-
+      <div class="card-header border-0 py-5 d-flex justify-content-between">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label font-weight-bolder text-dark">{{variants.node.name}}</span>
+        </h3>
+        <div class="card-toolbar">
+          <v-switch
+            v-model="variants.node.enabled"
+            label="Enabled"
+            dense
+          ></v-switch>
+        </div>
+      </div>
         <div class="row">
             <div class="col-md-2">
                 <v-img :contain="true"
@@ -21,29 +19,31 @@
                        height="200px"
                 ></v-img>
                 <div class="d-flex justify-content-center mt-2">
-                    <v-btn outlined small color="#757575" @click="addAsset = true">Change Asset</v-btn>
+                  <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="addAsset = true">Change Asset</a>
                 </div>
             </div>
             <div class="col-md-3">
                 <product-price-options :price="variants.node.price" :variant="variants.node.id"/>
             </div>
             <div class="col-md-7">
-                <v-card style="margin-right: 10px; padding: 10px" tile>
-                    <div class="d-flex justify-content-between align-items-center">
+                <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center">
                         <h6>Stock Management</h6>
-                        <a-button type="primary" size="small" @click="stockmanagement = true">Stock Management</a-button>
-                    </div>
-                    <hr style="margin-top: 5px; margin-bottom: 5px"/>
-                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="stockmanagement = true">Stock Management</a>
+                      </div>
+                      <hr style="margin-top: 5px; margin-bottom: 5px"/>
+                      <div class="d-flex justify-content-between align-items-center">
                         <h6>Specification Management</h6>
-                        <a-button type="primary" size="small" @click="$router.push(`/app/catalog/products/variants/specs/${variants.node.id}`)">Set Specification Management</a-button>
-                    </div>
-                    <hr style="margin-top: 5px; margin-bottom: 5px"/>
-                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="$router.push(`/app/catalog/products/variants/specs/${variants.node.id}`)">Set Specification Management</a>
+                      </div>
+                      <hr style="margin-top: 5px; margin-bottom: 5px"/>
+                      <div class="d-flex justify-content-between align-items-center">
                         <h6>Seo Management</h6>
-                        <a-button type="primary" size="small" @click="addseo = true">Go To Seo Management</a-button>
+                        <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="addseo = true">Go To Seo Management</a>
+                      </div>
                     </div>
-                </v-card>
+                </div>
             </div>
         </div>
         <hr/>
@@ -51,15 +51,8 @@
         <v-card-actions>
             <v-list-item class="grow">
                 <div>
-                    <v-chip
-                            outlined
-                            class="ma-2"
-                            color="#F44336"
-                            v-for="(chips, index) of onGetVariantOptions(variants.node.name)"
-                            :key="index"
-                    >
-                        <span class="font-weight-bold mr-2">{{chips.name.toUpperCase()}}</span> {{chips.code}}
-                    </v-chip>
+                  <span v-for="(chips, index) of onGetVariantOptions(variants.node.name)"
+                        :key="index" class="label label-info label-inline mr-2"><span class="font-weight-bold mr-2">{{chips.name.toUpperCase()}}</span> {{chips.code}}</span>
                 </div>
 
                 <v-row
@@ -71,14 +64,18 @@
             </v-list-item>
         </v-card-actions>
         <v-dialog v-model="addAsset" fullscreen transition="dialog-bottom-transition">
-            <v-card style="border-radius: 0px">
-                <v-toolbar flat>
-                    <v-btn icon @click="addAsset = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>Add Assets</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                </v-toolbar>
+            <div class="card" style="border-radius: 0px">
+              <div class="card-header border-0 py-5 d-flex justify-content-between">
+                <h3 class="card-title align-items-start flex-column">
+                  <span class="card-label font-weight-bolder text-dark">Add Assets</span>
+                </h3>
+                <div class="card-toolbar">
+                  <a href="javascript:;" class="btn btn-light-danger btn-sm font-weight-bolder font-size-sm" @click="addAsset = false">
+                    <i class="fas fa-times"></i>
+                    Close
+                  </a>
+                </div>
+              </div>
                 <div style="background-color: white">
                     <v-container>
                         <div class="row">
@@ -94,7 +91,8 @@
                                             <v-img
                                                     :src="`${assetUrl}/${n.node.preview}`"
                                                     aspect-ratio="1"
-                                                    class="grey lighten-2"
+                                                    class="lighten-2"
+                                                    :contain="true"
                                                     @click="onClickAddAsset(n.node.id)"
                                             >
                                                 <template v-slot:placeholder>
@@ -115,42 +113,47 @@
                         </div>
                     </v-container>
                 </div>
-            </v-card>
+            </div>
         </v-dialog>
         <v-bottom-sheet v-model="addseo" inset>
-            <v-toolbar flat>
-                <v-btn fab @click="addseo = false"><v-icon>arrow_back</v-icon></v-btn>
-                <v-toolbar-title>Add Product Seo</v-toolbar-title>
-                <v-spacer></v-spacer>
-            </v-toolbar>
-            <div class="p-3 bg-white">
-                <div class="form-group">
-                    <label>Enter Meta URL</label>
-                    <a-input size="large" v-model="metaUrl" :disabled="true"></a-input>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-                <div class="form-group">
-                    <label>Enter Meta Title</label>
-                    <a-input size="large" v-model="metaTitle"></a-input>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-                <div class="form-group">
-                    <label>Enter Meta Keywords</label>
-                    <vue-tags-input
-                            v-model="metaKey" @tags-changed="newTags => metaKeywords = newTags"
-                            :tags="metaKeywords" placeholder="Enter keywords"
-                    />
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-                <div class="form-group">
-                    <label>Enter Meta Description</label>
-                    <a-input size="large" type="textarea" v-model="metaDesc"></a-input>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-                <v-card-actions>
-                    <button type="button" class="btn btn-primary" @click="onCreateProdSeo">Create / Update Seo</button>
-                </v-card-actions>
+          <div class="card">
+            <div class="card-header border-0 py-5 d-flex justify-content-between align-items-center">
+              <h3 class="card-title align-items-start flex-column">
+                <a href="javascript:;" @click="addseo = false">
+                  <i class="fas fa-arrow-left font-size-h1 text-primary"></i>
+                </a>
+                <span class="card-label font-weight-bolder text-dark ml-3">Add Product Seo</span>
+              </h3>
             </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Enter Meta URL</label>
+                <a-input size="large" v-model="metaUrl" :disabled="true"></a-input>
+                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+              </div>
+              <div class="form-group">
+                <label>Enter Meta Title</label>
+                <a-input size="large" v-model="metaTitle"></a-input>
+                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+              </div>
+              <div class="form-group">
+                <label>Enter Meta Keywords</label>
+                <vue-tags-input
+                  v-model="metaKey" @tags-changed="newTags => metaKeywords = newTags"
+                  :tags="metaKeywords" placeholder="Enter keywords"
+                />
+                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+              </div>
+              <div class="form-group">
+                <label>Enter Meta Description</label>
+                <a-input size="large" type="textarea" v-model="metaDesc"></a-input>
+                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+              </div>
+              <v-card-actions>
+                <button type="button" class="btn btn-light-primary btn-sm" @click="onCreateProdSeo">Create / Update Seo</button>
+              </v-card-actions>
+            </div>
+          </div>
         </v-bottom-sheet>
         <v-dialog
                 v-model="stockmanagement"
@@ -160,11 +163,12 @@
             <v-card light style="overflow-x: hidden">
                 <v-toolbar
                         flat
-                        dark
-                        color="#161537"
+                        class="bg-primary"
                 >
-                    <v-btn fab color="#161537" @click="stockmanagement = false"><v-icon>close</v-icon></v-btn>
-                    <v-toolbar-title>Stock Management</v-toolbar-title>
+                  <a href="javascript:;" @click="stockmanagement = false">
+                    <i class="fas fa-times text-white font-size-h1"></i>
+                  </a>
+                    <v-toolbar-title class="ml-6 text-white font-size-h1-md">Stock Management</v-toolbar-title>
                     <v-spacer></v-spacer>
                 </v-toolbar>
                 <product-stock-management :id="variants.node.id" @close="onClickClose" :vendor="vendor"/>
@@ -235,10 +239,13 @@
         }
 
         mounted() {
-            this.metaUrl = this.variants.node.seo ? this.variants.node.seo.urlKey :SlugLoader(this.variants.node.name)
-            this.metaTitle = this.variants.node.seo.metatitle
-            this.metaDesc = this.variants.node.seo.metadesc
-            this.metaKeywords = this.variants.node.seo.metakeywords.map(item => ({text: item}))
+          console.log(this.variants)
+            if (this.variants !== undefined && this.variants.node.seo !== null) {
+              this.metaUrl = this.variants.node.seo ? this.variants.node.seo.urlKey :SlugLoader(this.variants.node.name)
+              this.metaTitle = this.variants.node.seo.metatitle
+              this.metaDesc = this.variants.node.seo.metadesc
+              this.metaKeywords = this.variants.node.seo.metakeywords.map(item => ({text: item}))
+            }
         }
 
         onCreateProdSeo(){
@@ -320,3 +327,9 @@
         }
     }
 </script>
+
+<style>
+  .v-input--selection-controls {
+    margin-top: 0px;
+  }
+</style>
