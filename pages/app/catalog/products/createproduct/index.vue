@@ -1,143 +1,150 @@
 <template>
     <div>
-        <v-card>
-            <v-card-title>
-                <span class="title">Create Product</span>
-            </v-card-title>
-            <v-divider/>
-            <v-container>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label>Product Name</label>
-                            <a-input v-model="name"></a-input>
-                            <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                        </div>
-                        <div class="form-group">
-                            <label>Slug</label>
-                            <a-input v-model="slug" disabled></a-input>
-                            <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                        </div>
-                        <div class="form-group">
-                            <label>Facets</label>
-                            <div>
-                                <v-btn class="ma-2" tile small outlined color="success" @click="addFacet = true">
-                                    <v-icon left>mdi-plus</v-icon> Add Facet
-                                </v-btn>
-                                <v-dialog v-model="addFacet" scrollable max-width="300px">
-                                    <v-card>
-                                        <v-card-title>Select Facet</v-card-title>
-                                        <v-divider></v-divider>
-                                        <v-card-text style="height: 300px;">
-                                            <v-list dense>
-                                                <v-list-item-group color="primary">
-                                                    <v-list-item
-                                                            v-for="items in allFacets"
-                                                            :key="items.id"
-                                                            @click="onClickSelect(items.node)"
-                                                    >
-                                                        <v-list-item-content>
-                                                            <v-chip
-                                                                    class="ma-2"
-                                                                    :color="onSelectTrace(items.node) ? '#1b55e3' : 'white'"
-                                                                    style="color: white"
-                                                            >
-                                                                {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
-                                                            </v-chip>
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-                                                </v-list-item-group>
-                                            </v-list>
-                                        </v-card-text>
-                                        <v-divider></v-divider>
-                                        <v-card-actions>
-                                            <v-btn color="#1b55e3" text @click="addFacet = false">Close</v-btn>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-dialog>
-                            </div>
-                            <hr style="margin-top: 4px; margin-bottom: 4px"/>
-                            <div>
-                                <v-chip v-for="ites in selectedFacet" :key="ites.id"
-                                        class="ma-2"
-                                        color="#1b55e3"
-                                        outlined
-                                        pill
-                                        small
-                                        style="margin: 3px"
-                                >
-                                    {{ites.facet.name.toUpperCase()}} {{ites.code}}
-                                </v-chip>
-                            </div>
-                            <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+      <div class="d-flex flex-column-fluid">
+        <div class=" container-fluid ">
+          <div class="card">
+            <div class="card-header border-0 justify-content-between align-items-center">
+              <h3 class="card-title align-items-start flex-column">
+                <span class="card-label font-weight-bolder text-dark">Create Product</span>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label>Product Name</label>
+                    <a-input v-model="name"></a-input>
+                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                  </div>
+                  <div class="form-group">
+                    <label>Slug</label>
+                    <a-input v-model="slug" disabled></a-input>
+                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                  </div>
+                  <div class="form-group">
+                    <label>Facets</label>
+                    <div>
+                      <a href="javascript:;" class="btn btn-sm btn-light-success" @click="addFacet = true">
+                        <i class="fas fa-plus"></i> Add Facet
+                      </a>
+                      <v-dialog v-model="addFacet" scrollable max-width="300px">
                         <v-card>
-                            <v-img
-                                    :contain="true"
-                                    :src="featuredAssets === null ? 'https://via.placeholder.com/200' : `${assetUrl}/${featuredAssets.preview}`"
-                                    height="200px"
-                            ></v-img>
-                            <v-card-title>
-                                Assets
-                            </v-card-title>
-                            <v-card-actions>
-                                <v-btn text color="#1b55e3" @click="addAsset = true">Add Asset</v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn icon @click="showassets = !showassets">
-                                    <v-icon>{{ showassets ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                                </v-btn>
-                            </v-card-actions>
-                            <v-expand-transition>
-                                <div v-show="showassets" style="padding: 10px">
-                                    <v-divider></v-divider>
-                                    <v-row>
-                                        <v-col
-                                                v-for="n in selectedAssets"
-                                                :key="n.id"
-                                                class="d-flex child-flex"
-                                                cols="3"
-                                        >
-                                            <v-card flat tile class="d-flex" @click="onImageClicked($event, n)">
-                                                <v-img
-                                                        :contain="true"
-                                                        :src="`${assetUrl}/${n.preview}`"
-                                                        aspect-ratio="1"
-                                                        class="grey lighten-2"
-                                                >
-                                                </v-img>
-                                            </v-card>
-                                        </v-col>
-                                    </v-row>
-                                </div>
-                            </v-expand-transition>
-                        </v-card>
-                        <v-menu
-                                v-model="showMenu"
-                                :position-x="x"
-                                :position-y="y"
-                                absolute
-                                offset-y
-                        >
-                            <v-list>
-                                <v-list-item>
-                                    <v-list-item-title>Preview</v-list-item-title>
+                          <v-card-title>Select Facet</v-card-title>
+                          <v-divider></v-divider>
+                          <v-card-text style="height: 300px;">
+                            <v-list dense>
+                              <v-list-item-group color="primary">
+                                <v-list-item
+                                  v-for="items in allFacets"
+                                  :key="items.id"
+                                  @click="onClickSelect(items.node)"
+                                >
+                                  <v-list-item-content>
+                                    <v-chip
+                                      class="ma-2"
+                                      :color="onSelectTrace(items.node) ? '#1b55e3' : 'white'"
+                                      style="color: white"
+                                    >
+                                      {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
+                                    </v-chip>
+                                  </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item @click="onSelectFeatured" :disabled="featureActive">
-                                    <v-list-item-title>Set as Featured</v-list-item-title>
-                                </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-title>Remove Asset</v-list-item-title>
-                                </v-list-item>
+                              </v-list-item-group>
                             </v-list>
-                        </v-menu>
+                          </v-card-text>
+                          <v-divider></v-divider>
+                          <v-card-actions>
+                            <a href="javascript:;" class="btn btn-sm btn-light-success" @click="addFacet = false">
+                              close
+                            </a>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
                     </div>
+                    <hr style="margin-top: 4px; margin-bottom: 4px"/>
+                    <div>
+                      <v-chip v-for="ites in selectedFacet" :key="ites.id"
+                              class="ma-2"
+                              color="#1b55e3"
+                              outlined
+                              pill
+                              small
+                              style="margin: 3px"
+                      >
+                        {{ites.facet.name.toUpperCase()}} {{ites.code}}
+                      </v-chip>
+                    </div>
+                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <client-only>
-                        <editor api-key="no-api-key" :init="{
+                <div class="col-md-4">
+                  <v-card>
+                    <v-img
+                      :contain="true"
+                      :src="featuredAssets === null ? 'https://via.placeholder.com/200' : `${assetUrl}/${featuredAssets.preview}`"
+                      height="200px"
+                    ></v-img>
+                    <v-card-title>
+                      Assets
+                    </v-card-title>
+                    <v-card-actions>
+                      <a href="javascript:;" class="btn btn-sm btn-light-success" @click="addAsset = true">
+                        Add Asset
+                      </a>
+                      <v-spacer></v-spacer>
+                      <v-btn icon @click="showassets = !showassets">
+                        <v-icon>{{ showassets ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                      </v-btn>
+                    </v-card-actions>
+                    <v-expand-transition>
+                      <div v-show="showassets" style="padding: 10px">
+                        <v-divider></v-divider>
+                        <v-row>
+                          <v-col
+                            v-for="n in selectedAssets"
+                            :key="n.id"
+                            class="d-flex child-flex"
+                            cols="3"
+                          >
+                            <v-card flat tile class="d-flex" @click="onImageClicked($event, n)">
+                              <v-img
+                                :contain="true"
+                                :src="`${assetUrl}/${n.preview}`"
+                                aspect-ratio="1"
+                                class="grey lighten-2"
+                              >
+                              </v-img>
+                            </v-card>
+                          </v-col>
+                        </v-row>
+                      </div>
+                    </v-expand-transition>
+                  </v-card>
+                  <v-menu
+                    v-model="showMenu"
+                    :position-x="x"
+                    :position-y="y"
+                    absolute
+                    offset-y
+                  >
+                    <v-list>
+                      <v-list-item>
+                        <v-list-item-title>Preview</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="onSelectFeatured" :disabled="featureActive">
+                        <v-list-item-title>Set as Featured</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>Remove Asset</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <client-only>
+                  <editor api-key="no-api-key" :init="{
                             height: 500,
                             plugins: ['image', 'preview', 'link', 'advlist', 'autolink', 'lists', 'hr'],
                             file_picker_callback: filePickerCallBack,
@@ -147,63 +154,63 @@
                             branding: false,
                             content_style: 'body { font-family: Arial; }'
                         }" v-model="editorModel"/>
-                    </client-only>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-            </v-container>
-            <v-card-actions>
-                <v-btn class="ma-2" outlined color="#1b55e3" @click="onCreateProduct">
-                    <v-icon>mdi-plus</v-icon>
-                    Create Product</v-btn>
-            </v-card-actions>
-        </v-card>
+                </client-only>
+                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+              </div>
+              <div class="row">
+                <a href="javascript:;" class="btn btn-light-primary font-weight-bold mr-2" @click="onCreateProduct">Create Product</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         <v-dialog v-model="addAsset" fullscreen transition="dialog-bottom-transition">
-            <v-card style="border-radius: 0px">
-                <v-toolbar color="#1b55e3">
-                    <v-btn icon dark @click="addAsset = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title style="color: white">Add Assets</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-toolbar-items>
-                        <v-btn text dark @click="addAsset = false">Select</v-btn>
-                    </v-toolbar-items>
-                </v-toolbar>
-                <div style="background-color: white">
-                    <v-container>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <v-row>
-                                    <v-col
-                                            v-for="n in myAssets"
-                                            :key="n.node.id"
-                                            class="d-flex child-flex"
-                                            cols="2"
-                                    >
-                                        <v-card flat tile class="d-flex" :color="getSelectedColor(n.node.id)" hover @click="onClickSelectAsset(n.node)" style="padding: 5px">
-                                            <v-img
-                                                    :src="`${assetUrl}/${n.node.preview}`"
-                                                    aspect-ratio="1"
-                                                    class="grey lighten-2"
-                                            >
-                                                <template v-slot:placeholder>
-                                                    <v-row
-                                                            class="fill-height ma-0"
-                                                            align="center"
-                                                            justify="center"
-                                                    >
-                                                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                                    </v-row>
-                                                </template>
-                                            </v-img>
-                                        </v-card>
-                                    </v-col>
-                                </v-row>
-                            </div>
-                        </div>
-                    </v-container>
+          <div class="card" v-if="myAssets">
+            <div class="card-header border-0 d-flex justify-content-between align-items-center">
+              <h3 class="card-title align-items-start flex-column">
+                <a href="javascript:;" @click="addAsset = false">
+                  <i class="fas fa-arrow-left font-size-h3 text-primary"></i>
+                </a>
+                <span class="card-label font-weight-bolder text-dark ml-6">Add Assets</span>
+              </h3>
+              <div class="card-toolbar">
+                <a href="#" class="btn btn-light-primary font-weight-bolder font-size-sm" @click="addAsset = false">Select</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <v-row>
+                    <v-col
+                      v-for="n in myAssets"
+                      :key="n.node.id"
+                      class="d-flex child-flex"
+                      cols="2"
+                    >
+                      <v-card flat tile class="d-flex" :color="getSelectedColor(n.node.id)" hover @click="onClickSelectAsset(n.node)" style="padding: 5px">
+                        <v-img
+                          :src="`${assetUrl}/${n.node.preview}`"
+                          aspect-ratio="1"
+                          class="lighten-2"
+                          :contain="true"
+                        >
+                          <template v-slot:placeholder>
+                            <v-row
+                              class="fill-height ma-0"
+                              align="center"
+                              justify="center"
+                            >
+                              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                            </v-row>
+                          </template>
+                        </v-img>
+                      </v-card>
+                    </v-col>
+                  </v-row>
                 </div>
-            </v-card>
+              </div>
+            </div>
+          </div>
         </v-dialog>
     </div>
 </template>

@@ -1,17 +1,17 @@
 <template>
     <div>
-        <v-btn class="ma-2" outlined x-small fab color="#1b55e3" @click="onClickEdit">
-            <v-icon>mdi-pencil</v-icon>
-        </v-btn>
+      <a href="javascript:;" class="btn btn-sm btn-light-info" @click="onClickEdit">
+        <i class="fas fa-edit"></i> Edit
+      </a>
         <a-popconfirm
                 title="Are you sure delete this task?"
                 ok-text="Yes"
                 cancel-text="No"
                 @confirm="onDelete"
         >
-            <v-btn class="ma-2" outlined x-small fab color="#F44336">
-                <v-icon>mdi-delete</v-icon>
-            </v-btn>
+          <a href="javascript:;" class="btn btn-sm btn-light-danger">
+            <i class="fas fa-trash"></i> Delete
+          </a>
         </a-popconfirm>
     </div>
 </template>

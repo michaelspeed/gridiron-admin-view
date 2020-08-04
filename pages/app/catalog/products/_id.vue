@@ -205,9 +205,7 @@
                       <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                     </div>
                     <v-card-actions>
-                      <a-button type="primary" size="large" @click="updateProduct">
-                        Update Product
-                      </a-button>
+                      <a href="javascript:;" class="btn btn-light-primary font-weight-bold mr-2" @click="updateProduct">Update Product</a>
                     </v-card-actions>
                   </div>
                 </div>

@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" @click="onUpdateStore">Update</button>
+                <button type="button" class="btn btn-light-primary btn-sm" @click="onUpdateStore">Update</button>
             </a-collapse-panel>
             <a-collapse-panel key="2" header="Store Configuration">
                 <div slot="title" style="margin-top: 10px">
@@ -109,7 +109,9 @@
 
     @Component({
         computed: {
-            ...mapState('store', ['store', 'loaded']),
+            ...mapState({
+              store: (store: any) => store.store.store,
+            }),
         },
         apollo: {
             GetAllCountries: {
@@ -118,6 +120,7 @@
         }
     })
     export default class  StoreConfiguration extends Vue {
+      private store
         // collapse
         private activeNames = ['1']
         // store
@@ -129,7 +132,6 @@
         private add2: string = ''
         private gstin: string = ''
         private country: string = ''
-        private store: Store | null
         private singleStore: boolean = true
         private rentalStore: boolean = true
         private storeId: string = ''
@@ -143,12 +145,7 @@
         }
 
         onUpdateStore() {
-            const loading = this.$loading({
-                lock: true,
-                text: 'Updating Store',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            })
+            const loading: any = this.$Message.loading('Action in progress..');
             this.$apollo.mutate<{updateOneStore: Store}, UpdateOneStoreMutationVariables>({
                 mutation: UpdateOneStoreDocument,
                 variables: {
@@ -164,14 +161,14 @@
                     id: this.store!.id
                 }
             }).then(value => {
-                loading.close()
+                loading()
                 this.$notify({
                     title: 'Store Updated',
                     message: 'Your Store has been updated',
                     type: 'success'
                 })
             }).catch(error => {
-                loading.close()
+                loading()
                 this.$notify({
                     title: 'Update Error',
                     message: error.message,
