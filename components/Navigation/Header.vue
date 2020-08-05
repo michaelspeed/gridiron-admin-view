@@ -12,7 +12,7 @@
             <div id="kt_header_menu" class="header-menu header-menu-mobile  header-menu-layout-default ">
               <!--begin::Nav-->
               <ul class="menu-nav ">
-                <li class="menu-item  menu-item-submenu menu-item-rel" aria-haspopup="true" v-for="(sumitem, index) of sub" :key="index">
+                <li class="menu-item  menu-item-submenu menu-item-rel" aria-haspopup="true" v-for="(sumitem, index) of sub" :key="index" :class="{'menu-item-active': checkPathName(sumitem)}">
                   <a href="javascript:;" @click="$router.push(sumitem.to)" class="menu-link">
                     <span class="menu-text">{{$t(`${sumitem.label}`)}}</span>
                   </a>
@@ -152,6 +152,14 @@
       }).then(value => {
         this.allCountry = value.data!.GetAllCountries
       })
+    }
+
+    checkPathName(item) {
+      if (this.$route.path.indexOf(item.to) !== -1) {
+        return true
+      } else {
+        return false
+      }
     }
 
     onLogout() {

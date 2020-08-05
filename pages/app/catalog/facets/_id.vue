@@ -3,7 +3,7 @@
       <div class="d-flex flex-column-fluid">
         <div class=" container-fluid ">
           <div class="subheader py-2 py-lg-4  subheader-transparent " id="kt_subheader">
-            <div class=" container  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <div class="d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
               <!--begin::Details-->
               <div class="d-flex align-items-center flex-wrap mr-2">
 

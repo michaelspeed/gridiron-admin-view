@@ -177,6 +177,21 @@
             })
         }
 
+        mounted() {
+          if (this.store !== undefined && this.store !== null) {
+            this.storename = this.store!.storeName
+            this.storenumber = this.store!.phoneNumber
+            this.officialemail = this.store!.officialemail
+            this.zipcode = this.store!.zipcode
+            this.add1 = this.store!.streetAddress1
+            this.add2 = this.store!.streetAddress2
+            this.gstin = this.store!.GSTIN
+            this.country = this.store!.country!.id
+            this.singleStore = this.store!.singleStore
+            this.rentalStore = this.store!.rentalStore
+          }
+        }
+
         @Watch('store')
         onMountStore() {
             this.storename = this.store!.storeName

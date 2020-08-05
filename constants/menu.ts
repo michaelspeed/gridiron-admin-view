@@ -217,10 +217,10 @@ const menudata = [
     label: "menu.stores",
     to: "/app/stores-menu",
     subs: [
-      {
+      /*{
         label: "menu.channels",
         to: "/app/stores-menu/channels"
-      },
+      },*/
       {
         label: "menu.store-config",
         to: "/app/stores-menu/store-configuration"
@@ -253,10 +253,10 @@ const menudata = [
         label: "menu.country-config",
         to: "/app/system-menu/country-config"
       },
-      {
+      /*{
         label: "menu.exchange-rates",
         to: "/app/system-menu/exchange-rates"
-      },
+      },*/
       {
         label: "menu.admin-listing",
         to: "/app/system-menu/admins"

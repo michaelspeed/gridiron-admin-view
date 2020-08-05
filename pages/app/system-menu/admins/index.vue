@@ -1,91 +1,122 @@
 <template>
     <div>
-        <div class="air__utils__heading">
-            <div class="d-flex flex-row justify-content-between align-items-center">
-                <h5>Administrator</h5>
-                <button type="button" class="btn btn-primary" @click="create = true">Add Administrator</button>
+        <div class="d-flex flex-column-fluid">
+            <div class=" container-fluid ">
+                <div class="subheader py-2 py-lg-4  subheader-transparent " id="kt_subheader">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap w-100">
+                        <!--begin::Details-->
+                        <div class="d-flex align-items-center flex-wrap mr-2">
+
+                            <!--begin::Title-->
+                            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Administrator</h5>
+                            <!--end::Title-->
+
+                            <!--begin::Separator-->
+                            <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                            <!--end::Separator-->
+
+                            <!--begin::Search Form-->
+                            <div class="d-flex align-items-center" id="kt_subheader_search">
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <div class="ml-5">
+                                    <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
+                                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." v-model="search"/>
+                                        <div class="input-group-append">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Search Form-->
+                        </div>
+                        <!--end::Details-->
+
+                        <!--begin::Toolbar-->
+                        <div class="d-flex align-items-center">
+                            <!--begin::Button-->
+                            <a href="#" class="">
+
+                            </a>
+                            <!--end::Button-->
+
+                            <!--begin::Button-->
+                            <a href="javascript:;" class="btn btn-light-primary font-weight-bold ml-2" @click="create = true">
+                                Add Administrator
+                            </a>
+                            <!--end::Button-->
+                        </div>
+                        <!--end::Toolbar-->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.GetAllAdministrator.loading">
+                        <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                    </div>
+                    <div class="card-body" v-if="$apollo.queries.GetAllAdministrator.loading">
+                        <ag-grid-vue
+                            style="height: 100vh"
+                            ref="agGridTable"
+                            :gridOptions="gridOptions"
+                            class="ag-theme-material"
+                            :columnDefs="columnDefs"
+                            :defaultColDef="defaultColDef"
+                            :rowData="GetAllAdministrator"
+                            colResizeDefault="shift"
+                            :animateRows="true"
+                            :floatingFilter="true"
+                            :pagination="true"
+                            @grid-ready="onGridReady"
+                            :suppressPaginationPanel="true" :enableRtl="false">
+                        </ag-grid-vue>
+                    </div>
+                </div>
             </div>
         </div>
-        <v-card>
-            <v-card-title>
-                <div class="d-flex align-items-center">
-                    <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Search..."
-                            style="width: 500px"
-                            v-model="search"
-                    />
-                    <v-btn class="mx-2" fab dark small color="primary">
-                        <v-icon dark>mdi-magnify</v-icon>
-                    </v-btn>
-                    <v-btn class="mx-2" fab dark small color="#F44336" v-if="search !== ''">
-                        <v-icon dark>mdi-close</v-icon>
-                    </v-btn>
-                </div>
-            </v-card-title>
-            <ag-grid-vue
-                    ref="agGridTable"
-                    :gridOptions="gridOptions"
-                    class="ag-theme-material ag-grid-table"
-                    :columnDefs="columnDefs"
-                    :defaultColDef="defaultColDef"
-                    :rowData="GetAllAdministrator"
-                    colResizeDefault="shift"
-                    :animateRows="true"
-                    :floatingFilter="true"
-                    :pagination="true"
-                    @grid-ready="onGridReady"
-                    :suppressPaginationPanel="true" :enableRtl="false">
-            </ag-grid-vue>
-        </v-card>
         <v-bottom-sheet v-model="create" inset>
-            <v-toolbar flat>
-                <v-btn fab @click="create = false"><v-icon>arrow_back</v-icon></v-btn>
-                <v-toolbar-title>Add Administrator</v-toolbar-title>
-                <v-spacer></v-spacer>
-            </v-toolbar>
-            <div class="p-3 bg-white">
-                <div class="form-group">
-                    <label>Enter First Name</label>
-                    <a-input v-model="fname"></a-input>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+            <div class="card">
+                <div class="card-header border-0 d-flex justify-content-between align-items-center">
+                    <h3 class="card-title align-items-start flex-column">
+                        <a href="javascript:;" @click="create = false">
+                            <i class="fas fa-arrow-left font-size-h3 text-primary"></i>
+                        </a>
+                        <span class="card-label font-weight-bolder text-dark ml-6">Add Administrator</span>
+                    </h3>
                 </div>
-                <div class="form-group">
-                    <label>Enter Last Name</label>
-                    <a-input v-model="lname"></a-input>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-                <div class="form-group">
-                    <label>Enter Email</label>
-                    <a-input v-model="email"></a-input>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <a-input v-model="phone"></a-input>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
-                </div>
-                <div class="form-group">
-                    <label>Administrator Type</label>
-                    <v-select
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Enter First Name</label>
+                        <a-input v-model="fname"></a-input>
+                        <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Last Name</label>
+                        <a-input v-model="lname"></a-input>
+                        <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Email</label>
+                        <a-input v-model="email"></a-input>
+                        <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <a-input v-model="phone"></a-input>
+                        <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Administrator Type</label>
+                        <v-select
                             v-model="adminType"
                             :items="adminMenu"
                             solo
-                    ></v-select>
-                    <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                        ></v-select>
+                        <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                    <div class="p-3 bg-white">
+                        <button type="button" class="btn btn-light-primary" @click="onCreateAdministrator">Create Administrator</button>
+                        <button type="button" class="btn btn-light-danger" @click="create = false">Cancel</button>
+                    </div>
                 </div>
-            </div>
-            <div class="p-3 bg-white" v-if="!loading">
-                <button type="button" class="btn btn-primary" @click="onCreateAdministrator">Create Administrator</button>
-                <button type="button" class="btn btn-danger" @click="create = false">Cancel</button>
-            </div>
-            <div class="p-3 bg-white" v-if="loading">
-                <v-progress-circular
-                        :size="50"
-                        color="primary"
-                        indeterminate
-                ></v-progress-circular>
             </div>
         </v-bottom-sheet>
     </div>
@@ -158,8 +189,6 @@
         };
 
         mounted() {
-            this.gridApi = this.gridOptions!.api;
-            this.gridApi!.sizeColumnsToFit();
         }
 
         onGridReady() {

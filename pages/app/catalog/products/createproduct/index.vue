@@ -32,21 +32,26 @@
                           <v-card-title>Select Facet</v-card-title>
                           <v-divider></v-divider>
                           <v-card-text style="height: 300px;">
-                            <v-list dense>
+                            <v-list dense style="margin-left: 10px; margin-right: 10px">
                               <v-list-item-group color="primary">
+                                <v-text-field
+                                  v-model="facetSearch"
+                                  label="Search"
+                                  clearable
+                                  solo
+                                ></v-text-field>
                                 <v-list-item
                                   v-for="items in allFacets"
                                   :key="items.id"
                                   @click="onClickSelect(items.node)"
                                 >
                                   <v-list-item-content>
-                                    <v-chip
-                                      class="ma-2"
-                                      :color="onSelectTrace(items.node) ? '#1b55e3' : 'white'"
-                                      style="color: white"
-                                    >
+                                    <span class="label label-inline" v-if="!onSelectTrace(items.node)">
                                       {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
-                                    </v-chip>
+                                    </span>
+                                    <span class="label label-info label-inline mr-2" v-if="onSelectTrace(items.node)">
+                                      {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
+                                    </span>
                                   </v-list-item-content>
                                 </v-list-item>
                               </v-list-item-group>
@@ -231,7 +236,18 @@
         layout: 'console',
         components: {
             'editor': Editor
+        },
+      apollo: {
+        facetValues: {
+          query: GetFacetValuesDocument,
+          variables() {
+            return {
+              first: 30,
+              search: `%${this.facetSearch}%`
+            }
+          }
         }
+      }
     })
     export default class Index extends Vue {
         private name: string = ""
@@ -251,6 +267,10 @@
         private y = 0
         private menuId: any = null
         private featureActive: boolean = false
+
+      private facetValues
+
+      private facetSearch = ''
 
 
         onImageClicked(e, node) {
@@ -313,6 +333,11 @@
             return this.selectedFacet.find(ids => ids.id === item.id) !== undefined
         }
 
+      @Watch('facetValues')
+      onChangeFacetValue() {
+        this.allFacets = this.facetValues.edges
+      }
+
         mounted() {
             this.$apollo.watchQuery({
                 query: GetAllAssetsDocument,
@@ -323,14 +348,6 @@
             }).subscribe(value => {
                 console.log(value)
                 this.myAssets = value.data!.assets.edges
-            })
-            this.$apollo.watchQuery({
-                query: GetFacetValuesDocument,
-                variables: {
-                    first: 30
-                }
-            }).subscribe(value => {
-                this.allFacets = value.data!.facetValues.edges
             })
         }
 

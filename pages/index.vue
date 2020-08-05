@@ -14,7 +14,7 @@
           <div class="d-flex flex-row-fluid flex-column justify-content-between">
             <!--begin: Aside header -->
             <a href="#" class="flex-column-auto">
-              <img src="/media/logos/logo-letter-1.png" class="h-25" />
+              <img src="/master/logo/air.png" class="h-25" />
             </a>
             <!--end: Aside header -->
             <!--begin: Aside content -->
@@ -34,7 +34,7 @@
               class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
             >
               <div class="opacity-70 font-weight-bold text-white">
-                © 2020 Air Economics
+                © 2020 Air Economics by Atmiyo
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>
@@ -130,6 +130,7 @@
                       ref="kt_login_signin_submit"
                       @click="onAdminLogin"
                       class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
+                      :class="{'spinner spinner-white spinner-right': loading}"
                     >
                       Sign In
                     </button>
@@ -160,6 +161,7 @@ export default class Index extends Vue {
   private loading = false
 
   onAdminLogin(){
+    this.loading = true
     this.$apollo.mutate<{administratorLogin: {user: User, token: string, store: Store}}, AdministratorLoginMutationVariables>({
       mutation: AdministratorLoginDocument,
       variables: {
@@ -167,7 +169,7 @@ export default class Index extends Vue {
         password: this.password
       }
     }).then(value => {
-      console.log(value)
+      this.loading = false
       if (value.data!.administratorLogin.store === null) {
         this.$router.push({
           path: '/start/start'
@@ -178,7 +180,11 @@ export default class Index extends Vue {
           path: '/app/dashboard'
         })
       }
-    }).catch(error => console.log(error))
+    }).catch(error => {
+      this.loading = false
+      this.$Message.error(error.message)
+      console.log(error)
+    })
   }
 
 }

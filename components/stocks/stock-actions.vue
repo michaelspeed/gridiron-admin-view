@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-button type="primary" size="small" @click="stockmanagement = true">Edit</a-button>
+        <a class="btn btn-light-primary btn-sm" @click="stockmanagement = true">Edit</a>
         <v-dialog
                 v-model="stockmanagement"
                 transition="dialog-bottom-transition"
@@ -8,12 +8,13 @@
         >
             <v-card light style="overflow-x: hidden">
                 <v-toolbar
-                        flat
-                        dark
-                        color="#161537"
+                    flat
+                    class="bg-primary"
                 >
-                    <v-btn fab color="#161537" @click="stockmanagement = false"><v-icon>close</v-icon></v-btn>
-                    <v-toolbar-title>Stock Management</v-toolbar-title>
+                    <a href="javascript:;" @click="stockmanagement = false">
+                        <i class="fas fa-times text-white font-size-h1"></i>
+                    </a>
+                    <v-toolbar-title class="ml-6 text-white font-size-h1-md">Stock Management</v-toolbar-title>
                     <v-spacer></v-spacer>
                 </v-toolbar>
                 <product-stock-management :id="params.data.variant.id" @close="onClickClose" :vendor="vendor"/>

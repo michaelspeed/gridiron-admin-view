@@ -1,60 +1,50 @@
 <template>
     <div>
-        <v-card>
-            <v-card-title>
-                <v-dialog v-model="addZip" persistent max-width="290">
-                    <template v-slot:activator="{ on, attrs }">
-                        <div class="d-flex justify-content-end align-items-center">
-                            <a-button type="primary" v-bind="attrs"
-                                      v-on="on">Add Zip Code</a-button>
-                        </div>
-                    </template>
-                    <v-card>
-                        <v-card-title class="headline">Please Enter Zip Code</v-card-title>
-                        <v-card-text>
-                            <v-text-field
-                                    label="Zip Code"
-                                    solo
-                                    v-model="zipcode"
-                            ></v-text-field>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <a-button type="danger" style="margin-right: 10px" @click="addZip = false">Cancel</a-button>
-                            <a-button type="primary" @click="onCreateZipCode" :loading="loading">Add</a-button>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-            </v-card-title>
-            <v-card v-if="!$apollo.queries.findAllZip.loading">
-                <ag-grid-vue
-                        ref="agGridTable"
-                        :gridOptions="gridOptions"
-                        class="ag-theme-material ag-grid-table"
-                        :columnDefs="columnDefs"
-                        :defaultColDef="defaultColDef"
-                        :rowData="findAllZip"
-                        colResizeDefault="shift"
-                        :animateRows="true"
-                        :floatingFilter="true"
-                        :pagination="true"
-                        @grid-ready="onGridReady"
-                        :suppressPaginationPanel="true" :enableRtl="false">
-                </ag-grid-vue>
-                <v-card-actions>
-
-                </v-card-actions>
-            </v-card>
-            <div v-if="$apollo.queries.findAllZip.loading">
-                <div class="d-flex justify-content-center align-items-center">
-                    <v-progress-circular
-                            indeterminate
-                            color="#161537"
-                    ></v-progress-circular>
-                </div>
-            </div>
-        </v-card>
-
+        <div class="d-flex justify-content-end">
+            <v-dialog v-model="addZip" persistent max-width="290">
+                <template v-slot:activator="{ on, attrs }">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a href="javascript:;" class="btn btn-light-primary font-weight-bold mr-2" v-bind="attrs"
+                           v-on="on">Add Zip Code</a>
+                    </div>
+                </template>
+                <v-card>
+                    <v-card-title class="headline">Please Enter Zip Code</v-card-title>
+                    <v-card-text>
+                        <v-text-field
+                            label="Zip Code"
+                            solo
+                            v-model="zipcode"
+                        ></v-text-field>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <a-button type="danger" style="margin-right: 10px" @click="addZip = false">Cancel</a-button>
+                        <a-button type="primary" @click="onCreateZipCode" :loading="loading">Add</a-button>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
+        <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.findAllZip.loading">
+            <div class="spinner spinner-primary spinner-lg mr-15"></div>
+        </div>
+        <div v-if="!$apollo.queries.findAllZip.loading">
+            <ag-grid-vue
+                style="height: 100vh"
+                ref="agGridTable"
+                :gridOptions="gridOptions"
+                class="ag-theme-material"
+                :columnDefs="columnDefs"
+                :defaultColDef="defaultColDef"
+                :rowData="findAllZip"
+                colResizeDefault="shift"
+                :animateRows="true"
+                :floatingFilter="true"
+                :pagination="true"
+                @grid-ready="onGridReady"
+                :suppressPaginationPanel="true" :enableRtl="false">
+            </ag-grid-vue>
+        </div>
     </div>
 </template>
 

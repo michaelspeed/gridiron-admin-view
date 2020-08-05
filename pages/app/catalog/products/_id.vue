@@ -9,16 +9,11 @@
                 <v-tab>Product Variants</v-tab>
               </v-tabs>
               <v-divider/>
+              <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.product.loading">
+                <div class="spinner spinner-primary spinner-lg mr-15"></div>
+              </div>
               <v-container v-if="product !== undefined">
                 <div v-if="tabs === 0">
-                  <div v-if="$apollo.queries.product.loading">
-                    <div class="d-flex justify-content-center align-items-center">
-                      <v-progress-circular
-                        indeterminate
-                        color="#161537"
-                      ></v-progress-circular>
-                    </div>
-                  </div>
                   <div v-if="!$apollo.queries.product.loading">
                     <div class="row">
                       <div class="col-md-8">
@@ -66,7 +61,9 @@
                                 </v-card-text>
                                 <v-divider></v-divider>
                                 <v-card-actions>
-                                  <v-btn color="#1b55e3" text @click="selectCats = false">Close</v-btn>
+                                  <a href="javascript:;" @click="selectCats = false" class="btn btn-sm btn-light-success font-weight-bold mr-2">
+                                    Close
+                                  </a>
                                 </v-card-actions>
                               </v-card>
                             </v-dialog>
@@ -97,14 +94,12 @@
                                         @click="onClickSelect(items.node)"
                                       >
                                         <v-list-item-content>
-                                          <v-chip
-                                            class="ma-2"
-                                            :color="onSelectTrace(items.node) ? '#1b55e3' : 'white'"
-                                            style="color: white"
-                                          >
-                                            {{items.node.facet.name.toUpperCase()}}
-                                            {{items.node.code}}
-                                          </v-chip>
+                                          <span class="label label-inline" v-if="!onSelectTrace(items.node)">
+                                            {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
+                                          </span>
+                                          <span class="label label-info label-inline mr-2" v-if="onSelectTrace(items.node)">
+                                            {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
+                                          </span>
                                         </v-list-item-content>
                                       </v-list-item>
                                     </v-list-item-group>
@@ -112,7 +107,9 @@
                                 </v-card-text>
                                 <v-divider></v-divider>
                                 <v-card-actions>
-                                  <v-btn color="#1b55e3" text @click="addFacet = false">Close</v-btn>
+                                  <a href="javascript:;" class="btn btn-sm btn-light-success" @click="addFacet = false">
+                                    Close
+                                  </a>
                                 </v-card-actions>
                               </v-card>
                             </v-dialog>

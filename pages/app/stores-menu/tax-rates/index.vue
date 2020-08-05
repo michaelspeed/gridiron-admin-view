@@ -1,43 +1,88 @@
 <template>
     <div>
-        <div class="air__utils__heading">
-            <div class="d-flex flex-row justify-content-between align-items-center">
-                <h5>Tax Rates</h5>
-                <button type="button" class="btn btn-primary" @click="createRate = true">Add Tax Rate</button>
+        <div class="d-flex flex-column-fluid">
+            <div class=" container-fluid ">
+                <div class="subheader py-2 py-lg-4  subheader-transparent " id="kt_subheader">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap w-100">
+                        <!--begin::Details-->
+                        <div class="d-flex align-items-center flex-wrap mr-2">
+
+                            <!--begin::Title-->
+                            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Tax Rates</h5>
+                            <!--end::Title-->
+
+                            <!--begin::Separator-->
+                            <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                            <!--end::Separator-->
+
+                            <!--begin::Search Form-->
+                            <div class="d-flex align-items-center" id="kt_subheader_search">
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <div class="ml-5">
+                                    <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
+                                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
+                                        <div class="input-group-append">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Search Form-->
+                        </div>
+                        <!--end::Details-->
+
+                        <!--begin::Toolbar-->
+                        <div class="d-flex align-items-center">
+                            <!--begin::Button-->
+                            <a href="#" class="">
+
+                            </a>
+                            <!--end::Button-->
+
+                            <!--begin::Button-->
+                            <a href="javascript:;" class="btn btn-light-primary font-weight-bold ml-2" @click="createRate = true">
+                                Add Tax Rate
+                            </a>
+                            <!--end::Button-->
+                        </div>
+                        <!--end::Toolbar-->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <ag-grid-vue
+                            style="height: 100vh"
+                            ref="agGridTable"
+                            :gridOptions="gridOptions"
+                            class="ag-theme-material ag-grid-table"
+                            :columnDefs="columnDefs"
+                            :defaultColDef="defaultColDef"
+                            :rowData="GetAllTaxRates"
+                            colResizeDefault="shift"
+                            :animateRows="true"
+                            :floatingFilter="true"
+                            :pagination="true"
+                            @grid-ready="onGridReady"
+                            :suppressPaginationPanel="true" :enableRtl="false">
+                        </ag-grid-vue>
+                    </div>
+                </div>
             </div>
         </div>
-        <v-card>
-            <ag-grid-vue
-                    ref="agGridTable"
-                    :gridOptions="gridOptions"
-                    class="ag-theme-material ag-grid-table"
-                    :columnDefs="columnDefs"
-                    :defaultColDef="defaultColDef"
-                    :rowData="GetAllTaxRates"
-                    colResizeDefault="shift"
-                    :animateRows="true"
-                    :floatingFilter="true"
-                    :pagination="true"
-                    :suppressPaginationPanel="true" :enableRtl="false">
-            </ag-grid-vue>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination pagination-circle justify-content-end">
-                    <li class="page-item" v-if="hasPrev"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item" v-if="hasNext"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
-        </v-card>
         <v-bottom-sheet
                 v-model="createRate"
                 inset
         >
-            <v-sheet>
-                <v-toolbar flat>
-                    <v-btn fab @click="createRate = false"><v-icon>arrow_back</v-icon></v-btn>
-                    <v-toolbar-title>Add New Tax Rate</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                </v-toolbar>
-                <div class="p-3 bg-white">
+            <div class="card">
+                <div class="card-header border-0 d-flex justify-content-between align-items-center">
+                    <h3 class="card-title align-items-start flex-column">
+                        <a href="javascript:;" @click="createRate = false">
+                            <i class="fas fa-arrow-left font-size-h3 text-primary"></i>
+                        </a>
+                        <span class="card-label font-weight-bolder text-dark ml-6">Add New Tax Rate</span>
+                    </h3>
+                </div>
+                <div class="card-body">
                     <div class="form-group">
                         <label>Enter Name</label>
                         <a-input v-model="name" size="large"></a-input>
@@ -54,9 +99,9 @@
                         <div class="d-flex justify-content-between">
                             <label>Enabled</label>
                             <a-switch size="large"
-                                    v-model="enabled"
-                                    active-color="#13ce66"
-                                    inactive-color="#ff4949">
+                                      v-model="enabled"
+                                      active-color="#13ce66"
+                                      inactive-color="#ff4949">
                             </a-switch>
                         </div>
                         <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
@@ -65,14 +110,14 @@
                         <div class="d-flex justify-content-between">
                             <label>Tax Rule</label>
                             <a-select size="large"
-                                    style="width: 300px"
-                                    v-model="rule"
-                                    :filter-option="filterOption"
-                                    placeholder="Search Your Tax Rule">
+                                      style="width: 300px"
+                                      v-model="rule"
+                                      :filter-option="filterOption"
+                                      placeholder="Search Your Tax Rule">
                                 <a-select-option
-                                        v-for="item in GetAllTaxCategory"
-                                        :key="item.id"
-                                        :value="item.id">
+                                    v-for="item in GetAllTaxCategory"
+                                    :key="item.id"
+                                    :value="item.id">
                                     {{item.name}}
                                 </a-select-option>
                             </a-select>
@@ -83,14 +128,14 @@
                         <div class="d-flex justify-content-between">
                             <label>Zone</label>
                             <a-select size="large"
-                                    style="width: 300px"
-                                    v-model="zone"
-                                    :filter-option="filterOption"
-                                    placeholder="Search Your Zone">
+                                      style="width: 300px"
+                                      v-model="zone"
+                                      :filter-option="filterOption"
+                                      placeholder="Search Your Zone">
                                 <a-select-option
-                                        v-for="item in zones.edges"
-                                        :key="item.node.id"
-                                        :value="item.node.id">
+                                    v-for="item in zones.edges"
+                                    :key="item.node.id"
+                                    :value="item.node.id">
                                     {{item.node.name}}
                                 </a-select-option>
                             </a-select>
@@ -98,11 +143,11 @@
                         <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" @click="onAddTaxRates">Create Rate</button>
-                        <button type="button" class="btn btn-danger" @click="createRate = false">Cancel</button>
+                        <button type="button" class="btn btn-light-primary" @click="onAddTaxRates">Create Rate</button>
+                        <button type="button" class="btn btn-light-danger" @click="createRate = false">Cancel</button>
                     </div>
                 </div>
-            </v-sheet>
+            </div>
         </v-bottom-sheet>
     </div>
 </template>
@@ -216,6 +261,9 @@
         mounted() {
             this.loadRules()
             this.loadZones()
+        }
+
+        onGridReady() {
             this.gridApi = this.gridOptions!.api;
             this.gridApi!.sizeColumnsToFit();
         }

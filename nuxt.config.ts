@@ -99,8 +99,8 @@ const config = {
       dark: false,
       themes: {
         light: {
-          primary: '#161537', // #E53935
-          secondary: '#F44336',
+          primary: '#8950FC', // #E53935
+          secondary: '#F64E60',
           accent: '#FF5722', // #3F51B5
         },
       },

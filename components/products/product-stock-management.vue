@@ -56,13 +56,8 @@
                 <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="onCreateStock">Add / Update Stock</a>
             </v-card-actions>
         </div>
-        <div v-if="$apollo.queries.getStockKeepingVendor.loading">
-            <div class="d-flex justify-content-center align-items-center">
-                <v-progress-circular
-                        indeterminate
-                        color="#161537"
-                ></v-progress-circular>
-            </div>
+        <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.getStockKeepingVendor.loading">
+            <div class="spinner spinner-primary spinner-lg mr-15"></div>
         </div>
     </div>
 </template>

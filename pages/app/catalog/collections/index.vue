@@ -3,7 +3,7 @@
       <div class="d-flex flex-column-fluid">
         <div class=" container-fluid ">
           <div class="subheader py-2 py-lg-4  subheader-transparent " id="kt_subheader">
-            <div class=" container  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <div class="d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap w-100">
               <!--begin::Details-->
               <div class="d-flex align-items-center flex-wrap mr-2">
 
@@ -57,11 +57,15 @@
                 </div>
                 <div class="card-body">
                   <div v-if="selected !== null" class="mb-3">
+                    <div class="text-muted">Collection Options:</div>
                     <div class="d-flex justify-content-between align-items-center">
                       <a href="javascript:;" class="btn btn-sm btn-light-primary font-weight-bold mr-2"  @click="onClickSubCollection">Add</a>
                       <a href="javascript:;" class="btn btn-sm btn-light-danger font-weight-bold mr-2">Delete</a>
                     </div>
                   </div>
+                    <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.GetCollectionTree.loading">
+                        <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                    </div>
                   <a-tree
                     :tree-data="allCollections"
                     defaultExpandAll
