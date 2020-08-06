@@ -17,7 +17,7 @@
 
                 <!--begin::Search Form-->
                 <div class="d-flex align-items-center" id="kt_subheader_search">
-                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="assetAggregate">{{assetAggregate.count.id}} Total</span>
                   <div class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                       <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
@@ -50,13 +50,10 @@
             </div>
           </div>
           <div class="row">
-            <AssetsPreview v-for="asset in myAssets" :node="asset.node" :key="asset.node.id"/>
+            <AssetsPreview v-for="asset in myAssets" :node="asset" :key="asset.id"/>
           </div>
           <div class="row">
-            <a-button-group>
-              <a-button type="primary" @click="onPrev" :disabled="!hasPrev"> <a-icon type="left" />Go back </a-button>
-              <a-button type="primary" @click="onNext" :disabled="!hasNext"> Go forward<a-icon type="right" /> </a-button>
-            </a-button-group>
+
           </div>
         </div>
       </div>
@@ -65,7 +62,7 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
-    import {Asset, CreateAssetDocument, GetAllAssetsDocument} from '../../../../gql';
+    import {Asset, CreateAssetDocument, GetAllAssetsDocument, GetAssetsAggregateDocument} from '../../../../gql';
     import moment from 'moment';
     import AssetsPreview from '../../../../components/assets/AssetsPreview.vue';
 
@@ -79,14 +76,14 @@
                 query: GetAllAssetsDocument,
                 variables() {
                     return {
-                        first: this.first !== undefined ? this.first : undefined ,
-                        last: this.last !== undefined ? this.last : undefined,
-                        before: this.before !== undefined ? this.before : undefined,
-                        after: this.after !== undefined ? this.after : undefined
+                        limit: this.limit
                     }
                 },
                 pollInterval: 4000,
                 deep: true
+            },
+            assetAggregate: {
+                query: GetAssetsAggregateDocument
             }
         }
     })
@@ -94,10 +91,12 @@
         private imageChange: any = null
         private myAssets: Asset[] = []
 
+        private assetAggregate
+
         // Paging
         private last: any = undefined
-        private first: any = 10
-        private after: any = null
+        private limit: any = 50
+        private offset: any = 0
         private before: any = undefined
         private search: string = ''
         private hasPrev: boolean = false;
@@ -111,25 +110,23 @@
         @Watch('assets')
         onChangeAsset() {
             console.log(this.assets)
-            this.myAssets = this.assets.edges
-            this.hasNext = this.assets.pageInfo.hasNextPage
-            this.hasPrev = this.assets.pageInfo.hasPreviousPage
+            this.myAssets = this.assets
         }
 
         onNext() {
-            this.after = this.assets.pageInfo.endCursor ? this.assets.pageInfo.endCursor : null
+            /*this.after = this.assets.pageInfo.endCursor ? this.assets.pageInfo.endCursor : null
             this.before = undefined
             this.first = 10
             this.last = undefined
-            console.log(this.after, this.before)
+            console.log(this.after, this.before)*/
         }
 
         onPrev() {
-            this.before = this.assets.pageInfo.startCursor ? this.assets.pageInfo.startCursor: null
+            /*this.before = this.assets.pageInfo.startCursor ? this.assets.pageInfo.startCursor: null
             this.after = undefined
             this.last = 10
             this.first = undefined
-            console.log(this.after, this.before)
+            console.log(this.after, this.before)*/
         }
 
         mounted() {

@@ -17,7 +17,7 @@
 
                 <!--begin::Search Form-->
                 <div class="d-flex align-items-center" id="kt_subheader_search">
-                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="facetAggregate">{{facetAggregate.count.id}} Total</span>
                   <div class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                       <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
@@ -117,7 +117,7 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import {CreateFacetDocument, GetAllFacetsDocument} from '../../../../gql';
+    import {CreateFacetDocument, GetAllFacetsDocument, GetFacetAggregateDocument} from '../../../../gql';
     import ApolloClient from 'apollo-client';
     import FacetActions from '../../../../components/facets/facet-actions.vue';
 
@@ -125,6 +125,11 @@
         layout: 'console',
         components: {
             FacetActions
+        },
+        apollo: {
+            facetAggregate: {
+                query: GetFacetAggregateDocument
+            }
         }
     })
     export default class Index extends Vue {
@@ -133,6 +138,8 @@
         private code = ""
         private isPrivate = true
         private allFacets: any[] = []
+
+        private facetAggregate
 
         // Table
         private gridOptions: any = {};
@@ -147,12 +154,12 @@
             {
                 headerName: 'Name',
                 filter: true,
-                field: 'node.name'
+                field: 'name'
             },
             {
                 headerName: 'Code',
                 filter: true,
-                field: 'node.code'
+                field: 'code'
             },
             {
                 headerName: 'Actions',
@@ -179,15 +186,12 @@
             this.apolloClient?.watchQuery({
                 query: GetAllFacetsDocument,
                 variables: {
-                    first: this.first,
-                    last: this.last === 0 ? undefined : this.last,
-                    after: this.after === null ? undefined : this.after,
-                    before: this.before === null ? undefined : this.before
+                    limit: 50
                 },
                 pollInterval: 3000
             }).subscribe(value => {
                 console.log(value)
-                this.allFacets = value.data!.facets.edges
+                this.allFacets = value.data!.facets
             })
         }
 

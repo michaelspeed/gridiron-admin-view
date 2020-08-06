@@ -17,7 +17,7 @@
 
                 <!--begin::Search Form-->
                 <div class="d-flex align-items-center" id="kt_subheader_search">
-                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="productAggregate">{{productAggregate.count.id}} Total</span>
                   <div class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                       <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
@@ -79,17 +79,24 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import {GetAllProductsDocument} from '../../../../gql';
+    import {GetAllProductsDocument, GetProductAggregateDocument} from '../../../../gql';
     import ProductActions from '../../../../components/products/product-actions.vue';
 
     @Component({
         layout: 'console',
         components: {
             ProductActions
+        },
+        apollo: {
+            productAggregate: {
+                query: GetProductAggregateDocument
+            }
         }
     })
     export default class Index extends Vue {
         private allProducts = []
+
+        private productAggregate
 
         // Paging
         private last: number = 0
@@ -113,12 +120,12 @@
             {
                 headerName: 'Name',
                 filter: true,
-                field: 'node.productName'
+                field: 'productName'
             },
             {
                 headerName: 'Slug',
                 filter: true,
-                field: 'node.slug'
+                field: 'slug'
             },
             {
                 headerName: 'Actions',
@@ -137,7 +144,7 @@
                 pollInterval: 3000
             }).subscribe(value => {
                 console.log(value)
-                this.allProducts = value!.data!.products.edges
+                this.allProducts = value!.data!.products
             })
         }
 

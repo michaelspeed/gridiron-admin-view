@@ -2,11 +2,11 @@
     <div v-if="!$apollo.queries.assets.loading">
       <div class="card-header border-0 py-5 d-flex justify-content-between">
         <h3 class="card-title align-items-start flex-column">
-          <span class="card-label font-weight-bolder text-dark">{{variants.node.name}}</span>
+          <span class="card-label font-weight-bolder text-dark">{{variants.name}}</span>
         </h3>
         <div class="card-toolbar">
           <v-switch
-            v-model="variants.node.enabled"
+            v-model="variants.enabled"
             label="Enabled"
             dense
           ></v-switch>
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-2">
                 <v-img :contain="true"
-                       :src="variants.node.asset === null ? 'https://via.placeholder.com/200' : `${assetUrl}/${variants.node.asset.asset.preview}`"
+                       :src="variants.asset === null ? 'https://via.placeholder.com/200' : `${assetUrl}/${variants.asset.asset.preview}`"
                        height="200px"
                 ></v-img>
                 <div class="d-flex justify-content-center mt-2">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <product-price-options :price="variants.node.price" :variant="variants.node.id"/>
+                <product-price-options :price="variants.price" :variant="variants.id"/>
             </div>
             <div class="col-md-7">
                 <div class="card">
@@ -35,7 +35,7 @@
                       <hr style="margin-top: 5px; margin-bottom: 5px"/>
                       <div class="d-flex justify-content-between align-items-center">
                         <h6>Specification Management</h6>
-                        <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="$router.push(`/app/catalog/products/variants/specs/${variants.node.id}`)">Set Specification Management</a>
+                        <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="$router.push(`/app/catalog/products/variants/specs/${variants.id}`)">Set Specification Management</a>
                       </div>
                       <hr style="margin-top: 5px; margin-bottom: 5px"/>
                       <div class="d-flex justify-content-between align-items-center">
@@ -51,7 +51,7 @@
         <v-card-actions>
             <v-list-item class="grow">
                 <div>
-                  <span v-for="(chips, index) of onGetVariantOptions(variants.node.name)"
+                  <span v-for="(chips, index) of onGetVariantOptions(variants.name)"
                         :key="index" class="label label-info label-inline mr-2"><span class="font-weight-bold mr-2">{{chips.name.toUpperCase()}}</span> {{chips.code}}</span>
                 </div>
 
@@ -82,18 +82,18 @@
                             <div class="col-md-12">
                                 <v-row>
                                     <v-col
-                                            v-for="n in assets.edges"
-                                            :key="n.node.id"
+                                            v-for="n in assets"
+                                            :key="n.id"
                                             class="d-flex child-flex"
                                             cols="2"
                                     >
                                         <v-card flat tile class="d-flex" hover style="padding: 5px">
                                             <v-img
-                                                    :src="`${assetUrl}/${n.node.preview}`"
+                                                    :src="`${assetUrl}/${n.preview}`"
                                                     aspect-ratio="1"
                                                     class="lighten-2"
                                                     :contain="true"
-                                                    @click="onClickAddAsset(n.node.id)"
+                                                    @click="onClickAddAsset(n.id)"
                                             >
                                                 <template v-slot:placeholder>
                                                     <v-row
@@ -171,7 +171,7 @@
                     <v-toolbar-title class="ml-6 text-white font-size-h1-md">Stock Management</v-toolbar-title>
                     <v-spacer></v-spacer>
                 </v-toolbar>
-                <product-stock-management :id="variants.node.id" @close="onClickClose" :vendor="vendor"/>
+                <product-stock-management :id="variants.id" @close="onClickClose" :vendor="vendor"/>
             </v-card>
         </v-dialog>
     </div>
@@ -240,22 +240,22 @@
 
         mounted() {
           console.log(this.variants)
-            if (this.variants !== undefined && this.variants.node.seo !== null) {
-              this.metaUrl = this.variants.node.seo ? this.variants.node.seo.urlKey :SlugLoader(this.variants.node.name)
-              this.metaTitle = this.variants.node.seo.metatitle
-              this.metaDesc = this.variants.node.seo.metadesc
-              this.metaKeywords = this.variants.node.seo.metakeywords.map(item => ({text: item}))
+            if (this.variants !== undefined && this.variants.seo !== null) {
+              this.metaUrl = this.variants.seo ? this.variants.seo.urlKey :SlugLoader(this.variants.name)
+              this.metaTitle = this.variants.seo.metatitle
+              this.metaDesc = this.variants.seo.metadesc
+              this.metaKeywords = this.variants.seo.metakeywords.map(item => ({text: item}))
             }
         }
 
         onCreateProdSeo(){
             const load: any = this.$message
                 .loading('Creating / Update Seo..')
-            if (this.variants.node.seo) {
+            if (this.variants.seo) {
                 this.$apollo.mutate({
                     mutation: UpdateProductSeoDocument,
                     variables: {
-                        seoId: this.variants.node.seo.id,
+                        seoId: this.variants.seo.id,
                         metadesc: this.metaDesc,
                         metakeywords: this.metaKeywords.map(item => item.text),
                         urlKey: this.metaUrl,
@@ -273,7 +273,7 @@
                 this.$apollo.mutate({
                     mutation: CreateProductSeoDocument,
                     variables: {
-                        variantId: this.variants.node.id,
+                        variantId: this.variants.id,
                         metadesc: this.metaDesc,
                         metakeywords: this.metaKeywords.map(item => item.text),
                         urlKey: this.metaUrl,
@@ -295,7 +295,7 @@
                 mutation: CreateProductVariantAssetDocument,
                 variables: {
                     assetId: assetId,
-                    id: this.variants.node.id
+                    id: this.variants.id
                 }
             }).then(value => {
                 this.addAsset = false
@@ -308,11 +308,11 @@
         onGetVariantOptions(name: string) {
             let allopts: any[] = []
             for (let its of this.allProdOptions) {
-                for (let opts of its.node.options.edges) {
-                    if (name.indexOf(opts.node.code) !== -1) {
+                for (let opts of its.options) {
+                    if (name.indexOf(opts.code) !== -1) {
                         allopts.push({
-                            name: its.node.name,
-                            code: opts.node.name
+                            name: its.name,
+                            code: opts.name
                         })
                     }
                 }

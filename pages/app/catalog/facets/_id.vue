@@ -17,7 +17,7 @@
 
                 <!--begin::Search Form-->
                 <div class="d-flex align-items-center" id="kt_subheader_search">
-                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                  <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="facet">{{values.length}} Total</span>
                   <div class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                       <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
@@ -90,14 +90,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in values" :key="item.node.id">
-                      <td>{{ item.node.code }}</td>
+                    <tr v-for="item in values" :key="item.id">
+                      <td>{{ item.code }}</td>
                       <td>
                         <a-popconfirm
                           title="Are you sure delete this task?"
                           ok-text="Yes"
                           cancel-text="No"
-                          @confirm="onDelete(item.node.id)"
+                          @confirm="onDelete(item.id)"
                         >
                           <a href="javascript:;" class="btn btn-sm btn-light-danger">
                             <i class="fas fa-trash"></i> Delete
@@ -180,7 +180,7 @@
                     this.isPrivate = this.facet.isPrivate
                     this.init = true
                 }
-                this.values = this.facet.values.edges
+                this.values = this.facet.values
             }
         }
 

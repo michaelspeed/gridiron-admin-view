@@ -157,8 +157,8 @@
         @Watch('product')
         onGetProd() {
             console.log(this.product)
-            this.allVariants = this.product.variants.edges
-            this.allProdOptions = this.product.options.edges
+            this.allVariants = this.product.variants
+            this.allProdOptions = this.product.options
         }
 
         mounted() {

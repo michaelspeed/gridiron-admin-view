@@ -23,7 +23,8 @@
         private params
 
         onClickEdit() {
-            this.$router.push(`/app/catalog/products/${this.params.data.node.id}`)
+            console.log(this.params.data)
+            this.$router.push(`/app/catalog/products/${this.params.data.id}`)
         }
     }
 </script>

@@ -30,14 +30,14 @@
         private params: any
 
         onClickEdit() {
-            this.$router.push(`/app/catalog/facets/${this.params.data.node.id}`)
+            this.$router.push(`/app/catalog/facets/${this.params.data.id}`)
         }
 
         onDelete() {
             this.$apollo.mutate({
                 mutation: DeleteOneFacetDocument,
                 variables: {
-                    id: this.params.data.node.id
+                    id: this.params.data.id
                 }
             })
         }

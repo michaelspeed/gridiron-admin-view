@@ -12,8 +12,6 @@ export type Scalars = {
   DateTime: any;
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: any;
-  /** Cursor for paging through collections */
-  ConnectionCursor: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
   /** The `Upload` scalar type represents a file upload. */
@@ -52,36 +50,43 @@ export type Asset = {
   source: Scalars['String'];
   preview: Scalars['String'];
   focalPoint: Scalars['JSONObject'];
-  featureds: ProductConnection;
-  productAssets: ProductAssetConnection;
+  featureds: Array<Product>;
+  productAssets: Array<ProductAsset>;
+  featuredsAggregate: AssetFeaturedsAggregateResponse;
+  productAssetsAggregate: AssetProductAssetsAggregateResponse;
 };
 
 
 export type AssetFeaturedsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductFilter>;
   sorting?: Maybe<Array<ProductSort>>;
 };
 
 
 export type AssetProductAssetsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductAssetFilter>;
   sorting?: Maybe<Array<ProductAssetSort>>;
 };
 
 
-export type CursorPaging = {
-  /** Paginate before opaque cursor */
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  /** Paginate after opaque cursor */
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  /** Paginate first */
-  first?: Maybe<Scalars['Int']>;
-  /** Paginate last */
-  last?: Maybe<Scalars['Int']>;
+export type AssetFeaturedsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
 };
 
+
+export type AssetProductAssetsAggregateArgs = {
+  filter?: Maybe<ProductAssetAggregateFilter>;
+};
+
+
+export type OffsetPaging = {
+  /** Limit the number of records returned */
+  limit?: Maybe<Scalars['Int']>;
+  /** Offset to start returning records from */
+  offset?: Maybe<Scalars['Int']>;
+};
 
 export type ProductFilter = {
   and?: Maybe<Array<ProductFilter>>;
@@ -122,6 +127,13 @@ export type DateFieldComparison = {
   lte?: Maybe<Scalars['DateTime']>;
   in?: Maybe<Array<Scalars['DateTime']>>;
   notIn?: Maybe<Array<Scalars['DateTime']>>;
+  between?: Maybe<DateFieldComparisonBetween>;
+  notBetween?: Maybe<DateFieldComparisonBetween>;
+};
+
+export type DateFieldComparisonBetween = {
+  lower: Scalars['DateTime'];
+  upper: Scalars['DateTime'];
 };
 
 export type StringFieldComparison = {
@@ -188,6 +200,25 @@ export enum ProductAssetSortFields {
   UpdatedAt = 'updatedAt'
 }
 
+export type ProductAggregateFilter = {
+  and?: Maybe<Array<ProductAggregateFilter>>;
+  or?: Maybe<Array<ProductAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  productName?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type ProductAssetAggregateFilter = {
+  and?: Maybe<Array<ProductAssetAggregateFilter>>;
+  or?: Maybe<Array<ProductAssetAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
 export type Channel = {
   __typename?: 'Channel';
   id: Scalars['ID'];
@@ -211,32 +242,50 @@ export type Collection = {
   isPrivate: Scalars['Boolean'];
   name: Scalars['String'];
   description: Scalars['String'];
-  children: CollectionConnection;
-  products: ProductConnection;
-  agreements: BillingAgreementConnection;
+  children: Array<Collection>;
+  products: Array<Product>;
+  agreements: Array<BillingAgreement>;
+  seo?: Maybe<Seo>;
   parent?: Maybe<Collection>;
-  seo: Seo;
+  childrenAggregate: CollectionChildrenAggregateResponse;
+  productsAggregate: CollectionProductsAggregateResponse;
+  agreementsAggregate: CollectionAgreementsAggregateResponse;
 };
 
 
 export type CollectionChildrenArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<CollectionFilter>;
   sorting?: Maybe<Array<CollectionSort>>;
 };
 
 
 export type CollectionProductsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductFilter>;
   sorting?: Maybe<Array<ProductSort>>;
 };
 
 
 export type CollectionAgreementsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<BillingAgreementFilter>;
   sorting?: Maybe<Array<BillingAgreementSort>>;
+};
+
+
+export type CollectionChildrenAggregateArgs = {
+  filter?: Maybe<CollectionAggregateFilter>;
+};
+
+
+export type CollectionProductsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+
+export type CollectionAgreementsAggregateArgs = {
+  filter?: Maybe<BillingAgreementAggregateFilter>;
 };
 
 export type CollectionFilter = {
@@ -269,6 +318,13 @@ export type NumberFieldComparison = {
   lte?: Maybe<Scalars['Float']>;
   in?: Maybe<Array<Scalars['Float']>>;
   notIn?: Maybe<Array<Scalars['Float']>>;
+  between?: Maybe<NumberFieldComparisonBetween>;
+  notBetween?: Maybe<NumberFieldComparisonBetween>;
+};
+
+export type NumberFieldComparisonBetween = {
+  lower: Scalars['Float'];
+  upper: Scalars['Float'];
 };
 
 export type CollectionSort = {
@@ -296,6 +352,25 @@ export type BillingAgreementFilter = {
   createdAt?: Maybe<DateFieldComparison>;
   updatedAt?: Maybe<DateFieldComparison>;
   value?: Maybe<NumberFieldComparison>;
+  store?: Maybe<BillingAgreementFilterStoreFilter>;
+};
+
+export type BillingAgreementFilterStoreFilter = {
+  and?: Maybe<Array<BillingAgreementFilterStoreFilter>>;
+  or?: Maybe<Array<BillingAgreementFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
 };
 
 export type BillingAgreementSort = {
@@ -311,6 +386,29 @@ export enum BillingAgreementSortFields {
   Value = 'value'
 }
 
+export type CollectionAggregateFilter = {
+  and?: Maybe<Array<CollectionAggregateFilter>>;
+  or?: Maybe<Array<CollectionAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  isRoot?: Maybe<BooleanFieldComparison>;
+  inMenu?: Maybe<BooleanFieldComparison>;
+  position?: Maybe<NumberFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type BillingAgreementAggregateFilter = {
+  and?: Maybe<Array<BillingAgreementAggregateFilter>>;
+  or?: Maybe<Array<BillingAgreementAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
 export type Facet = {
   __typename?: 'Facet';
   id: Scalars['ID'];
@@ -319,22 +417,34 @@ export type Facet = {
   name: Scalars['String'];
   isPrivate: Scalars['Boolean'];
   code: Scalars['String'];
-  products: ProductConnection;
-  values: FacetValueConnection;
+  products: Array<Product>;
+  values: Array<FacetValue>;
+  productsAggregate: FacetProductsAggregateResponse;
+  valuesAggregate: FacetValuesAggregateResponse;
 };
 
 
 export type FacetProductsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductFilter>;
   sorting?: Maybe<Array<ProductSort>>;
 };
 
 
 export type FacetValuesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<FacetValueFilter>;
   sorting?: Maybe<Array<FacetValueSort>>;
+};
+
+
+export type FacetProductsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+
+export type FacetValuesAggregateArgs = {
+  filter?: Maybe<FacetValueAggregateFilter>;
 };
 
 export type FacetValueFilter = {
@@ -359,21 +469,36 @@ export enum FacetValueSortFields {
   Code = 'code'
 }
 
+export type FacetValueAggregateFilter = {
+  and?: Maybe<Array<FacetValueAggregateFilter>>;
+  or?: Maybe<Array<FacetValueAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
 export type FacetValue = {
   __typename?: 'FacetValue';
   id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   code: Scalars['String'];
-  products: ProductConnection;
+  products: Array<Product>;
   facet: Facet;
+  productsAggregate: FacetValueProductsAggregateResponse;
 };
 
 
 export type FacetValueProductsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductFilter>;
   sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type FacetValueProductsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
 };
 
 export type Order = {
@@ -402,40 +527,64 @@ export type Product = {
   productName: Scalars['String'];
   slug: Scalars['String'];
   description: Scalars['String'];
-  options: ProductOptionGroupConnection;
-  facets: FacetValueConnection;
-  variants: ProductVariantConnection;
-  assets: ProductAssetConnection;
+  options: Array<ProductOptionGroup>;
+  facets: Array<FacetValue>;
+  variants: Array<ProductVariant>;
+  assets: Array<ProductAsset>;
   collection?: Maybe<Collection>;
   featuredAsset: Asset;
+  optionsAggregate: ProductOptionsAggregateResponse;
+  facetsAggregate: ProductFacetsAggregateResponse;
+  variantsAggregate: ProductVariantsAggregateResponse;
+  assetsAggregate: ProductAssetsAggregateResponse;
 };
 
 
 export type ProductOptionsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductOptionGroupFilter>;
   sorting?: Maybe<Array<ProductOptionGroupSort>>;
 };
 
 
 export type ProductFacetsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<FacetValueFilter>;
   sorting?: Maybe<Array<FacetValueSort>>;
 };
 
 
 export type ProductVariantsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductVariantFilter>;
   sorting?: Maybe<Array<ProductVariantSort>>;
 };
 
 
 export type ProductAssetsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductAssetFilter>;
   sorting?: Maybe<Array<ProductAssetSort>>;
+};
+
+
+export type ProductOptionsAggregateArgs = {
+  filter?: Maybe<ProductOptionGroupAggregateFilter>;
+};
+
+
+export type ProductFacetsAggregateArgs = {
+  filter?: Maybe<FacetValueAggregateFilter>;
+};
+
+
+export type ProductVariantsAggregateArgs = {
+  filter?: Maybe<ProductVariantAggregateFilter>;
+};
+
+
+export type ProductAssetsAggregateArgs = {
+  filter?: Maybe<ProductAssetAggregateFilter>;
 };
 
 export type ProductOptionGroupFilter = {
@@ -494,6 +643,30 @@ export enum ProductVariantSortFields {
   TrackInventory = 'trackInventory'
 }
 
+export type ProductOptionGroupAggregateFilter = {
+  and?: Maybe<Array<ProductOptionGroupAggregateFilter>>;
+  or?: Maybe<Array<ProductOptionGroupAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type ProductVariantAggregateFilter = {
+  and?: Maybe<Array<ProductVariantAggregateFilter>>;
+  or?: Maybe<Array<ProductVariantAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['ID'];
@@ -534,14 +707,20 @@ export type TaxCategory = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
-  rates: TaxRateConnection;
+  rates: Array<TaxRate>;
+  ratesAggregate: TaxCategoryRatesAggregateResponse;
 };
 
 
 export type TaxCategoryRatesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<TaxRateFilter>;
   sorting?: Maybe<Array<TaxRateSort>>;
+};
+
+
+export type TaxCategoryRatesAggregateArgs = {
+  filter?: Maybe<TaxRateAggregateFilter>;
 };
 
 export type TaxRateFilter = {
@@ -570,6 +749,17 @@ export enum TaxRateSortFields {
   Enabled = 'enabled'
 }
 
+export type TaxRateAggregateFilter = {
+  and?: Maybe<Array<TaxRateAggregateFilter>>;
+  or?: Maybe<Array<TaxRateAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
 export type TaxRate = {
   __typename?: 'TaxRate';
   id: Scalars['ID'];
@@ -578,16 +768,22 @@ export type TaxRate = {
   name: Scalars['String'];
   value: Scalars['Float'];
   enabled: Scalars['Boolean'];
-  variants: ProductVariantPriceConnection;
+  variants: Array<ProductVariantPrice>;
   zone: Zone;
   category: TaxCategory;
+  variantsAggregate: TaxRateVariantsAggregateResponse;
 };
 
 
 export type TaxRateVariantsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductVariantPriceFilter>;
   sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
+export type TaxRateVariantsAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
 };
 
 export type ProductVariantPriceFilter = {
@@ -614,36 +810,64 @@ export enum ProductVariantPriceSortFields {
   TaxIncluded = 'taxIncluded'
 }
 
+export type ProductVariantPriceAggregateFilter = {
+  and?: Maybe<Array<ProductVariantPriceAggregateFilter>>;
+  or?: Maybe<Array<ProductVariantPriceAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
+};
+
 export type Zone = {
   __typename?: 'Zone';
   id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
-  members: CountryConnection;
-  stores: StoreConnection;
-  taxrates: TaxRateConnection;
+  members: Array<Country>;
+  stores: Array<Store>;
+  taxrates: Array<TaxRate>;
+  membersAggregate: ZoneMembersAggregateResponse;
+  storesAggregate: ZoneStoresAggregateResponse;
+  taxratesAggregate: ZoneTaxratesAggregateResponse;
 };
 
 
 export type ZoneMembersArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<CountryFilter>;
   sorting?: Maybe<Array<CountrySort>>;
 };
 
 
 export type ZoneStoresArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StoreFilter>;
   sorting?: Maybe<Array<StoreSort>>;
 };
 
 
 export type ZoneTaxratesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<TaxRateFilter>;
   sorting?: Maybe<Array<TaxRateSort>>;
+};
+
+
+export type ZoneMembersAggregateArgs = {
+  filter?: Maybe<CountryAggregateFilter>;
+};
+
+
+export type ZoneStoresAggregateArgs = {
+  filter?: Maybe<StoreAggregateFilter>;
+};
+
+
+export type ZoneTaxratesAggregateArgs = {
+  filter?: Maybe<TaxRateAggregateFilter>;
 };
 
 export type CountryFilter = {
@@ -712,6 +936,35 @@ export enum StoreSortFields {
   ChannelMarkets = 'channelMarkets'
 }
 
+export type CountryAggregateFilter = {
+  and?: Maybe<Array<CountryAggregateFilter>>;
+  or?: Maybe<Array<CountryAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type StoreAggregateFilter = {
+  and?: Maybe<Array<StoreAggregateFilter>>;
+  or?: Maybe<Array<StoreAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+};
+
 export type Store = {
   __typename?: 'Store';
   id: Scalars['ID'];
@@ -728,16 +981,21 @@ export type Store = {
   rentalStore: Scalars['Boolean'];
   channelMarkets: Scalars['Boolean'];
   type: StoreTypeEnum;
-  skus: StockKeepingConnection;
+  skus: Array<StockKeeping>;
   country: Country;
-  region: Zone;
+  skusAggregate: StoreSkusAggregateResponse;
 };
 
 
 export type StoreSkusArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StockKeepingFilter>;
   sorting?: Maybe<Array<StockKeepingSort>>;
+};
+
+
+export type StoreSkusAggregateArgs = {
+  filter?: Maybe<StockKeepingAggregateFilter>;
 };
 
 export enum StoreTypeEnum {
@@ -780,6 +1038,22 @@ export enum StockKeepingSortFields {
   Sku = 'sku',
   Type = 'type'
 }
+
+export type StockKeepingAggregateFilter = {
+  and?: Maybe<Array<StockKeepingAggregateFilter>>;
+  or?: Maybe<Array<StockKeepingAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+  available_quantity?: Maybe<NumberFieldComparison>;
+  threshold?: Maybe<NumberFieldComparison>;
+  multiple?: Maybe<BooleanFieldComparison>;
+  backorder?: Maybe<BooleanFieldComparison>;
+  stockstatus?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  type?: Maybe<StringFieldComparison>;
+};
 
 export type Role = {
   __typename?: 'Role';
@@ -848,8 +1122,8 @@ export type Seo = {
   metatitle: Scalars['String'];
   metakeywords?: Maybe<Array<Scalars['String']>>;
   metadesc: Scalars['String'];
-  collection?: Maybe<Collection>;
   variant?: Maybe<ProductVariant>;
+  collection?: Maybe<Collection>;
 };
 
 export type ProductAsset = {
@@ -874,32 +1148,50 @@ export type StockKeeping = {
   stockstatus: Scalars['Boolean'];
   sku: Scalars['String'];
   type: Scalars['String'];
-  sales: SaleConnection;
-  cancels: CancellationConnection;
-  movements: StockMovementConnection;
+  sales: Array<Sale>;
+  cancels: Array<Cancellation>;
+  movements: Array<StockMovement>;
   store: Store;
   variant: ProductVariant;
+  salesAggregate: StockKeepingSalesAggregateResponse;
+  cancelsAggregate: StockKeepingCancelsAggregateResponse;
+  movementsAggregate: StockKeepingMovementsAggregateResponse;
 };
 
 
 export type StockKeepingSalesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<SaleFilter>;
   sorting?: Maybe<Array<SaleSort>>;
 };
 
 
 export type StockKeepingCancelsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<CancellationFilter>;
   sorting?: Maybe<Array<CancellationSort>>;
 };
 
 
 export type StockKeepingMovementsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StockMovementFilter>;
   sorting?: Maybe<Array<StockMovementSort>>;
+};
+
+
+export type StockKeepingSalesAggregateArgs = {
+  filter?: Maybe<SaleAggregateFilter>;
+};
+
+
+export type StockKeepingCancelsAggregateArgs = {
+  filter?: Maybe<CancellationAggregateFilter>;
+};
+
+
+export type StockKeepingMovementsAggregateArgs = {
+  filter?: Maybe<StockMovementAggregateFilter>;
 };
 
 export type SaleFilter = {
@@ -968,6 +1260,33 @@ export enum StockMovementSortFields {
   Quantity = 'quantity'
 }
 
+export type SaleAggregateFilter = {
+  and?: Maybe<Array<SaleAggregateFilter>>;
+  or?: Maybe<Array<SaleAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type CancellationAggregateFilter = {
+  and?: Maybe<Array<CancellationAggregateFilter>>;
+  or?: Maybe<Array<CancellationAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type StockMovementAggregateFilter = {
+  and?: Maybe<Array<StockMovementAggregateFilter>>;
+  or?: Maybe<Array<StockMovementAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
 export type ProductVariant = {
   __typename?: 'ProductVariant';
   id: Scalars['ID'];
@@ -979,19 +1298,25 @@ export type ProductVariant = {
   sku: Scalars['String'];
   name: Scalars['String'];
   trackInventory: Scalars['Boolean'];
-  stocks: StockKeepingConnection;
+  stocks: Array<StockKeeping>;
   seo?: Maybe<Seo>;
   specs?: Maybe<ProductVariantSpecs>;
   price?: Maybe<ProductVariantPrice>;
   asset?: Maybe<ProductVariantAsset>;
   product: Product;
+  stocksAggregate: ProductVariantStocksAggregateResponse;
 };
 
 
 export type ProductVariantStocksArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StockKeepingFilter>;
   sorting?: Maybe<Array<StockKeepingSort>>;
+};
+
+
+export type ProductVariantStocksAggregateArgs = {
+  filter?: Maybe<StockKeepingAggregateFilter>;
 };
 
 export type ProductVariantAsset = {
@@ -1021,15 +1346,21 @@ export type ProductOption = {
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
   code: Scalars['String'];
-  variants: ProductVariantConnection;
+  variants: Array<ProductVariant>;
   group: ProductOptionGroup;
+  variantsAggregate: ProductOptionVariantsAggregateResponse;
 };
 
 
 export type ProductOptionVariantsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductVariantFilter>;
   sorting?: Maybe<Array<ProductVariantSort>>;
+};
+
+
+export type ProductOptionVariantsAggregateArgs = {
+  filter?: Maybe<ProductVariantAggregateFilter>;
 };
 
 export type ProductOptionGroup = {
@@ -1039,15 +1370,21 @@ export type ProductOptionGroup = {
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
   code: Scalars['String'];
-  options: ProductOptionConnection;
+  options: Array<ProductOption>;
   product: Product;
+  optionsAggregate: ProductOptionGroupOptionsAggregateResponse;
 };
 
 
 export type ProductOptionGroupOptionsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductOptionFilter>;
   sorting?: Maybe<Array<ProductOptionSort>>;
+};
+
+
+export type ProductOptionGroupOptionsAggregateArgs = {
+  filter?: Maybe<ProductOptionAggregateFilter>;
 };
 
 export type ProductOptionFilter = {
@@ -1074,6 +1411,24 @@ export enum ProductOptionSortFields {
   Code = 'code'
 }
 
+export type ProductOptionAggregateFilter = {
+  and?: Maybe<Array<ProductOptionAggregateFilter>>;
+  or?: Maybe<Array<ProductOptionAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type VendorLicense = {
+  __typename?: 'VendorLicense';
+  id: Scalars['ID'];
+  tenureStart: Scalars['DateTime'];
+  tenureEnd: Scalars['DateTime'];
+  vendor: Vendor;
+};
+
 export type VendorPlans = {
   __typename?: 'VendorPlans';
   id: Scalars['ID'];
@@ -1084,14 +1439,20 @@ export type VendorPlans = {
   planValue: Scalars['Float'];
   priceStrategy: Scalars['String'];
   tenureStrategy: VendorPlanTenure;
-  licences: VendorLicenseConnection;
+  licences: Array<VendorLicense>;
+  licencesAggregate: VendorPlansLicencesAggregateResponse;
 };
 
 
 export type VendorPlansLicencesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<VendorLicenseFilter>;
   sorting?: Maybe<Array<VendorLicenseSort>>;
+};
+
+
+export type VendorPlansLicencesAggregateArgs = {
+  filter?: Maybe<VendorLicenseAggregateFilter>;
 };
 
 export enum VendorPlanTenure {
@@ -1120,12 +1481,12 @@ export enum VendorLicenseSortFields {
   TenureEnd = 'tenureEnd'
 }
 
-export type VendorLicense = {
-  __typename?: 'VendorLicense';
-  id: Scalars['ID'];
-  tenureStart: Scalars['DateTime'];
-  tenureEnd: Scalars['DateTime'];
-  vendor: Vendor;
+export type VendorLicenseAggregateFilter = {
+  and?: Maybe<Array<VendorLicenseAggregateFilter>>;
+  or?: Maybe<Array<VendorLicenseAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  tenureStart?: Maybe<DateFieldComparison>;
+  tenureEnd?: Maybe<DateFieldComparison>;
 };
 
 export type BillingAgreement = {
@@ -1216,15 +1577,21 @@ export type Menu = {
   title: Scalars['String'];
   targetId: Scalars['String'];
   target: Scalars['String'];
-  children: MenuConnection;
+  children: Array<Menu>;
   parent?: Maybe<Menu>;
+  childrenAggregate: MenuChildrenAggregateResponse;
 };
 
 
 export type MenuChildrenArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<MenuFilter>;
   sorting?: Maybe<Array<MenuSort>>;
+};
+
+
+export type MenuChildrenAggregateArgs = {
+  filter?: Maybe<MenuAggregateFilter>;
 };
 
 export type MenuFilter = {
@@ -1253,6 +1620,17 @@ export enum MenuSortFields {
   Target = 'target'
 }
 
+export type MenuAggregateFilter = {
+  and?: Maybe<Array<MenuAggregateFilter>>;
+  or?: Maybe<Array<MenuAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  target?: Maybe<StringFieldComparison>;
+};
+
 export type Country = {
   __typename?: 'Country';
   id: Scalars['ID'];
@@ -1261,14 +1639,34 @@ export type Country = {
   code: Scalars['String'];
   name: Scalars['String'];
   enabled: Scalars['Boolean'];
-  zones: ZoneConnection;
+  stores: Array<Store>;
+  zones: Array<Zone>;
+  storesAggregate: CountryStoresAggregateResponse;
+  zonesAggregate: CountryZonesAggregateResponse;
+};
+
+
+export type CountryStoresArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StoreFilter>;
+  sorting?: Maybe<Array<StoreSort>>;
 };
 
 
 export type CountryZonesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ZoneFilter>;
   sorting?: Maybe<Array<ZoneSort>>;
+};
+
+
+export type CountryStoresAggregateArgs = {
+  filter?: Maybe<StoreAggregateFilter>;
+};
+
+
+export type CountryZonesAggregateArgs = {
+  filter?: Maybe<ZoneAggregateFilter>;
 };
 
 export type ZoneFilter = {
@@ -1293,6 +1691,15 @@ export enum ZoneSortFields {
   Name = 'name'
 }
 
+export type ZoneAggregateFilter = {
+  and?: Maybe<Array<ZoneAggregateFilter>>;
+  or?: Maybe<Array<ZoneAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+};
+
 export type AdministratorDto = {
   __typename?: 'AdministratorDto';
   user: User;
@@ -1306,86 +1713,204 @@ export type DeleteManyResponse = {
   deletedCount: Scalars['Int'];
 };
 
+export type AssetDeleteResponse = {
+  __typename?: 'AssetDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  mimeType?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+  height?: Maybe<Scalars['Float']>;
+  fileSize?: Maybe<Scalars['Float']>;
+  source?: Maybe<Scalars['String']>;
+  preview?: Maybe<Scalars['String']>;
+  focalPoint?: Maybe<Scalars['JSONObject']>;
+};
+
 export type UpdateManyResponse = {
   __typename?: 'UpdateManyResponse';
   /** The number of records updated. */
   updatedCount: Scalars['Int'];
 };
 
-export type AssetEdge = {
-  __typename?: 'AssetEdge';
-  /** The node containing the Asset */
-  node: Asset;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type AssetCountAggregate = {
+  __typename?: 'AssetCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
+  mimeType?: Maybe<Scalars['Int']>;
+  width?: Maybe<Scalars['Int']>;
+  height?: Maybe<Scalars['Int']>;
+  fileSize?: Maybe<Scalars['Int']>;
+  source?: Maybe<Scalars['Int']>;
+  preview?: Maybe<Scalars['Int']>;
 };
 
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** true if paging forward and there are more records. */
-  hasNextPage?: Maybe<Scalars['Boolean']>;
-  /** true if paging backwards and there are more records. */
-  hasPreviousPage?: Maybe<Scalars['Boolean']>;
-  /** The cursor of the first returned record. */
-  startCursor?: Maybe<Scalars['ConnectionCursor']>;
-  /** The cursor of the last returned record. */
-  endCursor?: Maybe<Scalars['ConnectionCursor']>;
+export type AssetSumAggregate = {
+  __typename?: 'AssetSumAggregate';
+  width?: Maybe<Scalars['Float']>;
+  height?: Maybe<Scalars['Float']>;
+  fileSize?: Maybe<Scalars['Float']>;
 };
 
-export type AssetConnection = {
-  __typename?: 'AssetConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<AssetEdge>;
+export type AssetAvgAggregate = {
+  __typename?: 'AssetAvgAggregate';
+  width?: Maybe<Scalars['Float']>;
+  height?: Maybe<Scalars['Float']>;
+  fileSize?: Maybe<Scalars['Float']>;
 };
 
-export type ProductEdge = {
-  __typename?: 'ProductEdge';
-  /** The node containing the Product */
-  node: Product;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type AssetMinAggregate = {
+  __typename?: 'AssetMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  mimeType?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+  height?: Maybe<Scalars['Float']>;
+  fileSize?: Maybe<Scalars['Float']>;
+  source?: Maybe<Scalars['String']>;
+  preview?: Maybe<Scalars['String']>;
 };
 
-export type ProductConnection = {
-  __typename?: 'ProductConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ProductEdge>;
+export type AssetMaxAggregate = {
+  __typename?: 'AssetMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  mimeType?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+  height?: Maybe<Scalars['Float']>;
+  fileSize?: Maybe<Scalars['Float']>;
+  source?: Maybe<Scalars['String']>;
+  preview?: Maybe<Scalars['String']>;
 };
 
-export type ProductAssetEdge = {
-  __typename?: 'ProductAssetEdge';
-  /** The node containing the ProductAsset */
-  node: ProductAsset;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type AssetAggregateResponse = {
+  __typename?: 'AssetAggregateResponse';
+  count?: Maybe<AssetCountAggregate>;
+  sum?: Maybe<AssetSumAggregate>;
+  avg?: Maybe<AssetAvgAggregate>;
+  min?: Maybe<AssetMinAggregate>;
+  max?: Maybe<AssetMaxAggregate>;
 };
 
-export type ProductAssetConnection = {
-  __typename?: 'ProductAssetConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ProductAssetEdge>;
+export type AssetFeaturedsCountAggregate = {
+  __typename?: 'AssetFeaturedsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  productName?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
 };
 
-export type RoleEdge = {
-  __typename?: 'RoleEdge';
-  /** The node containing the Role */
-  node: Role;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type AssetFeaturedsMinAggregate = {
+  __typename?: 'AssetFeaturedsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
 };
 
-export type RoleConnection = {
-  __typename?: 'RoleConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<RoleEdge>;
+export type AssetFeaturedsMaxAggregate = {
+  __typename?: 'AssetFeaturedsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type AssetFeaturedsAggregateResponse = {
+  __typename?: 'AssetFeaturedsAggregateResponse';
+  count?: Maybe<AssetFeaturedsCountAggregate>;
+  min?: Maybe<AssetFeaturedsMinAggregate>;
+  max?: Maybe<AssetFeaturedsMaxAggregate>;
+};
+
+export type AssetProductAssetsCountAggregate = {
+  __typename?: 'AssetProductAssetsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+};
+
+export type AssetProductAssetsMinAggregate = {
+  __typename?: 'AssetProductAssetsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AssetProductAssetsMaxAggregate = {
+  __typename?: 'AssetProductAssetsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AssetProductAssetsAggregateResponse = {
+  __typename?: 'AssetProductAssetsAggregateResponse';
+  count?: Maybe<AssetProductAssetsCountAggregate>;
+  min?: Maybe<AssetProductAssetsMinAggregate>;
+  max?: Maybe<AssetProductAssetsMaxAggregate>;
+};
+
+export type RoleDeleteResponse = {
+  __typename?: 'RoleDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  permissions?: Maybe<Array<Permission>>;
+  type?: Maybe<RoleType>;
+};
+
+export type RoleCountAggregate = {
+  __typename?: 'RoleCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
+};
+
+export type RoleMinAggregate = {
+  __typename?: 'RoleMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type RoleMaxAggregate = {
+  __typename?: 'RoleMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type RoleAggregateResponse = {
+  __typename?: 'RoleAggregateResponse';
+  count?: Maybe<RoleCountAggregate>;
+  min?: Maybe<RoleMinAggregate>;
+  max?: Maybe<RoleMaxAggregate>;
 };
 
 export type CollectionDeleteResponse = {
@@ -1401,36 +1926,188 @@ export type CollectionDeleteResponse = {
   description?: Maybe<Scalars['String']>;
 };
 
-export type CollectionEdge = {
-  __typename?: 'CollectionEdge';
-  /** The node containing the Collection */
-  node: Collection;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type CollectionCountAggregate = {
+  __typename?: 'CollectionCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  isRoot?: Maybe<Scalars['Int']>;
+  inMenu?: Maybe<Scalars['Int']>;
+  position?: Maybe<Scalars['Int']>;
+  isPrivate?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
 };
 
-export type CollectionConnection = {
-  __typename?: 'CollectionConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<CollectionEdge>;
+export type CollectionSumAggregate = {
+  __typename?: 'CollectionSumAggregate';
+  position?: Maybe<Scalars['Float']>;
 };
 
-export type BillingAgreementEdge = {
-  __typename?: 'BillingAgreementEdge';
-  /** The node containing the BillingAgreement */
-  node: BillingAgreement;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type CollectionAvgAggregate = {
+  __typename?: 'CollectionAvgAggregate';
+  position?: Maybe<Scalars['Float']>;
 };
 
-export type BillingAgreementConnection = {
-  __typename?: 'BillingAgreementConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<BillingAgreementEdge>;
+export type CollectionMinAggregate = {
+  __typename?: 'CollectionMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  position?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type CollectionMaxAggregate = {
+  __typename?: 'CollectionMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  position?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type CollectionAggregateResponse = {
+  __typename?: 'CollectionAggregateResponse';
+  count?: Maybe<CollectionCountAggregate>;
+  sum?: Maybe<CollectionSumAggregate>;
+  avg?: Maybe<CollectionAvgAggregate>;
+  min?: Maybe<CollectionMinAggregate>;
+  max?: Maybe<CollectionMaxAggregate>;
+};
+
+export type CollectionChildrenCountAggregate = {
+  __typename?: 'CollectionChildrenCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  isRoot?: Maybe<Scalars['Int']>;
+  inMenu?: Maybe<Scalars['Int']>;
+  position?: Maybe<Scalars['Int']>;
+  isPrivate?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
+};
+
+export type CollectionChildrenSumAggregate = {
+  __typename?: 'CollectionChildrenSumAggregate';
+  position?: Maybe<Scalars['Float']>;
+};
+
+export type CollectionChildrenAvgAggregate = {
+  __typename?: 'CollectionChildrenAvgAggregate';
+  position?: Maybe<Scalars['Float']>;
+};
+
+export type CollectionChildrenMinAggregate = {
+  __typename?: 'CollectionChildrenMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  position?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type CollectionChildrenMaxAggregate = {
+  __typename?: 'CollectionChildrenMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  position?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type CollectionChildrenAggregateResponse = {
+  __typename?: 'CollectionChildrenAggregateResponse';
+  count?: Maybe<CollectionChildrenCountAggregate>;
+  sum?: Maybe<CollectionChildrenSumAggregate>;
+  avg?: Maybe<CollectionChildrenAvgAggregate>;
+  min?: Maybe<CollectionChildrenMinAggregate>;
+  max?: Maybe<CollectionChildrenMaxAggregate>;
+};
+
+export type CollectionProductsCountAggregate = {
+  __typename?: 'CollectionProductsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  productName?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
+};
+
+export type CollectionProductsMinAggregate = {
+  __typename?: 'CollectionProductsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type CollectionProductsMaxAggregate = {
+  __typename?: 'CollectionProductsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type CollectionProductsAggregateResponse = {
+  __typename?: 'CollectionProductsAggregateResponse';
+  count?: Maybe<CollectionProductsCountAggregate>;
+  min?: Maybe<CollectionProductsMinAggregate>;
+  max?: Maybe<CollectionProductsMaxAggregate>;
+};
+
+export type CollectionAgreementsCountAggregate = {
+  __typename?: 'CollectionAgreementsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+};
+
+export type CollectionAgreementsSumAggregate = {
+  __typename?: 'CollectionAgreementsSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CollectionAgreementsAvgAggregate = {
+  __typename?: 'CollectionAgreementsAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CollectionAgreementsMinAggregate = {
+  __typename?: 'CollectionAgreementsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CollectionAgreementsMaxAggregate = {
+  __typename?: 'CollectionAgreementsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CollectionAgreementsAggregateResponse = {
+  __typename?: 'CollectionAgreementsAggregateResponse';
+  count?: Maybe<CollectionAgreementsCountAggregate>;
+  sum?: Maybe<CollectionAgreementsSumAggregate>;
+  avg?: Maybe<CollectionAgreementsAvgAggregate>;
+  min?: Maybe<CollectionAgreementsMinAggregate>;
+  max?: Maybe<CollectionAgreementsMaxAggregate>;
 };
 
 export type ChannelDeleteResponse = {
@@ -1445,20 +2122,45 @@ export type ChannelDeleteResponse = {
   pricesIncludeTax?: Maybe<Scalars['Boolean']>;
 };
 
-export type ChannelEdge = {
-  __typename?: 'ChannelEdge';
-  /** The node containing the Channel */
-  node: Channel;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ChannelCountAggregate = {
+  __typename?: 'ChannelCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+  token?: Maybe<Scalars['Int']>;
+  defaultLanguageCode?: Maybe<Scalars['Int']>;
+  currencyCode?: Maybe<Scalars['Int']>;
+  pricesIncludeTax?: Maybe<Scalars['Int']>;
 };
 
-export type ChannelConnection = {
-  __typename?: 'ChannelConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ChannelEdge>;
+export type ChannelMinAggregate = {
+  __typename?: 'ChannelMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  defaultLanguageCode?: Maybe<Scalars['String']>;
+  currencyCode?: Maybe<Scalars['String']>;
+};
+
+export type ChannelMaxAggregate = {
+  __typename?: 'ChannelMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  defaultLanguageCode?: Maybe<Scalars['String']>;
+  currencyCode?: Maybe<Scalars['String']>;
+};
+
+export type ChannelAggregateResponse = {
+  __typename?: 'ChannelAggregateResponse';
+  count?: Maybe<ChannelCountAggregate>;
+  min?: Maybe<ChannelMinAggregate>;
+  max?: Maybe<ChannelMaxAggregate>;
 };
 
 export type StoreDeleteResponse = {
@@ -1479,36 +2181,118 @@ export type StoreDeleteResponse = {
   type?: Maybe<StoreTypeEnum>;
 };
 
-export type StoreEdge = {
-  __typename?: 'StoreEdge';
-  /** The node containing the Store */
-  node: Store;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type StoreCountAggregate = {
+  __typename?: 'StoreCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  storeName?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  officialemail?: Maybe<Scalars['Int']>;
+  zipcode?: Maybe<Scalars['Int']>;
+  streetAddress1?: Maybe<Scalars['Int']>;
+  streetAddress2?: Maybe<Scalars['Int']>;
+  GSTIN?: Maybe<Scalars['Int']>;
+  singleStore?: Maybe<Scalars['Int']>;
+  rentalStore?: Maybe<Scalars['Int']>;
+  channelMarkets?: Maybe<Scalars['Int']>;
 };
 
-export type StoreConnection = {
-  __typename?: 'StoreConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<StoreEdge>;
+export type StoreMinAggregate = {
+  __typename?: 'StoreMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  storeName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
 };
 
-export type StockKeepingEdge = {
-  __typename?: 'StockKeepingEdge';
-  /** The node containing the StockKeeping */
-  node: StockKeeping;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type StoreMaxAggregate = {
+  __typename?: 'StoreMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  storeName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
 };
 
-export type StockKeepingConnection = {
-  __typename?: 'StockKeepingConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<StockKeepingEdge>;
+export type StoreAggregateResponse = {
+  __typename?: 'StoreAggregateResponse';
+  count?: Maybe<StoreCountAggregate>;
+  min?: Maybe<StoreMinAggregate>;
+  max?: Maybe<StoreMaxAggregate>;
+};
+
+export type StoreSkusCountAggregate = {
+  __typename?: 'StoreSkusCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+  available_quantity?: Maybe<Scalars['Int']>;
+  threshold?: Maybe<Scalars['Int']>;
+  multiple?: Maybe<Scalars['Int']>;
+  backorder?: Maybe<Scalars['Int']>;
+  stockstatus?: Maybe<Scalars['Int']>;
+  sku?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
+};
+
+export type StoreSkusSumAggregate = {
+  __typename?: 'StoreSkusSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+};
+
+export type StoreSkusAvgAggregate = {
+  __typename?: 'StoreSkusAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+};
+
+export type StoreSkusMinAggregate = {
+  __typename?: 'StoreSkusMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type StoreSkusMaxAggregate = {
+  __typename?: 'StoreSkusMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type StoreSkusAggregateResponse = {
+  __typename?: 'StoreSkusAggregateResponse';
+  count?: Maybe<StoreSkusCountAggregate>;
+  sum?: Maybe<StoreSkusSumAggregate>;
+  avg?: Maybe<StoreSkusAvgAggregate>;
+  min?: Maybe<StoreSkusMinAggregate>;
+  max?: Maybe<StoreSkusMaxAggregate>;
 };
 
 export type TaxCategoryDeleteResponse = {
@@ -1519,36 +2303,82 @@ export type TaxCategoryDeleteResponse = {
   name?: Maybe<Scalars['String']>;
 };
 
-export type TaxCategoryEdge = {
-  __typename?: 'TaxCategoryEdge';
-  /** The node containing the TaxCategory */
-  node: TaxCategory;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type TaxCategoryCountAggregate = {
+  __typename?: 'TaxCategoryCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
 };
 
-export type TaxCategoryConnection = {
-  __typename?: 'TaxCategoryConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<TaxCategoryEdge>;
+export type TaxCategoryMinAggregate = {
+  __typename?: 'TaxCategoryMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
 };
 
-export type TaxRateEdge = {
-  __typename?: 'TaxRateEdge';
-  /** The node containing the TaxRate */
-  node: TaxRate;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type TaxCategoryMaxAggregate = {
+  __typename?: 'TaxCategoryMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
 };
 
-export type TaxRateConnection = {
-  __typename?: 'TaxRateConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<TaxRateEdge>;
+export type TaxCategoryAggregateResponse = {
+  __typename?: 'TaxCategoryAggregateResponse';
+  count?: Maybe<TaxCategoryCountAggregate>;
+  min?: Maybe<TaxCategoryMinAggregate>;
+  max?: Maybe<TaxCategoryMaxAggregate>;
+};
+
+export type TaxCategoryRatesCountAggregate = {
+  __typename?: 'TaxCategoryRatesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+};
+
+export type TaxCategoryRatesSumAggregate = {
+  __typename?: 'TaxCategoryRatesSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxCategoryRatesAvgAggregate = {
+  __typename?: 'TaxCategoryRatesAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxCategoryRatesMinAggregate = {
+  __typename?: 'TaxCategoryRatesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxCategoryRatesMaxAggregate = {
+  __typename?: 'TaxCategoryRatesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxCategoryRatesAggregateResponse = {
+  __typename?: 'TaxCategoryRatesAggregateResponse';
+  count?: Maybe<TaxCategoryRatesCountAggregate>;
+  sum?: Maybe<TaxCategoryRatesSumAggregate>;
+  avg?: Maybe<TaxCategoryRatesAvgAggregate>;
+  min?: Maybe<TaxCategoryRatesMinAggregate>;
+  max?: Maybe<TaxCategoryRatesMaxAggregate>;
 };
 
 export type TaxRateDeleteResponse = {
@@ -1561,20 +2391,95 @@ export type TaxRateDeleteResponse = {
   enabled?: Maybe<Scalars['Boolean']>;
 };
 
-export type ProductVariantPriceEdge = {
-  __typename?: 'ProductVariantPriceEdge';
-  /** The node containing the ProductVariantPrice */
-  node: ProductVariantPrice;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type TaxRateCountAggregate = {
+  __typename?: 'TaxRateCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
 };
 
-export type ProductVariantPriceConnection = {
-  __typename?: 'ProductVariantPriceConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ProductVariantPriceEdge>;
+export type TaxRateSumAggregate = {
+  __typename?: 'TaxRateSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateAvgAggregate = {
+  __typename?: 'TaxRateAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateMinAggregate = {
+  __typename?: 'TaxRateMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateMaxAggregate = {
+  __typename?: 'TaxRateMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateAggregateResponse = {
+  __typename?: 'TaxRateAggregateResponse';
+  count?: Maybe<TaxRateCountAggregate>;
+  sum?: Maybe<TaxRateSumAggregate>;
+  avg?: Maybe<TaxRateAvgAggregate>;
+  min?: Maybe<TaxRateMinAggregate>;
+  max?: Maybe<TaxRateMaxAggregate>;
+};
+
+export type TaxRateVariantsCountAggregate = {
+  __typename?: 'TaxRateVariantsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Int']>;
+  taxIncluded?: Maybe<Scalars['Int']>;
+};
+
+export type TaxRateVariantsSumAggregate = {
+  __typename?: 'TaxRateVariantsSumAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateVariantsAvgAggregate = {
+  __typename?: 'TaxRateVariantsAvgAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateVariantsMinAggregate = {
+  __typename?: 'TaxRateVariantsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateVariantsMaxAggregate = {
+  __typename?: 'TaxRateVariantsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type TaxRateVariantsAggregateResponse = {
+  __typename?: 'TaxRateVariantsAggregateResponse';
+  count?: Maybe<TaxRateVariantsCountAggregate>;
+  sum?: Maybe<TaxRateVariantsSumAggregate>;
+  avg?: Maybe<TaxRateVariantsAvgAggregate>;
+  min?: Maybe<TaxRateVariantsMinAggregate>;
+  max?: Maybe<TaxRateVariantsMaxAggregate>;
 };
 
 export type VendorDto = {
@@ -1584,20 +2489,51 @@ export type VendorDto = {
   vendor: Vendor;
 };
 
-export type VendorEdge = {
-  __typename?: 'VendorEdge';
-  /** The node containing the Vendor */
-  node: Vendor;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type VendorDeleteResponse = {
+  __typename?: 'VendorDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  vendorName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
 };
 
-export type VendorConnection = {
-  __typename?: 'VendorConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<VendorEdge>;
+export type VendorCountAggregate = {
+  __typename?: 'VendorCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  vendorName?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  email?: Maybe<Scalars['Int']>;
+};
+
+export type VendorMinAggregate = {
+  __typename?: 'VendorMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  vendorName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
+export type VendorMaxAggregate = {
+  __typename?: 'VendorMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  vendorName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
+export type VendorAggregateResponse = {
+  __typename?: 'VendorAggregateResponse';
+  count?: Maybe<VendorCountAggregate>;
+  min?: Maybe<VendorMinAggregate>;
+  max?: Maybe<VendorMaxAggregate>;
 };
 
 export type ZoneDeleteResponse = {
@@ -1608,36 +2544,169 @@ export type ZoneDeleteResponse = {
   name?: Maybe<Scalars['String']>;
 };
 
-export type ZoneEdge = {
-  __typename?: 'ZoneEdge';
-  /** The node containing the Zone */
-  node: Zone;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ZoneCountAggregate = {
+  __typename?: 'ZoneCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
 };
 
-export type ZoneConnection = {
-  __typename?: 'ZoneConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ZoneEdge>;
+export type ZoneMinAggregate = {
+  __typename?: 'ZoneMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
 };
 
-export type CountryEdge = {
-  __typename?: 'CountryEdge';
-  /** The node containing the Country */
-  node: Country;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ZoneMaxAggregate = {
+  __typename?: 'ZoneMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
 };
 
-export type CountryConnection = {
-  __typename?: 'CountryConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<CountryEdge>;
+export type ZoneAggregateResponse = {
+  __typename?: 'ZoneAggregateResponse';
+  count?: Maybe<ZoneCountAggregate>;
+  min?: Maybe<ZoneMinAggregate>;
+  max?: Maybe<ZoneMaxAggregate>;
+};
+
+export type ZoneMembersCountAggregate = {
+  __typename?: 'ZoneMembersCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+};
+
+export type ZoneMembersMinAggregate = {
+  __typename?: 'ZoneMembersMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ZoneMembersMaxAggregate = {
+  __typename?: 'ZoneMembersMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ZoneMembersAggregateResponse = {
+  __typename?: 'ZoneMembersAggregateResponse';
+  count?: Maybe<ZoneMembersCountAggregate>;
+  min?: Maybe<ZoneMembersMinAggregate>;
+  max?: Maybe<ZoneMembersMaxAggregate>;
+};
+
+export type ZoneStoresCountAggregate = {
+  __typename?: 'ZoneStoresCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  storeName?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  officialemail?: Maybe<Scalars['Int']>;
+  zipcode?: Maybe<Scalars['Int']>;
+  streetAddress1?: Maybe<Scalars['Int']>;
+  streetAddress2?: Maybe<Scalars['Int']>;
+  GSTIN?: Maybe<Scalars['Int']>;
+  singleStore?: Maybe<Scalars['Int']>;
+  rentalStore?: Maybe<Scalars['Int']>;
+  channelMarkets?: Maybe<Scalars['Int']>;
+};
+
+export type ZoneStoresMinAggregate = {
+  __typename?: 'ZoneStoresMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  storeName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
+};
+
+export type ZoneStoresMaxAggregate = {
+  __typename?: 'ZoneStoresMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  storeName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
+};
+
+export type ZoneStoresAggregateResponse = {
+  __typename?: 'ZoneStoresAggregateResponse';
+  count?: Maybe<ZoneStoresCountAggregate>;
+  min?: Maybe<ZoneStoresMinAggregate>;
+  max?: Maybe<ZoneStoresMaxAggregate>;
+};
+
+export type ZoneTaxratesCountAggregate = {
+  __typename?: 'ZoneTaxratesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+};
+
+export type ZoneTaxratesSumAggregate = {
+  __typename?: 'ZoneTaxratesSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ZoneTaxratesAvgAggregate = {
+  __typename?: 'ZoneTaxratesAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ZoneTaxratesMinAggregate = {
+  __typename?: 'ZoneTaxratesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ZoneTaxratesMaxAggregate = {
+  __typename?: 'ZoneTaxratesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ZoneTaxratesAggregateResponse = {
+  __typename?: 'ZoneTaxratesAggregateResponse';
+  count?: Maybe<ZoneTaxratesCountAggregate>;
+  sum?: Maybe<ZoneTaxratesSumAggregate>;
+  avg?: Maybe<ZoneTaxratesAvgAggregate>;
+  min?: Maybe<ZoneTaxratesMinAggregate>;
+  max?: Maybe<ZoneTaxratesMaxAggregate>;
 };
 
 export type CountryDeleteResponse = {
@@ -1648,6 +2717,124 @@ export type CountryDeleteResponse = {
   code?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type CountryCountAggregate = {
+  __typename?: 'CountryCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+};
+
+export type CountryMinAggregate = {
+  __typename?: 'CountryMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CountryMaxAggregate = {
+  __typename?: 'CountryMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CountryAggregateResponse = {
+  __typename?: 'CountryAggregateResponse';
+  count?: Maybe<CountryCountAggregate>;
+  min?: Maybe<CountryMinAggregate>;
+  max?: Maybe<CountryMaxAggregate>;
+};
+
+export type CountryStoresCountAggregate = {
+  __typename?: 'CountryStoresCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  storeName?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  officialemail?: Maybe<Scalars['Int']>;
+  zipcode?: Maybe<Scalars['Int']>;
+  streetAddress1?: Maybe<Scalars['Int']>;
+  streetAddress2?: Maybe<Scalars['Int']>;
+  GSTIN?: Maybe<Scalars['Int']>;
+  singleStore?: Maybe<Scalars['Int']>;
+  rentalStore?: Maybe<Scalars['Int']>;
+  channelMarkets?: Maybe<Scalars['Int']>;
+};
+
+export type CountryStoresMinAggregate = {
+  __typename?: 'CountryStoresMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  storeName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
+};
+
+export type CountryStoresMaxAggregate = {
+  __typename?: 'CountryStoresMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  storeName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
+};
+
+export type CountryStoresAggregateResponse = {
+  __typename?: 'CountryStoresAggregateResponse';
+  count?: Maybe<CountryStoresCountAggregate>;
+  min?: Maybe<CountryStoresMinAggregate>;
+  max?: Maybe<CountryStoresMaxAggregate>;
+};
+
+export type CountryZonesCountAggregate = {
+  __typename?: 'CountryZonesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+};
+
+export type CountryZonesMinAggregate = {
+  __typename?: 'CountryZonesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CountryZonesMaxAggregate = {
+  __typename?: 'CountryZonesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CountryZonesAggregateResponse = {
+  __typename?: 'CountryZonesAggregateResponse';
+  count?: Maybe<CountryZonesCountAggregate>;
+  min?: Maybe<CountryZonesMinAggregate>;
+  max?: Maybe<CountryZonesMaxAggregate>;
 };
 
 export type SeoDeleteResponse = {
@@ -1662,20 +2849,41 @@ export type SeoDeleteResponse = {
   metadesc?: Maybe<Scalars['String']>;
 };
 
-export type SeoEdge = {
-  __typename?: 'SeoEdge';
-  /** The node containing the Seo */
-  node: Seo;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type SeoCountAggregate = {
+  __typename?: 'SeoCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  deletedAt?: Maybe<Scalars['Int']>;
+  urlKey?: Maybe<Scalars['Int']>;
+  metatitle?: Maybe<Scalars['Int']>;
 };
 
-export type SeoConnection = {
-  __typename?: 'SeoConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<SeoEdge>;
+export type SeoMinAggregate = {
+  __typename?: 'SeoMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  urlKey?: Maybe<Scalars['String']>;
+  metatitle?: Maybe<Scalars['String']>;
+};
+
+export type SeoMaxAggregate = {
+  __typename?: 'SeoMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  urlKey?: Maybe<Scalars['String']>;
+  metatitle?: Maybe<Scalars['String']>;
+};
+
+export type SeoAggregateResponse = {
+  __typename?: 'SeoAggregateResponse';
+  count?: Maybe<SeoCountAggregate>;
+  min?: Maybe<SeoMinAggregate>;
+  max?: Maybe<SeoMaxAggregate>;
 };
 
 export type FacetDeleteResponse = {
@@ -1688,36 +2896,107 @@ export type FacetDeleteResponse = {
   code?: Maybe<Scalars['String']>;
 };
 
-export type FacetEdge = {
-  __typename?: 'FacetEdge';
-  /** The node containing the Facet */
-  node: Facet;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type FacetCountAggregate = {
+  __typename?: 'FacetCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  isPrivate?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
 };
 
-export type FacetConnection = {
-  __typename?: 'FacetConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<FacetEdge>;
+export type FacetMinAggregate = {
+  __typename?: 'FacetMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
 };
 
-export type FacetValueEdge = {
-  __typename?: 'FacetValueEdge';
-  /** The node containing the FacetValue */
-  node: FacetValue;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type FacetMaxAggregate = {
+  __typename?: 'FacetMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
 };
 
-export type FacetValueConnection = {
-  __typename?: 'FacetValueConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<FacetValueEdge>;
+export type FacetAggregateResponse = {
+  __typename?: 'FacetAggregateResponse';
+  count?: Maybe<FacetCountAggregate>;
+  min?: Maybe<FacetMinAggregate>;
+  max?: Maybe<FacetMaxAggregate>;
+};
+
+export type FacetProductsCountAggregate = {
+  __typename?: 'FacetProductsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  productName?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
+};
+
+export type FacetProductsMinAggregate = {
+  __typename?: 'FacetProductsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type FacetProductsMaxAggregate = {
+  __typename?: 'FacetProductsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type FacetProductsAggregateResponse = {
+  __typename?: 'FacetProductsAggregateResponse';
+  count?: Maybe<FacetProductsCountAggregate>;
+  min?: Maybe<FacetProductsMinAggregate>;
+  max?: Maybe<FacetProductsMaxAggregate>;
+};
+
+export type FacetValuesCountAggregate = {
+  __typename?: 'FacetValuesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type FacetValuesMinAggregate = {
+  __typename?: 'FacetValuesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type FacetValuesMaxAggregate = {
+  __typename?: 'FacetValuesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type FacetValuesAggregateResponse = {
+  __typename?: 'FacetValuesAggregateResponse';
+  count?: Maybe<FacetValuesCountAggregate>;
+  min?: Maybe<FacetValuesMinAggregate>;
+  max?: Maybe<FacetValuesMaxAggregate>;
 };
 
 export type FacetValueDeleteResponse = {
@@ -1726,6 +3005,74 @@ export type FacetValueDeleteResponse = {
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   code?: Maybe<Scalars['String']>;
+};
+
+export type FacetValueCountAggregate = {
+  __typename?: 'FacetValueCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type FacetValueMinAggregate = {
+  __typename?: 'FacetValueMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type FacetValueMaxAggregate = {
+  __typename?: 'FacetValueMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type FacetValueAggregateResponse = {
+  __typename?: 'FacetValueAggregateResponse';
+  count?: Maybe<FacetValueCountAggregate>;
+  min?: Maybe<FacetValueMinAggregate>;
+  max?: Maybe<FacetValueMaxAggregate>;
+};
+
+export type FacetValueProductsCountAggregate = {
+  __typename?: 'FacetValueProductsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  productName?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
+};
+
+export type FacetValueProductsMinAggregate = {
+  __typename?: 'FacetValueProductsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type FacetValueProductsMaxAggregate = {
+  __typename?: 'FacetValueProductsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type FacetValueProductsAggregateResponse = {
+  __typename?: 'FacetValueProductsAggregateResponse';
+  count?: Maybe<FacetValueProductsCountAggregate>;
+  min?: Maybe<FacetValueProductsMinAggregate>;
+  max?: Maybe<FacetValueProductsMaxAggregate>;
 };
 
 export type ProductDeleteResponse = {
@@ -1738,36 +3085,188 @@ export type ProductDeleteResponse = {
   description?: Maybe<Scalars['String']>;
 };
 
-export type ProductOptionGroupEdge = {
-  __typename?: 'ProductOptionGroupEdge';
-  /** The node containing the ProductOptionGroup */
-  node: ProductOptionGroup;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ProductCountAggregate = {
+  __typename?: 'ProductCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  productName?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
 };
 
-export type ProductOptionGroupConnection = {
-  __typename?: 'ProductOptionGroupConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ProductOptionGroupEdge>;
+export type ProductMinAggregate = {
+  __typename?: 'ProductMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
 };
 
-export type ProductVariantEdge = {
-  __typename?: 'ProductVariantEdge';
-  /** The node containing the ProductVariant */
-  node: ProductVariant;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ProductMaxAggregate = {
+  __typename?: 'ProductMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
 };
 
-export type ProductVariantConnection = {
-  __typename?: 'ProductVariantConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ProductVariantEdge>;
+export type ProductAggregateResponse = {
+  __typename?: 'ProductAggregateResponse';
+  count?: Maybe<ProductCountAggregate>;
+  min?: Maybe<ProductMinAggregate>;
+  max?: Maybe<ProductMaxAggregate>;
+};
+
+export type ProductOptionsCountAggregate = {
+  __typename?: 'ProductOptionsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type ProductOptionsMinAggregate = {
+  __typename?: 'ProductOptionsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionsMaxAggregate = {
+  __typename?: 'ProductOptionsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionsAggregateResponse = {
+  __typename?: 'ProductOptionsAggregateResponse';
+  count?: Maybe<ProductOptionsCountAggregate>;
+  min?: Maybe<ProductOptionsMinAggregate>;
+  max?: Maybe<ProductOptionsMaxAggregate>;
+};
+
+export type ProductFacetsCountAggregate = {
+  __typename?: 'ProductFacetsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type ProductFacetsMinAggregate = {
+  __typename?: 'ProductFacetsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductFacetsMaxAggregate = {
+  __typename?: 'ProductFacetsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductFacetsAggregateResponse = {
+  __typename?: 'ProductFacetsAggregateResponse';
+  count?: Maybe<ProductFacetsCountAggregate>;
+  min?: Maybe<ProductFacetsMinAggregate>;
+  max?: Maybe<ProductFacetsMaxAggregate>;
+};
+
+export type ProductVariantsCountAggregate = {
+  __typename?: 'ProductVariantsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  deletedAt?: Maybe<Scalars['Int']>;
+  dum_price?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+  sku?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  trackInventory?: Maybe<Scalars['Int']>;
+};
+
+export type ProductVariantsSumAggregate = {
+  __typename?: 'ProductVariantsSumAggregate';
+  dum_price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantsAvgAggregate = {
+  __typename?: 'ProductVariantsAvgAggregate';
+  dum_price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantsMinAggregate = {
+  __typename?: 'ProductVariantsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  dum_price?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ProductVariantsMaxAggregate = {
+  __typename?: 'ProductVariantsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  dum_price?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ProductVariantsAggregateResponse = {
+  __typename?: 'ProductVariantsAggregateResponse';
+  count?: Maybe<ProductVariantsCountAggregate>;
+  sum?: Maybe<ProductVariantsSumAggregate>;
+  avg?: Maybe<ProductVariantsAvgAggregate>;
+  min?: Maybe<ProductVariantsMinAggregate>;
+  max?: Maybe<ProductVariantsMaxAggregate>;
+};
+
+export type ProductAssetsCountAggregate = {
+  __typename?: 'ProductAssetsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+};
+
+export type ProductAssetsMinAggregate = {
+  __typename?: 'ProductAssetsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProductAssetsMaxAggregate = {
+  __typename?: 'ProductAssetsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProductAssetsAggregateResponse = {
+  __typename?: 'ProductAssetsAggregateResponse';
+  count?: Maybe<ProductAssetsCountAggregate>;
+  min?: Maybe<ProductAssetsMinAggregate>;
+  max?: Maybe<ProductAssetsMaxAggregate>;
 };
 
 export type ProductVariantDeleteResponse = {
@@ -1783,6 +3282,122 @@ export type ProductVariantDeleteResponse = {
   trackInventory?: Maybe<Scalars['Boolean']>;
 };
 
+export type ProductVariantCountAggregate = {
+  __typename?: 'ProductVariantCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  deletedAt?: Maybe<Scalars['Int']>;
+  dum_price?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+  sku?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  trackInventory?: Maybe<Scalars['Int']>;
+};
+
+export type ProductVariantSumAggregate = {
+  __typename?: 'ProductVariantSumAggregate';
+  dum_price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantAvgAggregate = {
+  __typename?: 'ProductVariantAvgAggregate';
+  dum_price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantMinAggregate = {
+  __typename?: 'ProductVariantMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  dum_price?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ProductVariantMaxAggregate = {
+  __typename?: 'ProductVariantMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  dum_price?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ProductVariantAggregateResponse = {
+  __typename?: 'ProductVariantAggregateResponse';
+  count?: Maybe<ProductVariantCountAggregate>;
+  sum?: Maybe<ProductVariantSumAggregate>;
+  avg?: Maybe<ProductVariantAvgAggregate>;
+  min?: Maybe<ProductVariantMinAggregate>;
+  max?: Maybe<ProductVariantMaxAggregate>;
+};
+
+export type ProductVariantStocksCountAggregate = {
+  __typename?: 'ProductVariantStocksCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+  available_quantity?: Maybe<Scalars['Int']>;
+  threshold?: Maybe<Scalars['Int']>;
+  multiple?: Maybe<Scalars['Int']>;
+  backorder?: Maybe<Scalars['Int']>;
+  stockstatus?: Maybe<Scalars['Int']>;
+  sku?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
+};
+
+export type ProductVariantStocksSumAggregate = {
+  __typename?: 'ProductVariantStocksSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantStocksAvgAggregate = {
+  __typename?: 'ProductVariantStocksAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantStocksMinAggregate = {
+  __typename?: 'ProductVariantStocksMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type ProductVariantStocksMaxAggregate = {
+  __typename?: 'ProductVariantStocksMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type ProductVariantStocksAggregateResponse = {
+  __typename?: 'ProductVariantStocksAggregateResponse';
+  count?: Maybe<ProductVariantStocksCountAggregate>;
+  sum?: Maybe<ProductVariantStocksSumAggregate>;
+  avg?: Maybe<ProductVariantStocksAvgAggregate>;
+  min?: Maybe<ProductVariantStocksMinAggregate>;
+  max?: Maybe<ProductVariantStocksMaxAggregate>;
+};
+
 export type ProductOptionDeleteResponse = {
   __typename?: 'ProductOptionDeleteResponse';
   id?: Maybe<Scalars['ID']>;
@@ -1792,20 +3407,92 @@ export type ProductOptionDeleteResponse = {
   code?: Maybe<Scalars['String']>;
 };
 
-export type ProductOptionEdge = {
-  __typename?: 'ProductOptionEdge';
-  /** The node containing the ProductOption */
-  node: ProductOption;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ProductOptionCountAggregate = {
+  __typename?: 'ProductOptionCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
 };
 
-export type ProductOptionConnection = {
-  __typename?: 'ProductOptionConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ProductOptionEdge>;
+export type ProductOptionMinAggregate = {
+  __typename?: 'ProductOptionMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionMaxAggregate = {
+  __typename?: 'ProductOptionMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionAggregateResponse = {
+  __typename?: 'ProductOptionAggregateResponse';
+  count?: Maybe<ProductOptionCountAggregate>;
+  min?: Maybe<ProductOptionMinAggregate>;
+  max?: Maybe<ProductOptionMaxAggregate>;
+};
+
+export type ProductOptionVariantsCountAggregate = {
+  __typename?: 'ProductOptionVariantsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  deletedAt?: Maybe<Scalars['Int']>;
+  dum_price?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+  sku?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  trackInventory?: Maybe<Scalars['Int']>;
+};
+
+export type ProductOptionVariantsSumAggregate = {
+  __typename?: 'ProductOptionVariantsSumAggregate';
+  dum_price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductOptionVariantsAvgAggregate = {
+  __typename?: 'ProductOptionVariantsAvgAggregate';
+  dum_price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductOptionVariantsMinAggregate = {
+  __typename?: 'ProductOptionVariantsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  dum_price?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionVariantsMaxAggregate = {
+  __typename?: 'ProductOptionVariantsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  dum_price?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionVariantsAggregateResponse = {
+  __typename?: 'ProductOptionVariantsAggregateResponse';
+  count?: Maybe<ProductOptionVariantsCountAggregate>;
+  sum?: Maybe<ProductOptionVariantsSumAggregate>;
+  avg?: Maybe<ProductOptionVariantsAvgAggregate>;
+  min?: Maybe<ProductOptionVariantsMinAggregate>;
+  max?: Maybe<ProductOptionVariantsMaxAggregate>;
 };
 
 export type ProductOptionGroupDeleteResponse = {
@@ -1817,6 +3504,74 @@ export type ProductOptionGroupDeleteResponse = {
   code?: Maybe<Scalars['String']>;
 };
 
+export type ProductOptionGroupCountAggregate = {
+  __typename?: 'ProductOptionGroupCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type ProductOptionGroupMinAggregate = {
+  __typename?: 'ProductOptionGroupMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionGroupMaxAggregate = {
+  __typename?: 'ProductOptionGroupMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionGroupAggregateResponse = {
+  __typename?: 'ProductOptionGroupAggregateResponse';
+  count?: Maybe<ProductOptionGroupCountAggregate>;
+  min?: Maybe<ProductOptionGroupMinAggregate>;
+  max?: Maybe<ProductOptionGroupMaxAggregate>;
+};
+
+export type ProductOptionGroupOptionsCountAggregate = {
+  __typename?: 'ProductOptionGroupOptionsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type ProductOptionGroupOptionsMinAggregate = {
+  __typename?: 'ProductOptionGroupOptionsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionGroupOptionsMaxAggregate = {
+  __typename?: 'ProductOptionGroupOptionsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+};
+
+export type ProductOptionGroupOptionsAggregateResponse = {
+  __typename?: 'ProductOptionGroupOptionsAggregateResponse';
+  count?: Maybe<ProductOptionGroupOptionsCountAggregate>;
+  min?: Maybe<ProductOptionGroupOptionsMinAggregate>;
+  max?: Maybe<ProductOptionGroupOptionsMaxAggregate>;
+};
+
 export type ProductVariantPriceDeleteResponse = {
   __typename?: 'ProductVariantPriceDeleteResponse';
   id?: Maybe<Scalars['ID']>;
@@ -1826,20 +3581,83 @@ export type ProductVariantPriceDeleteResponse = {
   taxIncluded?: Maybe<Scalars['Boolean']>;
 };
 
-export type ProductVariantAssetEdge = {
-  __typename?: 'ProductVariantAssetEdge';
-  /** The node containing the ProductVariantAsset */
-  node: ProductVariantAsset;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ProductVariantPriceCountAggregate = {
+  __typename?: 'ProductVariantPriceCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Int']>;
+  taxIncluded?: Maybe<Scalars['Int']>;
 };
 
-export type ProductVariantAssetConnection = {
-  __typename?: 'ProductVariantAssetConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ProductVariantAssetEdge>;
+export type ProductVariantPriceSumAggregate = {
+  __typename?: 'ProductVariantPriceSumAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPriceAvgAggregate = {
+  __typename?: 'ProductVariantPriceAvgAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPriceMinAggregate = {
+  __typename?: 'ProductVariantPriceMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPriceMaxAggregate = {
+  __typename?: 'ProductVariantPriceMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPriceAggregateResponse = {
+  __typename?: 'ProductVariantPriceAggregateResponse';
+  count?: Maybe<ProductVariantPriceCountAggregate>;
+  sum?: Maybe<ProductVariantPriceSumAggregate>;
+  avg?: Maybe<ProductVariantPriceAvgAggregate>;
+  min?: Maybe<ProductVariantPriceMinAggregate>;
+  max?: Maybe<ProductVariantPriceMaxAggregate>;
+};
+
+export type ProductVariantAssetDeleteResponse = {
+  __typename?: 'ProductVariantAssetDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProductVariantAssetCountAggregate = {
+  __typename?: 'ProductVariantAssetCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+};
+
+export type ProductVariantAssetMinAggregate = {
+  __typename?: 'ProductVariantAssetMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProductVariantAssetMaxAggregate = {
+  __typename?: 'ProductVariantAssetMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProductVariantAssetAggregateResponse = {
+  __typename?: 'ProductVariantAssetAggregateResponse';
+  count?: Maybe<ProductVariantAssetCountAggregate>;
+  min?: Maybe<ProductVariantAssetMinAggregate>;
+  max?: Maybe<ProductVariantAssetMaxAggregate>;
 };
 
 export type ProductAssetDeleteResponse = {
@@ -1849,36 +3667,154 @@ export type ProductAssetDeleteResponse = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type VendorPlansEdge = {
-  __typename?: 'VendorPlansEdge';
-  /** The node containing the VendorPlans */
-  node: VendorPlans;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ProductAssetCountAggregate = {
+  __typename?: 'ProductAssetCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
 };
 
-export type VendorPlansConnection = {
-  __typename?: 'VendorPlansConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<VendorPlansEdge>;
+export type ProductAssetMinAggregate = {
+  __typename?: 'ProductAssetMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type VendorLicenseEdge = {
-  __typename?: 'VendorLicenseEdge';
-  /** The node containing the VendorLicense */
-  node: VendorLicense;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ProductAssetMaxAggregate = {
+  __typename?: 'ProductAssetMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type VendorLicenseConnection = {
-  __typename?: 'VendorLicenseConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<VendorLicenseEdge>;
+export type ProductAssetAggregateResponse = {
+  __typename?: 'ProductAssetAggregateResponse';
+  count?: Maybe<ProductAssetCountAggregate>;
+  min?: Maybe<ProductAssetMinAggregate>;
+  max?: Maybe<ProductAssetMaxAggregate>;
+};
+
+export type VendorPlansDeleteResponse = {
+  __typename?: 'VendorPlansDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  isActive?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  planValue?: Maybe<Scalars['Float']>;
+  priceStrategy?: Maybe<Scalars['String']>;
+  tenureStrategy?: Maybe<VendorPlanTenure>;
+};
+
+export type VendorPlansCountAggregate = {
+  __typename?: 'VendorPlansCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  isActive?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  planValue?: Maybe<Scalars['Int']>;
+};
+
+export type VendorPlansSumAggregate = {
+  __typename?: 'VendorPlansSumAggregate';
+  planValue?: Maybe<Scalars['Float']>;
+};
+
+export type VendorPlansAvgAggregate = {
+  __typename?: 'VendorPlansAvgAggregate';
+  planValue?: Maybe<Scalars['Float']>;
+};
+
+export type VendorPlansMinAggregate = {
+  __typename?: 'VendorPlansMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  planValue?: Maybe<Scalars['Float']>;
+};
+
+export type VendorPlansMaxAggregate = {
+  __typename?: 'VendorPlansMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  planValue?: Maybe<Scalars['Float']>;
+};
+
+export type VendorPlansAggregateResponse = {
+  __typename?: 'VendorPlansAggregateResponse';
+  count?: Maybe<VendorPlansCountAggregate>;
+  sum?: Maybe<VendorPlansSumAggregate>;
+  avg?: Maybe<VendorPlansAvgAggregate>;
+  min?: Maybe<VendorPlansMinAggregate>;
+  max?: Maybe<VendorPlansMaxAggregate>;
+};
+
+export type VendorPlansLicencesCountAggregate = {
+  __typename?: 'VendorPlansLicencesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  tenureStart?: Maybe<Scalars['Int']>;
+  tenureEnd?: Maybe<Scalars['Int']>;
+};
+
+export type VendorPlansLicencesMinAggregate = {
+  __typename?: 'VendorPlansLicencesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  tenureStart?: Maybe<Scalars['DateTime']>;
+  tenureEnd?: Maybe<Scalars['DateTime']>;
+};
+
+export type VendorPlansLicencesMaxAggregate = {
+  __typename?: 'VendorPlansLicencesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  tenureStart?: Maybe<Scalars['DateTime']>;
+  tenureEnd?: Maybe<Scalars['DateTime']>;
+};
+
+export type VendorPlansLicencesAggregateResponse = {
+  __typename?: 'VendorPlansLicencesAggregateResponse';
+  count?: Maybe<VendorPlansLicencesCountAggregate>;
+  min?: Maybe<VendorPlansLicencesMinAggregate>;
+  max?: Maybe<VendorPlansLicencesMaxAggregate>;
+};
+
+export type VendorLicenseDeleteResponse = {
+  __typename?: 'VendorLicenseDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  tenureStart?: Maybe<Scalars['DateTime']>;
+  tenureEnd?: Maybe<Scalars['DateTime']>;
+};
+
+export type VendorLicenseCountAggregate = {
+  __typename?: 'VendorLicenseCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  tenureStart?: Maybe<Scalars['Int']>;
+  tenureEnd?: Maybe<Scalars['Int']>;
+};
+
+export type VendorLicenseMinAggregate = {
+  __typename?: 'VendorLicenseMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  tenureStart?: Maybe<Scalars['DateTime']>;
+  tenureEnd?: Maybe<Scalars['DateTime']>;
+};
+
+export type VendorLicenseMaxAggregate = {
+  __typename?: 'VendorLicenseMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  tenureStart?: Maybe<Scalars['DateTime']>;
+  tenureEnd?: Maybe<Scalars['DateTime']>;
+};
+
+export type VendorLicenseAggregateResponse = {
+  __typename?: 'VendorLicenseAggregateResponse';
+  count?: Maybe<VendorLicenseCountAggregate>;
+  min?: Maybe<VendorLicenseMinAggregate>;
+  max?: Maybe<VendorLicenseMaxAggregate>;
 };
 
 export type StockKeepingDeleteResponse = {
@@ -1896,52 +3832,195 @@ export type StockKeepingDeleteResponse = {
   type?: Maybe<Scalars['String']>;
 };
 
-export type SaleEdge = {
-  __typename?: 'SaleEdge';
-  /** The node containing the Sale */
-  node: Sale;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type StockKeepingCountAggregate = {
+  __typename?: 'StockKeepingCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+  available_quantity?: Maybe<Scalars['Int']>;
+  threshold?: Maybe<Scalars['Int']>;
+  multiple?: Maybe<Scalars['Int']>;
+  backorder?: Maybe<Scalars['Int']>;
+  stockstatus?: Maybe<Scalars['Int']>;
+  sku?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
 };
 
-export type SaleConnection = {
-  __typename?: 'SaleConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<SaleEdge>;
+export type StockKeepingSumAggregate = {
+  __typename?: 'StockKeepingSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
 };
 
-export type CancellationEdge = {
-  __typename?: 'CancellationEdge';
-  /** The node containing the Cancellation */
-  node: Cancellation;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type StockKeepingAvgAggregate = {
+  __typename?: 'StockKeepingAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
 };
 
-export type CancellationConnection = {
-  __typename?: 'CancellationConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<CancellationEdge>;
+export type StockKeepingMinAggregate = {
+  __typename?: 'StockKeepingMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
-export type StockMovementEdge = {
-  __typename?: 'StockMovementEdge';
-  /** The node containing the StockMovement */
-  node: StockMovement;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type StockKeepingMaxAggregate = {
+  __typename?: 'StockKeepingMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+  available_quantity?: Maybe<Scalars['Float']>;
+  threshold?: Maybe<Scalars['Float']>;
+  sku?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
-export type StockMovementConnection = {
-  __typename?: 'StockMovementConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<StockMovementEdge>;
+export type StockKeepingAggregateResponse = {
+  __typename?: 'StockKeepingAggregateResponse';
+  count?: Maybe<StockKeepingCountAggregate>;
+  sum?: Maybe<StockKeepingSumAggregate>;
+  avg?: Maybe<StockKeepingAvgAggregate>;
+  min?: Maybe<StockKeepingMinAggregate>;
+  max?: Maybe<StockKeepingMaxAggregate>;
+};
+
+export type StockKeepingSalesCountAggregate = {
+  __typename?: 'StockKeepingSalesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type StockKeepingSalesSumAggregate = {
+  __typename?: 'StockKeepingSalesSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingSalesAvgAggregate = {
+  __typename?: 'StockKeepingSalesAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingSalesMinAggregate = {
+  __typename?: 'StockKeepingSalesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingSalesMaxAggregate = {
+  __typename?: 'StockKeepingSalesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingSalesAggregateResponse = {
+  __typename?: 'StockKeepingSalesAggregateResponse';
+  count?: Maybe<StockKeepingSalesCountAggregate>;
+  sum?: Maybe<StockKeepingSalesSumAggregate>;
+  avg?: Maybe<StockKeepingSalesAvgAggregate>;
+  min?: Maybe<StockKeepingSalesMinAggregate>;
+  max?: Maybe<StockKeepingSalesMaxAggregate>;
+};
+
+export type StockKeepingCancelsCountAggregate = {
+  __typename?: 'StockKeepingCancelsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type StockKeepingCancelsSumAggregate = {
+  __typename?: 'StockKeepingCancelsSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingCancelsAvgAggregate = {
+  __typename?: 'StockKeepingCancelsAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingCancelsMinAggregate = {
+  __typename?: 'StockKeepingCancelsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingCancelsMaxAggregate = {
+  __typename?: 'StockKeepingCancelsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingCancelsAggregateResponse = {
+  __typename?: 'StockKeepingCancelsAggregateResponse';
+  count?: Maybe<StockKeepingCancelsCountAggregate>;
+  sum?: Maybe<StockKeepingCancelsSumAggregate>;
+  avg?: Maybe<StockKeepingCancelsAvgAggregate>;
+  min?: Maybe<StockKeepingCancelsMinAggregate>;
+  max?: Maybe<StockKeepingCancelsMaxAggregate>;
+};
+
+export type StockKeepingMovementsCountAggregate = {
+  __typename?: 'StockKeepingMovementsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type StockKeepingMovementsSumAggregate = {
+  __typename?: 'StockKeepingMovementsSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingMovementsAvgAggregate = {
+  __typename?: 'StockKeepingMovementsAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingMovementsMinAggregate = {
+  __typename?: 'StockKeepingMovementsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingMovementsMaxAggregate = {
+  __typename?: 'StockKeepingMovementsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockKeepingMovementsAggregateResponse = {
+  __typename?: 'StockKeepingMovementsAggregateResponse';
+  count?: Maybe<StockKeepingMovementsCountAggregate>;
+  sum?: Maybe<StockKeepingMovementsSumAggregate>;
+  avg?: Maybe<StockKeepingMovementsAvgAggregate>;
+  min?: Maybe<StockKeepingMovementsMinAggregate>;
+  max?: Maybe<StockKeepingMovementsMaxAggregate>;
 };
 
 export type SaleDeleteResponse = {
@@ -1952,6 +4031,49 @@ export type SaleDeleteResponse = {
   quantity?: Maybe<Scalars['Float']>;
 };
 
+export type SaleCountAggregate = {
+  __typename?: 'SaleCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type SaleSumAggregate = {
+  __typename?: 'SaleSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type SaleAvgAggregate = {
+  __typename?: 'SaleAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type SaleMinAggregate = {
+  __typename?: 'SaleMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type SaleMaxAggregate = {
+  __typename?: 'SaleMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type SaleAggregateResponse = {
+  __typename?: 'SaleAggregateResponse';
+  count?: Maybe<SaleCountAggregate>;
+  sum?: Maybe<SaleSumAggregate>;
+  avg?: Maybe<SaleAvgAggregate>;
+  min?: Maybe<SaleMinAggregate>;
+  max?: Maybe<SaleMaxAggregate>;
+};
+
 export type StockMovementDeleteResponse = {
   __typename?: 'StockMovementDeleteResponse';
   id?: Maybe<Scalars['ID']>;
@@ -1960,12 +4082,98 @@ export type StockMovementDeleteResponse = {
   quantity?: Maybe<Scalars['Float']>;
 };
 
+export type StockMovementCountAggregate = {
+  __typename?: 'StockMovementCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type StockMovementSumAggregate = {
+  __typename?: 'StockMovementSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockMovementAvgAggregate = {
+  __typename?: 'StockMovementAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockMovementMinAggregate = {
+  __typename?: 'StockMovementMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockMovementMaxAggregate = {
+  __typename?: 'StockMovementMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type StockMovementAggregateResponse = {
+  __typename?: 'StockMovementAggregateResponse';
+  count?: Maybe<StockMovementCountAggregate>;
+  sum?: Maybe<StockMovementSumAggregate>;
+  avg?: Maybe<StockMovementAvgAggregate>;
+  min?: Maybe<StockMovementMinAggregate>;
+  max?: Maybe<StockMovementMaxAggregate>;
+};
+
 export type CancellationDeleteResponse = {
   __typename?: 'CancellationDeleteResponse';
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   quantity?: Maybe<Scalars['Float']>;
+};
+
+export type CancellationCountAggregate = {
+  __typename?: 'CancellationCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type CancellationSumAggregate = {
+  __typename?: 'CancellationSumAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type CancellationAvgAggregate = {
+  __typename?: 'CancellationAvgAggregate';
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type CancellationMinAggregate = {
+  __typename?: 'CancellationMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type CancellationMaxAggregate = {
+  __typename?: 'CancellationMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type CancellationAggregateResponse = {
+  __typename?: 'CancellationAggregateResponse';
+  count?: Maybe<CancellationCountAggregate>;
+  sum?: Maybe<CancellationSumAggregate>;
+  avg?: Maybe<CancellationAvgAggregate>;
+  min?: Maybe<CancellationMinAggregate>;
+  max?: Maybe<CancellationMaxAggregate>;
 };
 
 export type OrderDeleteResponse = {
@@ -1978,20 +4186,53 @@ export type OrderDeleteResponse = {
   address?: Maybe<Scalars['String']>;
 };
 
-export type OrderEdge = {
-  __typename?: 'OrderEdge';
-  /** The node containing the Order */
-  node: Order;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type OrderCountAggregate = {
+  __typename?: 'OrderCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  orderPlacedAt?: Maybe<Scalars['Int']>;
+  totalPrice?: Maybe<Scalars['Int']>;
+  address?: Maybe<Scalars['Int']>;
 };
 
-export type OrderConnection = {
-  __typename?: 'OrderConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<OrderEdge>;
+export type OrderSumAggregate = {
+  __typename?: 'OrderSumAggregate';
+  totalPrice?: Maybe<Scalars['Float']>;
+};
+
+export type OrderAvgAggregate = {
+  __typename?: 'OrderAvgAggregate';
+  totalPrice?: Maybe<Scalars['Float']>;
+};
+
+export type OrderMinAggregate = {
+  __typename?: 'OrderMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  orderPlacedAt?: Maybe<Scalars['DateTime']>;
+  totalPrice?: Maybe<Scalars['Float']>;
+  address?: Maybe<Scalars['String']>;
+};
+
+export type OrderMaxAggregate = {
+  __typename?: 'OrderMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  orderPlacedAt?: Maybe<Scalars['DateTime']>;
+  totalPrice?: Maybe<Scalars['Float']>;
+  address?: Maybe<Scalars['String']>;
+};
+
+export type OrderAggregateResponse = {
+  __typename?: 'OrderAggregateResponse';
+  count?: Maybe<OrderCountAggregate>;
+  sum?: Maybe<OrderSumAggregate>;
+  avg?: Maybe<OrderAvgAggregate>;
+  min?: Maybe<OrderMinAggregate>;
+  max?: Maybe<OrderMaxAggregate>;
 };
 
 export type ZipDeleteResponse = {
@@ -2004,20 +4245,53 @@ export type ZipDeleteResponse = {
   code?: Maybe<Scalars['Float']>;
 };
 
-export type ZipEdge = {
-  __typename?: 'ZipEdge';
-  /** The node containing the Zip */
-  node: Zip;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type ZipCountAggregate = {
+  __typename?: 'ZipCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
 };
 
-export type ZipConnection = {
-  __typename?: 'ZipConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<ZipEdge>;
+export type ZipSumAggregate = {
+  __typename?: 'ZipSumAggregate';
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type ZipAvgAggregate = {
+  __typename?: 'ZipAvgAggregate';
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type ZipMinAggregate = {
+  __typename?: 'ZipMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type ZipMaxAggregate = {
+  __typename?: 'ZipMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type ZipAggregateResponse = {
+  __typename?: 'ZipAggregateResponse';
+  count?: Maybe<ZipCountAggregate>;
+  sum?: Maybe<ZipSumAggregate>;
+  avg?: Maybe<ZipAvgAggregate>;
+  min?: Maybe<ZipMinAggregate>;
+  max?: Maybe<ZipMaxAggregate>;
 };
 
 export type MenuResponseTypes = {
@@ -2035,20 +4309,78 @@ export type MenuDeleteResponse = {
   target?: Maybe<Scalars['String']>;
 };
 
-export type MenuEdge = {
-  __typename?: 'MenuEdge';
-  /** The node containing the Menu */
-  node: Menu;
-  /** Cursor for this node. */
-  cursor: Scalars['ConnectionCursor'];
+export type MenuCountAggregate = {
+  __typename?: 'MenuCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['Int']>;
+  targetId?: Maybe<Scalars['Int']>;
+  target?: Maybe<Scalars['Int']>;
 };
 
-export type MenuConnection = {
-  __typename?: 'MenuConnection';
-  /** Paging information */
-  pageInfo: PageInfo;
-  /** Array of edges. */
-  edges: Array<MenuEdge>;
+export type MenuMinAggregate = {
+  __typename?: 'MenuMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['String']>;
+};
+
+export type MenuMaxAggregate = {
+  __typename?: 'MenuMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['String']>;
+};
+
+export type MenuAggregateResponse = {
+  __typename?: 'MenuAggregateResponse';
+  count?: Maybe<MenuCountAggregate>;
+  min?: Maybe<MenuMinAggregate>;
+  max?: Maybe<MenuMaxAggregate>;
+};
+
+export type MenuChildrenCountAggregate = {
+  __typename?: 'MenuChildrenCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['Int']>;
+  targetId?: Maybe<Scalars['Int']>;
+  target?: Maybe<Scalars['Int']>;
+};
+
+export type MenuChildrenMinAggregate = {
+  __typename?: 'MenuChildrenMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['String']>;
+};
+
+export type MenuChildrenMaxAggregate = {
+  __typename?: 'MenuChildrenMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['String']>;
+};
+
+export type MenuChildrenAggregateResponse = {
+  __typename?: 'MenuChildrenAggregateResponse';
+  count?: Maybe<MenuChildrenCountAggregate>;
+  min?: Maybe<MenuChildrenMinAggregate>;
+  max?: Maybe<MenuChildrenMaxAggregate>;
 };
 
 export type Query = {
@@ -2056,79 +4388,108 @@ export type Query = {
   GetAdministratorData: Administrator;
   GetAllAdministrator: Array<Administrator>;
   asset?: Maybe<Asset>;
-  assets: AssetConnection;
+  assets: Array<Asset>;
+  assetAggregate: AssetAggregateResponse;
   role?: Maybe<Role>;
-  roles: RoleConnection;
+  roles: Array<Role>;
+  roleAggregate: RoleAggregateResponse;
   collection?: Maybe<Collection>;
-  collections: CollectionConnection;
+  collections: Array<Collection>;
+  collectionAggregate: CollectionAggregateResponse;
   GetCollectionTree: Array<Collection>;
   channel?: Maybe<Channel>;
-  channels: ChannelConnection;
+  channels: Array<Channel>;
+  channelAggregate: ChannelAggregateResponse;
   store?: Maybe<Store>;
-  stores: StoreConnection;
+  stores: Array<Store>;
+  storeAggregate: StoreAggregateResponse;
   GetDefaultStore: Store;
   taxCategory?: Maybe<TaxCategory>;
-  taxCategories: TaxCategoryConnection;
+  taxCategories: Array<TaxCategory>;
+  taxCategoryAggregate: TaxCategoryAggregateResponse;
   taxRate?: Maybe<TaxRate>;
-  taxRates: TaxRateConnection;
+  taxRates: Array<TaxRate>;
+  taxRateAggregate: TaxRateAggregateResponse;
   GetAllTaxRates: Array<TaxRate>;
   GetAllTaxCategory: Array<TaxCategory>;
   GetCurrentUser: User;
   vendor?: Maybe<Vendor>;
-  vendors: VendorConnection;
+  vendors: Array<Vendor>;
+  vendorAggregate: VendorAggregateResponse;
   GetVendorInfo?: Maybe<Vendor>;
   zone?: Maybe<Zone>;
-  zones: ZoneConnection;
+  zones: Array<Zone>;
+  zoneAggregate: ZoneAggregateResponse;
   ZoneFindMany: Array<Zone>;
   ZoneFindOne: Zone;
   country?: Maybe<Country>;
-  countries: CountryConnection;
+  countries: Array<Country>;
+  countryAggregate: CountryAggregateResponse;
   GetAllCountries: Array<Country>;
   seo?: Maybe<Seo>;
-  seos: SeoConnection;
+  seos: Array<Seo>;
+  seoAggregate: SeoAggregateResponse;
   facet?: Maybe<Facet>;
-  facets: FacetConnection;
+  facets: Array<Facet>;
+  facetAggregate: FacetAggregateResponse;
   facetValue?: Maybe<FacetValue>;
-  facetValues: FacetValueConnection;
+  facetValues: Array<FacetValue>;
+  facetValueAggregate: FacetValueAggregateResponse;
   product?: Maybe<Product>;
-  products: ProductConnection;
+  products: Array<Product>;
+  productAggregate: ProductAggregateResponse;
   productVariant?: Maybe<ProductVariant>;
-  productVariants: ProductVariantConnection;
+  productVariants: Array<ProductVariant>;
+  productVariantAggregate: ProductVariantAggregateResponse;
   productOption?: Maybe<ProductOption>;
-  productOptions: ProductOptionConnection;
+  productOptions: Array<ProductOption>;
+  productOptionAggregate: ProductOptionAggregateResponse;
   productOptionGroup?: Maybe<ProductOptionGroup>;
-  productOptionGroups: ProductOptionGroupConnection;
+  productOptionGroups: Array<ProductOptionGroup>;
+  productOptionGroupAggregate: ProductOptionGroupAggregateResponse;
   productVariantPrice?: Maybe<ProductVariantPrice>;
-  productVariantPrices: ProductVariantPriceConnection;
+  productVariantPrices: Array<ProductVariantPrice>;
+  productVariantPriceAggregate: ProductVariantPriceAggregateResponse;
   productVariantAsset?: Maybe<ProductVariantAsset>;
-  productVariantAssets: ProductVariantAssetConnection;
+  productVariantAssets: Array<ProductVariantAsset>;
+  productVariantAssetAggregate: ProductVariantAssetAggregateResponse;
   productAsset?: Maybe<ProductAsset>;
-  productAssets: ProductAssetConnection;
-  vendorPlans: VendorPlansConnection;
+  productAssets: Array<ProductAsset>;
+  productAssetAggregate: ProductAssetAggregateResponse;
+  vendorPlans: Array<VendorPlans>;
+  vendorPlansAggregate: VendorPlansAggregateResponse;
   FindAllVendorPlans: Array<VendorPlans>;
   GetVendorPlansForRegistration: Array<VendorPlans>;
   vendorLicense?: Maybe<VendorLicense>;
-  vendorLicenses: VendorLicenseConnection;
+  vendorLicenses: Array<VendorLicense>;
+  vendorLicenseAggregate: VendorLicenseAggregateResponse;
   GetBillingAgreementByVendor: Array<BillingAgreement>;
   GetBillingAgreement: BillingAgreement;
   GetBillingRequestForAgreement: Array<BillingAgreementRequest>;
   stockKeeping?: Maybe<StockKeeping>;
-  stockKeepings: StockKeepingConnection;
+  stockKeepings: Array<StockKeeping>;
+  stockKeepingAggregate: StockKeepingAggregateResponse;
   getStockKeepingVendor?: Maybe<StockKeeping>;
   getStockKeepingByStore: Array<StockKeeping>;
   sale?: Maybe<Sale>;
-  sales: SaleConnection;
+  sales: Array<Sale>;
+  saleAggregate: SaleAggregateResponse;
   stockMovement?: Maybe<StockMovement>;
-  stockMovements: StockMovementConnection;
+  stockMovements: Array<StockMovement>;
+  stockMovementAggregate: StockMovementAggregateResponse;
   cancellation?: Maybe<Cancellation>;
-  cancellations: CancellationConnection;
+  cancellations: Array<Cancellation>;
+  cancellationAggregate: CancellationAggregateResponse;
   order?: Maybe<Order>;
-  orders: OrderConnection;
+  orders: Array<Order>;
+  orderAggregate: OrderAggregateResponse;
   zip?: Maybe<Zip>;
-  zips: ZipConnection;
+  zips: Array<Zip>;
+  zipAggregate: ZipAggregateResponse;
   findAllZip: Array<Zip>;
   menu?: Maybe<Menu>;
-  menus: MenuConnection;
+  menus: Array<Menu>;
+  menuAggregate: MenuAggregateResponse;
   GetMenuTree: MenuResponseTypes;
 };
 
@@ -2144,9 +4505,14 @@ export type QueryAssetArgs = {
 
 
 export type QueryAssetsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<AssetFilter>;
   sorting?: Maybe<Array<AssetSort>>;
+};
+
+
+export type QueryAssetAggregateArgs = {
+  filter?: Maybe<AssetAggregateFilter>;
 };
 
 
@@ -2156,9 +4522,14 @@ export type QueryRoleArgs = {
 
 
 export type QueryRolesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<RoleFilter>;
   sorting?: Maybe<Array<RoleSort>>;
+};
+
+
+export type QueryRoleAggregateArgs = {
+  filter?: Maybe<RoleAggregateFilter>;
 };
 
 
@@ -2168,9 +4539,14 @@ export type QueryCollectionArgs = {
 
 
 export type QueryCollectionsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<CollectionFilter>;
   sorting?: Maybe<Array<CollectionSort>>;
+};
+
+
+export type QueryCollectionAggregateArgs = {
+  filter?: Maybe<CollectionAggregateFilter>;
 };
 
 
@@ -2180,9 +4556,14 @@ export type QueryChannelArgs = {
 
 
 export type QueryChannelsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ChannelFilter>;
   sorting?: Maybe<Array<ChannelSort>>;
+};
+
+
+export type QueryChannelAggregateArgs = {
+  filter?: Maybe<ChannelAggregateFilter>;
 };
 
 
@@ -2192,9 +4573,14 @@ export type QueryStoreArgs = {
 
 
 export type QueryStoresArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StoreFilter>;
   sorting?: Maybe<Array<StoreSort>>;
+};
+
+
+export type QueryStoreAggregateArgs = {
+  filter?: Maybe<StoreAggregateFilter>;
 };
 
 
@@ -2204,9 +4590,14 @@ export type QueryTaxCategoryArgs = {
 
 
 export type QueryTaxCategoriesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<TaxCategoryFilter>;
   sorting?: Maybe<Array<TaxCategorySort>>;
+};
+
+
+export type QueryTaxCategoryAggregateArgs = {
+  filter?: Maybe<TaxCategoryAggregateFilter>;
 };
 
 
@@ -2216,9 +4607,14 @@ export type QueryTaxRateArgs = {
 
 
 export type QueryTaxRatesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<TaxRateFilter>;
   sorting?: Maybe<Array<TaxRateSort>>;
+};
+
+
+export type QueryTaxRateAggregateArgs = {
+  filter?: Maybe<TaxRateAggregateFilter>;
 };
 
 
@@ -2228,9 +4624,14 @@ export type QueryVendorArgs = {
 
 
 export type QueryVendorsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<VendorFilter>;
   sorting?: Maybe<Array<VendorSort>>;
+};
+
+
+export type QueryVendorAggregateArgs = {
+  filter?: Maybe<VendorAggregateFilter>;
 };
 
 
@@ -2240,9 +4641,14 @@ export type QueryZoneArgs = {
 
 
 export type QueryZonesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ZoneFilter>;
   sorting?: Maybe<Array<ZoneSort>>;
+};
+
+
+export type QueryZoneAggregateArgs = {
+  filter?: Maybe<ZoneAggregateFilter>;
 };
 
 
@@ -2257,9 +4663,14 @@ export type QueryCountryArgs = {
 
 
 export type QueryCountriesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<CountryFilter>;
   sorting?: Maybe<Array<CountrySort>>;
+};
+
+
+export type QueryCountryAggregateArgs = {
+  filter?: Maybe<CountryAggregateFilter>;
 };
 
 
@@ -2269,9 +4680,14 @@ export type QuerySeoArgs = {
 
 
 export type QuerySeosArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<SeoFilter>;
   sorting?: Maybe<Array<SeoSort>>;
+};
+
+
+export type QuerySeoAggregateArgs = {
+  filter?: Maybe<SeoAggregateFilter>;
 };
 
 
@@ -2281,9 +4697,14 @@ export type QueryFacetArgs = {
 
 
 export type QueryFacetsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<FacetFilter>;
   sorting?: Maybe<Array<FacetSort>>;
+};
+
+
+export type QueryFacetAggregateArgs = {
+  filter?: Maybe<FacetAggregateFilter>;
 };
 
 
@@ -2293,9 +4714,14 @@ export type QueryFacetValueArgs = {
 
 
 export type QueryFacetValuesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<FacetValueFilter>;
   sorting?: Maybe<Array<FacetValueSort>>;
+};
+
+
+export type QueryFacetValueAggregateArgs = {
+  filter?: Maybe<FacetValueAggregateFilter>;
 };
 
 
@@ -2305,9 +4731,14 @@ export type QueryProductArgs = {
 
 
 export type QueryProductsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductFilter>;
   sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type QueryProductAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
 };
 
 
@@ -2317,9 +4748,14 @@ export type QueryProductVariantArgs = {
 
 
 export type QueryProductVariantsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductVariantFilter>;
   sorting?: Maybe<Array<ProductVariantSort>>;
+};
+
+
+export type QueryProductVariantAggregateArgs = {
+  filter?: Maybe<ProductVariantAggregateFilter>;
 };
 
 
@@ -2329,9 +4765,14 @@ export type QueryProductOptionArgs = {
 
 
 export type QueryProductOptionsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductOptionFilter>;
   sorting?: Maybe<Array<ProductOptionSort>>;
+};
+
+
+export type QueryProductOptionAggregateArgs = {
+  filter?: Maybe<ProductOptionAggregateFilter>;
 };
 
 
@@ -2341,9 +4782,14 @@ export type QueryProductOptionGroupArgs = {
 
 
 export type QueryProductOptionGroupsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductOptionGroupFilter>;
   sorting?: Maybe<Array<ProductOptionGroupSort>>;
+};
+
+
+export type QueryProductOptionGroupAggregateArgs = {
+  filter?: Maybe<ProductOptionGroupAggregateFilter>;
 };
 
 
@@ -2353,9 +4799,14 @@ export type QueryProductVariantPriceArgs = {
 
 
 export type QueryProductVariantPricesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductVariantPriceFilter>;
   sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
+export type QueryProductVariantPriceAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
 };
 
 
@@ -2365,9 +4816,14 @@ export type QueryProductVariantAssetArgs = {
 
 
 export type QueryProductVariantAssetsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductVariantAssetFilter>;
   sorting?: Maybe<Array<ProductVariantAssetSort>>;
+};
+
+
+export type QueryProductVariantAssetAggregateArgs = {
+  filter?: Maybe<ProductVariantAssetAggregateFilter>;
 };
 
 
@@ -2377,16 +4833,26 @@ export type QueryProductAssetArgs = {
 
 
 export type QueryProductAssetsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductAssetFilter>;
   sorting?: Maybe<Array<ProductAssetSort>>;
 };
 
 
+export type QueryProductAssetAggregateArgs = {
+  filter?: Maybe<ProductAssetAggregateFilter>;
+};
+
+
 export type QueryVendorPlansArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<VendorPlansFilter>;
   sorting?: Maybe<Array<VendorPlansSort>>;
+};
+
+
+export type QueryVendorPlansAggregateArgs = {
+  filter?: Maybe<VendorPlansAggregateFilter>;
 };
 
 
@@ -2396,9 +4862,14 @@ export type QueryVendorLicenseArgs = {
 
 
 export type QueryVendorLicensesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<VendorLicenseFilter>;
   sorting?: Maybe<Array<VendorLicenseSort>>;
+};
+
+
+export type QueryVendorLicenseAggregateArgs = {
+  filter?: Maybe<VendorLicenseAggregateFilter>;
 };
 
 
@@ -2418,9 +4889,14 @@ export type QueryStockKeepingArgs = {
 
 
 export type QueryStockKeepingsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StockKeepingFilter>;
   sorting?: Maybe<Array<StockKeepingSort>>;
+};
+
+
+export type QueryStockKeepingAggregateArgs = {
+  filter?: Maybe<StockKeepingAggregateFilter>;
 };
 
 
@@ -2436,9 +4912,14 @@ export type QuerySaleArgs = {
 
 
 export type QuerySalesArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<SaleFilter>;
   sorting?: Maybe<Array<SaleSort>>;
+};
+
+
+export type QuerySaleAggregateArgs = {
+  filter?: Maybe<SaleAggregateFilter>;
 };
 
 
@@ -2448,9 +4929,14 @@ export type QueryStockMovementArgs = {
 
 
 export type QueryStockMovementsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StockMovementFilter>;
   sorting?: Maybe<Array<StockMovementSort>>;
+};
+
+
+export type QueryStockMovementAggregateArgs = {
+  filter?: Maybe<StockMovementAggregateFilter>;
 };
 
 
@@ -2460,9 +4946,14 @@ export type QueryCancellationArgs = {
 
 
 export type QueryCancellationsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<CancellationFilter>;
   sorting?: Maybe<Array<CancellationSort>>;
+};
+
+
+export type QueryCancellationAggregateArgs = {
+  filter?: Maybe<CancellationAggregateFilter>;
 };
 
 
@@ -2472,9 +4963,14 @@ export type QueryOrderArgs = {
 
 
 export type QueryOrdersArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<OrderFilter>;
   sorting?: Maybe<Array<OrderSort>>;
+};
+
+
+export type QueryOrderAggregateArgs = {
+  filter?: Maybe<OrderAggregateFilter>;
 };
 
 
@@ -2484,9 +4980,14 @@ export type QueryZipArgs = {
 
 
 export type QueryZipsArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ZipFilter>;
   sorting?: Maybe<Array<ZipSort>>;
+};
+
+
+export type QueryZipAggregateArgs = {
+  filter?: Maybe<ZipAggregateFilter>;
 };
 
 
@@ -2496,9 +4997,14 @@ export type QueryMenuArgs = {
 
 
 export type QueryMenusArgs = {
-  paging?: Maybe<CursorPaging>;
+  paging?: Maybe<OffsetPaging>;
   filter?: Maybe<MenuFilter>;
   sorting?: Maybe<Array<MenuSort>>;
+};
+
+
+export type QueryMenuAggregateArgs = {
+  filter?: Maybe<MenuAggregateFilter>;
 };
 
 export type AssetFilter = {
@@ -2537,6 +5043,22 @@ export enum AssetSortFields {
   Preview = 'preview'
 }
 
+export type AssetAggregateFilter = {
+  and?: Maybe<Array<AssetAggregateFilter>>;
+  or?: Maybe<Array<AssetAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  type?: Maybe<StringFieldComparison>;
+  mimeType?: Maybe<StringFieldComparison>;
+  width?: Maybe<NumberFieldComparison>;
+  height?: Maybe<NumberFieldComparison>;
+  fileSize?: Maybe<NumberFieldComparison>;
+  source?: Maybe<StringFieldComparison>;
+  preview?: Maybe<StringFieldComparison>;
+};
+
 export type RoleFilter = {
   and?: Maybe<Array<RoleFilter>>;
   or?: Maybe<Array<RoleFilter>>;
@@ -2560,6 +5082,16 @@ export enum RoleSortFields {
   Code = 'code',
   Description = 'description'
 }
+
+export type RoleAggregateFilter = {
+  and?: Maybe<Array<RoleAggregateFilter>>;
+  or?: Maybe<Array<RoleAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
 
 export type ChannelFilter = {
   and?: Maybe<Array<ChannelFilter>>;
@@ -2591,6 +5123,19 @@ export enum ChannelSortFields {
   PricesIncludeTax = 'pricesIncludeTax'
 }
 
+export type ChannelAggregateFilter = {
+  and?: Maybe<Array<ChannelAggregateFilter>>;
+  or?: Maybe<Array<ChannelAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  token?: Maybe<StringFieldComparison>;
+  defaultLanguageCode?: Maybe<StringFieldComparison>;
+  currencyCode?: Maybe<StringFieldComparison>;
+  pricesIncludeTax?: Maybe<BooleanFieldComparison>;
+};
+
 export type TaxCategoryFilter = {
   and?: Maybe<Array<TaxCategoryFilter>>;
   or?: Maybe<Array<TaxCategoryFilter>>;
@@ -2612,6 +5157,15 @@ export enum TaxCategorySortFields {
   UpdatedAt = 'updatedAt',
   Name = 'name'
 }
+
+export type TaxCategoryAggregateFilter = {
+  and?: Maybe<Array<TaxCategoryAggregateFilter>>;
+  or?: Maybe<Array<TaxCategoryAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+};
 
 export type VendorFilter = {
   and?: Maybe<Array<VendorFilter>>;
@@ -2639,6 +5193,17 @@ export enum VendorSortFields {
   Email = 'email'
 }
 
+export type VendorAggregateFilter = {
+  and?: Maybe<Array<VendorAggregateFilter>>;
+  or?: Maybe<Array<VendorAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+};
+
 export type SeoFilter = {
   and?: Maybe<Array<SeoFilter>>;
   or?: Maybe<Array<SeoFilter>>;
@@ -2664,6 +5229,17 @@ export enum SeoSortFields {
   UrlKey = 'urlKey',
   Metatitle = 'metatitle'
 }
+
+export type SeoAggregateFilter = {
+  and?: Maybe<Array<SeoAggregateFilter>>;
+  or?: Maybe<Array<SeoAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  urlKey?: Maybe<StringFieldComparison>;
+  metatitle?: Maybe<StringFieldComparison>;
+};
 
 export type FacetFilter = {
   and?: Maybe<Array<FacetFilter>>;
@@ -2691,6 +5267,17 @@ export enum FacetSortFields {
   Code = 'code'
 }
 
+export type FacetAggregateFilter = {
+  and?: Maybe<Array<FacetAggregateFilter>>;
+  or?: Maybe<Array<FacetAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
 export type ProductVariantAssetFilter = {
   and?: Maybe<Array<ProductVariantAssetFilter>>;
   or?: Maybe<Array<ProductVariantAssetFilter>>;
@@ -2710,6 +5297,14 @@ export enum ProductVariantAssetSortFields {
   CreatedAt = 'createdAt',
   UpdatedAt = 'updatedAt'
 }
+
+export type ProductVariantAssetAggregateFilter = {
+  and?: Maybe<Array<ProductVariantAssetAggregateFilter>>;
+  or?: Maybe<Array<ProductVariantAssetAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
 
 export type VendorPlansFilter = {
   and?: Maybe<Array<VendorPlansFilter>>;
@@ -2737,6 +5332,17 @@ export enum VendorPlansSortFields {
   PlanValue = 'planValue'
 }
 
+export type VendorPlansAggregateFilter = {
+  and?: Maybe<Array<VendorPlansAggregateFilter>>;
+  or?: Maybe<Array<VendorPlansAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  isActive?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  planValue?: Maybe<NumberFieldComparison>;
+};
+
 export type OrderFilter = {
   and?: Maybe<Array<OrderFilter>>;
   or?: Maybe<Array<OrderFilter>>;
@@ -2762,6 +5368,17 @@ export enum OrderSortFields {
   TotalPrice = 'totalPrice',
   Address = 'address'
 }
+
+export type OrderAggregateFilter = {
+  and?: Maybe<Array<OrderAggregateFilter>>;
+  or?: Maybe<Array<OrderAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  orderPlacedAt?: Maybe<DateFieldComparison>;
+  totalPrice?: Maybe<NumberFieldComparison>;
+  address?: Maybe<StringFieldComparison>;
+};
 
 export type ZipFilter = {
   and?: Maybe<Array<ZipFilter>>;
@@ -2789,6 +5406,17 @@ export enum ZipSortFields {
   Code = 'code'
 }
 
+export type ZipAggregateFilter = {
+  and?: Maybe<Array<ZipAggregateFilter>>;
+  or?: Maybe<Array<ZipAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   administratorLogin: AdministratorDto;
@@ -2810,13 +5438,13 @@ export type Mutation = {
   removeChildrenFromCollection: Collection;
   removeProductsFromCollection: Collection;
   removeAgreementsFromCollection: Collection;
-  removeParentFromCollection: Collection;
   removeSeoFromCollection: Collection;
+  removeParentFromCollection: Collection;
   addChildrenToCollection: Collection;
   addProductsToCollection: Collection;
   addAgreementsToCollection: Collection;
-  setParentOnCollection: Collection;
   setSeoOnCollection: Collection;
+  setParentOnCollection: Collection;
   AddParentToChildCollection: Collection;
   deleteOneChannel: ChannelDeleteResponse;
   deleteManyChannels: DeleteManyResponse;
@@ -2831,10 +5459,9 @@ export type Mutation = {
   createOneStore: Store;
   createManyStores: Array<Store>;
   removeSkusFromStore: Store;
-  removeRegionFromStore: Store;
+  removeCountryFromStore: Store;
   addSkusToStore: Store;
   setCountryOnStore: Store;
-  setRegionOnStore: Store;
   CreateDefaultStore: Store;
   deleteOneTaxCategory: TaxCategoryDeleteResponse;
   deleteManyTaxCategories: DeleteManyResponse;
@@ -2883,7 +5510,9 @@ export type Mutation = {
   updateManyCountries: UpdateManyResponse;
   createOneCountry: Country;
   createManyCountries: Array<Country>;
+  removeStoresFromCountry: Country;
   removeZonesFromCountry: Country;
+  addStoresToCountry: Country;
   addZonesToCountry: Country;
   deleteOneSeo: SeoDeleteResponse;
   deleteManySeos: DeleteManyResponse;
@@ -2891,10 +5520,10 @@ export type Mutation = {
   updateManySeos: UpdateManyResponse;
   createOneSeo: Seo;
   createManySeos: Array<Seo>;
-  removeCollectionFromSeo: Seo;
   removeVariantFromSeo: Seo;
-  setCollectionOnSeo: Seo;
+  removeCollectionFromSeo: Seo;
   setVariantOnSeo: Seo;
+  setCollectionOnSeo: Seo;
   createProductSeo: Seo;
   updateProductSeo: Seo;
   deleteOneFacet: FacetDeleteResponse;
@@ -3187,12 +5816,12 @@ export type MutationRemoveAgreementsFromCollectionArgs = {
 };
 
 
-export type MutationRemoveParentFromCollectionArgs = {
+export type MutationRemoveSeoFromCollectionArgs = {
   input: RelationInput;
 };
 
 
-export type MutationRemoveSeoFromCollectionArgs = {
+export type MutationRemoveParentFromCollectionArgs = {
   input: RelationInput;
 };
 
@@ -3212,12 +5841,12 @@ export type MutationAddAgreementsToCollectionArgs = {
 };
 
 
-export type MutationSetParentOnCollectionArgs = {
+export type MutationSetSeoOnCollectionArgs = {
   input: RelationInput;
 };
 
 
-export type MutationSetSeoOnCollectionArgs = {
+export type MutationSetParentOnCollectionArgs = {
   input: RelationInput;
 };
 
@@ -3293,7 +5922,7 @@ export type MutationRemoveSkusFromStoreArgs = {
 };
 
 
-export type MutationRemoveRegionFromStoreArgs = {
+export type MutationRemoveCountryFromStoreArgs = {
   input: RelationInput;
 };
 
@@ -3304,11 +5933,6 @@ export type MutationAddSkusToStoreArgs = {
 
 
 export type MutationSetCountryOnStoreArgs = {
-  input: RelationInput;
-};
-
-
-export type MutationSetRegionOnStoreArgs = {
   input: RelationInput;
 };
 
@@ -3575,7 +6199,17 @@ export type MutationCreateManyCountriesArgs = {
 };
 
 
+export type MutationRemoveStoresFromCountryArgs = {
+  input: RelationsInput;
+};
+
+
 export type MutationRemoveZonesFromCountryArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationAddStoresToCountryArgs = {
   input: RelationsInput;
 };
 
@@ -3615,22 +6249,22 @@ export type MutationCreateManySeosArgs = {
 };
 
 
-export type MutationRemoveCollectionFromSeoArgs = {
-  input: RelationInput;
-};
-
-
 export type MutationRemoveVariantFromSeoArgs = {
   input: RelationInput;
 };
 
 
-export type MutationSetCollectionOnSeoArgs = {
+export type MutationRemoveCollectionFromSeoArgs = {
   input: RelationInput;
 };
 
 
 export type MutationSetVariantOnSeoArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetCollectionOnSeoArgs = {
   input: RelationInput;
 };
 
@@ -4611,7 +7245,21 @@ export type DeleteOneInput = {
 
 export type DeleteManyCollectionsInput = {
   /** Filter to find records to delete */
-  filter: CollectionFilter;
+  filter: CollectionDeleteFilter;
+};
+
+export type CollectionDeleteFilter = {
+  and?: Maybe<Array<CollectionDeleteFilter>>;
+  or?: Maybe<Array<CollectionDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  isRoot?: Maybe<BooleanFieldComparison>;
+  inMenu?: Maybe<BooleanFieldComparison>;
+  position?: Maybe<NumberFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneCollectionInput = {
@@ -4635,9 +7283,23 @@ export type UpdateCollection = {
 
 export type UpdateManyCollectionsInput = {
   /** Filter used to find fields to update */
-  filter: CollectionFilter;
+  filter: CollectionUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateCollection;
+};
+
+export type CollectionUpdateFilter = {
+  and?: Maybe<Array<CollectionUpdateFilter>>;
+  or?: Maybe<Array<CollectionUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  isRoot?: Maybe<BooleanFieldComparison>;
+  inMenu?: Maybe<BooleanFieldComparison>;
+  position?: Maybe<NumberFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneCollectionInput = {
@@ -4671,7 +7333,20 @@ export type RelationInput = {
 
 export type DeleteManyChannelsInput = {
   /** Filter to find records to delete */
-  filter: ChannelFilter;
+  filter: ChannelDeleteFilter;
+};
+
+export type ChannelDeleteFilter = {
+  and?: Maybe<Array<ChannelDeleteFilter>>;
+  or?: Maybe<Array<ChannelDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  token?: Maybe<StringFieldComparison>;
+  defaultLanguageCode?: Maybe<StringFieldComparison>;
+  currencyCode?: Maybe<StringFieldComparison>;
+  pricesIncludeTax?: Maybe<BooleanFieldComparison>;
 };
 
 export type UpdateOneChannelInput = {
@@ -4694,9 +7369,22 @@ export type UpdateChannel = {
 
 export type UpdateManyChannelsInput = {
   /** Filter used to find fields to update */
-  filter: ChannelFilter;
+  filter: ChannelUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateChannel;
+};
+
+export type ChannelUpdateFilter = {
+  and?: Maybe<Array<ChannelUpdateFilter>>;
+  or?: Maybe<Array<ChannelUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  token?: Maybe<StringFieldComparison>;
+  defaultLanguageCode?: Maybe<StringFieldComparison>;
+  currencyCode?: Maybe<StringFieldComparison>;
+  pricesIncludeTax?: Maybe<BooleanFieldComparison>;
 };
 
 export type CreateOneChannelInput = {
@@ -4722,7 +7410,25 @@ export type CreateManyChannelsInput = {
 
 export type DeleteManyStoresInput = {
   /** Filter to find records to delete */
-  filter: StoreFilter;
+  filter: StoreDeleteFilter;
+};
+
+export type StoreDeleteFilter = {
+  and?: Maybe<Array<StoreDeleteFilter>>;
+  or?: Maybe<Array<StoreDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
 };
 
 export type UpdateOneStoreInput = {
@@ -4751,9 +7457,27 @@ export type UpdateStore = {
 
 export type UpdateManyStoresInput = {
   /** Filter used to find fields to update */
-  filter: StoreFilter;
+  filter: StoreUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateStore;
+};
+
+export type StoreUpdateFilter = {
+  and?: Maybe<Array<StoreUpdateFilter>>;
+  or?: Maybe<Array<StoreUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
 };
 
 export type CreateOneStoreInput = {
@@ -4785,7 +7509,16 @@ export type CreateManyStoresInput = {
 
 export type DeleteManyTaxCategoriesInput = {
   /** Filter to find records to delete */
-  filter: TaxCategoryFilter;
+  filter: TaxCategoryDeleteFilter;
+};
+
+export type TaxCategoryDeleteFilter = {
+  and?: Maybe<Array<TaxCategoryDeleteFilter>>;
+  or?: Maybe<Array<TaxCategoryDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneTaxCategoryInput = {
@@ -4804,9 +7537,18 @@ export type UpdateTaxCategory = {
 
 export type UpdateManyTaxCategoriesInput = {
   /** Filter used to find fields to update */
-  filter: TaxCategoryFilter;
+  filter: TaxCategoryUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateTaxCategory;
+};
+
+export type TaxCategoryUpdateFilter = {
+  and?: Maybe<Array<TaxCategoryUpdateFilter>>;
+  or?: Maybe<Array<TaxCategoryUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneTaxCategoryInput = {
@@ -4828,7 +7570,18 @@ export type CreateManyTaxCategoriesInput = {
 
 export type DeleteManyTaxRatesInput = {
   /** Filter to find records to delete */
-  filter: TaxRateFilter;
+  filter: TaxRateDeleteFilter;
+};
+
+export type TaxRateDeleteFilter = {
+  and?: Maybe<Array<TaxRateDeleteFilter>>;
+  or?: Maybe<Array<TaxRateDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
 };
 
 export type UpdateOneTaxRateInput = {
@@ -4849,9 +7602,20 @@ export type UpdateTaxRate = {
 
 export type UpdateManyTaxRatesInput = {
   /** Filter used to find fields to update */
-  filter: TaxRateFilter;
+  filter: TaxRateUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateTaxRate;
+};
+
+export type TaxRateUpdateFilter = {
+  and?: Maybe<Array<TaxRateUpdateFilter>>;
+  or?: Maybe<Array<TaxRateUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
 };
 
 export type CreateOneTaxRateInput = {
@@ -4875,7 +7639,16 @@ export type CreateManyTaxRatesInput = {
 
 export type DeleteManyZonesInput = {
   /** Filter to find records to delete */
-  filter: ZoneFilter;
+  filter: ZoneDeleteFilter;
+};
+
+export type ZoneDeleteFilter = {
+  and?: Maybe<Array<ZoneDeleteFilter>>;
+  or?: Maybe<Array<ZoneDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneZoneInput = {
@@ -4894,9 +7667,18 @@ export type UpdateZone = {
 
 export type UpdateManyZonesInput = {
   /** Filter used to find fields to update */
-  filter: ZoneFilter;
+  filter: ZoneUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateZone;
+};
+
+export type ZoneUpdateFilter = {
+  and?: Maybe<Array<ZoneUpdateFilter>>;
+  or?: Maybe<Array<ZoneUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneZoneInput = {
@@ -4918,7 +7700,18 @@ export type CreateManyZonesInput = {
 
 export type DeleteManyCountriesInput = {
   /** Filter to find records to delete */
-  filter: CountryFilter;
+  filter: CountryDeleteFilter;
+};
+
+export type CountryDeleteFilter = {
+  and?: Maybe<Array<CountryDeleteFilter>>;
+  or?: Maybe<Array<CountryDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
 };
 
 export type UpdateOneCountryInput = {
@@ -4939,9 +7732,20 @@ export type UpdateCountry = {
 
 export type UpdateManyCountriesInput = {
   /** Filter used to find fields to update */
-  filter: CountryFilter;
+  filter: CountryUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateCountry;
+};
+
+export type CountryUpdateFilter = {
+  and?: Maybe<Array<CountryUpdateFilter>>;
+  or?: Maybe<Array<CountryUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
 };
 
 export type CreateOneCountryInput = {
@@ -4965,7 +7769,18 @@ export type CreateManyCountriesInput = {
 
 export type DeleteManySeosInput = {
   /** Filter to find records to delete */
-  filter: SeoFilter;
+  filter: SeoDeleteFilter;
+};
+
+export type SeoDeleteFilter = {
+  and?: Maybe<Array<SeoDeleteFilter>>;
+  or?: Maybe<Array<SeoDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  urlKey?: Maybe<StringFieldComparison>;
+  metatitle?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneSeoInput = {
@@ -4988,9 +7803,20 @@ export type UpdateSeo = {
 
 export type UpdateManySeosInput = {
   /** Filter used to find fields to update */
-  filter: SeoFilter;
+  filter: SeoUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateSeo;
+};
+
+export type SeoUpdateFilter = {
+  and?: Maybe<Array<SeoUpdateFilter>>;
+  or?: Maybe<Array<SeoUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  urlKey?: Maybe<StringFieldComparison>;
+  metatitle?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneSeoInput = {
@@ -5016,7 +7842,18 @@ export type CreateManySeosInput = {
 
 export type DeleteManyFacetsInput = {
   /** Filter to find records to delete */
-  filter: FacetFilter;
+  filter: FacetDeleteFilter;
+};
+
+export type FacetDeleteFilter = {
+  and?: Maybe<Array<FacetDeleteFilter>>;
+  or?: Maybe<Array<FacetDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneFacetInput = {
@@ -5037,9 +7874,20 @@ export type UpdateFacet = {
 
 export type UpdateManyFacetsInput = {
   /** Filter used to find fields to update */
-  filter: FacetFilter;
+  filter: FacetUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateFacet;
+};
+
+export type FacetUpdateFilter = {
+  and?: Maybe<Array<FacetUpdateFilter>>;
+  or?: Maybe<Array<FacetUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneFacetInput = {
@@ -5063,7 +7911,16 @@ export type CreateManyFacetsInput = {
 
 export type DeleteManyFacetValuesInput = {
   /** Filter to find records to delete */
-  filter: FacetValueFilter;
+  filter: FacetValueDeleteFilter;
+};
+
+export type FacetValueDeleteFilter = {
+  and?: Maybe<Array<FacetValueDeleteFilter>>;
+  or?: Maybe<Array<FacetValueDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneFacetValueInput = {
@@ -5082,9 +7939,18 @@ export type UpdateFacetValue = {
 
 export type UpdateManyFacetValuesInput = {
   /** Filter used to find fields to update */
-  filter: FacetValueFilter;
+  filter: FacetValueUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateFacetValue;
+};
+
+export type FacetValueUpdateFilter = {
+  and?: Maybe<Array<FacetValueUpdateFilter>>;
+  or?: Maybe<Array<FacetValueUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneFacetValueInput = {
@@ -5106,7 +7972,18 @@ export type CreateManyFacetValuesInput = {
 
 export type DeleteManyProductsInput = {
   /** Filter to find records to delete */
-  filter: ProductFilter;
+  filter: ProductDeleteFilter;
+};
+
+export type ProductDeleteFilter = {
+  and?: Maybe<Array<ProductDeleteFilter>>;
+  or?: Maybe<Array<ProductDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  productName?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneProductInput = {
@@ -5127,9 +8004,20 @@ export type UpdateProduct = {
 
 export type UpdateManyProductsInput = {
   /** Filter used to find fields to update */
-  filter: ProductFilter;
+  filter: ProductUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateProduct;
+};
+
+export type ProductUpdateFilter = {
+  and?: Maybe<Array<ProductUpdateFilter>>;
+  or?: Maybe<Array<ProductUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  productName?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneProductInput = {
@@ -5153,7 +8041,21 @@ export type CreateManyProductsInput = {
 
 export type DeleteManyProductVariantsInput = {
   /** Filter to find records to delete */
-  filter: ProductVariantFilter;
+  filter: ProductVariantDeleteFilter;
+};
+
+export type ProductVariantDeleteFilter = {
+  and?: Maybe<Array<ProductVariantDeleteFilter>>;
+  or?: Maybe<Array<ProductVariantDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
 };
 
 export type UpdateOneProductVariantInput = {
@@ -5177,9 +8079,23 @@ export type UpdateProductVariant = {
 
 export type UpdateManyProductVariantsInput = {
   /** Filter used to find fields to update */
-  filter: ProductVariantFilter;
+  filter: ProductVariantUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateProductVariant;
+};
+
+export type ProductVariantUpdateFilter = {
+  and?: Maybe<Array<ProductVariantUpdateFilter>>;
+  or?: Maybe<Array<ProductVariantUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
 };
 
 export type CreateOneProductVariantInput = {
@@ -5206,7 +8122,17 @@ export type CreateManyProductVariantsInput = {
 
 export type DeleteManyProductOptionsInput = {
   /** Filter to find records to delete */
-  filter: ProductOptionFilter;
+  filter: ProductOptionDeleteFilter;
+};
+
+export type ProductOptionDeleteFilter = {
+  and?: Maybe<Array<ProductOptionDeleteFilter>>;
+  or?: Maybe<Array<ProductOptionDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneProductOptionInput = {
@@ -5226,9 +8152,19 @@ export type UpdateProductOption = {
 
 export type UpdateManyProductOptionsInput = {
   /** Filter used to find fields to update */
-  filter: ProductOptionFilter;
+  filter: ProductOptionUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateProductOption;
+};
+
+export type ProductOptionUpdateFilter = {
+  and?: Maybe<Array<ProductOptionUpdateFilter>>;
+  or?: Maybe<Array<ProductOptionUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneProductOptionInput = {
@@ -5251,7 +8187,17 @@ export type CreateManyProductOptionsInput = {
 
 export type DeleteManyProductOptionGroupsInput = {
   /** Filter to find records to delete */
-  filter: ProductOptionGroupFilter;
+  filter: ProductOptionGroupDeleteFilter;
+};
+
+export type ProductOptionGroupDeleteFilter = {
+  and?: Maybe<Array<ProductOptionGroupDeleteFilter>>;
+  or?: Maybe<Array<ProductOptionGroupDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneProductOptionGroupInput = {
@@ -5271,9 +8217,19 @@ export type UpdateProductOptionGroup = {
 
 export type UpdateManyProductOptionGroupsInput = {
   /** Filter used to find fields to update */
-  filter: ProductOptionGroupFilter;
+  filter: ProductOptionGroupUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateProductOptionGroup;
+};
+
+export type ProductOptionGroupUpdateFilter = {
+  and?: Maybe<Array<ProductOptionGroupUpdateFilter>>;
+  or?: Maybe<Array<ProductOptionGroupUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneProductOptionGroupInput = {
@@ -5296,7 +8252,17 @@ export type CreateManyProductOptionGroupsInput = {
 
 export type DeleteManyProductVariantPricesInput = {
   /** Filter to find records to delete */
-  filter: ProductVariantPriceFilter;
+  filter: ProductVariantPriceDeleteFilter;
+};
+
+export type ProductVariantPriceDeleteFilter = {
+  and?: Maybe<Array<ProductVariantPriceDeleteFilter>>;
+  or?: Maybe<Array<ProductVariantPriceDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
 };
 
 export type UpdateOneProductVariantPriceInput = {
@@ -5316,9 +8282,19 @@ export type UpdateProductVariantPrice = {
 
 export type UpdateManyProductVariantPricesInput = {
   /** Filter used to find fields to update */
-  filter: ProductVariantPriceFilter;
+  filter: ProductVariantPriceUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateProductVariantPrice;
+};
+
+export type ProductVariantPriceUpdateFilter = {
+  and?: Maybe<Array<ProductVariantPriceUpdateFilter>>;
+  or?: Maybe<Array<ProductVariantPriceUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
 };
 
 export type CreateOneProductVariantPriceInput = {
@@ -5341,7 +8317,15 @@ export type CreateManyProductVariantPricesInput = {
 
 export type DeleteManyProductAssetsInput = {
   /** Filter to find records to delete */
-  filter: ProductAssetFilter;
+  filter: ProductAssetDeleteFilter;
+};
+
+export type ProductAssetDeleteFilter = {
+  and?: Maybe<Array<ProductAssetDeleteFilter>>;
+  or?: Maybe<Array<ProductAssetDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
 };
 
 export type UpdateOneProductAssetInput = {
@@ -5359,9 +8343,17 @@ export type UpdateProductAsset = {
 
 export type UpdateManyProductAssetsInput = {
   /** Filter used to find fields to update */
-  filter: ProductAssetFilter;
+  filter: ProductAssetUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateProductAsset;
+};
+
+export type ProductAssetUpdateFilter = {
+  and?: Maybe<Array<ProductAssetUpdateFilter>>;
+  or?: Maybe<Array<ProductAssetUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
 };
 
 export type CreateOneProductAssetInput = {
@@ -5388,7 +8380,23 @@ export enum VendorPlanPrice {
 
 export type DeleteManyStockKeepingsInput = {
   /** Filter to find records to delete */
-  filter: StockKeepingFilter;
+  filter: StockKeepingDeleteFilter;
+};
+
+export type StockKeepingDeleteFilter = {
+  and?: Maybe<Array<StockKeepingDeleteFilter>>;
+  or?: Maybe<Array<StockKeepingDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+  available_quantity?: Maybe<NumberFieldComparison>;
+  threshold?: Maybe<NumberFieldComparison>;
+  multiple?: Maybe<BooleanFieldComparison>;
+  backorder?: Maybe<BooleanFieldComparison>;
+  stockstatus?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  type?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneStockKeepingInput = {
@@ -5414,9 +8422,25 @@ export type UpdateStockKeeping = {
 
 export type UpdateManyStockKeepingsInput = {
   /** Filter used to find fields to update */
-  filter: StockKeepingFilter;
+  filter: StockKeepingUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateStockKeeping;
+};
+
+export type StockKeepingUpdateFilter = {
+  and?: Maybe<Array<StockKeepingUpdateFilter>>;
+  or?: Maybe<Array<StockKeepingUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+  available_quantity?: Maybe<NumberFieldComparison>;
+  threshold?: Maybe<NumberFieldComparison>;
+  multiple?: Maybe<BooleanFieldComparison>;
+  backorder?: Maybe<BooleanFieldComparison>;
+  stockstatus?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  type?: Maybe<StringFieldComparison>;
 };
 
 export enum StockKeepingType {
@@ -5426,7 +8450,16 @@ export enum StockKeepingType {
 
 export type DeleteManySalesInput = {
   /** Filter to find records to delete */
-  filter: SaleFilter;
+  filter: SaleDeleteFilter;
+};
+
+export type SaleDeleteFilter = {
+  and?: Maybe<Array<SaleDeleteFilter>>;
+  or?: Maybe<Array<SaleDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
 };
 
 export type UpdateOneSaleInput = {
@@ -5445,9 +8478,18 @@ export type UpdateSale = {
 
 export type UpdateManySalesInput = {
   /** Filter used to find fields to update */
-  filter: SaleFilter;
+  filter: SaleUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateSale;
+};
+
+export type SaleUpdateFilter = {
+  and?: Maybe<Array<SaleUpdateFilter>>;
+  or?: Maybe<Array<SaleUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
 };
 
 export type CreateOneSaleInput = {
@@ -5469,7 +8511,16 @@ export type CreateManySalesInput = {
 
 export type DeleteManyStockMovementsInput = {
   /** Filter to find records to delete */
-  filter: StockMovementFilter;
+  filter: StockMovementDeleteFilter;
+};
+
+export type StockMovementDeleteFilter = {
+  and?: Maybe<Array<StockMovementDeleteFilter>>;
+  or?: Maybe<Array<StockMovementDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
 };
 
 export type UpdateOneStockMovementInput = {
@@ -5488,9 +8539,18 @@ export type UpdateStockMovement = {
 
 export type UpdateManyStockMovementsInput = {
   /** Filter used to find fields to update */
-  filter: StockMovementFilter;
+  filter: StockMovementUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateStockMovement;
+};
+
+export type StockMovementUpdateFilter = {
+  and?: Maybe<Array<StockMovementUpdateFilter>>;
+  or?: Maybe<Array<StockMovementUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
 };
 
 export type CreateOneStockMovementInput = {
@@ -5512,7 +8572,16 @@ export type CreateManyStockMovementsInput = {
 
 export type DeleteManyCancellationsInput = {
   /** Filter to find records to delete */
-  filter: CancellationFilter;
+  filter: CancellationDeleteFilter;
+};
+
+export type CancellationDeleteFilter = {
+  and?: Maybe<Array<CancellationDeleteFilter>>;
+  or?: Maybe<Array<CancellationDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
 };
 
 export type UpdateOneCancellationInput = {
@@ -5531,9 +8600,18 @@ export type UpdateCancellation = {
 
 export type UpdateManyCancellationsInput = {
   /** Filter used to find fields to update */
-  filter: CancellationFilter;
+  filter: CancellationUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateCancellation;
+};
+
+export type CancellationUpdateFilter = {
+  and?: Maybe<Array<CancellationUpdateFilter>>;
+  or?: Maybe<Array<CancellationUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
 };
 
 export type CreateOneCancellationInput = {
@@ -5555,7 +8633,18 @@ export type CreateManyCancellationsInput = {
 
 export type DeleteManyOrdersInput = {
   /** Filter to find records to delete */
-  filter: OrderFilter;
+  filter: OrderDeleteFilter;
+};
+
+export type OrderDeleteFilter = {
+  and?: Maybe<Array<OrderDeleteFilter>>;
+  or?: Maybe<Array<OrderDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  orderPlacedAt?: Maybe<DateFieldComparison>;
+  totalPrice?: Maybe<NumberFieldComparison>;
+  address?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneOrderInput = {
@@ -5576,9 +8665,20 @@ export type UpdateOrder = {
 
 export type UpdateManyOrdersInput = {
   /** Filter used to find fields to update */
-  filter: OrderFilter;
+  filter: OrderUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateOrder;
+};
+
+export type OrderUpdateFilter = {
+  and?: Maybe<Array<OrderUpdateFilter>>;
+  or?: Maybe<Array<OrderUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  orderPlacedAt?: Maybe<DateFieldComparison>;
+  totalPrice?: Maybe<NumberFieldComparison>;
+  address?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneOrderInput = {
@@ -5602,7 +8702,18 @@ export type CreateManyOrdersInput = {
 
 export type DeleteManyZipsInput = {
   /** Filter to find records to delete */
-  filter: ZipFilter;
+  filter: ZipDeleteFilter;
+};
+
+export type ZipDeleteFilter = {
+  and?: Maybe<Array<ZipDeleteFilter>>;
+  or?: Maybe<Array<ZipDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
 };
 
 export type UpdateOneZipInput = {
@@ -5623,9 +8734,20 @@ export type UpdateZip = {
 
 export type UpdateManyZipsInput = {
   /** Filter used to find fields to update */
-  filter: ZipFilter;
+  filter: ZipUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateZip;
+};
+
+export type ZipUpdateFilter = {
+  and?: Maybe<Array<ZipUpdateFilter>>;
+  or?: Maybe<Array<ZipUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
 };
 
 export type CreateOneZipInput = {
@@ -5649,7 +8771,18 @@ export type CreateManyZipsInput = {
 
 export type DeleteManyMenusInput = {
   /** Filter to find records to delete */
-  filter: MenuFilter;
+  filter: MenuDeleteFilter;
+};
+
+export type MenuDeleteFilter = {
+  and?: Maybe<Array<MenuDeleteFilter>>;
+  or?: Maybe<Array<MenuDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  target?: Maybe<StringFieldComparison>;
 };
 
 export type UpdateOneMenuInput = {
@@ -5670,9 +8803,20 @@ export type UpdateMenu = {
 
 export type UpdateManyMenusInput = {
   /** Filter used to find fields to update */
-  filter: MenuFilter;
+  filter: MenuUpdateFilter;
   /** The update to apply to all records found using the filter */
   update: UpdateMenu;
+};
+
+export type MenuUpdateFilter = {
+  and?: Maybe<Array<MenuUpdateFilter>>;
+  or?: Maybe<Array<MenuUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  target?: Maybe<StringFieldComparison>;
 };
 
 export type CreateOneMenuInput = {
@@ -5692,6 +8836,1344 @@ export type CreateMenu = {
 export type CreateManyMenusInput = {
   /** Array of records to create */
   menus: Array<CreateMenu>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  deletedOneAsset: AssetDeleteResponse;
+  deletedManyAssets: DeleteManyResponse;
+  updatedOneAsset: Asset;
+  updatedManyAssets: UpdateManyResponse;
+  createdAsset: Asset;
+  deletedOneRole: RoleDeleteResponse;
+  deletedManyRoles: DeleteManyResponse;
+  updatedOneRole: Role;
+  updatedManyRoles: UpdateManyResponse;
+  createdRole: Role;
+  deletedOneCollection: CollectionDeleteResponse;
+  deletedManyCollections: DeleteManyResponse;
+  updatedOneCollection: Collection;
+  updatedManyCollections: UpdateManyResponse;
+  createdCollection: Collection;
+  deletedOneChannel: ChannelDeleteResponse;
+  deletedManyChannels: DeleteManyResponse;
+  updatedOneChannel: Channel;
+  updatedManyChannels: UpdateManyResponse;
+  createdChannel: Channel;
+  deletedOneStore: StoreDeleteResponse;
+  deletedManyStores: DeleteManyResponse;
+  updatedOneStore: Store;
+  updatedManyStores: UpdateManyResponse;
+  createdStore: Store;
+  deletedOneTaxCategory: TaxCategoryDeleteResponse;
+  deletedManyTaxCategories: DeleteManyResponse;
+  updatedOneTaxCategory: TaxCategory;
+  updatedManyTaxCategories: UpdateManyResponse;
+  createdTaxCategory: TaxCategory;
+  deletedOneTaxRate: TaxRateDeleteResponse;
+  deletedManyTaxRates: DeleteManyResponse;
+  updatedOneTaxRate: TaxRate;
+  updatedManyTaxRates: UpdateManyResponse;
+  createdTaxRate: TaxRate;
+  deletedOneVendor: VendorDeleteResponse;
+  deletedManyVendors: DeleteManyResponse;
+  updatedOneVendor: Vendor;
+  updatedManyVendors: UpdateManyResponse;
+  createdVendor: Vendor;
+  deletedOneZone: ZoneDeleteResponse;
+  deletedManyZones: DeleteManyResponse;
+  updatedOneZone: Zone;
+  updatedManyZones: UpdateManyResponse;
+  createdZone: Zone;
+  deletedOneCountry: CountryDeleteResponse;
+  deletedManyCountries: DeleteManyResponse;
+  updatedOneCountry: Country;
+  updatedManyCountries: UpdateManyResponse;
+  createdCountry: Country;
+  deletedOneSeo: SeoDeleteResponse;
+  deletedManySeos: DeleteManyResponse;
+  updatedOneSeo: Seo;
+  updatedManySeos: UpdateManyResponse;
+  createdSeo: Seo;
+  deletedOneFacet: FacetDeleteResponse;
+  deletedManyFacets: DeleteManyResponse;
+  updatedOneFacet: Facet;
+  updatedManyFacets: UpdateManyResponse;
+  createdFacet: Facet;
+  deletedOneFacetValue: FacetValueDeleteResponse;
+  deletedManyFacetValues: DeleteManyResponse;
+  updatedOneFacetValue: FacetValue;
+  updatedManyFacetValues: UpdateManyResponse;
+  createdFacetValue: FacetValue;
+  deletedOneProduct: ProductDeleteResponse;
+  deletedManyProducts: DeleteManyResponse;
+  updatedOneProduct: Product;
+  updatedManyProducts: UpdateManyResponse;
+  createdProduct: Product;
+  deletedOneProductVariant: ProductVariantDeleteResponse;
+  deletedManyProductVariants: DeleteManyResponse;
+  updatedOneProductVariant: ProductVariant;
+  updatedManyProductVariants: UpdateManyResponse;
+  createdProductVariant: ProductVariant;
+  deletedOneProductOption: ProductOptionDeleteResponse;
+  deletedManyProductOptions: DeleteManyResponse;
+  updatedOneProductOption: ProductOption;
+  updatedManyProductOptions: UpdateManyResponse;
+  createdProductOption: ProductOption;
+  deletedOneProductOptionGroup: ProductOptionGroupDeleteResponse;
+  deletedManyProductOptionGroups: DeleteManyResponse;
+  updatedOneProductOptionGroup: ProductOptionGroup;
+  updatedManyProductOptionGroups: UpdateManyResponse;
+  createdProductOptionGroup: ProductOptionGroup;
+  deletedOneProductVariantPrice: ProductVariantPriceDeleteResponse;
+  deletedManyProductVariantPrices: DeleteManyResponse;
+  updatedOneProductVariantPrice: ProductVariantPrice;
+  updatedManyProductVariantPrices: UpdateManyResponse;
+  createdProductVariantPrice: ProductVariantPrice;
+  deletedOneProductVariantAsset: ProductVariantAssetDeleteResponse;
+  deletedManyProductVariantAssets: DeleteManyResponse;
+  updatedOneProductVariantAsset: ProductVariantAsset;
+  updatedManyProductVariantAssets: UpdateManyResponse;
+  createdProductVariantAsset: ProductVariantAsset;
+  deletedOneProductAsset: ProductAssetDeleteResponse;
+  deletedManyProductAssets: DeleteManyResponse;
+  updatedOneProductAsset: ProductAsset;
+  updatedManyProductAssets: UpdateManyResponse;
+  createdProductAsset: ProductAsset;
+  deletedOneVendorPlans: VendorPlansDeleteResponse;
+  deletedManyVendorPlans: DeleteManyResponse;
+  updatedOneVendorPlans: VendorPlans;
+  updatedManyVendorPlans: UpdateManyResponse;
+  createdVendorPlans: VendorPlans;
+  deletedOneVendorLicense: VendorLicenseDeleteResponse;
+  deletedManyVendorLicenses: DeleteManyResponse;
+  updatedOneVendorLicense: VendorLicense;
+  updatedManyVendorLicenses: UpdateManyResponse;
+  createdVendorLicense: VendorLicense;
+  deletedOneStockKeeping: StockKeepingDeleteResponse;
+  deletedManyStockKeepings: DeleteManyResponse;
+  updatedOneStockKeeping: StockKeeping;
+  updatedManyStockKeepings: UpdateManyResponse;
+  createdStockKeeping: StockKeeping;
+  deletedOneSale: SaleDeleteResponse;
+  deletedManySales: DeleteManyResponse;
+  updatedOneSale: Sale;
+  updatedManySales: UpdateManyResponse;
+  createdSale: Sale;
+  deletedOneStockMovement: StockMovementDeleteResponse;
+  deletedManyStockMovements: DeleteManyResponse;
+  updatedOneStockMovement: StockMovement;
+  updatedManyStockMovements: UpdateManyResponse;
+  createdStockMovement: StockMovement;
+  deletedOneCancellation: CancellationDeleteResponse;
+  deletedManyCancellations: DeleteManyResponse;
+  updatedOneCancellation: Cancellation;
+  updatedManyCancellations: UpdateManyResponse;
+  createdCancellation: Cancellation;
+  deletedOneOrder: OrderDeleteResponse;
+  deletedManyOrders: DeleteManyResponse;
+  updatedOneOrder: Order;
+  updatedManyOrders: UpdateManyResponse;
+  createdOrder: Order;
+  deletedOneZip: ZipDeleteResponse;
+  deletedManyZips: DeleteManyResponse;
+  updatedOneZip: Zip;
+  updatedManyZips: UpdateManyResponse;
+  createdZip: Zip;
+  deletedOneMenu: MenuDeleteResponse;
+  deletedManyMenus: DeleteManyResponse;
+  updatedOneMenu: Menu;
+  updatedManyMenus: UpdateManyResponse;
+  createdMenu: Menu;
+};
+
+
+export type SubscriptionDeletedOneAssetArgs = {
+  input?: Maybe<DeleteOneAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneAssetArgs = {
+  input?: Maybe<UpdateOneAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedAssetArgs = {
+  input?: Maybe<CreateAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneRoleArgs = {
+  input?: Maybe<DeleteOneRoleSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneRoleArgs = {
+  input?: Maybe<UpdateOneRoleSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedRoleArgs = {
+  input?: Maybe<CreateRoleSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneCollectionArgs = {
+  input?: Maybe<DeleteOneCollectionSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneCollectionArgs = {
+  input?: Maybe<UpdateOneCollectionSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedCollectionArgs = {
+  input?: Maybe<CreateCollectionSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneChannelArgs = {
+  input?: Maybe<DeleteOneChannelSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneChannelArgs = {
+  input?: Maybe<UpdateOneChannelSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedChannelArgs = {
+  input?: Maybe<CreateChannelSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneStoreArgs = {
+  input?: Maybe<DeleteOneStoreSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneStoreArgs = {
+  input?: Maybe<UpdateOneStoreSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedStoreArgs = {
+  input?: Maybe<CreateStoreSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneTaxCategoryArgs = {
+  input?: Maybe<DeleteOneTaxCategorySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneTaxCategoryArgs = {
+  input?: Maybe<UpdateOneTaxCategorySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedTaxCategoryArgs = {
+  input?: Maybe<CreateTaxCategorySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneTaxRateArgs = {
+  input?: Maybe<DeleteOneTaxRateSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneTaxRateArgs = {
+  input?: Maybe<UpdateOneTaxRateSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedTaxRateArgs = {
+  input?: Maybe<CreateTaxRateSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneVendorArgs = {
+  input?: Maybe<DeleteOneVendorSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneVendorArgs = {
+  input?: Maybe<UpdateOneVendorSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedVendorArgs = {
+  input?: Maybe<CreateVendorSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneZoneArgs = {
+  input?: Maybe<DeleteOneZoneSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneZoneArgs = {
+  input?: Maybe<UpdateOneZoneSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedZoneArgs = {
+  input?: Maybe<CreateZoneSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneCountryArgs = {
+  input?: Maybe<DeleteOneCountrySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneCountryArgs = {
+  input?: Maybe<UpdateOneCountrySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedCountryArgs = {
+  input?: Maybe<CreateCountrySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneSeoArgs = {
+  input?: Maybe<DeleteOneSeoSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneSeoArgs = {
+  input?: Maybe<UpdateOneSeoSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedSeoArgs = {
+  input?: Maybe<CreateSeoSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneFacetArgs = {
+  input?: Maybe<DeleteOneFacetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneFacetArgs = {
+  input?: Maybe<UpdateOneFacetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedFacetArgs = {
+  input?: Maybe<CreateFacetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneFacetValueArgs = {
+  input?: Maybe<DeleteOneFacetValueSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneFacetValueArgs = {
+  input?: Maybe<UpdateOneFacetValueSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedFacetValueArgs = {
+  input?: Maybe<CreateFacetValueSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneProductArgs = {
+  input?: Maybe<DeleteOneProductSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneProductArgs = {
+  input?: Maybe<UpdateOneProductSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedProductArgs = {
+  input?: Maybe<CreateProductSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneProductVariantArgs = {
+  input?: Maybe<DeleteOneProductVariantSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneProductVariantArgs = {
+  input?: Maybe<UpdateOneProductVariantSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedProductVariantArgs = {
+  input?: Maybe<CreateProductVariantSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneProductOptionArgs = {
+  input?: Maybe<DeleteOneProductOptionSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneProductOptionArgs = {
+  input?: Maybe<UpdateOneProductOptionSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedProductOptionArgs = {
+  input?: Maybe<CreateProductOptionSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneProductOptionGroupArgs = {
+  input?: Maybe<DeleteOneProductOptionGroupSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneProductOptionGroupArgs = {
+  input?: Maybe<UpdateOneProductOptionGroupSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedProductOptionGroupArgs = {
+  input?: Maybe<CreateProductOptionGroupSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneProductVariantPriceArgs = {
+  input?: Maybe<DeleteOneProductVariantPriceSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneProductVariantPriceArgs = {
+  input?: Maybe<UpdateOneProductVariantPriceSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedProductVariantPriceArgs = {
+  input?: Maybe<CreateProductVariantPriceSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneProductVariantAssetArgs = {
+  input?: Maybe<DeleteOneProductVariantAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneProductVariantAssetArgs = {
+  input?: Maybe<UpdateOneProductVariantAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedProductVariantAssetArgs = {
+  input?: Maybe<CreateProductVariantAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneProductAssetArgs = {
+  input?: Maybe<DeleteOneProductAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneProductAssetArgs = {
+  input?: Maybe<UpdateOneProductAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedProductAssetArgs = {
+  input?: Maybe<CreateProductAssetSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneVendorPlansArgs = {
+  input?: Maybe<DeleteOneVendorPlansSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneVendorPlansArgs = {
+  input?: Maybe<UpdateOneVendorPlansSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedVendorPlansArgs = {
+  input?: Maybe<CreateVendorPlansSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneVendorLicenseArgs = {
+  input?: Maybe<DeleteOneVendorLicenseSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneVendorLicenseArgs = {
+  input?: Maybe<UpdateOneVendorLicenseSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedVendorLicenseArgs = {
+  input?: Maybe<CreateVendorLicenseSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneStockKeepingArgs = {
+  input?: Maybe<DeleteOneStockKeepingSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneStockKeepingArgs = {
+  input?: Maybe<UpdateOneStockKeepingSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedStockKeepingArgs = {
+  input?: Maybe<CreateStockKeepingSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneSaleArgs = {
+  input?: Maybe<DeleteOneSaleSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneSaleArgs = {
+  input?: Maybe<UpdateOneSaleSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedSaleArgs = {
+  input?: Maybe<CreateSaleSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneStockMovementArgs = {
+  input?: Maybe<DeleteOneStockMovementSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneStockMovementArgs = {
+  input?: Maybe<UpdateOneStockMovementSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedStockMovementArgs = {
+  input?: Maybe<CreateStockMovementSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneCancellationArgs = {
+  input?: Maybe<DeleteOneCancellationSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneCancellationArgs = {
+  input?: Maybe<UpdateOneCancellationSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedCancellationArgs = {
+  input?: Maybe<CreateCancellationSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneOrderArgs = {
+  input?: Maybe<DeleteOneOrderSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneOrderArgs = {
+  input?: Maybe<UpdateOneOrderSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedOrderArgs = {
+  input?: Maybe<CreateOrderSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneZipArgs = {
+  input?: Maybe<DeleteOneZipSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneZipArgs = {
+  input?: Maybe<UpdateOneZipSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedZipArgs = {
+  input?: Maybe<CreateZipSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneMenuArgs = {
+  input?: Maybe<DeleteOneMenuSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneMenuArgs = {
+  input?: Maybe<UpdateOneMenuSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedMenuArgs = {
+  input?: Maybe<CreateMenuSubscriptionFilterInput>;
+};
+
+export type DeleteOneAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AssetSubscriptionFilter;
+};
+
+export type AssetSubscriptionFilter = {
+  and?: Maybe<Array<AssetSubscriptionFilter>>;
+  or?: Maybe<Array<AssetSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  type?: Maybe<StringFieldComparison>;
+  mimeType?: Maybe<StringFieldComparison>;
+  width?: Maybe<NumberFieldComparison>;
+  height?: Maybe<NumberFieldComparison>;
+  fileSize?: Maybe<NumberFieldComparison>;
+  source?: Maybe<StringFieldComparison>;
+  preview?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AssetSubscriptionFilter;
+};
+
+export type CreateAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AssetSubscriptionFilter;
+};
+
+export type DeleteOneRoleSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: RoleSubscriptionFilter;
+};
+
+export type RoleSubscriptionFilter = {
+  and?: Maybe<Array<RoleSubscriptionFilter>>;
+  or?: Maybe<Array<RoleSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneRoleSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: RoleSubscriptionFilter;
+};
+
+export type CreateRoleSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: RoleSubscriptionFilter;
+};
+
+export type DeleteOneCollectionSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CollectionSubscriptionFilter;
+};
+
+export type CollectionSubscriptionFilter = {
+  and?: Maybe<Array<CollectionSubscriptionFilter>>;
+  or?: Maybe<Array<CollectionSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  isRoot?: Maybe<BooleanFieldComparison>;
+  inMenu?: Maybe<BooleanFieldComparison>;
+  position?: Maybe<NumberFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneCollectionSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CollectionSubscriptionFilter;
+};
+
+export type CreateCollectionSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CollectionSubscriptionFilter;
+};
+
+export type DeleteOneChannelSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ChannelSubscriptionFilter;
+};
+
+export type ChannelSubscriptionFilter = {
+  and?: Maybe<Array<ChannelSubscriptionFilter>>;
+  or?: Maybe<Array<ChannelSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  token?: Maybe<StringFieldComparison>;
+  defaultLanguageCode?: Maybe<StringFieldComparison>;
+  currencyCode?: Maybe<StringFieldComparison>;
+  pricesIncludeTax?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOneChannelSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ChannelSubscriptionFilter;
+};
+
+export type CreateChannelSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ChannelSubscriptionFilter;
+};
+
+export type DeleteOneStoreSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StoreSubscriptionFilter;
+};
+
+export type StoreSubscriptionFilter = {
+  and?: Maybe<Array<StoreSubscriptionFilter>>;
+  or?: Maybe<Array<StoreSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOneStoreSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StoreSubscriptionFilter;
+};
+
+export type CreateStoreSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StoreSubscriptionFilter;
+};
+
+export type DeleteOneTaxCategorySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaxCategorySubscriptionFilter;
+};
+
+export type TaxCategorySubscriptionFilter = {
+  and?: Maybe<Array<TaxCategorySubscriptionFilter>>;
+  or?: Maybe<Array<TaxCategorySubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneTaxCategorySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaxCategorySubscriptionFilter;
+};
+
+export type CreateTaxCategorySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaxCategorySubscriptionFilter;
+};
+
+export type DeleteOneTaxRateSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaxRateSubscriptionFilter;
+};
+
+export type TaxRateSubscriptionFilter = {
+  and?: Maybe<Array<TaxRateSubscriptionFilter>>;
+  or?: Maybe<Array<TaxRateSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOneTaxRateSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaxRateSubscriptionFilter;
+};
+
+export type CreateTaxRateSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaxRateSubscriptionFilter;
+};
+
+export type DeleteOneVendorSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorSubscriptionFilter;
+};
+
+export type VendorSubscriptionFilter = {
+  and?: Maybe<Array<VendorSubscriptionFilter>>;
+  or?: Maybe<Array<VendorSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneVendorSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorSubscriptionFilter;
+};
+
+export type CreateVendorSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorSubscriptionFilter;
+};
+
+export type DeleteOneZoneSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ZoneSubscriptionFilter;
+};
+
+export type ZoneSubscriptionFilter = {
+  and?: Maybe<Array<ZoneSubscriptionFilter>>;
+  or?: Maybe<Array<ZoneSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneZoneSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ZoneSubscriptionFilter;
+};
+
+export type CreateZoneSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ZoneSubscriptionFilter;
+};
+
+export type DeleteOneCountrySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CountrySubscriptionFilter;
+};
+
+export type CountrySubscriptionFilter = {
+  and?: Maybe<Array<CountrySubscriptionFilter>>;
+  or?: Maybe<Array<CountrySubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOneCountrySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CountrySubscriptionFilter;
+};
+
+export type CreateCountrySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CountrySubscriptionFilter;
+};
+
+export type DeleteOneSeoSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SeoSubscriptionFilter;
+};
+
+export type SeoSubscriptionFilter = {
+  and?: Maybe<Array<SeoSubscriptionFilter>>;
+  or?: Maybe<Array<SeoSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  urlKey?: Maybe<StringFieldComparison>;
+  metatitle?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneSeoSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SeoSubscriptionFilter;
+};
+
+export type CreateSeoSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SeoSubscriptionFilter;
+};
+
+export type DeleteOneFacetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: FacetSubscriptionFilter;
+};
+
+export type FacetSubscriptionFilter = {
+  and?: Maybe<Array<FacetSubscriptionFilter>>;
+  or?: Maybe<Array<FacetSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneFacetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: FacetSubscriptionFilter;
+};
+
+export type CreateFacetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: FacetSubscriptionFilter;
+};
+
+export type DeleteOneFacetValueSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: FacetValueSubscriptionFilter;
+};
+
+export type FacetValueSubscriptionFilter = {
+  and?: Maybe<Array<FacetValueSubscriptionFilter>>;
+  or?: Maybe<Array<FacetValueSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneFacetValueSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: FacetValueSubscriptionFilter;
+};
+
+export type CreateFacetValueSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: FacetValueSubscriptionFilter;
+};
+
+export type DeleteOneProductSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductSubscriptionFilter;
+};
+
+export type ProductSubscriptionFilter = {
+  and?: Maybe<Array<ProductSubscriptionFilter>>;
+  or?: Maybe<Array<ProductSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  productName?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneProductSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductSubscriptionFilter;
+};
+
+export type CreateProductSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductSubscriptionFilter;
+};
+
+export type DeleteOneProductVariantSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantSubscriptionFilter;
+};
+
+export type ProductVariantSubscriptionFilter = {
+  and?: Maybe<Array<ProductVariantSubscriptionFilter>>;
+  or?: Maybe<Array<ProductVariantSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOneProductVariantSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantSubscriptionFilter;
+};
+
+export type CreateProductVariantSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantSubscriptionFilter;
+};
+
+export type DeleteOneProductOptionSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductOptionSubscriptionFilter;
+};
+
+export type ProductOptionSubscriptionFilter = {
+  and?: Maybe<Array<ProductOptionSubscriptionFilter>>;
+  or?: Maybe<Array<ProductOptionSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneProductOptionSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductOptionSubscriptionFilter;
+};
+
+export type CreateProductOptionSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductOptionSubscriptionFilter;
+};
+
+export type DeleteOneProductOptionGroupSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductOptionGroupSubscriptionFilter;
+};
+
+export type ProductOptionGroupSubscriptionFilter = {
+  and?: Maybe<Array<ProductOptionGroupSubscriptionFilter>>;
+  or?: Maybe<Array<ProductOptionGroupSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneProductOptionGroupSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductOptionGroupSubscriptionFilter;
+};
+
+export type CreateProductOptionGroupSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductOptionGroupSubscriptionFilter;
+};
+
+export type DeleteOneProductVariantPriceSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantPriceSubscriptionFilter;
+};
+
+export type ProductVariantPriceSubscriptionFilter = {
+  and?: Maybe<Array<ProductVariantPriceSubscriptionFilter>>;
+  or?: Maybe<Array<ProductVariantPriceSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOneProductVariantPriceSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantPriceSubscriptionFilter;
+};
+
+export type CreateProductVariantPriceSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantPriceSubscriptionFilter;
+};
+
+export type DeleteOneProductVariantAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantAssetSubscriptionFilter;
+};
+
+export type ProductVariantAssetSubscriptionFilter = {
+  and?: Maybe<Array<ProductVariantAssetSubscriptionFilter>>;
+  or?: Maybe<Array<ProductVariantAssetSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type UpdateOneProductVariantAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantAssetSubscriptionFilter;
+};
+
+export type CreateProductVariantAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductVariantAssetSubscriptionFilter;
+};
+
+export type DeleteOneProductAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductAssetSubscriptionFilter;
+};
+
+export type ProductAssetSubscriptionFilter = {
+  and?: Maybe<Array<ProductAssetSubscriptionFilter>>;
+  or?: Maybe<Array<ProductAssetSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type UpdateOneProductAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductAssetSubscriptionFilter;
+};
+
+export type CreateProductAssetSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ProductAssetSubscriptionFilter;
+};
+
+export type DeleteOneVendorPlansSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorPlansSubscriptionFilter;
+};
+
+export type VendorPlansSubscriptionFilter = {
+  and?: Maybe<Array<VendorPlansSubscriptionFilter>>;
+  or?: Maybe<Array<VendorPlansSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  isActive?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  planValue?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneVendorPlansSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorPlansSubscriptionFilter;
+};
+
+export type CreateVendorPlansSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorPlansSubscriptionFilter;
+};
+
+export type DeleteOneVendorLicenseSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorLicenseSubscriptionFilter;
+};
+
+export type VendorLicenseSubscriptionFilter = {
+  and?: Maybe<Array<VendorLicenseSubscriptionFilter>>;
+  or?: Maybe<Array<VendorLicenseSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  tenureStart?: Maybe<DateFieldComparison>;
+  tenureEnd?: Maybe<DateFieldComparison>;
+};
+
+export type UpdateOneVendorLicenseSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorLicenseSubscriptionFilter;
+};
+
+export type CreateVendorLicenseSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: VendorLicenseSubscriptionFilter;
+};
+
+export type DeleteOneStockKeepingSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StockKeepingSubscriptionFilter;
+};
+
+export type StockKeepingSubscriptionFilter = {
+  and?: Maybe<Array<StockKeepingSubscriptionFilter>>;
+  or?: Maybe<Array<StockKeepingSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+  available_quantity?: Maybe<NumberFieldComparison>;
+  threshold?: Maybe<NumberFieldComparison>;
+  multiple?: Maybe<BooleanFieldComparison>;
+  backorder?: Maybe<BooleanFieldComparison>;
+  stockstatus?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  type?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneStockKeepingSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StockKeepingSubscriptionFilter;
+};
+
+export type CreateStockKeepingSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StockKeepingSubscriptionFilter;
+};
+
+export type DeleteOneSaleSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SaleSubscriptionFilter;
+};
+
+export type SaleSubscriptionFilter = {
+  and?: Maybe<Array<SaleSubscriptionFilter>>;
+  or?: Maybe<Array<SaleSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneSaleSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SaleSubscriptionFilter;
+};
+
+export type CreateSaleSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SaleSubscriptionFilter;
+};
+
+export type DeleteOneStockMovementSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StockMovementSubscriptionFilter;
+};
+
+export type StockMovementSubscriptionFilter = {
+  and?: Maybe<Array<StockMovementSubscriptionFilter>>;
+  or?: Maybe<Array<StockMovementSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneStockMovementSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StockMovementSubscriptionFilter;
+};
+
+export type CreateStockMovementSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: StockMovementSubscriptionFilter;
+};
+
+export type DeleteOneCancellationSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CancellationSubscriptionFilter;
+};
+
+export type CancellationSubscriptionFilter = {
+  and?: Maybe<Array<CancellationSubscriptionFilter>>;
+  or?: Maybe<Array<CancellationSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneCancellationSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CancellationSubscriptionFilter;
+};
+
+export type CreateCancellationSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CancellationSubscriptionFilter;
+};
+
+export type DeleteOneOrderSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: OrderSubscriptionFilter;
+};
+
+export type OrderSubscriptionFilter = {
+  and?: Maybe<Array<OrderSubscriptionFilter>>;
+  or?: Maybe<Array<OrderSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  orderPlacedAt?: Maybe<DateFieldComparison>;
+  totalPrice?: Maybe<NumberFieldComparison>;
+  address?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneOrderSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: OrderSubscriptionFilter;
+};
+
+export type CreateOrderSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: OrderSubscriptionFilter;
+};
+
+export type DeleteOneZipSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ZipSubscriptionFilter;
+};
+
+export type ZipSubscriptionFilter = {
+  and?: Maybe<Array<ZipSubscriptionFilter>>;
+  or?: Maybe<Array<ZipSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneZipSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ZipSubscriptionFilter;
+};
+
+export type CreateZipSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: ZipSubscriptionFilter;
+};
+
+export type DeleteOneMenuSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: MenuSubscriptionFilter;
+};
+
+export type MenuSubscriptionFilter = {
+  and?: Maybe<Array<MenuSubscriptionFilter>>;
+  or?: Maybe<Array<MenuSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  target?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneMenuSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: MenuSubscriptionFilter;
+};
+
+export type CreateMenuSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: MenuSubscriptionFilter;
 };
 
 export type AdministratorLoginMutationVariables = Exact<{
@@ -6529,103 +11011,104 @@ export type GetAllZonesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAllZonesQuery = (
   { __typename?: 'Query' }
-  & { zones: (
-    { __typename?: 'ZoneConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'ZoneEdge' }
-      & { node: (
-        { __typename?: 'Zone' }
-        & Pick<Zone, 'id' | 'name'>
-      ) }
+  & { zones: Array<(
+    { __typename?: 'Zone' }
+    & Pick<Zone, 'id' | 'name'>
+  )> }
+);
+
+export type GetZoneAgreegateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetZoneAgreegateQuery = (
+  { __typename?: 'Query' }
+  & { zoneAggregate: (
+    { __typename?: 'ZoneAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'ZoneCountAggregate' }
+      & Pick<ZoneCountAggregate, 'id'>
     )> }
   ) }
 );
 
 export type GetTaxRulesQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
   iLike?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['ConnectionCursor']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetTaxRulesQuery = (
   { __typename?: 'Query' }
-  & { taxCategories: (
-    { __typename?: 'TaxCategoryConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'TaxCategoryEdge' }
-      & { node: (
-        { __typename?: 'TaxCategory' }
-        & Pick<TaxCategory, 'id' | 'name'>
-      ) }
+  & { taxCategories: Array<(
+    { __typename?: 'TaxCategory' }
+    & Pick<TaxCategory, 'id' | 'name'>
+  )> }
+);
+
+export type GetTaxCategoryAgreegateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTaxCategoryAgreegateQuery = (
+  { __typename?: 'Query' }
+  & { taxCategoryAggregate: (
+    { __typename?: 'TaxCategoryAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'TaxCategoryCountAggregate' }
+      & Pick<TaxCategoryCountAggregate, 'id'>
     )> }
   ) }
 );
 
 export type GetTaxRatesQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetTaxRatesQuery = (
   { __typename?: 'Query' }
-  & { taxRates: (
-    { __typename?: 'TaxRateConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'>
-    ), edges: Array<(
-      { __typename?: 'TaxRateEdge' }
-      & { node: (
-        { __typename?: 'TaxRate' }
-        & Pick<TaxRate, 'id' | 'name' | 'value' | 'enabled'>
-        & { zone: (
-          { __typename?: 'Zone' }
-          & Pick<Zone, 'id' | 'name'>
-        ), category: (
-          { __typename?: 'TaxCategory' }
-          & Pick<TaxCategory, 'id' | 'name'>
-        ) }
-      ) }
+  & { taxRates: Array<(
+    { __typename?: 'TaxRate' }
+    & Pick<TaxRate, 'id' | 'name' | 'value' | 'enabled'>
+    & { zone: (
+      { __typename?: 'Zone' }
+      & Pick<Zone, 'id' | 'name'>
+    ), category: (
+      { __typename?: 'TaxCategory' }
+      & Pick<TaxCategory, 'id' | 'name'>
+    ) }
+  )> }
+);
+
+export type GetTaxRateAgreegateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTaxRateAgreegateQuery = (
+  { __typename?: 'Query' }
+  & { taxRateAggregate: (
+    { __typename?: 'TaxRateAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'TaxRateCountAggregate' }
+      & Pick<TaxRateCountAggregate, 'id'>
     )> }
   ) }
 );
 
 export type GetAllChannelsQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  search?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetAllChannelsQuery = (
   { __typename?: 'Query' }
-  & { channels: (
-    { __typename?: 'ChannelConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'>
-    ), edges: Array<(
-      { __typename?: 'ChannelEdge' }
-      & { node: (
-        { __typename?: 'Channel' }
-        & Pick<Channel, 'id' | 'code' | 'defaultLanguageCode' | 'currencyCode' | 'pricesIncludeTax'>
-      ) }
-    )> }
-  ) }
+  & { channels: Array<(
+    { __typename?: 'Channel' }
+    & Pick<Channel, 'id' | 'code' | 'defaultLanguageCode' | 'currencyCode' | 'pricesIncludeTax'>
+  )> }
 );
 
 export type GetallcollectionQueryVariables = Exact<{ [key: string]: never; }>;
@@ -6636,26 +11119,14 @@ export type GetallcollectionQuery = (
   & { GetCollectionTree: Array<(
     { __typename?: 'Collection' }
     & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
-    & { children: (
-      { __typename?: 'CollectionConnection' }
-      & { edges: Array<(
-        { __typename?: 'CollectionEdge' }
-        & { node: (
-          { __typename?: 'Collection' }
-          & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
-          & { children: (
-            { __typename?: 'CollectionConnection' }
-            & { edges: Array<(
-              { __typename?: 'CollectionEdge' }
-              & { node: (
-                { __typename?: 'Collection' }
-                & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
-              ) }
-            )> }
-          ) }
-        ) }
+    & { children: Array<(
+      { __typename?: 'Collection' }
+      & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
+      & { children: Array<(
+        { __typename?: 'Collection' }
+        & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
       )> }
-    ) }
+    )> }
   )> }
 );
 
@@ -6669,144 +11140,147 @@ export type GetOneCollectionQuery = (
   & { collection?: Maybe<(
     { __typename?: 'Collection' }
     & Pick<Collection, 'id' | 'name' | 'isRoot' | 'inMenu' | 'description'>
-    & { seo: (
+    & { seo?: Maybe<(
       { __typename?: 'Seo' }
       & Pick<Seo, 'id' | 'urlKey' | 'metadesc' | 'metatitle' | 'metakeywords'>
-    ) }
+    )> }
   )> }
 );
 
 export type GetAllAssetsQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetAllAssetsQuery = (
   { __typename?: 'Query' }
-  & { assets: (
-    { __typename?: 'AssetConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'AssetEdge' }
-      & { node: (
-        { __typename?: 'Asset' }
-        & Pick<Asset, 'id' | 'createdAt' | 'name' | 'type' | 'mimeType' | 'source' | 'preview' | 'fileSize' | 'width' | 'height'>
-      ) }
+  & { assets: Array<(
+    { __typename?: 'Asset' }
+    & Pick<Asset, 'id' | 'createdAt' | 'name' | 'type' | 'mimeType' | 'source' | 'preview' | 'fileSize' | 'width' | 'height'>
+  )> }
+);
+
+export type GetAssetsAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAssetsAggregateQuery = (
+  { __typename?: 'Query' }
+  & { assetAggregate: (
+    { __typename?: 'AssetAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'AssetCountAggregate' }
+      & Pick<AssetCountAggregate, 'id'>
     )> }
   ) }
 );
 
 export type GetAllFacetsQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetAllFacetsQuery = (
   { __typename?: 'Query' }
-  & { facets: (
-    { __typename?: 'FacetConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'FacetEdge' }
-      & { node: (
-        { __typename?: 'Facet' }
-        & Pick<Facet, 'id' | 'createdAt' | 'name' | 'isPrivate' | 'code'>
-      ) }
+  & { facets: Array<(
+    { __typename?: 'Facet' }
+    & Pick<Facet, 'id' | 'createdAt' | 'name' | 'isPrivate' | 'code'>
+  )> }
+);
+
+export type GetFacetAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFacetAggregateQuery = (
+  { __typename?: 'Query' }
+  & { facetAggregate: (
+    { __typename?: 'FacetAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'FacetCountAggregate' }
+      & Pick<FacetCountAggregate, 'id'>
     )> }
   ) }
 );
 
 export type GetFacetValuesQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  search?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetFacetValuesQuery = (
   { __typename?: 'Query' }
-  & { facetValues: (
-    { __typename?: 'FacetValueConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'FacetValueEdge' }
-      & { node: (
-        { __typename?: 'FacetValue' }
-        & Pick<FacetValue, 'id' | 'code'>
-        & { facet: (
-          { __typename?: 'Facet' }
-          & Pick<Facet, 'id' | 'name' | 'code'>
-        ) }
-      ) }
+  & { facetValues: Array<(
+    { __typename?: 'FacetValue' }
+    & Pick<FacetValue, 'id' | 'code'>
+    & { facet: (
+      { __typename?: 'Facet' }
+      & Pick<Facet, 'id' | 'code' | 'name'>
+    ) }
+  )> }
+);
+
+export type GetFacetValueAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFacetValueAggregateQuery = (
+  { __typename?: 'Query' }
+  & { facetValueAggregate: (
+    { __typename?: 'FacetValueAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'FacetValueCountAggregate' }
+      & Pick<FacetValueCountAggregate, 'id'>
     )> }
   ) }
 );
 
 export type GetAllProductsQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetAllProductsQuery = (
   { __typename?: 'Query' }
-  & { products: (
-    { __typename?: 'ProductConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'ProductEdge' }
-      & { node: (
-        { __typename?: 'Product' }
-        & Pick<Product, 'id' | 'slug' | 'productName' | 'description'>
-        & { featuredAsset: (
-          { __typename?: 'Asset' }
-          & Pick<Asset, 'id' | 'preview' | 'source'>
-        ), facets: (
-          { __typename?: 'FacetValueConnection' }
-          & { edges: Array<(
-            { __typename?: 'FacetValueEdge' }
-            & { node: (
-              { __typename?: 'FacetValue' }
-              & Pick<FacetValue, 'id' | 'code'>
-              & { facet: (
-                { __typename?: 'Facet' }
-                & Pick<Facet, 'id' | 'name' | 'code'>
-              ) }
-            ) }
-          )> }
-        ), assets: (
-          { __typename?: 'ProductAssetConnection' }
-          & { edges: Array<(
-            { __typename?: 'ProductAssetEdge' }
-            & { node: (
-              { __typename?: 'ProductAsset' }
-              & Pick<ProductAsset, 'id'>
-              & { asset: (
-                { __typename?: 'Asset' }
-                & Pick<Asset, 'id' | 'name' | 'type' | 'mimeType' | 'preview' | 'source'>
-              ) }
-            ) }
-          )> }
-        ) }
+  & { products: Array<(
+    { __typename?: 'Product' }
+    & Pick<Product, 'id' | 'slug' | 'productName' | 'description'>
+    & { featuredAsset: (
+      { __typename?: 'Asset' }
+      & Pick<Asset, 'id' | 'preview' | 'source'>
+    ), facets: Array<(
+      { __typename?: 'FacetValue' }
+      & Pick<FacetValue, 'id' | 'code'>
+      & { facet: (
+        { __typename?: 'Facet' }
+        & Pick<Facet, 'id' | 'name' | 'code'>
       ) }
+    )>, assets: Array<(
+      { __typename?: 'ProductAsset' }
+      & Pick<ProductAsset, 'id'>
+      & { asset: (
+        { __typename?: 'Asset' }
+        & Pick<Asset, 'id' | 'name' | 'type' | 'mimeType' | 'preview' | 'source'>
+      ) }
+    )> }
+  )> }
+);
+
+export type GetProductAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductAggregateQuery = (
+  { __typename?: 'Query' }
+  & { productAggregate: (
+    { __typename?: 'ProductAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'ProductCountAggregate' }
+      & Pick<ProductCountAggregate, 'id'>
     )> }
   ) }
 );
@@ -6821,16 +11295,10 @@ export type GetFacetQuery = (
   & { facet?: Maybe<(
     { __typename?: 'Facet' }
     & Pick<Facet, 'id' | 'isPrivate' | 'name' | 'code'>
-    & { values: (
-      { __typename?: 'FacetValueConnection' }
-      & { edges: Array<(
-        { __typename?: 'FacetValueEdge' }
-        & { node: (
-          { __typename?: 'FacetValue' }
-          & Pick<FacetValue, 'id' | 'code'>
-        ) }
-      )> }
-    ) }
+    & { values: Array<(
+      { __typename?: 'FacetValue' }
+      & Pick<FacetValue, 'id' | 'code'>
+    )> }
   )> }
 );
 
@@ -6850,59 +11318,37 @@ export type GetOneProductQuery = (
     )>, featuredAsset: (
       { __typename?: 'Asset' }
       & Pick<Asset, 'id' | 'preview' | 'source'>
-    ), facets: (
-      { __typename?: 'FacetValueConnection' }
-      & { edges: Array<(
-        { __typename?: 'FacetValueEdge' }
-        & { node: (
-          { __typename?: 'FacetValue' }
-          & Pick<FacetValue, 'id' | 'code'>
-          & { facet: (
-            { __typename?: 'Facet' }
-            & Pick<Facet, 'id' | 'name' | 'code'>
-          ) }
-        ) }
-      )> }
-    ), assets: (
-      { __typename?: 'ProductAssetConnection' }
-      & { edges: Array<(
-        { __typename?: 'ProductAssetEdge' }
-        & { node: (
-          { __typename?: 'ProductAsset' }
-          & Pick<ProductAsset, 'id'>
-          & { asset: (
-            { __typename?: 'Asset' }
-            & Pick<Asset, 'id' | 'source' | 'preview'>
-          ) }
-        ) }
-      )> }
-    ) }
+    ), facets: Array<(
+      { __typename?: 'FacetValue' }
+      & Pick<FacetValue, 'id' | 'code'>
+      & { facet: (
+        { __typename?: 'Facet' }
+        & Pick<Facet, 'id' | 'name' | 'code'>
+      ) }
+    )>, assets: Array<(
+      { __typename?: 'ProductAsset' }
+      & Pick<ProductAsset, 'id'>
+      & { asset: (
+        { __typename?: 'Asset' }
+        & Pick<Asset, 'id' | 'source' | 'preview'>
+      ) }
+    )> }
   )> }
 );
 
 export type GetAllVendurePlansQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetAllVendurePlansQuery = (
   { __typename?: 'Query' }
-  & { vendorPlans: (
-    { __typename?: 'VendorPlansConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'VendorPlansEdge' }
-      & { node: (
-        { __typename?: 'VendorPlans' }
-        & Pick<VendorPlans, 'id' | 'isActive' | 'name' | 'planValue' | 'priceStrategy' | 'tenureStrategy'>
-      ) }
-    )> }
-  ) }
+  & { vendorPlans: Array<(
+    { __typename?: 'VendorPlans' }
+    & Pick<VendorPlans, 'id' | 'isActive' | 'name' | 'planValue' | 'priceStrategy' | 'tenureStrategy'>
+  )> }
 );
 
 export type GetProductVariantQueryVariables = Exact<{
@@ -6915,56 +11361,38 @@ export type GetProductVariantQuery = (
   & { product?: Maybe<(
     { __typename?: 'Product' }
     & Pick<Product, 'id'>
-    & { variants: (
-      { __typename?: 'ProductVariantConnection' }
-      & { edges: Array<(
-        { __typename?: 'ProductVariantEdge' }
-        & { node: (
-          { __typename?: 'ProductVariant' }
-          & Pick<ProductVariant, 'id' | 'name' | 'enabled' | 'sku' | 'trackInventory' | 'dum_price'>
-          & { seo?: Maybe<(
-            { __typename?: 'Seo' }
-            & Pick<Seo, 'id' | 'urlKey' | 'metatitle' | 'metakeywords' | 'metadesc'>
-          )>, specs?: Maybe<(
-            { __typename?: 'ProductVariantSpecs' }
-            & Pick<ProductVariantSpecs, 'id' | 'specs'>
-          )>, price?: Maybe<(
-            { __typename?: 'ProductVariantPrice' }
-            & Pick<ProductVariantPrice, 'id' | 'price' | 'taxIncluded'>
-            & { tax: (
-              { __typename?: 'TaxRate' }
-              & Pick<TaxRate, 'id' | 'value'>
-            ) }
-          )>, asset?: Maybe<(
-            { __typename?: 'ProductVariantAsset' }
-            & Pick<ProductVariantAsset, 'id'>
-            & { asset: (
-              { __typename?: 'Asset' }
-              & Pick<Asset, 'id' | 'preview'>
-            ) }
-          )> }
+    & { variants: Array<(
+      { __typename?: 'ProductVariant' }
+      & Pick<ProductVariant, 'id' | 'name' | 'enabled' | 'sku' | 'trackInventory' | 'dum_price'>
+      & { seo?: Maybe<(
+        { __typename?: 'Seo' }
+        & Pick<Seo, 'id' | 'urlKey' | 'metatitle' | 'metakeywords' | 'metadesc'>
+      )>, specs?: Maybe<(
+        { __typename?: 'ProductVariantSpecs' }
+        & Pick<ProductVariantSpecs, 'id' | 'specs'>
+      )>, price?: Maybe<(
+        { __typename?: 'ProductVariantPrice' }
+        & Pick<ProductVariantPrice, 'id' | 'price' | 'taxIncluded'>
+        & { tax: (
+          { __typename?: 'TaxRate' }
+          & Pick<TaxRate, 'id' | 'value'>
+        ) }
+      )>, asset?: Maybe<(
+        { __typename?: 'ProductVariantAsset' }
+        & Pick<ProductVariantAsset, 'id'>
+        & { asset: (
+          { __typename?: 'Asset' }
+          & Pick<Asset, 'id' | 'preview'>
         ) }
       )> }
-    ), options: (
-      { __typename?: 'ProductOptionGroupConnection' }
-      & { edges: Array<(
-        { __typename?: 'ProductOptionGroupEdge' }
-        & { node: (
-          { __typename?: 'ProductOptionGroup' }
-          & Pick<ProductOptionGroup, 'id' | 'name' | 'code'>
-          & { options: (
-            { __typename?: 'ProductOptionConnection' }
-            & { edges: Array<(
-              { __typename?: 'ProductOptionEdge' }
-              & { node: (
-                { __typename?: 'ProductOption' }
-                & Pick<ProductOption, 'id' | 'name' | 'code'>
-              ) }
-            )> }
-          ) }
-        ) }
+    )>, options: Array<(
+      { __typename?: 'ProductOptionGroup' }
+      & Pick<ProductOptionGroup, 'id' | 'name' | 'code'>
+      & { options: Array<(
+        { __typename?: 'ProductOption' }
+        & Pick<ProductOption, 'id' | 'name' | 'code'>
       )> }
-    ) }
+    )> }
   )> }
 );
 
@@ -7008,21 +11436,19 @@ export type FindAllVendorPlansQuery = (
   )> }
 );
 
-export type GetAllRolesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllRolesQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
 
 
 export type GetAllRolesQuery = (
   { __typename?: 'Query' }
-  & { roles: (
-    { __typename?: 'RoleConnection' }
-    & { edges: Array<(
-      { __typename?: 'RoleEdge' }
-      & { node: (
-        { __typename?: 'Role' }
-        & Pick<Role, 'id' | 'code' | 'description' | 'type'>
-      ) }
-    )> }
-  ) }
+  & { roles: Array<(
+    { __typename?: 'Role' }
+    & Pick<Role, 'id' | 'code' | 'description' | 'type'>
+  )> }
 );
 
 export type GetRoleQueryVariables = Exact<{
@@ -7091,35 +11517,25 @@ export type GetBillingAgreementByVendorQuery = (
 );
 
 export type GetAllSeoQueryVariables = Exact<{
-  before?: Maybe<Scalars['ConnectionCursor']>;
-  after?: Maybe<Scalars['ConnectionCursor']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type GetAllSeoQuery = (
   { __typename?: 'Query' }
-  & { seos: (
-    { __typename?: 'SeoConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename?: 'SeoEdge' }
-      & { node: (
-        { __typename?: 'Seo' }
-        & Pick<Seo, 'id' | 'urlKey' | 'metatitle' | 'metadesc' | 'metakeywords'>
-        & { collection?: Maybe<(
-          { __typename?: 'Collection' }
-          & Pick<Collection, 'id' | 'name'>
-        )>, variant?: Maybe<(
-          { __typename?: 'ProductVariant' }
-          & Pick<ProductVariant, 'id' | 'name'>
-        )> }
-      ) }
+  & { seos: Array<(
+    { __typename?: 'Seo' }
+    & Pick<Seo, 'id' | 'urlKey' | 'metadesc' | 'metatitle' | 'metakeywords'>
+    & { collection?: Maybe<(
+      { __typename?: 'Collection' }
+      & Pick<Collection, 'id' | 'name'>
+    )>, variant?: Maybe<(
+      { __typename?: 'ProductVariant' }
+      & Pick<ProductVariant, 'id' | 'name'>
     )> }
-  ) }
+  )> }
 );
 
 export type GetOneSeoQueryVariables = Exact<{
@@ -7178,16 +11594,10 @@ export type ZoneFindOneQuery = (
   & { ZoneFindOne: (
     { __typename?: 'Zone' }
     & Pick<Zone, 'id' | 'name'>
-    & { members: (
-      { __typename?: 'CountryConnection' }
-      & { edges: Array<(
-        { __typename?: 'CountryEdge' }
-        & { node: (
-          { __typename?: 'Country' }
-          & Pick<Country, 'id' | 'code' | 'name' | 'enabled'>
-        ) }
-      )> }
-    ) }
+    & { members: Array<(
+      { __typename?: 'Country' }
+      & Pick<Country, 'id' | 'code' | 'name' | 'enabled'>
+    )> }
   ) }
 );
 
@@ -7260,16 +11670,10 @@ export type SearchProductVariantsQueryVariables = Exact<{
 
 export type SearchProductVariantsQuery = (
   { __typename?: 'Query' }
-  & { productVariants: (
-    { __typename?: 'ProductVariantConnection' }
-    & { edges: Array<(
-      { __typename?: 'ProductVariantEdge' }
-      & { node: (
-        { __typename?: 'ProductVariant' }
-        & Pick<ProductVariant, 'id' | 'name' | 'enabled'>
-      ) }
-    )> }
-  ) }
+  & { productVariants: Array<(
+    { __typename?: 'ProductVariant' }
+    & Pick<ProductVariant, 'id' | 'name' | 'enabled'>
+  )> }
 );
 
 export type SearchCollectionQueryVariables = Exact<{
@@ -7279,16 +11683,10 @@ export type SearchCollectionQueryVariables = Exact<{
 
 export type SearchCollectionQuery = (
   { __typename?: 'Query' }
-  & { collections: (
-    { __typename?: 'CollectionConnection' }
-    & { edges: Array<(
-      { __typename?: 'CollectionEdge' }
-      & { node: (
-        { __typename?: 'Collection' }
-        & Pick<Collection, 'id' | 'name'>
-      ) }
-    )> }
-  ) }
+  & { collections: Array<(
+    { __typename?: 'Collection' }
+    & Pick<Collection, 'id' | 'name'>
+  )> }
 );
 
 export type SearchFacetValueQueryVariables = Exact<{
@@ -7298,20 +11696,14 @@ export type SearchFacetValueQueryVariables = Exact<{
 
 export type SearchFacetValueQuery = (
   { __typename?: 'Query' }
-  & { facetValues: (
-    { __typename?: 'FacetValueConnection' }
-    & { edges: Array<(
-      { __typename?: 'FacetValueEdge' }
-      & { node: (
-        { __typename?: 'FacetValue' }
-        & Pick<FacetValue, 'id' | 'code'>
-        & { facet: (
-          { __typename?: 'Facet' }
-          & Pick<Facet, 'id' | 'name'>
-        ) }
-      ) }
-    )> }
-  ) }
+  & { facetValues: Array<(
+    { __typename?: 'FacetValue' }
+    & Pick<FacetValue, 'id' | 'code'>
+    & { facet: (
+      { __typename?: 'Facet' }
+      & Pick<Facet, 'id' | 'name'>
+    ) }
+  )> }
 );
 
 
@@ -7745,85 +12137,72 @@ export const GetAllCountriesDocument = gql`
 export const GetAllZonesDocument = gql`
     query GetAllZones {
   zones {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      node {
-        id
-        name
-      }
+    id
+    name
+  }
+}
+    `;
+export const GetZoneAgreegateDocument = gql`
+    query GetZoneAgreegate {
+  zoneAggregate {
+    count {
+      id
     }
   }
 }
     `;
 export const GetTaxRulesDocument = gql`
-    query GetTaxRules($first: Int, $iLike: String, $after: ConnectionCursor, $last: Int, $before: ConnectionCursor) {
-  taxCategories(paging: {first: $first, after: $after, last: $last, before: $before}, filter: {name: {like: $iLike}}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      node {
-        id
-        name
-      }
+    query GetTaxRules($limit: Int, $iLike: String, $offset: Int) {
+  taxCategories(paging: {limit: $limit, offset: $offset}, filter: {name: {like: $iLike}}) {
+    id
+    name
+  }
+}
+    `;
+export const GetTaxCategoryAgreegateDocument = gql`
+    query GetTaxCategoryAgreegate {
+  taxCategoryAggregate {
+    count {
+      id
     }
   }
 }
     `;
 export const GetTaxRatesDocument = gql`
-    query GetTaxRates($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int) {
-  taxRates(paging: {before: $before, after: $after, first: $first, last: $last}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      endCursor
-      startCursor
+    query GetTaxRates($limit: Int, $iLike: String, $offset: Int) {
+  taxRates(paging: {limit: $limit, offset: $offset}, filter: {name: {like: $iLike}}) {
+    id
+    name
+    value
+    enabled
+    zone {
+      id
+      name
     }
-    edges {
-      node {
-        id
-        name
-        value
-        enabled
-        zone {
-          id
-          name
-        }
-        category {
-          id
-          name
-        }
-      }
+    category {
+      id
+      name
+    }
+  }
+}
+    `;
+export const GetTaxRateAgreegateDocument = gql`
+    query GetTaxRateAgreegate {
+  taxRateAggregate {
+    count {
+      id
     }
   }
 }
     `;
 export const GetAllChannelsDocument = gql`
-    query GetAllChannels($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int, $search: String) {
-  channels(filter: {code: {like: $search}}, paging: {before: $before, after: $after, first: $first, last: $last}, sorting: {field: createdAt, direction: DESC}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      endCursor
-      startCursor
-    }
-    edges {
-      node {
-        id
-        code
-        defaultLanguageCode
-        currencyCode
-        pricesIncludeTax
-      }
-    }
+    query GetAllChannels($limit: Int, $iLike: String, $offset: Int) {
+  channels(paging: {limit: $limit, offset: $offset}, filter: {code: {like: $iLike}}, sorting: {field: createdAt, direction: DESC}) {
+    id
+    code
+    defaultLanguageCode
+    currencyCode
+    pricesIncludeTax
   }
 }
     `;
@@ -7836,25 +12215,17 @@ export const GetallcollectionDocument = gql`
     name
     description
     children {
-      edges {
-        node {
-          id
-          isRoot
-          inMenu
-          name
-          description
-          children {
-            edges {
-              node {
-                id
-                isRoot
-                inMenu
-                name
-                description
-              }
-            }
-          }
-        }
+      id
+      isRoot
+      inMenu
+      name
+      description
+      children {
+        id
+        isRoot
+        inMenu
+        name
+        description
       }
     }
   }
@@ -7879,124 +12250,112 @@ export const GetOneCollectionDocument = gql`
 }
     `;
 export const GetAllAssetsDocument = gql`
-    query GetAllAssets($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int) {
-  assets(paging: {before: $before, after: $after, first: $first, last: $last}, sorting: {field: createdAt, direction: DESC}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      node {
-        id
-        createdAt
-        name
-        type
-        mimeType
-        source
-        preview
-        fileSize
-        width
-        height
-      }
+    query GetAllAssets($limit: Int, $iLike: String, $offset: Int) {
+  assets(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {name: {like: $iLike}}) {
+    id
+    createdAt
+    name
+    type
+    mimeType
+    source
+    preview
+    fileSize
+    width
+    height
+  }
+}
+    `;
+export const GetAssetsAggregateDocument = gql`
+    query GetAssetsAggregate {
+  assetAggregate {
+    count {
+      id
     }
   }
 }
     `;
 export const GetAllFacetsDocument = gql`
-    query GetAllFacets($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int) {
-  facets(paging: {before: $before, after: $after, first: $first, last: $last}, sorting: {field: createdAt, direction: DESC}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      node {
-        id
-        createdAt
-        name
-        isPrivate
-        code
-      }
+    query GetAllFacets($limit: Int, $iLike: String, $offset: Int) {
+  facets(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {name: {like: $iLike}}) {
+    id
+    createdAt
+    name
+    isPrivate
+    code
+  }
+}
+    `;
+export const GetFacetAggregateDocument = gql`
+    query GetFacetAggregate {
+  facetAggregate {
+    count {
+      id
     }
   }
 }
     `;
 export const GetFacetValuesDocument = gql`
-    query GetFacetValues($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int, $search: String) {
-  facetValues(paging: {before: $before, after: $after, first: $first, last: $last}, sorting: {direction: ASC, field: code}, filter: {code: {like: $search}}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+    query GetFacetValues($limit: Int, $iLike: String, $offset: Int) {
+  facetValues(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {code: {like: $iLike}}) {
+    id
+    code
+    facet {
+      id
+      code
+      name
     }
-    edges {
-      node {
-        id
-        code
-        facet {
-          id
-          name
-          code
-        }
-      }
+  }
+}
+    `;
+export const GetFacetValueAggregateDocument = gql`
+    query GetFacetValueAggregate {
+  facetValueAggregate {
+    count {
+      id
     }
   }
 }
     `;
 export const GetAllProductsDocument = gql`
-    query GetAllProducts($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int) {
-  products(paging: {before: $before, after: $after, first: $first, last: $last}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+    query GetAllProducts($limit: Int, $iLike: String, $offset: Int) {
+  products(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {productName: {like: $iLike}}) {
+    id
+    slug
+    productName
+    description
+    featuredAsset {
+      id
+      preview
+      source
     }
-    edges {
-      node {
+    facets {
+      id
+      code
+      facet {
         id
-        slug
-        productName
-        description
-        featuredAsset {
-          id
-          preview
-          source
-        }
-        facets {
-          edges {
-            node {
-              id
-              code
-              facet {
-                id
-                name
-                code
-              }
-            }
-          }
-        }
-        assets {
-          edges {
-            node {
-              id
-              asset {
-                id
-                name
-                type
-                mimeType
-                preview
-                source
-              }
-            }
-          }
-        }
+        name
+        code
       }
+    }
+    assets {
+      id
+      asset {
+        id
+        name
+        type
+        mimeType
+        preview
+        source
+      }
+    }
+  }
+}
+    `;
+export const GetProductAggregateDocument = gql`
+    query GetProductAggregate {
+  productAggregate {
+    count {
+      id
     }
   }
 }
@@ -8009,12 +12368,8 @@ export const GetFacetDocument = gql`
     name
     code
     values {
-      edges {
-        node {
-          id
-          code
-        }
-      }
+      id
+      code
     }
   }
 }
@@ -8037,52 +12392,34 @@ export const GetOneProductDocument = gql`
       source
     }
     facets {
-      edges {
-        node {
-          id
-          code
-          facet {
-            id
-            name
-            code
-          }
-        }
+      id
+      code
+      facet {
+        id
+        name
+        code
       }
     }
     assets {
-      edges {
-        node {
-          id
-          asset {
-            id
-            source
-            preview
-          }
-        }
+      id
+      asset {
+        id
+        source
+        preview
       }
     }
   }
 }
     `;
 export const GetAllVendurePlansDocument = gql`
-    query GetAllVendurePlans($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int) {
-  vendorPlans(paging: {before: $before, after: $after, first: $first, last: $last}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      node {
-        id
-        isActive
-        name
-        planValue
-        priceStrategy
-        tenureStrategy
-      }
-    }
+    query GetAllVendurePlans($limit: Int, $iLike: String, $offset: Int) {
+  vendorPlans(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {name: {like: $iLike}}) {
+    id
+    isActive
+    name
+    planValue
+    priceStrategy
+    tenureStrategy
   }
 }
     `;
@@ -8091,60 +12428,48 @@ export const GetProductVariantDocument = gql`
   product(id: $id) {
     id
     variants {
-      edges {
-        node {
+      id
+      name
+      enabled
+      sku
+      trackInventory
+      dum_price
+      seo {
+        id
+        urlKey
+        metatitle
+        metakeywords
+        metadesc
+      }
+      specs {
+        id
+        specs
+      }
+      price {
+        id
+        price
+        tax {
           id
-          name
-          enabled
-          sku
-          trackInventory
-          dum_price
-          seo {
-            id
-            urlKey
-            metatitle
-            metakeywords
-            metadesc
-          }
-          specs {
-            id
-            specs
-          }
-          price {
-            id
-            price
-            tax {
-              id
-              value
-            }
-            taxIncluded
-          }
-          asset {
-            id
-            asset {
-              id
-              preview
-            }
-          }
+          value
+        }
+        taxIncluded
+      }
+      asset {
+        id
+        asset {
+          id
+          preview
         }
       }
     }
     options {
-      edges {
-        node {
-          id
-          name
-          code
-          options {
-            edges {
-              node {
-                id
-                name
-                code
-              }
-            }
-          }
-        }
+      id
+      name
+      code
+      options {
+        id
+        name
+        code
       }
     }
   }
@@ -8189,16 +12514,12 @@ export const FindAllVendorPlansDocument = gql`
 }
     `;
 export const GetAllRolesDocument = gql`
-    query GetAllRoles {
-  roles(sorting: {field: createdAt, direction: DESC}) {
-    edges {
-      node {
-        id
-        code
-        description
-        type
-      }
-    }
+    query GetAllRoles($limit: Int, $iLike: String, $offset: Int) {
+  roles(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {code: {like: $iLike}}) {
+    id
+    code
+    description
+    type
   }
 }
     `;
@@ -8267,30 +12588,20 @@ export const GetBillingAgreementByVendorDocument = gql`
 }
     `;
 export const GetAllSeoDocument = gql`
-    query GetAllSeo($before: ConnectionCursor, $after: ConnectionCursor, $first: Int, $last: Int) {
-  seos(paging: {before: $before, after: $after, first: $first, last: $last}, sorting: {field: createdAt, direction: DESC}) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+    query GetAllSeo($limit: Int, $iLike: String, $offset: Int) {
+  seos(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {metatitle: {like: $iLike}}) {
+    id
+    urlKey
+    metadesc
+    metatitle
+    metakeywords
+    collection {
+      id
+      name
     }
-    edges {
-      node {
-        id
-        urlKey
-        metatitle
-        metadesc
-        metakeywords
-        collection {
-          id
-          name
-        }
-        variant {
-          id
-          name
-        }
-      }
+    variant {
+      id
+      name
     }
   }
 }
@@ -8342,14 +12653,10 @@ export const ZoneFindOneDocument = gql`
     id
     name
     members {
-      edges {
-        node {
-          id
-          code
-          name
-          enabled
-        }
-      }
+      id
+      code
+      name
+      enabled
     }
   }
 }
@@ -8412,41 +12719,29 @@ export const GetMenuTreeDocument = gql`
 export const SearchProductVariantsDocument = gql`
     query SearchProductVariants($search: String) {
   productVariants(filter: {name: {like: $search}}) {
-    edges {
-      node {
-        id
-        name
-        enabled
-      }
-    }
+    id
+    name
+    enabled
   }
 }
     `;
 export const SearchCollectionDocument = gql`
     query SearchCollection($search: String) {
   collections(filter: {name: {like: $search}}) {
-    edges {
-      node {
-        id
-        name
-      }
-    }
+    id
+    name
   }
 }
     `;
 export const SearchFacetValueDocument = gql`
     query SearchFacetValue($search: String) {
   facetValues(filter: {code: {like: $search}}) {
-    edges {
-      node {
-        id
-        facet {
-          id
-          name
-        }
-        code
-      }
+    id
+    facet {
+      id
+      name
     }
+    code
   }
 }
     `;

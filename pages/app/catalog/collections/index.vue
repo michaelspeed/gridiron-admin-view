@@ -138,15 +138,15 @@
             let onechindren: any[] = [];
             for (let vls of this.GetCollectionTree) {
                 let twochildren: any[] = [];
-                if (vls.children.edges.length > 0) {
-                    for (let second of vls.children.edges) {
+                if (vls.children.length > 0) {
+                    for (let second of vls.children) {
                         let thirdchild: any[] = [];
-                        if (second.node.children.edges.length > 0) {
-                            for (let third of second.node.children.edges) {
+                        if (second.children.length > 0) {
+                            for (let third of second.children) {
                                 let thnode = {
-                                    key: third.node.id,
-                                    title: third.node.name,
-                                    menu: third.node.inMenu,
+                                    key: third.id,
+                                    title: third.name,
+                                    menu: third.inMenu,
                                     add: false,
                                     edit: true
                                 };
@@ -154,9 +154,9 @@
                             }
                         }
                         let twonode = {
-                            key: second.node.id,
-                            title: second.node.name,
-                            menu: second.node.inMenu,
+                            key: second.id,
+                            title: second.name,
+                            menu: second.inMenu,
                             add: true,
                             edit: true,
                             children: thirdchild
