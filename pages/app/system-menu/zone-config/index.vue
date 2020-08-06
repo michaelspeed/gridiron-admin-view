@@ -17,7 +17,7 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="zoneAggregate">{{zoneAggregate.count.id}} Total</span>
                                 <div class="ml-5">
                                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                                         <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
@@ -108,7 +108,13 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
-    import {CreateOneZoneDocument, CreateOneZoneMutationVariables, GetAllZonesDocument, Zone} from '../../../../gql';
+    import {
+        CreateOneZoneDocument,
+        CreateOneZoneMutationVariables,
+        GetAllZonesDocument,
+        GetZoneAgreegateDocument,
+        Zone
+    } from '../../../../gql';
     import {AgGridVue} from 'ag-grid-vue';
     import ZoneActions from '../../../../components/Zones/ZoneActions.vue';
     import ApolloClient from 'apollo-client';
@@ -119,6 +125,11 @@
         components: {
             'ag-grid-vue': AgGridVue,
             ZoneActions
+        },
+        apollo: {
+            zoneAggregate: {
+                query: GetZoneAgreegateDocument
+            }
         }
     })
     export default class ZoneConfig extends Vue {
@@ -137,11 +148,13 @@
             suppressMenu: true
         };
 
+        private zoneAggregate
+
         private columnDefs = [
             {
                 headerName: 'Name',
                 filter: true,
-                field: 'node.name'
+                field: 'name'
             },
             {
                 headerName: 'Actions',
@@ -179,9 +192,7 @@
                 query: GetAllZonesDocument,
                 pollInterval: 3000
             }).subscribe(value => {
-                this.hasNext = value.data.zones.pageInfo.hasNextPage
-                this.hasPrev = value.data.zones.pageInfo.hasPreviousPage
-                this.allZones = value.data.zones.edges
+                this.allZones = value.data.zones
             })
         }
 
@@ -213,9 +224,7 @@
                 query: GetAllZonesDocument,
                 fetchPolicy: 'network-only'
             }).then(value => {
-                this.hasNext = value.data.zones.pageInfo.hasNextPage
-                this.hasPrev = value.data.zones.pageInfo.hasPreviousPage
-                this.allZones = value.data.zones.edges
+                this.allZones = value.data.zones
             })
         }
 

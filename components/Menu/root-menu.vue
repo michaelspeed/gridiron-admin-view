@@ -35,22 +35,22 @@
                     </template>
                 </v-toolbar>
                 <v-card v-if="menuOptions === 'COLLECTION'">
-                    <DataTable :value="collections.edges" :selection.sync="colselect" selectionMode="single" dataKey="node.id">
-                        <Column field="node.id" header="Id"></Column>
-                        <Column field="node.name" header="Name"></Column>
+                    <DataTable :value="collections" :selection.sync="colselect" selectionMode="single" dataKey="id">
+                        <Column field="id" header="Id"></Column>
+                        <Column field="name" header="Name"></Column>
                     </DataTable>
                 </v-card>
                 <v-card v-if="menuOptions === 'VARIANT'">
-                    <DataTable :value="productVariants.edges" :selection.sync="variantSel" selectionMode="single" dataKey="node.id">
-                        <Column field="node.id" header="Id"></Column>
-                        <Column field="node.name" header="Name"></Column>
+                    <DataTable :value="productVariants" :selection.sync="variantSel" selectionMode="single" dataKey="id">
+                        <Column field="id" header="Id"></Column>
+                        <Column field="name" header="Name"></Column>
                     </DataTable>
                 </v-card>
                 <v-card v-if="menuOptions === 'FACET'">
-                    <DataTable :value="facetValues.edges" :selection.sync="facetSel" selectionMode="single" dataKey="node.id">
-                        <Column field="node.id" header="Id"></Column>
-                        <Column field="node.code" header="Code"></Column>
-                        <Column field="node.facet.name" header="Name"></Column>
+                    <DataTable :value="facetValues" :selection.sync="facetSel" selectionMode="single" dataKey="id">
+                        <Column field="id" header="Id"></Column>
+                        <Column field="code" header="Code"></Column>
+                        <Column field="facet.name" header="Name"></Column>
                     </DataTable>
                 </v-card>
             </v-card>
@@ -62,7 +62,7 @@
                 ></v-text-field>
             </div>
             <div class="mt-3">
-                <a-button type="primary" :loading="loading" @click="onCreateRoot">Create Menu</a-button>
+                <a href="javascript:;" class="btn btn-light-primary btn-sm font-weight-bold mr-2" @click="onCreateRoot">Create Menu</a>
             </div>
         </v-card-text>
     </v-card>
@@ -147,23 +147,31 @@
 
         @Watch('colselect')
         onColSelect(){
-            this.title = this.colselect.node.name
-            this.targetId = this.colselect.node.id
+            this.title = this.colselect.name
+            this.targetId = this.colselect.id
         }
 
         @Watch('variantSel')
         onValSelect(){
-            this.title = this.variantSel.node.name
-            this.targetId = this.variantSel.node.id
+            this.title = this.variantSel.name
+            this.targetId = this.variantSel.id
         }
 
         @Watch('facetSel')
         onFacetSelect(){
-            this.title = this.facetSel.node.code
-            this.targetId = this.facetSel.node.id
+            this.title = this.facetSel.code
+            this.targetId = this.facetSel.id
         }
 
         onCreateRoot(){
+            if (this.title === '') {
+                this.$Message.error('Please enter Title')
+                return
+            }
+            if (this.targetId === '') {
+                this.$Message.error('Please select target')
+                return
+            }
             this.loading = true
             const load: any = this.$Message.loading('Action in progress ...')
             this.$apollo.mutate({

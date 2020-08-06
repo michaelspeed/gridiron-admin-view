@@ -17,7 +17,7 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total"></span>
                                 <div class="ml-5">
                                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                                         <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." v-model="search"/>
@@ -60,7 +60,7 @@
                             class="ag-theme-material"
                             :columnDefs="columnDefs"
                             :defaultColDef="defaultColDef"
-                            :rowData="roles === undefined ? [] : roles.edges"
+                            :rowData="roles === undefined ? [] : roles"
                             colResizeDefault="shift"
                             :animateRows="true"
                             :floatingFilter="true"
@@ -103,12 +103,12 @@
             {
                 headerName: 'Code',
                 filter: false,
-                field: 'node.code'
+                field: 'code'
             },
             {
                 headerName: 'Description',
                 filter: false,
-                field: 'node.description'
+                field: 'description'
             },
             {
                 headerName: 'Actions',

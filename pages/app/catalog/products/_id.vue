@@ -91,14 +91,14 @@
                                       <v-list-item
                                         v-for="items in allFacets"
                                         :key="items.id"
-                                        @click="onClickSelect(items.node)"
+                                        @click="onClickSelect(items)"
                                       >
                                         <v-list-item-content>
-                                          <span class="label label-inline" v-if="!onSelectTrace(items.node)">
-                                            {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
+                                          <span class="label label-inline" v-if="!onSelectTrace(items)">
+                                            {{items.facet.name.toUpperCase()}} {{items.code}}
                                           </span>
-                                          <span class="label label-info label-inline mr-2" v-if="onSelectTrace(items.node)">
-                                            {{items.node.facet.name.toUpperCase()}} {{items.node.code}}
+                                          <span class="label label-info label-inline mr-2" v-if="onSelectTrace(items)">
+                                            {{items.facet.name.toUpperCase()}} {{items.code}}
                                           </span>
                                         </v-list-item-content>
                                       </v-list-item>
@@ -232,16 +232,16 @@
               <div class="col-md-12">
                 <v-row>
                   <v-col
-                    v-for="n in assets.edges"
-                    :key="n.node.id"
+                    v-for="n in assets"
+                    :key="n.id"
                     class="d-flex child-flex"
                     cols="2"
                   >
-                    <v-card flat tile class="d-flex" :color="getSelectedColor(n.node.id)" hover
-                            @click="onClickSelectAsset(n.node)" style="padding: 5px">
+                    <v-card flat tile class="d-flex" :color="getSelectedColor(n.id)" hover
+                            @click="onClickSelectAsset(n)" style="padding: 5px">
                       <v-img
                         :contain="true"
-                        :src="`${assetUrl}/${n.node.preview}`"
+                        :src="`${assetUrl}/${n.preview}`"
                         aspect-ratio="1"
                         class="lighten-2"
                       >
@@ -303,7 +303,7 @@
                 query: GetAllAssetsDocument,
                 variables() {
                     return {
-                        first: 50
+                        limit: 50
                     }
                 }
             },
@@ -311,8 +311,8 @@
                 query: GetFacetValuesDocument,
                 variables() {
                     return {
-                        first: 30,
-                        search: `${this.facetSearch}%`
+                        limit: 50,
+                        search: `%${this.facetSearch}%`
                     }
                 }
             }
@@ -355,15 +355,15 @@
             let onechindren: any[] = [];
             for (let vls of this.GetCollectionTree) {
                 let twochildren: any[] = [];
-                if (vls.children.edges.length > 0) {
-                    for (let second of vls.children.edges) {
+                if (vls.children.length > 0) {
+                    for (let second of vls.children) {
                         let thirdchild: any[] = [];
-                        if (second.node.children.edges.length > 0) {
-                            for (let third of second.node.children.edges) {
+                        if (second.children.length > 0) {
+                            for (let third of second.children) {
                                 let thnode = {
-                                    key: third.node.id,
-                                    title: third.node.name,
-                                    menu: third.node.inMenu,
+                                    key: third.id,
+                                    title: third.name,
+                                    menu: third.inMenu,
                                     add: false,
                                     edit: true
                                 };
@@ -371,9 +371,9 @@
                             }
                         }
                         let twonode = {
-                            key: second.node.id,
-                            title: second.node.name,
-                            menu: second.node.inMenu,
+                            key: second.id,
+                            title: second.name,
+                            menu: second.inMenu,
                             add: true,
                             edit: true,
                             children: thirdchild
@@ -398,8 +398,8 @@
         onGetOneProdDoc() {
             this.name = this.product.productName;
             this.slug = this.product.slug;
-            this.selectedFacet = this.product.facets.edges.map(item => item.node);
-            this.selectedAssets = this.product.assets.edges.map(item => item.node.asset);
+            this.selectedFacet = this.product.facets.map(item => item);
+            this.selectedAssets = this.product.assets.map(item => item.asset);
             this.editorDesc = this.product.description
             this.featuredAssets = this.product.featuredAsset;
             this.menuId = this.product.featuredAsset;
@@ -489,7 +489,8 @@
 
         @Watch('facetValues')
         onChangeFacetValue() {
-            this.allFacets = this.facetValues.edges
+            console.log(this.facetValues)
+            this.allFacets = this.facetValues
         }
 
         mounted() {

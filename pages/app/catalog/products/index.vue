@@ -20,7 +20,7 @@
                   <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="productAggregate">{{productAggregate.count.id}} Total</span>
                   <div class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                      <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
+                      <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." v-model="search"/>
                       <div class="input-group-append">
                         <i class="fas fa-search"></i>
                       </div>
@@ -57,19 +57,13 @@
                 class="ag-theme-material"
                 :columnDefs="columnDefs"
                 :defaultColDef="defaultColDef"
-                :rowData="allProducts"
+                :rowData="products"
                 colResizeDefault="shift"
                 :animateRows="true"
                 :floatingFilter="true"
                 :pagination="true"
                 :suppressPaginationPanel="true" :enableRtl="false">
               </ag-grid-vue>
-              <nav aria-label="Page navigation example">
-                <ul class="pagination pagination-circle justify-content-end">
-                  <li class="page-item" v-if="hasPrev"><a class="page-link" href="#">Previous</a></li>
-                  <li class="page-item" v-if="hasNext"><a class="page-link" href="#">Next</a></li>
-                </ul>
-              </nav>
             </div>
           </div>
         </div>
@@ -90,6 +84,16 @@
         apollo: {
             productAggregate: {
                 query: GetProductAggregateDocument
+            },
+            products: {
+                query: GetAllProductsDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset,
+                        iLike: `%${this.search}%`
+                    }
+                }
             }
         }
     })
@@ -103,9 +107,14 @@
         private first: number = 10
         private after: any = null
         private before: any = null
-        private search: string = ''
         private hasPrev: boolean = false;
         private hasNext: boolean = false;
+
+        private limit = 50
+        private offset = 0
+        private search: string = ''
+
+        private products
 
         // Table
         private gridOptions: any = {};
@@ -119,12 +128,12 @@
         private columnDefs = [
             {
                 headerName: 'Name',
-                filter: true,
+                filter: false,
                 field: 'productName'
             },
             {
                 headerName: 'Slug',
-                filter: true,
+                filter: false,
                 field: 'slug'
             },
             {
@@ -136,16 +145,6 @@
         mounted() {
             this.gridApi = this.gridOptions!.api;
             this.gridApi!.sizeColumnsToFit();
-            this.$apollo.watchQuery({
-                query: GetAllProductsDocument,
-                variables: {
-                    first: 30
-                },
-                pollInterval: 3000
-            }).subscribe(value => {
-                console.log(value)
-                this.allProducts = value!.data!.products
-            })
         }
 
         onCreateProduct() {

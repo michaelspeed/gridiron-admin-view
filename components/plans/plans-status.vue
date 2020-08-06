@@ -67,14 +67,14 @@
 
         mounted() {
             if (this.params !== undefined) {
-                this.status = this.params.data.node.isActive
+                this.status = this.params.data.isActive
             }
         }
 
         @Watch('params')
         onChangeParams() {
             if (this.params !== undefined) {
-                this.status = this.params.data.node.isActive
+                this.status = this.params.data.isActive
             }
         }
 
@@ -82,7 +82,7 @@
             this.$apollo.mutate({
                 mutation: UpdatePlanDocument,
                 variables: {
-                    id: this.params.data.node.id,
+                    id: this.params.data.id,
                     status: status
                 }
             }).then(value => {

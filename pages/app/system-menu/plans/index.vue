@@ -57,7 +57,7 @@
                             class="ag-theme-material"
                             :columnDefs="columnDefs"
                             :defaultColDef="defaultColDef"
-                            :rowData="allPlans"
+                            :rowData="vendorPlans"
                             colResizeDefault="shift"
                             :animateRows="true"
                             :floatingFilter="true"
@@ -134,6 +134,17 @@
         components: {
             PlansAction,
             PlansStatus
+        },
+        apollo: {
+            vendorPlans: {
+                query: GetAllVendurePlansDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset
+                    }
+                }
+            }
         }
     })
     export default class Index extends Vue {
@@ -145,6 +156,11 @@
         private pricingStrategy: string = ''
         private tenureStrategy: string = ''
         private allPlans = []
+
+        private limit = 50
+        private offset = 0
+
+        private vendorPlans
 
         // Table
         private gridOptions: any = {};
@@ -159,17 +175,17 @@
             {
                 headerName: 'Name',
                 filter: true,
-                field: 'node.name'
+                field: 'name'
             },
             {
                 headerName: 'Pricing Strategy',
                 filter: true,
-                field: 'node.priceStrategy'
+                field: 'priceStrategy'
             },
             {
                 headerName: 'Tenure Strategy',
                 filter: true,
-                field: 'node.tenureStrategy'
+                field: 'tenureStrategy'
             },
             {
                 headerName: 'Status',
@@ -193,7 +209,7 @@
 
 
         mounted() {
-            this.$apollo.watchQuery({
+            /*this.$apollo.watchQuery({
                 query: GetAllVendurePlansDocument,
                 variables: {
                     first: this.first,
@@ -204,8 +220,8 @@
                 pollInterval: 3000
             }).subscribe(value => {
                 console.log(value)
-                this.allPlans = value.data!.vendorPlans.edges
-            })
+                this.allPlans = value.data!.vendorPlans
+            })*/
         }
 
         onCreatePlan() {

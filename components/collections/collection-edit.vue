@@ -120,22 +120,17 @@
                 this.name = value.data!.collection.name
                 this.desc = value.data!.collection.description
                 this.inMenu = value.data!.collection.inMenu
-                this.metaUrl = value.data!.collection.seo.urlKey
-                this.metaTitle = value.data!.collection.seo.metatitle
-                this.metaDesc = value.data!.collection.seo.metadesc
-                this.metaKeywords = value.data!.collection.seo.metakeywords!.map(item => ({text: item}))
-                this.existing = value.data!.collection.seo.metakeywords!
-                this.seoId = value.data!.collection.seo.id
+                this.metaUrl = value.data!.collection.seo!.urlKey
+                this.metaTitle = value.data!.collection.seo!.metatitle
+                this.metaDesc = value.data!.collection.seo!.metadesc
+                this.metaKeywords = value.data!.collection.seo!.metakeywords!.map(item => ({text: item}))
+                this.existing = value.data!.collection.seo!.metakeywords!
+                this.seoId = value.data!.collection.seo!.id
             })
         }
 
         onUpdate() {
-            const load = this.$loading({
-                lock: true,
-                text: 'Creating Collection',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            })
+            const load: any = this.$Message.loading('Action in progress..');
             this.$apollo.mutate<any, UpdateCollectionMutationVariables>({
                 mutation: UpdateCollectionDocument,
                 variables: {
@@ -150,7 +145,7 @@
                     metakeywords: this.metaKeywords.map(item => item.text)
                 }
             }).then(value => {
-                load.close()
+                load()
                 this.$notify({
                     title: 'Success',
                     message: 'Collection Updated',

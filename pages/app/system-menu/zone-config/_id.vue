@@ -17,7 +17,7 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="ZoneFindOne">{{ZoneFindOne.members.length}} Total</span>
                                 <div class="ml-5">
                                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                                         <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
@@ -60,7 +60,7 @@
                             class="ag-theme-material"
                             :columnDefs="columnDefs"
                             :defaultColDef="defaultColDef"
-                            :rowData="ZoneFindOne.members.edges"
+                            :rowData="ZoneFindOne.members"
                             colResizeDefault="shift"
                             :animateRows="true"
                             :floatingFilter="true"
@@ -153,17 +153,17 @@
             {
                 headerName: 'Name',
                 filter: true,
-                field: 'node.name'
+                field: 'name'
             },
             {
                 headerName: 'Code',
                 filter: false,
-                field: 'node.code'
+                field: 'code'
             },
             {
                 headerName: 'Active',
                 filter: false,
-                valueFormatter: (data) => data.data.node.enabled ? 'Active': 'Disabled'
+                valueFormatter: (data) => data.data.enabled ? 'Active': 'Disabled'
             },
         ]
         private addmember = false

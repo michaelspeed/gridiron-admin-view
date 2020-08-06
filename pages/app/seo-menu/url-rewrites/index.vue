@@ -59,7 +59,7 @@
                             class="ag-theme-material ag-grid-table"
                             :columnDefs="columnDefs"
                             :defaultColDef="defaultColDef"
-                            :rowData="seos.edges"
+                            :rowData="seos"
                             colResizeDefault="shift"
                             :animateRows="true"
                             :floatingFilter="true"
@@ -86,11 +86,8 @@
                 query: GetAllSeoDocument,
                 variables() {
                     return {
-                        first: this.first,
-                        last: this.last === 0 ? undefined : this.last,
-                        after: this.after === null ? undefined : this.after,
-                        before: this.before === null ? undefined : this.before,
-                        search: this.search === '' ? undefined : `${this.search}%`
+                        limit: this.limit,
+                        offset: this.offset
                     }
                 },
                 fetchPolicy: 'network-only'
@@ -102,6 +99,9 @@
     })
     export default class UrlRewrites extends Vue {
         private seos
+
+        private limit = 50
+        private offset = 0
 
         //table
         private gridOptions: any = {};
@@ -115,12 +115,12 @@
             {
                 headerName: 'Meta-Title',
                 filter: false,
-                field: 'node.metatitle'
+                field: 'metatitle'
             },
             {
                 headerName: 'Url-Key',
                 filter: false,
-                field: 'node.urlKey'
+                field: 'urlKey'
             },
             {
                 headerName: 'Actions',
@@ -151,10 +151,10 @@
         }
 
         onCheckVarCol(data) {
-            if (data.data.node.collection !== null) {
-                return `${data.data.node.collection.name}: (Collection)`
-            } else if (data.data.node.variant !== null) {
-                return `${data.data.node.variant.name}: (Variant)`
+            if (data.data.collection !== null) {
+                return `${data.data.collection.name}: (Collection)`
+            } else if (data.data.variant !== null) {
+                return `${data.data.variant.name}: (Variant)`
             } else {
                 return 'Residual SEO!'
             }
