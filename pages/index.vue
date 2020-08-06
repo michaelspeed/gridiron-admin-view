@@ -62,7 +62,7 @@
         Are you a vendor?
       </span>
                 <a
-                  href="#"
+                    href="/vendors/register"
                   class="font-weight-bold font-size-3 ml-2"
                 >
                   Sign Up!

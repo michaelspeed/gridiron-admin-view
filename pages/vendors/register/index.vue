@@ -1,6 +1,282 @@
 <template>
     <v-app>
-        <div>
+        <div class="d-flex flex-column flex-root">
+            <!--begin::Login-->
+            <div class="login login-4 wizard d-flex flex-column flex-lg-row flex-column-fluid wizard" id="kt_login">
+                <!--begin::Content-->
+                <div class="login-container d-flex flex-center flex-row flex-row-fluid order-2 order-lg-1 flex-row-fluid bg-white py-lg-0 pb-lg-0 pt-15 pb-12">
+                    <!--begin::Container-->
+                    <div class="login-content login-content-signup">
+                        <!--begin::Aside Top-->
+                        <div class="d-flex flex-column-auto flex-column px-10">
+                            <!--begin::Aside header-->
+                            <a href="#" class="login-logo pb-lg-4 pb-10">
+                                <img src="/master/logo/air.png" class="max-h-100px" alt=""/>
+                            </a>
+                            <!--end::Aside header-->
+
+                            <v-stepper v-model="stepper" style="width: 100%">
+                                <v-stepper-step :complete="stepper > 1" step="1">
+                                    <h4 class="font-weight-bolder">
+                                        Registration Info
+                                    </h4>
+                                </v-stepper-step>
+                                <v-stepper-content step="1">
+                                    <div style="padding: 20px">
+                                        <div class="form-group">
+                                            <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
+                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="email" placeholder="Email" value="" v-model="email"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="font-size-h6 font-weight-bolder text-dark">Password</label>
+                                            <input type="password" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="password" placeholder="Password" value="" v-model="password"/>
+                                        </div>
+                                        <div>
+                                            <button @click="onStepOne" class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </v-stepper-content>
+                                <v-stepper-step :complete="stepper > 2" step="2" >
+                                    <h4 class="font-weight-bolder">
+                                        Basic Info
+                                    </h4>
+                                </v-stepper-step>
+                                <v-stepper-content step="2">
+                                    <div style="padding: 20px">
+                                        <div class="form-group">
+                                            <label class="font-size-h6 font-weight-bolder text-dark">First Name</label>
+                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="fname" placeholder="First Name" value="" v-model="fname"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="font-size-h6 font-weight-bolder text-dark">Last Name</label>
+                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="lname" placeholder="Last Name" value="" v-model="lname"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="font-size-h6 font-weight-bolder text-dark">Phone Number</label>
+                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="phone" placeholder="Phone Number" value="" v-model="phone"/>
+                                        </div>
+                                        <div>
+                                            <button @click="onStepTwo" class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                                Continue
+                                            </button>
+                                            <button @click="stepper = 1" class="btn btn-light-danger font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                                Previous
+                                            </button>
+                                        </div>
+                                    </div>
+                                </v-stepper-content>
+                                <v-stepper-step :complete="stepper > 3" step="3" >
+                                    <h4 class="font-weight-bolder">
+                                        Store Info
+                                    </h4>
+                                </v-stepper-step>
+                                <v-stepper-content step="3">
+                                    <div style="padding: 20px">
+                                        <div class="form-group justify-content-start">
+                                            <label>Store Name</label>
+                                            <input class="form-control" placeholder="Store Name" v-model="sname" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Official Phone Number</label>
+                                            <input class="form-control" placeholder="Official Phone Number" v-model="sphone"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Official Email Address</label>
+                                            <input type="email" class="form-control" placeholder="Official Email Address" v-model="semail"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address Line 1</label>
+                                            <input class="form-control" placeholder="Address Line 1" v-model="saddress"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address Line 2</label>
+                                            <input class="form-control" placeholder="Address Line 2" v-model="saddress2"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>ZipCode</label>
+                                            <input class="form-control" placeholder="Zipcode" v-model="zipcode"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Region</label>
+                                            <v-select filled v-model="region" :items="allZones" item-value="id" item-text="name"></v-select>
+                                        </div>
+                                        <div>
+                                            <button @click="onStepThree" class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                                Continue
+                                            </button>
+                                            <button @click="stepper = 2" class="btn btn-light-danger font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                                Previous
+                                            </button>
+                                        </div>
+                                    </div>
+                                </v-stepper-content>
+                                <v-stepper-step :complete="stepper > 4" step="4" >
+                                    <h4 class="font-weight-bolder">
+                                        Plans
+                                    </h4>
+                                </v-stepper-step>
+                                <v-stepper-content step="4">
+                                    <div class="d-flex flex-column-fluid">
+                                        <!--begin::Container-->
+                                        <div class=" container-fluid ">
+                                            <!--begin::Card-->
+                                            <div class="card">
+                                                <!-- begin: custom background-->
+                                                <div class="position-absolute w-100 h-50 rounded-card-top" style="background-color: #22B9FF"></div>
+                                                <!-- end: custom background-->
+
+                                                <div class="card-body position-relative">
+                                                    <h3 class="7 text-white text-center my-10 my-lg-15">Transparent &amp; Simple Pricing</h3>
+
+                                                    <!-- begin: Tabs-->
+                                                    <div class="d-flex justify-content-center">
+                                                        <ul class="nav nav-pills nav-primary mb-10 mb-lg-20 bg-white rounded" id="pills-tab" role="tablist">
+                                                            <li class="nav-item p-0 m-0">
+                                                                <a class="nav-link font-weight-bolder rounded-right-0 px-8 py-5" id="pills-tab-1" data-toggle="pill" href="#kt-pricing-2_content1" aria-expanded="true" aria-controls="kt-pricing-2_content1">
+                                                                    Percentage
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item p-0 m-0">
+                                                                <a class="nav-link font-weight-bolder px-8 py-5 active" id="pills-tab-2" data-toggle="pill" href="#kt-pricing-2_content2" aria-expanded="true" aria-controls="kt-pricing-2_content2">
+                                                                    Commission
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item p-0 m-0">
+                                                                <a class="nav-link font-weight-bolder rounded-left-0 px-8 py-5" id="pills-tab-3" data-toggle="pill" href="#kt-pricing-2_content3" aria-expanded="true" aria-controls="kt-pricing-2_content2">
+                                                                    Default
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- end: Tabs-->
+
+                                                    <div class="tab-content">
+                                                        <!-- begin: Tab pane-->
+                                                        <div class="tab-pane show row text-center" id="kt-pricing-2_content1" role="tabpanel" aria-labelledby="pills-tab-1">
+                                                            <div class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
+                                                                <div class="row">
+                                                                    <!-- begin: Pricing-->
+                                                                    <div class="col-md-4" v-for="item of percentagePlan" :key="item.id">
+                                                                        <div class="pt-30 pt-md-25 pb-15 px-5 text-center">
+                                                                            <!--begin::Icon-->
+                                                                            <div class="d-flex flex-center position-relative mb-25">
+									<span class="svg svg-fill-primary opacity-4 position-absolute">
+										<svg width="175" height="200">
+											<polyline points="87,0 174,50 174,150 87,200 0,150 0,50 87,0"></polyline>
+										</svg>
+									</span>
+                                                                                <span class="svg-icon svg-icon-5x svg-icon-primary"><!--begin::Svg Icon | path:assets/media/svg/icons/Home/Flower3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+        <path d="M1.4152146,4.84010415 C11.1782334,10.3362599 14.7076452,16.4493804 12.0034499,23.1794656 C5.02500006,22.0396582 1.4955883,15.9265377 1.4152146,4.84010415 Z" fill="#000000" opacity="0.3"></path>
+        <path d="M22.5950046,4.84010415 C12.8319858,10.3362599 9.30257403,16.4493804 12.0067693,23.1794656 C18.9852192,22.0396582 22.5146309,15.9265377 22.5950046,4.84010415 Z" fill="#000000" opacity="0.3"></path>
+        <path d="M12.0002081,2 C6.29326368,11.6413199 6.29326368,18.7001435 12.0002081,23.1764706 C17.4738192,18.7001435 17.4738192,11.6413199 12.0002081,2 Z" fill="#000000" opacity="0.3"></path>
+    </g>
+</svg><!--end::Svg Icon--></span>								</div>
+                                                                            <!--end::Icon-->
+
+                                                                            <!--begin::Content-->
+                                                                            <h4 class="font-size-h3 mb-10">Basic Plan</h4>
+                                                                            <div class="d-flex flex-column line-height-xl pb-10">
+                                                                                <span>1 Domain</span>
+                                                                                <span>10 Users</span>
+                                                                                <span>20 Copies</span>
+                                                                                <span>Free Assets</span>
+                                                                            </div>
+                                                                            <span class="font-size-h1 d-block font-weight-boldest text-dark">69<sup class="font-size-h3 font-weight-normal pl-1">$</sup></span>
+                                                                            <div class="mt-7">
+                                                                                <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">Purchase</button>
+                                                                            </div>
+                                                                            <!--end::Content-->
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- end: Pricing-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end: Tab pane-->
+
+                                                        <!-- begin: Tab pane-->
+                                                        <div class="tab-pane row text-center active" id="kt-pricing-2_content2" role="tabpanel" aria-labelledby="pills-tab-2">
+                                                            <div class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
+                                                                <div class="row justify-content-center">
+                                                                    <!-- begin: Pricing-->
+                                                                    <div class="col-md-4">
+                                                                        <div class="pt-30 pt-md-25 pb-15 px-5 text-center">
+                                                                            <!--begin::Icon-->
+                                                                            <div class="d-flex flex-center position-relative mb-25">
+									<span class="svg svg-fill-primary opacity-4 position-absolute">
+										<svg width="175" height="200">
+											<polyline points="87,0 174,50 174,150 87,200 0,150 0,50 87,0"></polyline>
+										</svg>
+									</span>
+                                                                                <span class="svg-icon svg-icon-5x svg-icon-primary"><!--begin::Svg Icon | path:assets/media/svg/icons/Home/Flower3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+        <path d="M1.4152146,4.84010415 C11.1782334,10.3362599 14.7076452,16.4493804 12.0034499,23.1794656 C5.02500006,22.0396582 1.4955883,15.9265377 1.4152146,4.84010415 Z" fill="#000000" opacity="0.3"></path>
+        <path d="M22.5950046,4.84010415 C12.8319858,10.3362599 9.30257403,16.4493804 12.0067693,23.1794656 C18.9852192,22.0396582 22.5146309,15.9265377 22.5950046,4.84010415 Z" fill="#000000" opacity="0.3"></path>
+        <path d="M12.0002081,2 C6.29326368,11.6413199 6.29326368,18.7001435 12.0002081,23.1764706 C17.4738192,18.7001435 17.4738192,11.6413199 12.0002081,2 Z" fill="#000000" opacity="0.3"></path>
+    </g>
+</svg><!--end::Svg Icon--></span>								</div>
+                                                                            <!--end::Icon-->
+
+                                                                            <!--begin::Content-->
+                                                                            <h4 class="font-size-h3 mb-10">Basic Plan</h4>
+                                                                            <div class="d-flex flex-column line-height-xl mb-10">
+                                                                                <span>1 Domain</span>
+                                                                                <span>10 Users</span>
+                                                                                <span>20 Copies</span>
+                                                                                <span>Free Assets</span>
+                                                                            </div>
+                                                                            <span class="font-size-h1 d-block font-weight-boldest text-dark">19<sup class="font-size-h3 font-weight-normal pl-1">$</sup></span>
+                                                                            <div class="mt-7">
+                                                                                <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">Purchase</button>
+                                                                            </div>
+                                                                            <!--end::Icon-->
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- end: Pricing-->
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end: Tab pane-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end::Card-->
+                                        </div>
+                                        <!--end::Container-->
+                                    </div>
+                                </v-stepper-content>
+                            </v-stepper>
+                        </div>
+                        <!--end::Aside Top-->
+
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--begin::Content-->
+
+                <!--begin::Aside-->
+                <div class="login-aside order-1 order-lg-2 bgi-no-repeat bgi-position-x-right">
+                    <div class="login-conteiner bgi-no-repeat bgi-position-x-right bgi-position-y-bottom" style="background-image: url(/media/svg/illustrations/login-visual-4.svg);">
+                        <!--begin::Aside title-->
+                        <h3 class="pt-lg-40 pl-lg-20 pb-lg-0 pl-10 py-20 m-0 d-flex justify-content-lg-start font-weight-boldest display5 display1-lg text-white">
+                            We Got<br/>
+                            A Surprise<br/>
+                            For You
+                        </h3>
+                        <!--end::Aside title-->
+                    </div>
+                </div>
+                <!--end::Aside-->
+            </div>
+            <!--end::Login-->
+        </div>
+        <!--<div>
             <div class="air__auth">
                 <div class="pt-5 pb-5 d-flex align-items-end mt-auto">
                     <img src="/components/core/img/air-logo.png" alt="AIR UI Logo" />
@@ -204,7 +480,7 @@
                     <div class="text-gray-4 text-center">{{$t('general.copyright')}}</div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </v-app>
 </template>
 
@@ -219,14 +495,28 @@
     } from '../../../gql';
 
     @Component({
+        head: {
+            bodyAttrs: {
+                class: 'header-fixed header-mobile-fixed subheader-enabled sidebar-enabled page-loading',
+                id: 'kt_body'
+            },
+            script: [
+                { src: '/js/scripts.bundle.js?v=7.0.6', body: true, async: true },
+                { src: '/js/pages/custom/login/login-4.js?v=7.0.6', body: true },
+                { src: '/js/pages/widgets.js?v=7.0.6', body: true },
+            ],
+            link: [
+                { rel: 'stylesheet', href: '/css/pages/login/login-4.css?v=7.0.6'}
+                ]
+        },
         apollo: {
             ZoneFindMany: {
                 query: ZoneFindManyDocument
             }
-        }
+        },
     })
     export default class RegisterVendor extends Vue {
-        private stepper = 1
+        private stepper = 4
         private planType = 1
 
         // reg
@@ -314,11 +604,12 @@
                 this.$message.error('Select your region')
                 return
             }
-            if (this.planId === '') {
+            /*if (this.planId === '') {
                 this.$message.error('Select your Plan')
                 return
-            }
-            this.$apollo.mutate<{RegisterVendor: VendorDto}, RegisterVendorMutationVariables>({
+            }*/
+            this.stepper = 4
+            /*this.$apollo.mutate<{RegisterVendor: VendorDto}, RegisterVendorMutationVariables>({
                 mutation: RegisterVendorDocument,
                 variables: {
                     firstname: this.fname,
@@ -341,12 +632,12 @@
                 this.$router.push({
                     path: '/app/dashboard'
                 })
-            })
+            })*/
         }
 
         @Watch('ZoneFindMany')
         onChangeZones() {
-            console.log(this.ZoneFindMany)
+            this.allZones = this.ZoneFindMany
         }
 
         mounted() {
@@ -368,128 +659,17 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .air__auth__container {
-        max-width: 100rem;
+<style>
+    .login.login-4 .login-container .login-content.login-content-signup {
+        width: 100%;
     }
-    .page {
-        min-height: 100vh;
-        background-color: #5EA9FF;
-        position: relative;
-
-        &:after {
-            content: '';
-            width: 100%;
-            height: 50%;
-            position: absolute;
-            top: 50%;
-            background-color: #fff;
-            z-index: 1;
-        }
+    .login.login-4 .login-container .login-content {
+        width: 100%;
     }
-
-    .pricing-container {
-        z-index: 2;
-        position: absolute;
-        left: 50%;
-        top: 50px;
-        transform: translate(-50%,0);
-
-        @media screen and (min-width: 768px) {
-            background-color: #fff;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            box-shadow: 0px 0px 30px 5px rgba(0,0,0,0.3);
-            width: 800px;
-        }
-
-        @media screen and (max-width: 768px) {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .plan{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 250px;
-            margin: 30px 0px;
-            padding: 0px 20px;
-
-            &:not(:last-child) {
-                border-right: 1px solid rgba(0,0,0,0.1);
-            }
-
-            .plan-icon {
-                display: flex;
-                width: 150px;
-                height: 150px;
-                justify-content: center;
-                align-items: center;
-                position: relative;
-                z-index: 10;
-                font-size: 7rem;
-                color: #5EA9FF;
-
-                &:after {
-                    content: '';
-                    width: 100px;
-                    height: 100px;
-                    border-radius: 50%;
-                    background-color: rgba(93, 169, 254, 0.1);
-                    z-index: 8;
-                    position: absolute;
-                }
-            }
-
-            .title {
-                text-transform: uppercase;
-                color: #444857;
-                line-height: 4rem;
-                letter-spacing: 2px;
-            }
-
-            .features {
-                list-style-type: none;
-                display: flex;
-                flex-direction: column;
-                margin: 0;
-                padding: 0;
-
-                li {
-                    line-height: 1.5rem;
-                    width: 90%;
-                    padding: 5px;
-                    display: block;
-                    text-align: center;
-                    text-transform: uppercase;
-                    border-top: 1px solid rgba(0,0,0,0.1);
-                    font-size: 85%;
-                    color: #5EA9FF;
-
-                    &:last-child {
-                        border-bottom: 1px solid rgba(0,0,0,0.1);
-                    }
-                }
-            }
-
-            .price {
-                margin-top: 1rem;
-                font-size: 2.5rem;
-                line-height: 5rem;
-                color: #5EA9FF;
-            }
-
-            @media screen and (max-width: 768px) {
-                display: flex;
-                flex-direction: column;
-                background-color: #fff;
-                border-radius: 10px;
-                box-shadow: 0px 0px 30px 5px rgba(0,0,0,0.3);
-                justify-content: space-between;
-                padding-bottom: 2rem;
-            }
-        }
+    .v-application .rounded {
+        border-radius: 0.675rem !important;
+    }
+    .v-application ul, .v-application ol {
+        padding-left: 0 !important;
     }
 </style>
