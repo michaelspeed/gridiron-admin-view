@@ -1,4 +1,6 @@
 import {Administrator, GetAdministratorDataDocument, GetDefaultStoreDocument, Store} from "../gql";
+import * as vendorState from './vendor'
+import * as adminState from './admin'
 
 export const state = () => ({
     store: null,

@@ -83,6 +83,7 @@
     @Component({
         components: {ZipConfiguration, StoreConfiguration},
         layout: 'console',
+        middleware: 'adminonly',
     })
     export default class SystemConfig extends Vue {
         private tabs = '1'

@@ -55,7 +55,7 @@
                             <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-sm-12">
+                    <!--<div class="col-md-6 col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label>{{$t('store.storecountry')}}</label>
                             <div>
@@ -69,7 +69,7 @@
                                 </a-select>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <button type="button" class="btn btn-light-primary btn-sm" @click="onUpdateStore">Update</button>
             </a-collapse-panel>
@@ -110,7 +110,13 @@
     @Component({
         computed: {
             ...mapState({
-              store: (store: any) => store.store.store,
+              store: (store: any) => {
+                  if (store.admin.vendorStore) {
+                      return store.admin.vendorStore
+                  } else {
+                      return store.admin.store
+                  }
+              },
             }),
         },
         apollo: {
@@ -162,18 +168,10 @@
                 }
             }).then(value => {
                 loading()
-                this.$notify({
-                    title: 'Store Updated',
-                    message: 'Your Store has been updated',
-                    type: 'success'
-                })
+                this.$Message.success('Store Updated')
             }).catch(error => {
                 loading()
-                this.$notify({
-                    title: 'Update Error',
-                    message: error.message,
-                    type: 'error'
-                })
+                this.$Message.error(error.message)
             })
         }
 
@@ -186,7 +184,6 @@
             this.add1 = this.store!.streetAddress1
             this.add2 = this.store!.streetAddress2
             this.gstin = this.store!.GSTIN
-            this.country = this.store!.country!.id
             this.singleStore = this.store!.singleStore
             this.rentalStore = this.store!.rentalStore
           }

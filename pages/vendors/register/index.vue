@@ -4,15 +4,20 @@
             <!--begin::Login-->
             <div class="login login-4 wizard d-flex flex-column flex-lg-row flex-column-fluid wizard" id="kt_login">
                 <!--begin::Content-->
-                <div class="login-container d-flex flex-center flex-row flex-row-fluid order-2 order-lg-1 flex-row-fluid bg-white py-lg-0 pb-lg-0 pt-15 pb-12">
+                <div
+                    class="login-container d-flex flex-center flex-row flex-row-fluid order-2 order-lg-1 flex-row-fluid bg-white py-lg-0 pb-lg-0 pt-15 pb-12">
                     <!--begin::Container-->
                     <div class="login-content login-content-signup">
                         <!--begin::Aside Top-->
                         <div class="d-flex flex-column-auto flex-column px-10">
                             <!--begin::Aside header-->
-                            <a href="#" class="login-logo pb-lg-4 pb-10">
+                            <a href="#" class="login-logo">
                                 <img src="/master/logo/air.png" class="max-h-100px" alt=""/>
                             </a>
+                            <div class="text-muted font-weight-bold font-size-h4" style="margin-top: -10px; margin-bottom: 10px">
+                                Already have an Account ?
+                                <a href="/vendors/login" class="text-primary font-weight-bolder">Sign In</a>
+                            </div>
                             <!--end::Aside header-->
 
                             <v-stepper v-model="stepper" style="width: 100%">
@@ -25,20 +30,25 @@
                                     <div style="padding: 20px">
                                         <div class="form-group">
                                             <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
-                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="email" placeholder="Email" value="" v-model="email"/>
+                                            <input type="text"
+                                                   class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
+                                                   name="email" placeholder="Email" value="" v-model="email"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="font-size-h6 font-weight-bolder text-dark">Password</label>
-                                            <input type="password" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="password" placeholder="Password" value="" v-model="password"/>
+                                            <input type="password"
+                                                   class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
+                                                   name="password" placeholder="Password" value="" v-model="password"/>
                                         </div>
                                         <div>
-                                            <button @click="onStepOne" class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                            <button @click="onStepOne"
+                                                    class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
                                                 Continue
                                             </button>
                                         </div>
                                     </div>
                                 </v-stepper-content>
-                                <v-stepper-step :complete="stepper > 2" step="2" >
+                                <v-stepper-step :complete="stepper > 2" step="2">
                                     <h4 class="font-weight-bolder">
                                         Basic Info
                                     </h4>
@@ -47,27 +57,36 @@
                                     <div style="padding: 20px">
                                         <div class="form-group">
                                             <label class="font-size-h6 font-weight-bolder text-dark">First Name</label>
-                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="fname" placeholder="First Name" value="" v-model="fname"/>
+                                            <input type="text"
+                                                   class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
+                                                   name="fname" placeholder="First Name" value="" v-model="fname"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="font-size-h6 font-weight-bolder text-dark">Last Name</label>
-                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="lname" placeholder="Last Name" value="" v-model="lname"/>
+                                            <input type="text"
+                                                   class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
+                                                   name="lname" placeholder="Last Name" value="" v-model="lname"/>
                                         </div>
                                         <div class="form-group">
-                                            <label class="font-size-h6 font-weight-bolder text-dark">Phone Number</label>
-                                            <input type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="phone" placeholder="Phone Number" value="" v-model="phone"/>
+                                            <label class="font-size-h6 font-weight-bolder text-dark">Phone
+                                                Number</label>
+                                            <input type="text"
+                                                   class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
+                                                   name="phone" placeholder="Phone Number" value="" v-model="phone"/>
                                         </div>
                                         <div>
-                                            <button @click="onStepTwo" class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                            <button @click="onStepTwo"
+                                                    class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
                                                 Continue
                                             </button>
-                                            <button @click="stepper = 1" class="btn btn-light-danger font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                            <button @click="stepper = 1"
+                                                    class="btn btn-light-danger font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
                                                 Previous
                                             </button>
                                         </div>
                                     </div>
                                 </v-stepper-content>
-                                <v-stepper-step :complete="stepper > 3" step="3" >
+                                <v-stepper-step :complete="stepper > 3" step="3">
                                     <h4 class="font-weight-bolder">
                                         Store Info
                                     </h4>
@@ -76,23 +95,27 @@
                                     <div style="padding: 20px">
                                         <div class="form-group justify-content-start">
                                             <label>Store Name</label>
-                                            <input class="form-control" placeholder="Store Name" v-model="sname" />
+                                            <input class="form-control" placeholder="Store Name" v-model="sname"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Official Phone Number</label>
-                                            <input class="form-control" placeholder="Official Phone Number" v-model="sphone"/>
+                                            <input class="form-control" placeholder="Official Phone Number"
+                                                   v-model="sphone"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Official Email Address</label>
-                                            <input type="email" class="form-control" placeholder="Official Email Address" v-model="semail"/>
+                                            <input type="email" class="form-control"
+                                                   placeholder="Official Email Address" v-model="semail"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Address Line 1</label>
-                                            <input class="form-control" placeholder="Address Line 1" v-model="saddress"/>
+                                            <input class="form-control" placeholder="Address Line 1"
+                                                   v-model="saddress"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Address Line 2</label>
-                                            <input class="form-control" placeholder="Address Line 2" v-model="saddress2"/>
+                                            <input class="form-control" placeholder="Address Line 2"
+                                                   v-model="saddress2"/>
                                         </div>
                                         <div class="form-group">
                                             <label>ZipCode</label>
@@ -100,19 +123,22 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Region</label>
-                                            <v-select filled v-model="region" :items="allZones" item-value="id" item-text="name"></v-select>
+                                            <v-select filled v-model="region" :items="allZones" item-value="id"
+                                                      item-text="name"></v-select>
                                         </div>
                                         <div>
-                                            <button @click="onStepThree" class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                            <button @click="onStepThree"
+                                                    class="btn btn-light-primary font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
                                                 Continue
                                             </button>
-                                            <button @click="stepper = 2" class="btn btn-light-danger font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
+                                            <button @click="stepper = 2"
+                                                    class="btn btn-light-danger font-weight-bolder font-size-h6 pr-8 pl-6 py-4 my-3 mr-3">
                                                 Previous
                                             </button>
                                         </div>
                                     </div>
                                 </v-stepper-content>
-                                <v-stepper-step :complete="stepper > 4" step="4" >
+                                <v-stepper-step :complete="stepper > 4" step="4">
                                     <h4 class="font-weight-bolder">
                                         Plans
                                     </h4>
@@ -124,27 +150,39 @@
                                             <!--begin::Card-->
                                             <div class="card">
                                                 <!-- begin: custom background-->
-                                                <div class="position-absolute w-100 h-50 rounded-card-top" style="background-color: #22B9FF"></div>
+                                                <div class="position-absolute w-100 h-50 rounded-card-top"
+                                                     style="background-color: #22B9FF"></div>
                                                 <!-- end: custom background-->
 
                                                 <div class="card-body position-relative">
-                                                    <h3 class="7 text-white text-center my-10 my-lg-15">Transparent &amp; Simple Pricing</h3>
+                                                    <h3 class="7 text-white text-center my-10 my-lg-15">Transparent
+                                                        &amp; Simple Pricing</h3>
 
                                                     <!-- begin: Tabs-->
                                                     <div class="d-flex justify-content-center">
-                                                        <ul class="nav nav-pills nav-primary mb-10 mb-lg-20 bg-white rounded" id="pills-tab" role="tablist">
+                                                        <ul class="nav nav-pills nav-primary mb-10 mb-lg-20 bg-white rounded"
+                                                            id="pills-tab" role="tablist">
                                                             <li class="nav-item p-0 m-0">
-                                                                <a class="nav-link font-weight-bolder rounded-right-0 px-8 py-5" id="pills-tab-1" data-toggle="pill" href="#kt-pricing-2_content1" aria-expanded="true" aria-controls="kt-pricing-2_content1">
+                                                                <a class="nav-link font-weight-bolder rounded-right-0 px-8 py-5"
+                                                                   id="pills-tab-1" data-toggle="pill"
+                                                                   href="#kt-pricing-2_content1" aria-expanded="true"
+                                                                   aria-controls="kt-pricing-2_content1">
                                                                     Percentage
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item p-0 m-0">
-                                                                <a class="nav-link font-weight-bolder px-8 py-5 active" id="pills-tab-2" data-toggle="pill" href="#kt-pricing-2_content2" aria-expanded="true" aria-controls="kt-pricing-2_content2">
+                                                                <a class="nav-link font-weight-bolder px-8 py-5 active"
+                                                                   id="pills-tab-2" data-toggle="pill"
+                                                                   href="#kt-pricing-2_content2" aria-expanded="true"
+                                                                   aria-controls="kt-pricing-2_content2">
                                                                     Commission
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item p-0 m-0">
-                                                                <a class="nav-link font-weight-bolder rounded-left-0 px-8 py-5" id="pills-tab-3" data-toggle="pill" href="#kt-pricing-2_content3" aria-expanded="true" aria-controls="kt-pricing-2_content2">
+                                                                <a class="nav-link font-weight-bolder rounded-left-0 px-8 py-5"
+                                                                   id="pills-tab-3" data-toggle="pill"
+                                                                   href="#kt-pricing-2_content3" aria-expanded="true"
+                                                                   aria-controls="kt-pricing-2_content2">
                                                                     Default
                                                                 </a>
                                                             </li>
@@ -154,40 +192,47 @@
 
                                                     <div class="tab-content">
                                                         <!-- begin: Tab pane-->
-                                                        <div class="tab-pane show row text-center" id="kt-pricing-2_content1" role="tabpanel" aria-labelledby="pills-tab-1">
-                                                            <div class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
+                                                        <div class="tab-pane show row text-center"
+                                                             id="kt-pricing-2_content1" role="tabpanel"
+                                                             aria-labelledby="pills-tab-1">
+                                                            <div
+                                                                class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
                                                                 <div class="row">
                                                                     <!-- begin: Pricing-->
-                                                                    <div class="col-md-4" v-for="item of percentagePlan" :key="item.id">
-                                                                        <div class="pt-30 pt-md-25 pb-15 px-5 text-center">
+                                                                    <div class="col-md-4" v-for="item of percentagePlan"
+                                                                         :key="item.id">
+                                                                        <div
+                                                                            class="pt-30 pt-md-25 pb-15 px-5 text-center">
                                                                             <!--begin::Icon-->
-                                                                            <div class="d-flex flex-center position-relative mb-25">
-									<span class="svg svg-fill-primary opacity-4 position-absolute">
-										<svg width="175" height="200">
-											<polyline points="87,0 174,50 174,150 87,200 0,150 0,50 87,0"></polyline>
-										</svg>
-									</span>
-                                                                                <span class="svg-icon svg-icon-5x svg-icon-primary"><!--begin::Svg Icon | path:assets/media/svg/icons/Home/Flower3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <polygon points="0 0 24 0 24 24 0 24"></polygon>
-        <path d="M1.4152146,4.84010415 C11.1782334,10.3362599 14.7076452,16.4493804 12.0034499,23.1794656 C5.02500006,22.0396582 1.4955883,15.9265377 1.4152146,4.84010415 Z" fill="#000000" opacity="0.3"></path>
-        <path d="M22.5950046,4.84010415 C12.8319858,10.3362599 9.30257403,16.4493804 12.0067693,23.1794656 C18.9852192,22.0396582 22.5146309,15.9265377 22.5950046,4.84010415 Z" fill="#000000" opacity="0.3"></path>
-        <path d="M12.0002081,2 C6.29326368,11.6413199 6.29326368,18.7001435 12.0002081,23.1764706 C17.4738192,18.7001435 17.4738192,11.6413199 12.0002081,2 Z" fill="#000000" opacity="0.3"></path>
-    </g>
-</svg><!--end::Svg Icon--></span>								</div>
+                                                                            <div class="d-flex flex-center position-relative mb-30">
+                                                                                <span class="svg svg-fill-primary opacity-4 position-absolute">
+                                                                                    <svg width="175" height="200">
+                                                                                        <polyline points="87,0 174,50 174,150 87,200 0,150 0,50 87,0"></polyline>
+                                                                                    </svg>
+                                                                                </span>
+                                                                                <i class="fas fa-mountain font-size-h1 text-primary"></i>
+                                                                            </div>
                                                                             <!--end::Icon-->
 
                                                                             <!--begin::Content-->
-                                                                            <h4 class="font-size-h3 mb-10">Basic Plan</h4>
-                                                                            <div class="d-flex flex-column line-height-xl pb-10">
-                                                                                <span>1 Domain</span>
-                                                                                <span>10 Users</span>
-                                                                                <span>20 Copies</span>
-                                                                                <span>Free Assets</span>
+                                                                            <h4 class="font-size-h3 mb-10 mt-10">{{item.name}}</h4>
+                                                                            <div
+                                                                                class="d-flex flex-column line-height-xl pb-10">
+                                                                                <span>Fixed For all Catalog Items</span>
+                                                                                <span></span>
                                                                             </div>
-                                                                            <span class="font-size-h1 d-block font-weight-boldest text-dark">69<sup class="font-size-h3 font-weight-normal pl-1">$</sup></span>
+                                                                            <span
+                                                                                class="font-size-h1 d-block font-weight-boldest text-dark">₹{{item.planValue}} /item
+
+                                                                            </span>
                                                                             <div class="mt-7">
-                                                                                <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">Purchase</button>
+                                                                                <button
+                                                                                    :class="{'spinner spinner-white spinner-right': loading}"
+                                                                                    type="button"
+                                                                                    @click="onFinalPlanSelect(item.id)"
+                                                                                    class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
+                                                                                    Purchase
+                                                                                </button>
                                                                             </div>
                                                                             <!--end::Content-->
                                                                         </div>
@@ -199,40 +244,44 @@
                                                         <!-- end: Tab pane-->
 
                                                         <!-- begin: Tab pane-->
-                                                        <div class="tab-pane row text-center active" id="kt-pricing-2_content2" role="tabpanel" aria-labelledby="pills-tab-2">
-                                                            <div class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
+                                                        <div class="tab-pane row text-center active"
+                                                             id="kt-pricing-2_content2" role="tabpanel"
+                                                             aria-labelledby="pills-tab-2">
+                                                            <div v-for="item of commissionPlans" :key="item.id"
+                                                                class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
                                                                 <div class="row justify-content-center">
                                                                     <!-- begin: Pricing-->
                                                                     <div class="col-md-4">
-                                                                        <div class="pt-30 pt-md-25 pb-15 px-5 text-center">
+                                                                        <div
+                                                                            class="pt-30 pt-md-25 pb-15 px-5 text-center">
                                                                             <!--begin::Icon-->
-                                                                            <div class="d-flex flex-center position-relative mb-25">
-									<span class="svg svg-fill-primary opacity-4 position-absolute">
-										<svg width="175" height="200">
-											<polyline points="87,0 174,50 174,150 87,200 0,150 0,50 87,0"></polyline>
-										</svg>
-									</span>
-                                                                                <span class="svg-icon svg-icon-5x svg-icon-primary"><!--begin::Svg Icon | path:assets/media/svg/icons/Home/Flower3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <polygon points="0 0 24 0 24 24 0 24"></polygon>
-        <path d="M1.4152146,4.84010415 C11.1782334,10.3362599 14.7076452,16.4493804 12.0034499,23.1794656 C5.02500006,22.0396582 1.4955883,15.9265377 1.4152146,4.84010415 Z" fill="#000000" opacity="0.3"></path>
-        <path d="M22.5950046,4.84010415 C12.8319858,10.3362599 9.30257403,16.4493804 12.0067693,23.1794656 C18.9852192,22.0396582 22.5146309,15.9265377 22.5950046,4.84010415 Z" fill="#000000" opacity="0.3"></path>
-        <path d="M12.0002081,2 C6.29326368,11.6413199 6.29326368,18.7001435 12.0002081,23.1764706 C17.4738192,18.7001435 17.4738192,11.6413199 12.0002081,2 Z" fill="#000000" opacity="0.3"></path>
-    </g>
-</svg><!--end::Svg Icon--></span>								</div>
+                                                                            <div
+                                                                                class="d-flex flex-center position-relative mb-30">
+                                                                                    <span class="svg svg-fill-primary opacity-4 position-absolute">
+                                                                                        <svg width="175" height="200">
+                                                                                            <polyline points="87,0 174,50 174,150 87,200 0,150 0,50 87,0"></polyline>
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                <i class="fas fa-atom font-size-h1 text-primary"></i>
+                                                                            </div>
                                                                             <!--end::Icon-->
 
                                                                             <!--begin::Content-->
-                                                                            <h4 class="font-size-h3 mb-10">Basic Plan</h4>
-                                                                            <div class="d-flex flex-column line-height-xl mb-10">
-                                                                                <span>1 Domain</span>
-                                                                                <span>10 Users</span>
-                                                                                <span>20 Copies</span>
-                                                                                <span>Free Assets</span>
+                                                                            <h4 class="font-size-h3 mb-10">{{item.name}}</h4>
+                                                                            <div
+                                                                                class="d-flex flex-column line-height-xl mb-10">
+                                                                                <span>Commission for individual items</span>
                                                                             </div>
-                                                                            <span class="font-size-h1 d-block font-weight-boldest text-dark">19<sup class="font-size-h3 font-weight-normal pl-1">$</sup></span>
+                                                                            <span
+                                                                                class="font-size-h1 d-block font-weight-boldest text-dark">₹{{item.planValue}} /item</span>
                                                                             <div class="mt-7">
-                                                                                <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">Purchase</button>
+                                                                                <button
+                                                                                    :class="{'spinner spinner-white spinner-right': loading}"
+                                                                                    type="button"
+                                                                                    @click="onFinalPlanSelect(item.id)"
+                                                                                    class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
+                                                                                    Purchase
+                                                                                </button>
                                                                             </div>
                                                                             <!--end::Icon-->
                                                                         </div>
@@ -243,6 +292,53 @@
                                                             </div>
                                                         </div>
                                                         <!-- end: Tab pane-->
+                                                        <div class="tab-pane row text-center active"
+                                                             id="kt-pricing-2_content3" role="tabpanel"
+                                                             aria-labelledby="pills-tab-2">
+                                                            <div v-for="item of flatPlan" :key="item.id"
+                                                                 class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
+                                                                <div class="row justify-content-center">
+                                                                    <!-- begin: Pricing-->
+                                                                    <div class="col-md-4">
+                                                                        <div
+                                                                            class="pt-30 pt-md-25 pb-15 px-5 text-center">
+                                                                            <!--begin::Icon-->
+                                                                            <div
+                                                                                class="d-flex flex-center position-relative mb-30">
+                                                                                    <span class="svg svg-fill-primary opacity-4 position-absolute">
+                                                                                        <svg width="175" height="200">
+                                                                                            <polyline points="87,0 174,50 174,150 87,200 0,150 0,50 87,0"></polyline>
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                <i class="fas fa-atom font-size-h1 text-primary"></i>
+                                                                            </div>
+                                                                            <!--end::Icon-->
+
+                                                                            <!--begin::Content-->
+                                                                            <h4 class="font-size-h3 mb-10">{{item.name}}</h4>
+                                                                            <div
+                                                                                class="d-flex flex-column line-height-xl mb-10">
+                                                                                <span>Commission for individual items</span>
+                                                                            </div>
+                                                                            <span
+                                                                                class="font-size-h1 d-block font-weight-boldest text-dark">₹{{item.planValue}} /mo</span>
+                                                                            <div class="mt-7">
+                                                                                <button
+                                                                                    :class="{'spinner spinner-white spinner-right': loading}"
+                                                                                    type="button"
+                                                                                    @click="onFinalPlanSelect(item.id)"
+                                                                                    class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
+                                                                                    Purchase
+                                                                                </button>
+                                                                            </div>
+                                                                            <!--end::Icon-->
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- end: Pricing-->
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,7 +358,8 @@
 
                 <!--begin::Aside-->
                 <div class="login-aside order-1 order-lg-2 bgi-no-repeat bgi-position-x-right">
-                    <div class="login-conteiner bgi-no-repeat bgi-position-x-right bgi-position-y-bottom" style="background-image: url(/media/svg/illustrations/login-visual-4.svg);">
+                    <div class="login-conteiner bgi-no-repeat bgi-position-x-right bgi-position-y-bottom"
+                         style="background-image: url(/media/svg/illustrations/login-visual-4.svg);">
                         <!--begin::Aside title-->
                         <h3 class="pt-lg-40 pl-lg-20 pb-lg-0 pl-10 py-20 m-0 d-flex justify-content-lg-start font-weight-boldest display5 display1-lg text-white">
                             We Got<br/>
@@ -501,13 +598,13 @@
                 id: 'kt_body'
             },
             script: [
-                { src: '/js/scripts.bundle.js?v=7.0.6', body: true, async: true },
-                { src: '/js/pages/custom/login/login-4.js?v=7.0.6', body: true },
-                { src: '/js/pages/widgets.js?v=7.0.6', body: true },
+                {src: '/js/scripts.bundle.js?v=7.0.6', body: true, async: true},
+                {src: '/js/pages/custom/login/login-4.js?v=7.0.6', body: true},
+                {src: '/js/pages/widgets.js?v=7.0.6', body: true},
             ],
             link: [
-                { rel: 'stylesheet', href: '/css/pages/login/login-4.css?v=7.0.6'}
-                ]
+                {rel: 'stylesheet', href: '/css/pages/login/login-4.css?v=7.0.6'}
+            ]
         },
         apollo: {
             ZoneFindMany: {
@@ -516,8 +613,10 @@
         },
     })
     export default class RegisterVendor extends Vue {
-        private stepper = 4
+        private stepper = 1
         private planType = 1
+
+        private loading = false
 
         // reg
         private email = ''
@@ -551,7 +650,7 @@
             console.log(this.planId)
         }
 
-        onStepOne(){
+        onStepOne() {
             if (this.email === '') {
                 this.$message.error('Email is required')
                 return
@@ -604,10 +703,6 @@
                 this.$message.error('Select your region')
                 return
             }
-            /*if (this.planId === '') {
-                this.$message.error('Select your Plan')
-                return
-            }*/
             this.stepper = 4
             /*this.$apollo.mutate<{RegisterVendor: VendorDto}, RegisterVendorMutationVariables>({
                 mutation: RegisterVendorDocument,
@@ -633,6 +728,41 @@
                     path: '/app/dashboard'
                 })
             })*/
+        }
+
+        onFinalPlanSelect(id) {
+            this.loading = true
+            const load: any = this.$Message.loading('Action in progress..');
+            this.$apollo.mutate<{RegisterVendor: VendorDto}, RegisterVendorMutationVariables>({
+                mutation: RegisterVendorDocument,
+                variables: {
+                    firstname: this.fname,
+                    lastname: this.lname,
+                    email: this.email,
+                    phone: this.phone,
+                    password: this.password,
+                    storeName: this.sname,
+                    officialEmail: this.semail,
+                    streetAddress1: this.saddress,
+                    streetAddress2: this.saddress2,
+                    zipcode: this.zipcode,
+                    region: this.region,
+                    rentals: this.rentals,
+                    storeNumber: this.sphone,
+                    planID: id
+                }
+            }).then(value => {
+                this.loading = false
+                load()
+                this.$apolloHelpers.onLogin(value!.data!.RegisterVendor!.token)
+                this.$router.push({
+                    path: '/app/dashboard'
+                })
+            }).catch(error => {
+                this.loading = false
+                load()
+                this.$Message.error(error.message)
+            })
         }
 
         @Watch('ZoneFindMany')
@@ -663,12 +793,15 @@
     .login.login-4 .login-container .login-content.login-content-signup {
         width: 100%;
     }
+
     .login.login-4 .login-container .login-content {
         width: 100%;
     }
+
     .v-application .rounded {
         border-radius: 0.675rem !important;
     }
+
     .v-application ul, .v-application ol {
         padding-left: 0 !important;
     }

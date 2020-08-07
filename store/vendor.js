@@ -15,12 +15,16 @@ export const mutations = {
 }
 
 export const actions = {
-    async getVendor({commit}) {
-        let client = await this.app.apolloProvider.defaultClient
-        await client.query({
+    getVendor({commit}) {
+        let client = this.app.apolloProvider.defaultClient
+        client.query({
             query: GetVendorInfoDocument
         }).then(value => {
+            console.log(value)
             commit('setVendor', value.data.GetVendorInfo)
-        }).catch(error => commit('setVendor', null))
+        }).catch(error => {
+            console.log(error)
+            commit('setVendor', null)
+        })
     }
 }

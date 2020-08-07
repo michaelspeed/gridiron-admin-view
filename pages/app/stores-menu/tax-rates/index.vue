@@ -17,15 +17,7 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
-                                <div class="ml-5">
-                                    <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
-                                        <div class="input-group-append">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="GetAllTaxCategory">{{GetAllTaxCategory.length}} Total</span>
                             </div>
                             <!--end::Search Form-->
                         </div>
@@ -40,7 +32,7 @@
                             <!--end::Button-->
 
                             <!--begin::Button-->
-                            <a href="javascript:;" class="btn btn-light-primary font-weight-bold ml-2" @click="createRate = true">
+                            <a href="javascript:;" :disabled="!admin" class="btn btn-light-primary font-weight-bold ml-2" @click="createRate = true">
                                 Add Tax Rate
                             </a>
                             <!--end::Button-->
@@ -133,10 +125,10 @@
                                       :filter-option="filterOption"
                                       placeholder="Search Your Zone">
                                 <a-select-option
-                                    v-for="item in zones.edges"
-                                    :key="item.node.id"
-                                    :value="item.node.id">
-                                    {{item.node.name}}
+                                    v-for="item in zones"
+                                    :key="item.id"
+                                    :value="item.id">
+                                    {{item.name}}
                                 </a-select-option>
                             </a-select>
                         </div>
@@ -166,12 +158,19 @@
     } from '../../../../gql';
     import TaxRatesEnabled from '../../../../components/Tax/Rates/tax-rates-enabled.vue'
     import TaxRatesActions from '../../../../components/Tax/Rates/tax-rates-actions.vue';
+    import {mapState} from "vuex";
 
     @Component({
         layout: 'console',
         components: {
             TaxRatesEnabled,
             TaxRatesActions
+        },
+        computed: {
+            ...mapState({
+                admin: (store: any) => store.admin.administrator,
+                vendor: (store: any) => store.admin.vendor,
+            }),
         },
         apollo: {
             GetAllTaxRates: {

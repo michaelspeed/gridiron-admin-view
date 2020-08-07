@@ -17,8 +17,15 @@ query GetVendorInfo {
         store {
             id
             storeName
-            rentalStore
+            phoneNumber
+            officialemail
+            zipcode
+            streetAddress1
+            streetAddress2
             GSTIN
+            singleStore
+            rentalStore
+            channelMarkets
         }
     }
 }
@@ -36,10 +43,6 @@ query GetDefaultStore {
         singleStore
         rentalStore
         channelMarkets
-        country {
-            id
-            name
-        }
     }
 }
 

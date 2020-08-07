@@ -1631,6 +1631,31 @@ export type MenuAggregateFilter = {
   target?: Maybe<StringFieldComparison>;
 };
 
+export type Page = {
+  __typename?: 'Page';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Scalars['String'];
+  targetId: Scalars['String'];
+  single?: Maybe<Scalars['String']>;
+  list?: Maybe<Array<Scalars['String']>>;
+  pageType: PageType;
+  pageCategory: PageCategory;
+};
+
+export enum PageType {
+  List = 'LIST',
+  Single = 'SINGLE'
+}
+
+export enum PageCategory {
+  Home = 'HOME',
+  Category = 'CATEGORY',
+  Singleprod = 'SINGLEPROD',
+  Prodvariant = 'PRODVARIANT'
+}
+
 export type Country = {
   __typename?: 'Country';
   id: Scalars['ID'];
@@ -4383,6 +4408,59 @@ export type MenuChildrenAggregateResponse = {
   max?: Maybe<MenuChildrenMaxAggregate>;
 };
 
+export type PageDeleteResponse = {
+  __typename?: 'PageDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['String']>;
+  list?: Maybe<Array<Scalars['String']>>;
+  pageType?: Maybe<PageType>;
+  pageCategory?: Maybe<PageCategory>;
+};
+
+export type PageCountAggregate = {
+  __typename?: 'PageCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['Int']>;
+  targetId?: Maybe<Scalars['Int']>;
+  pageType?: Maybe<Scalars['Int']>;
+  pageCategory?: Maybe<Scalars['Int']>;
+};
+
+export type PageMinAggregate = {
+  __typename?: 'PageMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  pageType?: Maybe<PageType>;
+  pageCategory?: Maybe<PageCategory>;
+};
+
+export type PageMaxAggregate = {
+  __typename?: 'PageMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  pageType?: Maybe<PageType>;
+  pageCategory?: Maybe<PageCategory>;
+};
+
+export type PageAggregateResponse = {
+  __typename?: 'PageAggregateResponse';
+  count?: Maybe<PageCountAggregate>;
+  min?: Maybe<PageMinAggregate>;
+  max?: Maybe<PageMaxAggregate>;
+};
+
 export type Query = {
   __typename?: 'Query';
   GetAdministratorData: Administrator;
@@ -4491,6 +4569,9 @@ export type Query = {
   menus: Array<Menu>;
   menuAggregate: MenuAggregateResponse;
   GetMenuTree: MenuResponseTypes;
+  page?: Maybe<Page>;
+  pages: Array<Page>;
+  pageAggregate: PageAggregateResponse;
 };
 
 
@@ -5007,6 +5088,23 @@ export type QueryMenuAggregateArgs = {
   filter?: Maybe<MenuAggregateFilter>;
 };
 
+
+export type QueryPageArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPagesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<PageFilter>;
+  sorting?: Maybe<Array<PageSort>>;
+};
+
+
+export type QueryPageAggregateArgs = {
+  filter?: Maybe<PageAggregateFilter>;
+};
+
 export type AssetFilter = {
   and?: Maybe<Array<AssetFilter>>;
   or?: Maybe<Array<AssetFilter>>;
@@ -5417,6 +5515,80 @@ export type ZipAggregateFilter = {
   code?: Maybe<NumberFieldComparison>;
 };
 
+export type PageFilter = {
+  and?: Maybe<Array<PageFilter>>;
+  or?: Maybe<Array<PageFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  pageType?: Maybe<PageTypeFilterComparison>;
+  pageCategory?: Maybe<PageCategoryFilterComparison>;
+};
+
+export type PageTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<PageType>;
+  neq?: Maybe<PageType>;
+  gt?: Maybe<PageType>;
+  gte?: Maybe<PageType>;
+  lt?: Maybe<PageType>;
+  lte?: Maybe<PageType>;
+  like?: Maybe<PageType>;
+  notLike?: Maybe<PageType>;
+  iLike?: Maybe<PageType>;
+  notILike?: Maybe<PageType>;
+  in?: Maybe<Array<PageType>>;
+  notIn?: Maybe<Array<PageType>>;
+};
+
+export type PageCategoryFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<PageCategory>;
+  neq?: Maybe<PageCategory>;
+  gt?: Maybe<PageCategory>;
+  gte?: Maybe<PageCategory>;
+  lt?: Maybe<PageCategory>;
+  lte?: Maybe<PageCategory>;
+  like?: Maybe<PageCategory>;
+  notLike?: Maybe<PageCategory>;
+  iLike?: Maybe<PageCategory>;
+  notILike?: Maybe<PageCategory>;
+  in?: Maybe<Array<PageCategory>>;
+  notIn?: Maybe<Array<PageCategory>>;
+};
+
+export type PageSort = {
+  field: PageSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum PageSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Title = 'title',
+  TargetId = 'targetId',
+  PageType = 'pageType',
+  PageCategory = 'pageCategory'
+}
+
+export type PageAggregateFilter = {
+  and?: Maybe<Array<PageAggregateFilter>>;
+  or?: Maybe<Array<PageAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  pageType?: Maybe<PageTypeFilterComparison>;
+  pageCategory?: Maybe<PageCategoryFilterComparison>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   administratorLogin: AdministratorDto;
@@ -5707,6 +5879,12 @@ export type Mutation = {
   addChildrenToMenu: Menu;
   setParentOnMenu: Menu;
   CreateMenuChildNode: Menu;
+  deleteOnePage: PageDeleteResponse;
+  deleteManyPages: DeleteManyResponse;
+  updateOnePage: Page;
+  updateManyPages: UpdateManyResponse;
+  createOnePage: Page;
+  createManyPages: Array<Page>;
 };
 
 
@@ -7228,6 +7406,36 @@ export type MutationCreateMenuChildNodeArgs = {
   targetId: Scalars['String'];
   title: Scalars['String'];
   nodeId: Scalars['ID'];
+};
+
+
+export type MutationDeleteOnePageArgs = {
+  input: DeleteOneInput;
+};
+
+
+export type MutationDeleteManyPagesArgs = {
+  input: DeleteManyPagesInput;
+};
+
+
+export type MutationUpdateOnePageArgs = {
+  input: UpdateOnePageInput;
+};
+
+
+export type MutationUpdateManyPagesArgs = {
+  input: UpdateManyPagesInput;
+};
+
+
+export type MutationCreateOnePageArgs = {
+  input: CreateOnePageInput;
+};
+
+
+export type MutationCreateManyPagesArgs = {
+  input: CreateManyPagesInput;
 };
 
 export type RelationsInput = {
@@ -8838,6 +9046,83 @@ export type CreateManyMenusInput = {
   menus: Array<CreateMenu>;
 };
 
+export type DeleteManyPagesInput = {
+  /** Filter to find records to delete */
+  filter: PageDeleteFilter;
+};
+
+export type PageDeleteFilter = {
+  and?: Maybe<Array<PageDeleteFilter>>;
+  or?: Maybe<Array<PageDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  pageType?: Maybe<PageTypeFilterComparison>;
+  pageCategory?: Maybe<PageCategoryFilterComparison>;
+};
+
+export type UpdateOnePageInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdatePage;
+};
+
+export type UpdatePage = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['String']>;
+  list?: Maybe<Array<Scalars['String']>>;
+  pageType?: Maybe<PageType>;
+  pageCategory?: Maybe<PageCategory>;
+};
+
+export type UpdateManyPagesInput = {
+  /** Filter used to find fields to update */
+  filter: PageUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdatePage;
+};
+
+export type PageUpdateFilter = {
+  and?: Maybe<Array<PageUpdateFilter>>;
+  or?: Maybe<Array<PageUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  pageType?: Maybe<PageTypeFilterComparison>;
+  pageCategory?: Maybe<PageCategoryFilterComparison>;
+};
+
+export type CreateOnePageInput = {
+  /** The record to create */
+  page: CreatePage;
+};
+
+export type CreatePage = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['String']>;
+  list?: Maybe<Array<Scalars['String']>>;
+  pageType?: Maybe<PageType>;
+  pageCategory?: Maybe<PageCategory>;
+};
+
+export type CreateManyPagesInput = {
+  /** Array of records to create */
+  pages: Array<CreatePage>;
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   deletedOneAsset: AssetDeleteResponse;
@@ -8985,6 +9270,11 @@ export type Subscription = {
   updatedOneMenu: Menu;
   updatedManyMenus: UpdateManyResponse;
   createdMenu: Menu;
+  deletedOnePage: PageDeleteResponse;
+  deletedManyPages: DeleteManyResponse;
+  updatedOnePage: Page;
+  updatedManyPages: UpdateManyResponse;
+  createdPage: Page;
 };
 
 
@@ -9420,6 +9710,21 @@ export type SubscriptionUpdatedOneMenuArgs = {
 
 export type SubscriptionCreatedMenuArgs = {
   input?: Maybe<CreateMenuSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOnePageArgs = {
+  input?: Maybe<DeleteOnePageSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOnePageArgs = {
+  input?: Maybe<UpdateOnePageSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedPageArgs = {
+  input?: Maybe<CreatePageSubscriptionFilterInput>;
 };
 
 export type DeleteOneAssetSubscriptionFilterInput = {
@@ -10174,6 +10479,33 @@ export type UpdateOneMenuSubscriptionFilterInput = {
 export type CreateMenuSubscriptionFilterInput = {
   /** Specify to filter the records returned. */
   filter: MenuSubscriptionFilter;
+};
+
+export type DeleteOnePageSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: PageSubscriptionFilter;
+};
+
+export type PageSubscriptionFilter = {
+  and?: Maybe<Array<PageSubscriptionFilter>>;
+  or?: Maybe<Array<PageSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  pageType?: Maybe<PageTypeFilterComparison>;
+  pageCategory?: Maybe<PageCategoryFilterComparison>;
+};
+
+export type UpdateOnePageSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: PageSubscriptionFilter;
+};
+
+export type CreatePageSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: PageSubscriptionFilter;
 };
 
 export type AdministratorLoginMutationVariables = Exact<{
@@ -10975,7 +11307,7 @@ export type GetVendorInfoQuery = (
     & Pick<Vendor, 'id' | 'vendorName' | 'phoneNumber' | 'email'>
     & { store: (
       { __typename?: 'Store' }
-      & Pick<Store, 'id' | 'storeName' | 'rentalStore' | 'GSTIN'>
+      & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'zipcode' | 'streetAddress1' | 'streetAddress2' | 'GSTIN' | 'singleStore' | 'rentalStore' | 'channelMarkets'>
     ) }
   )> }
 );
@@ -10988,10 +11320,6 @@ export type GetDefaultStoreQuery = (
   & { GetDefaultStore: (
     { __typename?: 'Store' }
     & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'zipcode' | 'streetAddress1' | 'streetAddress2' | 'GSTIN' | 'singleStore' | 'rentalStore' | 'channelMarkets'>
-    & { country: (
-      { __typename?: 'Country' }
-      & Pick<Country, 'id' | 'name'>
-    ) }
   ) }
 );
 
@@ -12097,8 +12425,15 @@ export const GetVendorInfoDocument = gql`
     store {
       id
       storeName
-      rentalStore
+      phoneNumber
+      officialemail
+      zipcode
+      streetAddress1
+      streetAddress2
       GSTIN
+      singleStore
+      rentalStore
+      channelMarkets
     }
   }
 }
@@ -12117,10 +12452,6 @@ export const GetDefaultStoreDocument = gql`
     singleStore
     rentalStore
     channelMarkets
-    country {
-      id
-      name
-    }
   }
 }
     `;

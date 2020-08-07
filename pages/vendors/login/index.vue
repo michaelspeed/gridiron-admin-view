@@ -1,55 +1,108 @@
 <template>
-    <div>
-        <div class="air__auth">
-            <div class="pt-5 pb-5 d-flex align-items-end mt-auto">
-                <img src="/components/core/img/air-logo.png" alt="AIR UI Logo" />
-                <div class="air__utils__logo__text">
-                    <div class="air__utils__logo__name text-uppercase text-dark font-size-21">{{$t('pages.appname')}}</div>
-                    <div class="air__utils__logo__descr text-uppercase font-size-12 text-gray-6">
-                        {{$t('pages.tag-line')}}
-                    </div>
+    <div class="d-flex flex-column flex-root" style="height: 100vh">
+        <!--begin::Login-->
+        <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
+            <!--begin::Aside-->
+            <div class="login-aside d-flex flex-column flex-row-auto" style="background-color: #F2C98A;">
+                <!--begin::Aside Top-->
+                <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
+                    <!--begin::Aside header-->
+                    <a href="#" class="text-center mb-10">
+                        <img src="/master/logo/air.png" class="max-h-70px" alt="" />
+                    </a>
+                    <!--end::Aside header-->
+                    <!--begin::Aside title-->
+                    <h3 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg" style="color: #986923;">Discover Amazing Ecommerce
+                        <br />experience</h3>
+                    <!--end::Aside title-->
                 </div>
+                <!--end::Aside Top-->
+                <!--begin::Aside Bottom-->
+                <div class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center" style="background-image: url(/media/svg/illustrations/login-visual-1.svg)"></div>
+                <!--end::Aside Bottom-->
             </div>
-            <div class="air__auth__container pl-5 pr-5 pt-5 pb-5 bg-white text-center">
-                <div class="text-dark font-size-30 mb-4 font-weight-bold">Vendor</div>
-                <div class="mb-4">
-                    <div class="form-group mb-4">
-                        <input type="email" class="form-control" placeholder="Email Address" v-model="email" />
-                    </div>
-                    <div class="form-group mb-4">
-                        <input type="password" class="form-control" placeholder="Password" v-model="password"/>
-                    </div>
-                    <button class="text-center btn btn-success w-100 font-weight-bold font-size-18" @click="onLogin">
-                        Log In
-                    </button>
-                </div>
-                <div class="mb-4">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <v-btn class="ma-2" text color="#1b55e3" href="/vendors/register">Vendor Registration</v-btn>
+            <!--begin::Aside-->
+            <!--begin::Content-->
+            <div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto">
+                <!--begin::Content body-->
+                <div class="d-flex flex-column-fluid flex-center">
+                    <!--begin::Signin-->
+                    <div class="login-form login-signin" v-if="state === 1">
+                        <!--begin::Form-->
+                        <div class="form" id="kt_login_signin_form">
+                            <!--begin::Title-->
+                            <div class="pb-13 pt-lg-0 pt-5">
+                                <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Welcome to AirEcommerce</h3>
+                                <span class="text-muted font-weight-bold font-size-h4">New Here?
+									<a href="/vendors/register" id="kt_login_signup" class="text-primary font-weight-bolder">Create an Account</a></span>
+                            </div>
+                            <!--begin::Title-->
+                            <!--begin::Form group-->
+                            <div class="form-group">
+                                <label class="font-size-h6 font-weight-bolder text-dark" >Email</label>
+                                <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="text" name="username" autocomplete="off" v-model="email" />
+                            </div>
+                            <!--end::Form group-->
+                            <!--begin::Form group-->
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between mt-n5">
+                                    <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
+                                    <a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot" @click="onSwitch">Forgot Password ?</a>
+                                </div>
+                                <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="password" name="password" autocomplete="off" v-model="password"/>
+                            </div>
+                            <!--end::Form group-->
+                            <!--begin::Action-->
+                            <div class="pb-lg-0 pb-5">
+                                <button
+                                    type="button"
+                                    id="kt_login_signin_submit"
+                                    class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3"
+                                    :class="{'spinner spinner-white spinner-right': load}"
+                                    @click="onLogin">Sign In</button>
+                            </div>
+                            <!--end::Action-->
                         </div>
-                        <div class="col-md-6"></div>
+                        <!--end::Form-->
                     </div>
+                    <!--end::Signin-->
+                    <!--begin::Forgot-->
+                    <div class="login-form login-forgot" v-if="state === 2">
+                        <!--begin::Form-->
+                        <div class="form" id="kt_login_forgot_form">
+                            <!--begin::Title-->
+                            <div class="pb-13 pt-lg-0 pt-5">
+                                <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Forgotten Password ?</h3>
+                                <p class="text-muted font-weight-bold font-size-h4">Enter your email to reset your password</p>
+                            </div>
+                            <!--end::Title-->
+                            <!--begin::Form group-->
+                            <div class="form-group">
+                                <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="email" placeholder="Email" name="email" autocomplete="off" />
+                            </div>
+                            <!--end::Form group-->
+                            <!--begin::Form group-->
+                            <div class="form-group d-flex flex-wrap pb-lg-0">
+                                <button type="button" id="kt_login_forgot_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit</button>
+                                <button type="button" id="kt_login_forgot_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</button>
+                            </div>
+                            <!--end::Form group-->
+                        </div>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Forgot-->
                 </div>
+                <!--end::Content body-->
+                <!--begin::Content footer-->
+                <div class="d-flex justify-content-lg-start justify-content-center align-items-end py-7 py-lg-0">
+                    <a href="#" class="text-primary font-weight-bolder font-size-h5">Terms</a>
+                    <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">Contact Us</a>
+                </div>
+                <!--end::Content footer-->
             </div>
-            <div class="mt-auto pb-5 pt-5">
-                <ul class="air__auth__footerNav list-unstyled d-flex mb-2 flex-wrap justify-content-center">
-                    <li>
-                        <a href="#">Terms of Use</a>
-                    </li>
-                    <li>
-                        <a href="#">Compliance</a>
-                    </li>
-                    <li>
-                        <a href="#">Support</a>
-                    </li>
-                    <li>
-                        <a href="#">Contacts</a>
-                    </li>
-                </ul>
-                <div class="text-gray-4 text-center">{{$t('general.copyright')}}</div>
-            </div>
+            <!--end::Content-->
         </div>
+        <!--end::Login-->
     </div>
 </template>
 
@@ -58,12 +111,38 @@
     import {Component, Vue} from 'vue-property-decorator';
     import {LoginVendorDocument} from '../../../gql';
 
-    @Component
+    @Component({
+        head: {
+            bodyAttrs: {
+                class: 'header-fixed header-mobile-fixed subheader-enabled sidebar-enabled page-loading',
+                id: 'kt_body'
+            },
+            script: [
+                {src: '/js/scripts.bundle.js?v=7.0.6', body: true, async: true},
+                {src: '/js/pages/custom/login/login-general.js?v=7.0.5', body: true},
+                {src: '/js/pages/widgets.js?v=7.0.6', body: true},
+            ],
+            link: [
+                {rel: 'stylesheet', href: '/css/pages/login/login-1.css?v=7.0.5'}
+            ]
+        },
+    })
     export default class Index extends Vue {
         private email: string = ''
         private password: string = ''
+        private state = 1
+        private load = false
+
+        onSwitch() {
+            if (this.state === 1) {
+                this.state = 2
+            } else {
+                this.state = 1
+            }
+        }
 
         onLogin() {
+            this.load = true
             this.$apollo.mutate({
                 mutation: LoginVendorDocument,
                 variables: {
@@ -71,13 +150,13 @@
                     password: this.password
                 }
             }).then(value => {
-                console.log(value)
+                this.load = false
                 this.$apolloHelpers.onLogin(value!.data!.LoginVendor!.token)
                 this.$router.push({
                     path: '/app/dashboard'
                 })
             }).catch(error => {
-                console.log(error)
+                this.load = false
                 this.$message.error(error.message)
             })
         }

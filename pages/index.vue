@@ -38,8 +38,6 @@
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>
-                <a href="#" class="text-white ml-10">Legal</a>
-                <a href="#" class="text-white ml-10">Contact</a>
               </div>
             </div>
             <!--end: Aside footer for desktop -->
@@ -66,6 +64,12 @@
                   class="font-weight-bold font-size-3 ml-2"
                 >
                   Sign Up!
+                </a>
+                  <a
+                    href="/vendors/login"
+                  class="font-weight-bold text-success font-size-3 ml-2"
+                >
+                  Sign In!
                 </a>
               </div>
               <!--end::Content header-->

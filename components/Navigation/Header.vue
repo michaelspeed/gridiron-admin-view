@@ -146,7 +146,6 @@
     mounted() {
       this.$store.dispatch('admin/getAdministrator')
       this.$store.dispatch('store/getDefaultStore')
-      this.$store.dispatch('vendor/getVendor')
       this.$apollo.query({
         query: GetAllCountriesDocument
       }).then(value => {

@@ -48,10 +48,17 @@
         <div class="sidebar-content flex-column-fluid pb-10 pt-9 px-5 px-lg-10">
             <!--Title Widget-->
             <div class="d-flex justify-content-center align-items-center m-20"
-                 v-if="store === undefined || store === null">
+                 v-if="!store && !vendorStore">
                 <div class="spinner spinner-primary spinner-lg mr-15"></div>
             </div>
-            <div v-if="!(store === undefined || store === null)" class="card card-custom bgi-no-repeat gutter-b"
+            <div v-if="store && vendorStore" class="card card-custom bgi-no-repeat gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/media/svg/shapes/abstract-4.svg)">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <a href="#" class="card-title font-weight-bold text-muted text-hover-primary font-size-h1">{{store.storeName}}</a>
+                </div>
+                <!--end::Body-->
+            </div>
+            <div v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b"
                  style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
                 <!--begin::Body-->
                 <div class="card-body">
@@ -59,6 +66,22 @@
                     <h3 class="text-white font-weight-bolder">{{store.storeName}}</h3>
                     <p class="text-muted font-size-lg mt-5">
                         {{store.streetAddress1}}, {{store.streetAddress2}}
+                    </p>
+                    <a href="#" class="btn btn-link btn-link-warning font-weight-bold">
+                        Open Settings
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <!--end::Body-->
+            </div>
+            <div v-if="vendorStore" class="card card-custom bgi-no-repeat gutter-b"
+                 style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">
+                    <h3 class="text-white font-weight-bolder">{{vendorStore.storeName}}</h3>
+                    <p class="text-muted font-size-lg mt-5">
+                        {{vendorStore.streetAddress1}}, {{vendorStore.streetAddress2}}
                     </p>
                     <a href="#" class="btn btn-link btn-link-warning font-weight-bold">
                         Open Settings
@@ -212,13 +235,15 @@
         computed: {
             ...mapState({
                 admin: (store: any) => store.admin.administrator,
-                store: (store: any) => store.store.store,
+                store: (store: any) => store.admin.store,
+                vendorStore: (store: any) => store.admin.vendorStore,
                 vendor: (store: any) => store.vendor.vendor
             })
         }
     })
     export default class SideBar extends Vue {
         private store
+        private vendorStore
         private tempscript: any = null;
         private scrollbarscript: any = null
         private menu: any[] = menudata

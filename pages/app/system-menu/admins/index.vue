@@ -129,6 +129,7 @@
 
     @Component({
         layout: 'console',
+        middleware: 'adminonly',
         apollo: {
             GetAllAdministrator: {
                 query: GetAllAdministratorDocument,

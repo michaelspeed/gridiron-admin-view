@@ -17,10 +17,10 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="taxRateAggregate">{{taxRateAggregate.count.id}} Total</span>
                                 <div class="ml-5">
                                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
+                                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." v-model="iLike"/>
                                         <div class="input-group-append">
                                             <i class="fas fa-search"></i>
                                         </div>
@@ -85,11 +85,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Enter Rule Name</label>
-                        <a-input v-model="name"></a-input>
+                        <a-input v-model="name" :disabled="!admin"></a-input>
                         <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-light-primary" @click="onCreateRule">Create Rule</button>
+                        <button type="button" class="btn btn-light-primary" @click="onCreateRule" :disabled="!admin">Create Rule</button>
                         <button type="button" class="btn btn-light-danger" @click="createRule = false">Cancel</button>
                     </div>
                 </div>
@@ -99,17 +99,18 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Watch} from 'vue-property-decorator';
     import CreateTaxRule from '../../../../components/store/tax/CreateTaxRule.vue';
     import {
         CreateTaxRuleDocument,
-        CreateTaxRuleMutationVariables, GetTaxRulesDocument,
+        CreateTaxRuleMutationVariables, GetTaxRateAgreegateDocument, GetTaxRulesDocument,
         GetTaxRulesQueryVariables,
         TaxCategory
     } from '../../../../gql';
     import {AgGridVue} from 'ag-grid-vue';
     import TaxRulesActions from '../../../../components/Tax/Rules/TaxRulesActions.vue';
     import ApolloClient from 'apollo-client';
+    import {mapState} from "vuex";
 
     @Component({
         components: {
@@ -117,7 +118,29 @@
             'ag-grid-vue': AgGridVue,
             TaxRulesActions
         },
-        layout: 'console'
+        computed: {
+            ...mapState({
+                admin: (store: any) => store.admin.administrator,
+                vendor: (store: any) => store.admin.vendor,
+            }),
+        },
+        layout: 'console',
+        apollo: {
+            taxCategories: {
+                query: GetTaxRulesDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset,
+                        iLike: `%${this.iLike}%`
+                    }
+                },
+                pollInterval: 3000
+            },
+            taxRateAggregate: {
+                query: GetTaxRateAgreegateDocument
+            }
+        }
     })
     export default class TaxRules extends Vue {
         private createRule: boolean = false
@@ -130,8 +153,8 @@
         private columnDefs = [
             {
                 headerName: 'Name',
-                filter: true,
-                field: 'node.name'
+                filter: false,
+                field: 'name'
             },
             {
                 headerName: 'Actions',
@@ -154,51 +177,35 @@
         private hasPrev: boolean = false;
         private hasNext: boolean = false;
 
+        private limit = 50
+        private offset = 0
+        private iLike = ''
+
+        private taxCategories
+        private taxRateAggregate
+
         // apollo
         private apolloClient: any = null
 
+        @Watch('taxCategories')
+        onTaxCats() {
+            if (this.taxCategories) {
+                this.allRules = this.taxCategories
+            }
+        }
+
+        @Watch('taxRateAggregate')
+        onTaxCatsAggregate() {
+            console.log(this.taxRateAggregate)
+        }
+
         mounted() {
-            this.apolloClient = this.$apollo.getClient()
-            this.apolloClient?.watchQuery({
-                query: GetTaxRulesDocument,
-                variables: {
-                    first: this.first,
-                    iLike: this.search === '' ? undefined: this.search,
-                    after: this.after === null ? undefined : this.after
-                },
-                pollInterval: 3000
-            }).subscribe(value => {
-                this.allRules = value!.data.taxCategories.edges
-                this.after = value!.data.taxCategories.pageInfo!.endCursor
-                this.before = value!.data.taxCategories.pageInfo!.startCursor
-                this.hasPrev = value!.data.taxCategories.pageInfo!.hasPreviousPage
-                this.hasNext = value!.data.taxCategories.pageInfo!.hasNextPage
-            })
+
         }
 
         onGridReady() {
             this.gridApi = this.gridOptions!.api;
             this.gridApi!.sizeColumnsToFit();
-        }
-
-        onReload() {
-            this.$apollo.query({
-                query: GetTaxRulesDocument,
-                variables: {
-                    first: this.first,
-                    iLike: this.search === '' ? undefined: this.search,
-                    after: this.after === null ? undefined : this.after
-                }
-            }).then(value => {
-                console.log(value)
-                this.allRules = value!.data.taxCategories.edges
-                this.after = value!.data.taxCategories.pageInfo!.endCursor
-                this.before = value!.data.taxCategories.pageInfo!.startCursor
-                this.hasPrev = value!.data.taxCategories.pageInfo!.hasPreviousPage
-                this.hasNext = value!.data.taxCategories.pageInfo!.hasNextPage
-            }).catch(error => {
-                console.log(error)
-            })
         }
 
         onCreateRule() {
