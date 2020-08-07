@@ -41,7 +41,7 @@ export default {
         "nowonline": "Now Online",
         "customer-group": "Customer Group",
         "promotions": "Promotions",
-        "cat-price-rule": "Catalog Price Rule",
+        "cat-price-rule": "Promotion Variant Prices",
         "cart-price-rule": "Cart Price Rule",
         "communication": "Promotions and Communication",
         "email-template": "Email Template",

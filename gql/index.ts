@@ -11886,6 +11886,20 @@ export type GetOneSeoQuery = (
   )> }
 );
 
+export type GetSeoAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSeoAggregateQuery = (
+  { __typename?: 'Query' }
+  & { seoAggregate: (
+    { __typename?: 'SeoAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'SeoCountAggregate' }
+      & Pick<SeoCountAggregate, 'id'>
+    )> }
+  ) }
+);
+
 export type GetBillingAgreementQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -12951,6 +12965,15 @@ export const GetOneSeoDocument = gql`
     variant {
       id
       name
+    }
+  }
+}
+    `;
+export const GetSeoAggregateDocument = gql`
+    query GetSeoAggregate {
+  seoAggregate {
+    count {
+      id
     }
   }
 }

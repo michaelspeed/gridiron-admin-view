@@ -17,10 +17,10 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="seoAggregate">{{seoAggregate.count.id}} Total</span>
                                 <div class="ml-5">
                                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
+                                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." v-model="search"/>
                                         <div class="input-group-append">
                                             <i class="fas fa-search"></i>
                                         </div>
@@ -76,7 +76,7 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
-    import {GetAllSeoDocument} from '../../../../gql';
+    import {GetAllSeoDocument, GetSeoAggregateDocument} from '../../../../gql';
     import SeoActions from '../../../../components/Seo/SeoActions.vue';
 
     @Component({
@@ -87,10 +87,14 @@
                 variables() {
                     return {
                         limit: this.limit,
-                        offset: this.offset
+                        offset: this.offset,
+                        iLike: `%${this.search}%`
                     }
                 },
                 fetchPolicy: 'network-only'
+            },
+            seoAggregate: {
+                query: GetSeoAggregateDocument
             }
         },
         components: {
@@ -102,6 +106,10 @@
 
         private limit = 50
         private offset = 0
+
+        private seoAggregate
+
+        private search = ''
 
         //table
         private gridOptions: any = {};
@@ -140,7 +148,6 @@
         private first: number = 10
         private after: any = null
         private before: any = null
-        private search: string = ''
         private hasPrev: boolean = false;
         private hasNext: boolean = false;
         private page: number = 1

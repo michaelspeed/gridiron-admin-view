@@ -648,6 +648,14 @@ query GetOneSeo($id: ID!){
     }
 }
 
+query GetSeoAggregate {
+    seoAggregate {
+        count {
+            id
+        }
+    }
+}
+
 query GetBillingAgreement($id: ID!){
     GetBillingAgreement(id: $id) {
         id

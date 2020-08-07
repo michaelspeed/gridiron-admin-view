@@ -98,7 +98,7 @@ const menudata = [
             {
                 icon: "iconsminds-mens",
                 label: "menu.allsustomers",
-                to: "/app/customers-menu/allustomers"
+                to: "/app/customers-menu/allcustomers"
             },
             {
                 icon: "iconsminds-assistant",

@@ -8,7 +8,8 @@
     import {Component, Vue} from "vue-property-decorator";
 
     @Component({
-        layout: 'console'
+        layout: 'console',
+        middleware: 'adminonly',
     })
     export default class AllReviews extends Vue {
 
