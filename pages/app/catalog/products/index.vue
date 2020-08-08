@@ -93,7 +93,8 @@
                         offset: this.offset,
                         iLike: `%${this.search}%`
                     }
-                }
+                },
+                pollInterval: 3000
             }
         }
     })

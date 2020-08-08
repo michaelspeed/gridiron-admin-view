@@ -1,16 +1,12 @@
 <template>
     <div>
-        <v-btn class="ma-2" outlined x-small color="primary" @click="this.onClickEdit">
-            Edit
-        </v-btn>
+        <a href="javascript:;" class="btn btn-sm btn-light-primary font-weight-bold mr-2" @click="this.onClickEdit">Edit</a>
         <a-popconfirm
                 ok-text='OK'
                 cancel-text='No, Thanks'
                 title="Are you sure to delete this?"
         >
-            <a-button type="link" style="color: red">
-                Delete
-            </a-button>
+            <a href="javascript:;" class="btn btn-sm btn-light-danger font-weight-bold mr-2">Delete</a>
         </a-popconfirm>
     </div>
 </template>

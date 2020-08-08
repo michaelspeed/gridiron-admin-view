@@ -199,9 +199,10 @@
                 query: GetAllAssetsDocument,
                 variables() {
                     return {
-                        first: 50
+                        limit: this.assetLimit
                     }
-                }
+                },
+                pollInterval: 3000
             }
         },
         computed: {
@@ -231,6 +232,8 @@
 
         private assets
         private loading
+
+        private assetLimit = 50
 
         private stockmanagement = false
 

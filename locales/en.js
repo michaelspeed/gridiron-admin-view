@@ -18,7 +18,7 @@ export default {
     },
     "menu": {
         "app": "Home",
-        "dashboards": "Dashboards",
+        "dashboard": "Dashboard",
         "sales": "Sales",
         "search": "Search",
         "catalog": "Catalog",

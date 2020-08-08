@@ -20,7 +20,7 @@
                   <span class="text-dark-50 font-weight-bold" id="kt_subheader_total" v-if="assetAggregate">{{assetAggregate.count.id}} Total</span>
                   <div class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                      <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..."/>
+                      <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." v-model="search"/>
                       <div class="input-group-append">
                         <i class="fas fa-search"></i>
                       </div>
@@ -52,8 +52,8 @@
           <div class="row">
             <AssetsPreview v-for="asset in myAssets" :node="asset" :key="asset.id"/>
           </div>
-          <div class="row">
-
+          <div class="row" v-if="!$apollo.queries.assetAggregate.loading">
+              <a-pagination v-model="page" :total="assetAggregate.count.id" :pageSize.sync="limit" show-less-items />
           </div>
         </div>
       </div>
@@ -76,14 +76,22 @@
                 query: GetAllAssetsDocument,
                 variables() {
                     return {
-                        limit: this.limit
+                        limit: this.limit,
+                        iLike: `%${this.search}%`,
+                        offset: (this.page - 1) * this.limit
                     }
                 },
                 pollInterval: 4000,
                 deep: true
             },
             assetAggregate: {
-                query: GetAssetsAggregateDocument
+                query: GetAssetsAggregateDocument,
+                variables() {
+                    return {
+                        iLike: `%${this.search}%`
+                    }
+                },
+                pollInterval: 4000
             }
         }
     })
@@ -102,6 +110,8 @@
         private hasPrev: boolean = false;
         private hasNext: boolean = false;
         private assets
+        private page = 1
+        private totalPageCount = 0
 
         public $refs: Vue['$refs'] & {
             fileInput: HTMLInputElement
@@ -109,37 +119,17 @@
 
         @Watch('assets')
         onChangeAsset() {
-            console.log(this.assets)
             this.myAssets = this.assets
         }
 
-        onNext() {
-            /*this.after = this.assets.pageInfo.endCursor ? this.assets.pageInfo.endCursor : null
-            this.before = undefined
-            this.first = 10
-            this.last = undefined
-            console.log(this.after, this.before)*/
-        }
-
-        onPrev() {
-            /*this.before = this.assets.pageInfo.startCursor ? this.assets.pageInfo.startCursor: null
-            this.after = undefined
-            this.last = 10
-            this.first = undefined
-            console.log(this.after, this.before)*/
+        @Watch('assetAggregate')
+        onChangeAssetAggregate() {
+            this.totalPageCount = Math.ceil(this.assetAggregate.count.id/this.limit)
+            console.log(this.totalPageCount)
         }
 
         mounted() {
-            /*this.$apollo.watchQuery({
-                query: GetAllAssetsDocument,
-                variables: {
-                    first: 30
-                },
-                pollInterval: 3000
-            }).subscribe(value => {
-                console.log(value)
-                this.myAssets = value.data!.assets.edges
-            })*/
+
         }
 
         onClickUpload() {

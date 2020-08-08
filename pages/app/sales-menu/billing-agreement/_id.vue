@@ -1,73 +1,115 @@
 <template>
     <div>
-        <div class="air__utils__heading">
-            <div class="d-flex flex-row justify-content-between align-items-center">
-                <h5>Billing Agreements: </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6" v-if="GetBillingAgreement !== undefined">
-                <div class="card air__utils__cardMarked air__utils__cardMarked--primary">
-                    <div class="card-header card-header-flex">
-                        <div class="d-flex flex-column justify-content-center">
-                            <h5 class="mb-0">Billing Agreement Details</h5>
-                        </div>
-                        <div class="ml-auto d-flex flex-column justify-content-center">
-                            <h5>{{getDate()}}</h5>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="table-responsive">
-                                <table class="table table-borderless text-gray-6 mb-0">
-                                    <tbody>
-                                    <tr>
-                                        <td>Status</td>
-                                        <td class="text-right"><strong>{{GetBillingAgreement.state}}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type</td>
-                                        <td class="text-right"><strong>{{GetBillingAgreement.type}}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Value</td>
-                                        <td class="text-right"><strong>{{GetBillingAgreement.value}}</strong></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+        <div class="d-flex flex-column-fluid">
+            <div class=" container-fluid ">
+                <div class="subheader py-2 py-lg-4  subheader-transparent " id="kt_subheader">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap w-100">
+                        <!--begin::Details-->
+                        <div class="d-flex align-items-center flex-wrap mr-2">
+
+                            <!--begin::Title-->
+                            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Billing Agreements</h5>
+                            <!--end::Title-->
+
+                            <!--begin::Separator-->
+                            <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                            <!--end::Separator-->
+
+                            <!--begin::Search Form-->
+                            <div class="d-flex align-items-center" id="kt_subheader_search">
+
                             </div>
+                            <!--end::Search Form-->
                         </div>
+                        <!--end::Details-->
+
+                        <!--begin::Toolbar-->
+                        <div class="d-flex align-items-center">
+                            <!--begin::Button-->
+                            <a href="#" class="">
+
+                            </a>
+                            <!--end::Button-->
+
+                            <!--begin::Button-->
+
+                            <!--end::Button-->
+                        </div>
+                        <!--end::Toolbar-->
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card air__utils__cardMarked air__utils__cardMarked--primary">
-                    <div class="card-header card-header-flex">
-                        <div class="d-flex flex-column justify-content-center">
-                            <h5 class="mb-0">Billing Agreement Requests</h5>
-                        </div>
-                        <div class="ml-auto d-flex flex-column justify-content-center">
-                            <v-btn @click="createRequest = true" small color="secondary">Create Request</v-btn>
-                        </div>
-                    </div>
+                <div class="card">
                     <div class="card-body">
-                        <div class="card" v-for="request of GetBillingRequestForAgreement" :key="request.id">
-                            <div class="air__g6 pt-3">
-                                <div class="air__g6__status" :class="{'bg-danger': request.state === 'REJECTED', 'bg-success': request.state === 'APPROVED', 'bg-dark': request.state === 'PENDING'}"></div>
-                                <div class="d-flex flex-nowrap align-items-center pb-3 pl-4 pr-4">
-                                    <div class="mr-auto">
-                                        <div class="text-uppercase font-weight-bold font-size-24 text-dark">{{request.value}} %</div>
-                                    </div>
-                                    <div class="ml-1 text-danger">
-                                        <span class="badge badge-primary">{{request.state}}</span>
+                        <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.GetBillingAgreement.loading">
+                            <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" v-if="!$apollo.queries.GetBillingAgreement.loading">
+                                <div class="card card-custom gutter-b">
+                                    <div class="card-body d-flex p-0 card-rounded">
+                                        <div class="flex-grow-1 p-10 card-rounded flex-grow-1 bgi-no-repeat" style="background-color: #663259; background-position: calc(100% + 0.5rem) bottom; background-size: auto 75%; background-image: url(/media/svg/humans/custom-4.svg)">
+                                            <h4 class="text-inverse-danger mt-2 font-weight-bolder">Billing Agreement Details: {{getDate()}}</h4>
+                                            <h6 class="text-inverse-danger mt-2 font-weight-bolder" v-if="GetBillingAgreement.collection">Collection: {{GetBillingAgreement.collection.name}}</h6>
+                                            <div class="mt-5">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="text-white font-size-h3">Activities</span>
+                                                    <span class="text-white font-size-h3 font-weight-boldest">{{GetBillingAgreement.state}}</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+
+                                                    <span class="text-white font-size-h3">Sales</span>
+                                                    <span class="text-white font-size-h3 font-weight-boldest">{{GetBillingAgreement.type}}</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+
+                                                    <span class="text-white font-size-h3">Releases</span>
+                                                    <span class="text-white font-size-h3 font-weight-boldest">{{GetBillingAgreement.value}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="py-3 bg-gray-1 pl-4 pr-4">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span>Updated On: {{getUpdateDate(request.updatedAt)}}</span>
-                                        <div v-if="getAdministrator() && request.state === 'PENDING'">
-                                            <v-btn title small color="primary" @click="onUpdateBilliReq('APPROVED', request.id)">Accept</v-btn>
-                                            <v-btn title small color="error" @click="onUpdateBilliReq('REJECTED', request.id)">Reject</v-btn>
+                            </div>
+                            <div class="col-md-6" v-if="!$apollo.queries.GetBillingRequestForAgreement.loading">
+                                <div class="card">
+                                    <div class="card-header border-0 py-5 justify-content-between d-flex">
+                                        <h3 class="card-title align-items-start flex-column">
+                                            <span class="card-label font-weight-bolder text-dark">Billing Agreement Requests</span>
+                                        </h3>
+                                        <div class="card-toolbar">
+                                            <a href="javascript:;" @click="createRequest = true" class="btn btn-success font-weight-bolder font-size-sm">Create Request</a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card m-3" v-for="request of GetBillingRequestForAgreement" :key="request.id">
+                                            <div class="air__g6 pt-3">
+                                                <div class="air__g6__status" :class="{'bg-danger': request.state === 'REJECTED', 'bg-success': request.state === 'APPROVED', 'bg-dark': request.state === 'PENDING'}"></div>
+                                                <div class="d-flex flex-nowrap align-items-center pb-3 pl-4 pr-4">
+                                                    <div class="mr-auto">
+                                                        <div class="text-uppercase font-size-h3 text-dark">{{request.value}} %</div>
+                                                    </div>
+                                                    <div class="ml-1 text-danger">
+                                                        <span class="badge timeline-badge-primary">{{request.state}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="py-3 bg-gray-1 pl-4 pr-4">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span class="text-muted">Updated On: <span class="text-primary">{{getUpdateDate(request.updatedAt)}}</span></span>
+                                                        <div v-if="getAdministrator() && request.state === 'PENDING'">
+                                                            <a href="javascript:;"
+                                                               @click="onUpdateBilliReq('APPROVED', request.id)"
+                                                               class="btn btn-light-success btn-sm font-weight-bolder font-size-sm"
+                                                               :class="{'spinner spinner-darker-success spinner-left' : loading}"
+                                                            >Accept</a>
+                                                            <a href="javascript:;"
+                                                               @click="onUpdateBilliReq('REJECTED', request.id)"
+                                                               class="btn btn-light-danger btn-sm font-weight-bolder font-size-sm"
+                                                               :class="{'spinner spinner-darker-success spinner-left' : loading}"
+                                                            >Reject</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -78,25 +120,32 @@
             </div>
         </div>
         <v-bottom-sheet inset v-model="createRequest">
-            <v-toolbar flat>
-                <v-btn fab @click="createRequest = false"><v-icon>arrow_back</v-icon></v-btn>
-                <v-toolbar-title style="margin-left: 10px">Create Billing Request</v-toolbar-title>
-                <v-spacer></v-spacer>
-            </v-toolbar>
-            <div class="p-3 bg-white">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Enter Value Request</label>
-                            <el-input v-model="value"></el-input>
-                            <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+            <div class="card">
+                <div class="card-header border-0 d-flex justify-content-between align-items-center">
+                    <h3 class="card-title align-items-start flex-column">
+                        <a href="javascript:;" @click="createRequest = false">
+                            <i class="fas fa-arrow-left font-size-h3 text-primary"></i>
+                        </a>
+                        <span class="card-label font-weight-bolder text-dark ml-6">Create Billing Request</span>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Enter Value Request</label>
+                                <a-input v-model="value"></a-input>
+                                <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6"></div>
+                    </div>
+                    <div class="row">
+                        <div class="p-3 bg-white">
+                            <button type="button" class="btn btn-light-primary" :class="{'spinner spinner-darker-success spinner-left' : loading}" @click="onCreateBillingRequest">Add Billing Request</button>
                         </div>
                     </div>
-                    <div class="col-md-6"></div>
                 </div>
-            </div>
-            <div class="p-3 bg-white">
-                <button type="button" class="btn btn-primary" @click="onCreateBillingRequest">Add Billing Request</button>
             </div>
         </v-bottom-sheet>
     </div>
@@ -123,7 +172,8 @@
                     return {
                         id: this.$route.params.id
                     }
-                }
+                },
+                pollInterval: 3000
             },
             GetBillingRequestForAgreement: {
                 query: GetBillingRequestForAgreementDocument,
@@ -142,6 +192,8 @@
         private createRequest = false
         private value = ''
 
+        private loading = false
+
         getAdministrator() {
             return this.$store.state.admin.administrator !== null && this.$store.state.admin.administrator !== undefined;
         }
@@ -155,6 +207,8 @@
         }
 
         onUpdateBilliReq(value, id) {
+            const load : any = this.$Message.loading('Action in progress ...')
+            this.loading = true
             this.$apollo.mutate({
                 mutation: UpdateBillingRequestDocument,
                 variables: {
@@ -162,21 +216,19 @@
                     value
                 }
             }).then(value1 => {
-                this.$notify({
-                    message: 'Billing Agreement Request Updated',
-                    title: 'Billing Agreement Request',
-                    type: 'success'
-                })
+                load()
+                this.loading = false
+                this.$Message.success('Billing Agreement Request Updated')
             }).catch(error => {
-                this.$notify({
-                    message: error.message,
-                    title: 'Billing Agreement Request Error',
-                    type: 'error'
-                })
+                load()
+                this.loading = false
+                this.$Message.error(error.message)
             })
         }
 
         onCreateBillingRequest() {
+            const load : any = this.$Message.loading('Action in progress ...')
+            this.loading = true
             this.$apollo.mutate({
                 mutation: CreateBillingRequestDocument,
                 variables: {
@@ -184,18 +236,14 @@
                     value: this.value
                 }
             }).then(value => {
-                this.$notify({
-                    message: 'Billing Agreement Request has been submitted',
-                    title: 'Billing Agreement Request',
-                    type: 'success'
-                })
+                load()
+                this.$Message.success('Billing Agreement Request has been submitted')
                 this.createRequest = false
+                this.loading = false
             }).catch(error => {
-                this.$notify({
-                    message: error.message,
-                    title: 'Billing Agreement Request Error',
-                    type: 'error'
-                })
+                load()
+                this.loading = false
+                this.$Message.error(error.message)
             })
         }
 

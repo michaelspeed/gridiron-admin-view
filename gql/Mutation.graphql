@@ -7,7 +7,6 @@ mutation administratorLogin($email: String!, $password: String!){
             lastName
             verified
             phoneNumber
-            address
             administrator {
                 id
             }

@@ -2,7 +2,7 @@ const menudata = [
     {
         id: "dashboard",
         icon: "fas fa-align-justify",
-        label: "Dashboard",
+        label: "menu.dashboard",
         to: "/app/dashboard",
     },
     {

@@ -224,8 +224,14 @@ query GetAllAssets($limit: Int, $iLike: String, $offset: Int){
     }
 }
 
-query GetAssetsAggregate {
-    assetAggregate {
+query GetAssetsAggregate($iLike: String) {
+    assetAggregate(
+        filter:{
+            name: {
+                like: $iLike
+            }
+        }
+    ) {
         count {
             id
         }
@@ -664,6 +670,16 @@ query GetBillingAgreement($id: ID!){
         state
         createdAt
         updatedAt
+        collection {
+            id
+            name
+            description
+            isPrivate
+            parent {
+                id
+                name
+            }
+        }
     }
 }
 
@@ -784,5 +800,115 @@ query SearchFacetValue($search: String){
             name
         }
         code
+    }
+}
+
+query GetAllUsers($limit: Int, $iLike: String, $offset: Int){
+    users(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field: createdAt,
+            direction: DESC
+        },
+        filter:{
+            or: [
+                {
+                    email:{
+                        like: $iLike
+                    },
+                },
+                {
+                    firstName: {
+                        like: $iLike
+                    }
+                },
+                {
+                    lastName:{
+                        like: $iLike
+                    }
+                }
+            ]
+        }
+    ) {
+        id
+        email
+        firstName
+        lastName
+        administrator {
+            id
+        }
+        vendor {
+            id
+        }
+    }
+}
+
+query GetUsersAggregate($iLike: String){
+    userAggregate(
+        filter: {
+            or: [
+                {
+                    email:{
+                        like: $iLike
+                    },
+                },
+                {
+                    firstName: {
+                        like: $iLike
+                    }
+                },
+                {
+                    lastName:{
+                        like: $iLike
+                    }
+                }
+            ]
+        }
+    ) {
+        count {
+            id
+        }
+    }
+}
+
+query GetUserInfo($id: ID!){
+    user(id: $id) {
+        createdAt
+        updatedAt
+        email
+        verified
+        verificationToken
+        pendingIdentifier
+        firstName
+        lastName
+        phoneNumber
+        address {
+            id
+            createdAt
+            updatedAt
+            fullName
+            addressLine
+            city
+            state
+            landmark
+            postalCode
+            phoneNumber
+            alternatePhoneNumber
+            defaultBillingAddress
+            defaultShippingAddress
+            addressType
+        }
+        administrator {
+            id
+            firstName
+            lastName
+        }
+        vendor {
+            id
+            email
+        }
     }
 }

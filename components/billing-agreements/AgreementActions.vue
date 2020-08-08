@@ -1,8 +1,8 @@
 <template>
     <div>
-        <v-btn class="ma-2" tile outlined color="primary" @click="$router.push(`/app/sales-menu/billing-agreement/${params.data.id}`)">
-            view
-        </v-btn>
+        <a href="javascript:;" class="btn btn-sm btn-light-primary font-weight-bold mr-2" @click="$router.push(`/app/sales-menu/billing-agreement/${params.data.id}`)">
+            View
+        </a>
     </div>
 </template>
 

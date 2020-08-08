@@ -14,6 +14,8 @@ export type Scalars = {
   JSONObject: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
+  /** Cursor for paging through collections */
+  ConnectionCursor: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
@@ -683,9 +685,9 @@ export type User = {
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber: Scalars['String'];
-  address?: Maybe<Scalars['String']>;
-  administrator: Administrator;
-  vendor: Vendor;
+  administrator?: Maybe<Administrator>;
+  vendor?: Maybe<Vendor>;
+  address?: Maybe<Address>;
 };
 
 export type Vendor = {
@@ -1725,6 +1727,113 @@ export type ZoneAggregateFilter = {
   name?: Maybe<StringFieldComparison>;
 };
 
+export type Address = {
+  __typename?: 'Address';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  fullName: Scalars['String'];
+  addressLine: Scalars['String'];
+  city: Scalars['String'];
+  state: Scalars['String'];
+  landmark: Scalars['String'];
+  postalCode: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  alternatePhoneNumber: Scalars['String'];
+  defaultShippingAddress: Scalars['Boolean'];
+  defaultBillingAddress: Scalars['Boolean'];
+  addressType: AddressType;
+  users?: Maybe<AddressUsersConnection>;
+  usersAggregate: AddressUsersAggregateResponse;
+};
+
+
+export type AddressUsersArgs = {
+  paging?: Maybe<CursorPaging>;
+  filter?: Maybe<UserFilter>;
+  sorting?: Maybe<Array<UserSort>>;
+};
+
+
+export type AddressUsersAggregateArgs = {
+  filter?: Maybe<UserAggregateFilter>;
+};
+
+export enum AddressType {
+  Home = 'HOME',
+  Work = 'WORK'
+}
+
+export type CursorPaging = {
+  /** Paginate before opaque cursor */
+  before?: Maybe<Scalars['ConnectionCursor']>;
+  /** Paginate after opaque cursor */
+  after?: Maybe<Scalars['ConnectionCursor']>;
+  /** Paginate first */
+  first?: Maybe<Scalars['Int']>;
+  /** Paginate last */
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserFilter = {
+  and?: Maybe<Array<UserFilter>>;
+  or?: Maybe<Array<UserFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+  verified?: Maybe<BooleanFieldComparison>;
+  verificationToken?: Maybe<StringFieldComparison>;
+  passwordResetToken?: Maybe<StringFieldComparison>;
+  identifierChangeToken?: Maybe<StringFieldComparison>;
+  pendingIdentifier?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<StringFieldComparison>;
+  firstName?: Maybe<StringFieldComparison>;
+  lastName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+};
+
+export type UserSort = {
+  field: UserSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum UserSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Email = 'email',
+  Verified = 'verified',
+  VerificationToken = 'verificationToken',
+  PasswordResetToken = 'passwordResetToken',
+  IdentifierChangeToken = 'identifierChangeToken',
+  PendingIdentifier = 'pendingIdentifier',
+  LastLogin = 'lastLogin',
+  FirstName = 'firstName',
+  LastName = 'lastName',
+  PhoneNumber = 'phoneNumber'
+}
+
+export type UserAggregateFilter = {
+  and?: Maybe<Array<UserAggregateFilter>>;
+  or?: Maybe<Array<UserAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+  verified?: Maybe<BooleanFieldComparison>;
+  verificationToken?: Maybe<StringFieldComparison>;
+  passwordResetToken?: Maybe<StringFieldComparison>;
+  identifierChangeToken?: Maybe<StringFieldComparison>;
+  pendingIdentifier?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<StringFieldComparison>;
+  firstName?: Maybe<StringFieldComparison>;
+  lastName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+};
+
 export type AdministratorDto = {
   __typename?: 'AdministratorDto';
   user: User;
@@ -2505,6 +2614,82 @@ export type TaxRateVariantsAggregateResponse = {
   avg?: Maybe<TaxRateVariantsAvgAggregate>;
   min?: Maybe<TaxRateVariantsMinAggregate>;
   max?: Maybe<TaxRateVariantsMaxAggregate>;
+};
+
+export type UserDeleteResponse = {
+  __typename?: 'UserDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  verified?: Maybe<Scalars['Boolean']>;
+  verificationToken?: Maybe<Scalars['String']>;
+  passwordResetToken?: Maybe<Scalars['String']>;
+  identifierChangeToken?: Maybe<Scalars['String']>;
+  pendingIdentifier?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  administrator?: Maybe<Administrator>;
+  vendor?: Maybe<Vendor>;
+};
+
+export type UserCountAggregate = {
+  __typename?: 'UserCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  email?: Maybe<Scalars['Int']>;
+  verified?: Maybe<Scalars['Int']>;
+  verificationToken?: Maybe<Scalars['Int']>;
+  passwordResetToken?: Maybe<Scalars['Int']>;
+  identifierChangeToken?: Maybe<Scalars['Int']>;
+  pendingIdentifier?: Maybe<Scalars['Int']>;
+  lastLogin?: Maybe<Scalars['Int']>;
+  firstName?: Maybe<Scalars['Int']>;
+  lastName?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+};
+
+export type UserMinAggregate = {
+  __typename?: 'UserMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['String']>;
+  verificationToken?: Maybe<Scalars['String']>;
+  passwordResetToken?: Maybe<Scalars['String']>;
+  identifierChangeToken?: Maybe<Scalars['String']>;
+  pendingIdentifier?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
+export type UserMaxAggregate = {
+  __typename?: 'UserMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['String']>;
+  verificationToken?: Maybe<Scalars['String']>;
+  passwordResetToken?: Maybe<Scalars['String']>;
+  identifierChangeToken?: Maybe<Scalars['String']>;
+  pendingIdentifier?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
+export type UserAggregateResponse = {
+  __typename?: 'UserAggregateResponse';
+  count?: Maybe<UserCountAggregate>;
+  min?: Maybe<UserMinAggregate>;
+  max?: Maybe<UserMaxAggregate>;
 };
 
 export type VendorDto = {
@@ -4461,6 +4646,165 @@ export type PageAggregateResponse = {
   max?: Maybe<PageMaxAggregate>;
 };
 
+export type AddressDeleteResponse = {
+  __typename?: 'AddressDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  fullName?: Maybe<Scalars['String']>;
+  addressLine?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  landmark?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  alternatePhoneNumber?: Maybe<Scalars['String']>;
+  defaultShippingAddress?: Maybe<Scalars['Boolean']>;
+  defaultBillingAddress?: Maybe<Scalars['Boolean']>;
+  addressType?: Maybe<AddressType>;
+};
+
+export type AddressCountAggregate = {
+  __typename?: 'AddressCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  fullName?: Maybe<Scalars['Int']>;
+  addressLine?: Maybe<Scalars['Int']>;
+  city?: Maybe<Scalars['Int']>;
+  state?: Maybe<Scalars['Int']>;
+  landmark?: Maybe<Scalars['Int']>;
+  postalCode?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  alternatePhoneNumber?: Maybe<Scalars['Int']>;
+  defaultShippingAddress?: Maybe<Scalars['Int']>;
+  defaultBillingAddress?: Maybe<Scalars['Int']>;
+  addressType?: Maybe<Scalars['Int']>;
+};
+
+export type AddressMinAggregate = {
+  __typename?: 'AddressMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  fullName?: Maybe<Scalars['String']>;
+  addressLine?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  landmark?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  alternatePhoneNumber?: Maybe<Scalars['String']>;
+  addressType?: Maybe<AddressType>;
+};
+
+export type AddressMaxAggregate = {
+  __typename?: 'AddressMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  fullName?: Maybe<Scalars['String']>;
+  addressLine?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  landmark?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  alternatePhoneNumber?: Maybe<Scalars['String']>;
+  addressType?: Maybe<AddressType>;
+};
+
+export type AddressAggregateResponse = {
+  __typename?: 'AddressAggregateResponse';
+  count?: Maybe<AddressCountAggregate>;
+  min?: Maybe<AddressMinAggregate>;
+  max?: Maybe<AddressMaxAggregate>;
+};
+
+export type UserEdge = {
+  __typename?: 'UserEdge';
+  /** The node containing the User */
+  node: User;
+  /** Cursor for this node. */
+  cursor: Scalars['ConnectionCursor'];
+};
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** true if paging forward and there are more records. */
+  hasNextPage?: Maybe<Scalars['Boolean']>;
+  /** true if paging backwards and there are more records. */
+  hasPreviousPage?: Maybe<Scalars['Boolean']>;
+  /** The cursor of the first returned record. */
+  startCursor?: Maybe<Scalars['ConnectionCursor']>;
+  /** The cursor of the last returned record. */
+  endCursor?: Maybe<Scalars['ConnectionCursor']>;
+};
+
+export type AddressUsersConnection = {
+  __typename?: 'AddressUsersConnection';
+  /** Paging information */
+  pageInfo: PageInfo;
+  /** Array of edges. */
+  edges: Array<UserEdge>;
+};
+
+export type AddressUsersCountAggregate = {
+  __typename?: 'AddressUsersCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  email?: Maybe<Scalars['Int']>;
+  verified?: Maybe<Scalars['Int']>;
+  verificationToken?: Maybe<Scalars['Int']>;
+  passwordResetToken?: Maybe<Scalars['Int']>;
+  identifierChangeToken?: Maybe<Scalars['Int']>;
+  pendingIdentifier?: Maybe<Scalars['Int']>;
+  lastLogin?: Maybe<Scalars['Int']>;
+  firstName?: Maybe<Scalars['Int']>;
+  lastName?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+};
+
+export type AddressUsersMinAggregate = {
+  __typename?: 'AddressUsersMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['String']>;
+  verificationToken?: Maybe<Scalars['String']>;
+  passwordResetToken?: Maybe<Scalars['String']>;
+  identifierChangeToken?: Maybe<Scalars['String']>;
+  pendingIdentifier?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
+export type AddressUsersMaxAggregate = {
+  __typename?: 'AddressUsersMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['String']>;
+  verificationToken?: Maybe<Scalars['String']>;
+  passwordResetToken?: Maybe<Scalars['String']>;
+  identifierChangeToken?: Maybe<Scalars['String']>;
+  pendingIdentifier?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
+export type AddressUsersAggregateResponse = {
+  __typename?: 'AddressUsersAggregateResponse';
+  count?: Maybe<AddressUsersCountAggregate>;
+  min?: Maybe<AddressUsersMinAggregate>;
+  max?: Maybe<AddressUsersMaxAggregate>;
+};
+
 export type Query = {
   __typename?: 'Query';
   GetAdministratorData: Administrator;
@@ -4490,6 +4834,9 @@ export type Query = {
   taxRateAggregate: TaxRateAggregateResponse;
   GetAllTaxRates: Array<TaxRate>;
   GetAllTaxCategory: Array<TaxCategory>;
+  user?: Maybe<User>;
+  users: Array<User>;
+  userAggregate: UserAggregateResponse;
   GetCurrentUser: User;
   vendor?: Maybe<Vendor>;
   vendors: Array<Vendor>;
@@ -4572,6 +4919,9 @@ export type Query = {
   page?: Maybe<Page>;
   pages: Array<Page>;
   pageAggregate: PageAggregateResponse;
+  address?: Maybe<Address>;
+  addresses: Array<Address>;
+  addressAggregate: AddressAggregateResponse;
 };
 
 
@@ -4696,6 +5046,23 @@ export type QueryTaxRatesArgs = {
 
 export type QueryTaxRateAggregateArgs = {
   filter?: Maybe<TaxRateAggregateFilter>;
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUsersArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<UserFilter>;
+  sorting?: Maybe<Array<UserSort>>;
+};
+
+
+export type QueryUserAggregateArgs = {
+  filter?: Maybe<UserAggregateFilter>;
 };
 
 
@@ -5103,6 +5470,23 @@ export type QueryPagesArgs = {
 
 export type QueryPageAggregateArgs = {
   filter?: Maybe<PageAggregateFilter>;
+};
+
+
+export type QueryAddressArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAddressesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<AddressFilter>;
+  sorting?: Maybe<Array<AddressSort>>;
+};
+
+
+export type QueryAddressAggregateArgs = {
+  filter?: Maybe<AddressAggregateFilter>;
 };
 
 export type AssetFilter = {
@@ -5589,6 +5973,84 @@ export type PageAggregateFilter = {
   pageCategory?: Maybe<PageCategoryFilterComparison>;
 };
 
+export type AddressFilter = {
+  and?: Maybe<Array<AddressFilter>>;
+  or?: Maybe<Array<AddressFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  fullName?: Maybe<StringFieldComparison>;
+  addressLine?: Maybe<StringFieldComparison>;
+  city?: Maybe<StringFieldComparison>;
+  state?: Maybe<StringFieldComparison>;
+  landmark?: Maybe<StringFieldComparison>;
+  postalCode?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  alternatePhoneNumber?: Maybe<StringFieldComparison>;
+  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
+  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
+  addressType?: Maybe<AddressTypeFilterComparison>;
+};
+
+export type AddressTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<AddressType>;
+  neq?: Maybe<AddressType>;
+  gt?: Maybe<AddressType>;
+  gte?: Maybe<AddressType>;
+  lt?: Maybe<AddressType>;
+  lte?: Maybe<AddressType>;
+  like?: Maybe<AddressType>;
+  notLike?: Maybe<AddressType>;
+  iLike?: Maybe<AddressType>;
+  notILike?: Maybe<AddressType>;
+  in?: Maybe<Array<AddressType>>;
+  notIn?: Maybe<Array<AddressType>>;
+};
+
+export type AddressSort = {
+  field: AddressSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum AddressSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  FullName = 'fullName',
+  AddressLine = 'addressLine',
+  City = 'city',
+  State = 'state',
+  Landmark = 'landmark',
+  PostalCode = 'postalCode',
+  PhoneNumber = 'phoneNumber',
+  AlternatePhoneNumber = 'alternatePhoneNumber',
+  DefaultShippingAddress = 'defaultShippingAddress',
+  DefaultBillingAddress = 'defaultBillingAddress',
+  AddressType = 'addressType'
+}
+
+export type AddressAggregateFilter = {
+  and?: Maybe<Array<AddressAggregateFilter>>;
+  or?: Maybe<Array<AddressAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  fullName?: Maybe<StringFieldComparison>;
+  addressLine?: Maybe<StringFieldComparison>;
+  city?: Maybe<StringFieldComparison>;
+  state?: Maybe<StringFieldComparison>;
+  landmark?: Maybe<StringFieldComparison>;
+  postalCode?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  alternatePhoneNumber?: Maybe<StringFieldComparison>;
+  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
+  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
+  addressType?: Maybe<AddressTypeFilterComparison>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   administratorLogin: AdministratorDto;
@@ -5655,6 +6117,14 @@ export type Mutation = {
   addVariantsToTaxRate: TaxRate;
   setZoneOnTaxRate: TaxRate;
   setCategoryOnTaxRate: TaxRate;
+  deleteOneUser: UserDeleteResponse;
+  deleteManyUsers: DeleteManyResponse;
+  removeAddressFromUser: User;
+  removeVendorFromUser: User;
+  removeAdministratorFromUser: User;
+  setAddressOnUser: User;
+  setVendorOnUser: User;
+  setAdministratorOnUser: User;
   removeStoreFromVendor: Vendor;
   removeLicenseFromVendor: Vendor;
   removeUserFromVendor: Vendor;
@@ -5885,6 +6355,14 @@ export type Mutation = {
   updateManyPages: UpdateManyResponse;
   createOnePage: Page;
   createManyPages: Array<Page>;
+  deleteOneAddress: AddressDeleteResponse;
+  deleteManyAddresses: DeleteManyResponse;
+  updateOneAddress: Address;
+  updateManyAddresses: UpdateManyResponse;
+  createOneAddress: Address;
+  createManyAddresses: Array<Address>;
+  removeUsersFromAddress: Address;
+  addUsersToAddress: Address;
 };
 
 
@@ -6223,6 +6701,46 @@ export type MutationSetZoneOnTaxRateArgs = {
 
 
 export type MutationSetCategoryOnTaxRateArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationDeleteOneUserArgs = {
+  input: DeleteOneInput;
+};
+
+
+export type MutationDeleteManyUsersArgs = {
+  input: DeleteManyUsersInput;
+};
+
+
+export type MutationRemoveAddressFromUserArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationRemoveVendorFromUserArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationRemoveAdministratorFromUserArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetAddressOnUserArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetVendorOnUserArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetAdministratorOnUserArgs = {
   input: RelationInput;
 };
 
@@ -7438,6 +7956,46 @@ export type MutationCreateManyPagesArgs = {
   input: CreateManyPagesInput;
 };
 
+
+export type MutationDeleteOneAddressArgs = {
+  input: DeleteOneInput;
+};
+
+
+export type MutationDeleteManyAddressesArgs = {
+  input: DeleteManyAddressesInput;
+};
+
+
+export type MutationUpdateOneAddressArgs = {
+  input: UpdateOneAddressInput;
+};
+
+
+export type MutationUpdateManyAddressesArgs = {
+  input: UpdateManyAddressesInput;
+};
+
+
+export type MutationCreateOneAddressArgs = {
+  input: CreateOneAddressInput;
+};
+
+
+export type MutationCreateManyAddressesArgs = {
+  input: CreateManyAddressesInput;
+};
+
+
+export type MutationRemoveUsersFromAddressArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationAddUsersToAddressArgs = {
+  input: RelationsInput;
+};
+
 export type RelationsInput = {
   /** The id of the record. */
   id: Scalars['ID'];
@@ -7843,6 +8401,29 @@ export type CreateTaxRate = {
 export type CreateManyTaxRatesInput = {
   /** Array of records to create */
   taxRates: Array<CreateTaxRate>;
+};
+
+export type DeleteManyUsersInput = {
+  /** Filter to find records to delete */
+  filter: UserDeleteFilter;
+};
+
+export type UserDeleteFilter = {
+  and?: Maybe<Array<UserDeleteFilter>>;
+  or?: Maybe<Array<UserDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+  verified?: Maybe<BooleanFieldComparison>;
+  verificationToken?: Maybe<StringFieldComparison>;
+  passwordResetToken?: Maybe<StringFieldComparison>;
+  identifierChangeToken?: Maybe<StringFieldComparison>;
+  pendingIdentifier?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<StringFieldComparison>;
+  firstName?: Maybe<StringFieldComparison>;
+  lastName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
 };
 
 export type DeleteManyZonesInput = {
@@ -9123,6 +9704,107 @@ export type CreateManyPagesInput = {
   pages: Array<CreatePage>;
 };
 
+export type DeleteManyAddressesInput = {
+  /** Filter to find records to delete */
+  filter: AddressDeleteFilter;
+};
+
+export type AddressDeleteFilter = {
+  and?: Maybe<Array<AddressDeleteFilter>>;
+  or?: Maybe<Array<AddressDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  fullName?: Maybe<StringFieldComparison>;
+  addressLine?: Maybe<StringFieldComparison>;
+  city?: Maybe<StringFieldComparison>;
+  state?: Maybe<StringFieldComparison>;
+  landmark?: Maybe<StringFieldComparison>;
+  postalCode?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  alternatePhoneNumber?: Maybe<StringFieldComparison>;
+  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
+  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
+  addressType?: Maybe<AddressTypeFilterComparison>;
+};
+
+export type UpdateOneAddressInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdateAddress;
+};
+
+export type UpdateAddress = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  fullName?: Maybe<Scalars['String']>;
+  addressLine?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  landmark?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  alternatePhoneNumber?: Maybe<Scalars['String']>;
+  defaultShippingAddress?: Maybe<Scalars['Boolean']>;
+  defaultBillingAddress?: Maybe<Scalars['Boolean']>;
+  addressType?: Maybe<AddressType>;
+};
+
+export type UpdateManyAddressesInput = {
+  /** Filter used to find fields to update */
+  filter: AddressUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdateAddress;
+};
+
+export type AddressUpdateFilter = {
+  and?: Maybe<Array<AddressUpdateFilter>>;
+  or?: Maybe<Array<AddressUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  fullName?: Maybe<StringFieldComparison>;
+  addressLine?: Maybe<StringFieldComparison>;
+  city?: Maybe<StringFieldComparison>;
+  state?: Maybe<StringFieldComparison>;
+  landmark?: Maybe<StringFieldComparison>;
+  postalCode?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  alternatePhoneNumber?: Maybe<StringFieldComparison>;
+  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
+  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
+  addressType?: Maybe<AddressTypeFilterComparison>;
+};
+
+export type CreateOneAddressInput = {
+  /** The record to create */
+  address: CreateAddress;
+};
+
+export type CreateAddress = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  fullName?: Maybe<Scalars['String']>;
+  addressLine?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  landmark?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  alternatePhoneNumber?: Maybe<Scalars['String']>;
+  defaultShippingAddress?: Maybe<Scalars['Boolean']>;
+  defaultBillingAddress?: Maybe<Scalars['Boolean']>;
+  addressType?: Maybe<AddressType>;
+};
+
+export type CreateManyAddressesInput = {
+  /** Array of records to create */
+  addresses: Array<CreateAddress>;
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   deletedOneAsset: AssetDeleteResponse;
@@ -9160,6 +9842,11 @@ export type Subscription = {
   updatedOneTaxRate: TaxRate;
   updatedManyTaxRates: UpdateManyResponse;
   createdTaxRate: TaxRate;
+  deletedOneUser: UserDeleteResponse;
+  deletedManyUsers: DeleteManyResponse;
+  updatedOneUser: User;
+  updatedManyUsers: UpdateManyResponse;
+  createdUser: User;
   deletedOneVendor: VendorDeleteResponse;
   deletedManyVendors: DeleteManyResponse;
   updatedOneVendor: Vendor;
@@ -9275,6 +9962,11 @@ export type Subscription = {
   updatedOnePage: Page;
   updatedManyPages: UpdateManyResponse;
   createdPage: Page;
+  deletedOneAddress: AddressDeleteResponse;
+  deletedManyAddresses: DeleteManyResponse;
+  updatedOneAddress: Address;
+  updatedManyAddresses: UpdateManyResponse;
+  createdAddress: Address;
 };
 
 
@@ -9380,6 +10072,21 @@ export type SubscriptionUpdatedOneTaxRateArgs = {
 
 export type SubscriptionCreatedTaxRateArgs = {
   input?: Maybe<CreateTaxRateSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneUserArgs = {
+  input?: Maybe<DeleteOneUserSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneUserArgs = {
+  input?: Maybe<UpdateOneUserSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedUserArgs = {
+  input?: Maybe<CreateUserSubscriptionFilterInput>;
 };
 
 
@@ -9727,6 +10434,21 @@ export type SubscriptionCreatedPageArgs = {
   input?: Maybe<CreatePageSubscriptionFilterInput>;
 };
 
+
+export type SubscriptionDeletedOneAddressArgs = {
+  input?: Maybe<DeleteOneAddressSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneAddressArgs = {
+  input?: Maybe<UpdateOneAddressSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedAddressArgs = {
+  input?: Maybe<CreateAddressSubscriptionFilterInput>;
+};
+
 export type DeleteOneAssetSubscriptionFilterInput = {
   /** Specify to filter the records returned. */
   filter: AssetSubscriptionFilter;
@@ -9921,6 +10643,39 @@ export type UpdateOneTaxRateSubscriptionFilterInput = {
 export type CreateTaxRateSubscriptionFilterInput = {
   /** Specify to filter the records returned. */
   filter: TaxRateSubscriptionFilter;
+};
+
+export type DeleteOneUserSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: UserSubscriptionFilter;
+};
+
+export type UserSubscriptionFilter = {
+  and?: Maybe<Array<UserSubscriptionFilter>>;
+  or?: Maybe<Array<UserSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+  verified?: Maybe<BooleanFieldComparison>;
+  verificationToken?: Maybe<StringFieldComparison>;
+  passwordResetToken?: Maybe<StringFieldComparison>;
+  identifierChangeToken?: Maybe<StringFieldComparison>;
+  pendingIdentifier?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<StringFieldComparison>;
+  firstName?: Maybe<StringFieldComparison>;
+  lastName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+};
+
+export type UpdateOneUserSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: UserSubscriptionFilter;
+};
+
+export type CreateUserSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: UserSubscriptionFilter;
 };
 
 export type DeleteOneVendorSubscriptionFilterInput = {
@@ -10508,6 +11263,40 @@ export type CreatePageSubscriptionFilterInput = {
   filter: PageSubscriptionFilter;
 };
 
+export type DeleteOneAddressSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AddressSubscriptionFilter;
+};
+
+export type AddressSubscriptionFilter = {
+  and?: Maybe<Array<AddressSubscriptionFilter>>;
+  or?: Maybe<Array<AddressSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  fullName?: Maybe<StringFieldComparison>;
+  addressLine?: Maybe<StringFieldComparison>;
+  city?: Maybe<StringFieldComparison>;
+  state?: Maybe<StringFieldComparison>;
+  landmark?: Maybe<StringFieldComparison>;
+  postalCode?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  alternatePhoneNumber?: Maybe<StringFieldComparison>;
+  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
+  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
+  addressType?: Maybe<AddressTypeFilterComparison>;
+};
+
+export type UpdateOneAddressSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AddressSubscriptionFilter;
+};
+
+export type CreateAddressSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AddressSubscriptionFilter;
+};
+
 export type AdministratorLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -10521,11 +11310,11 @@ export type AdministratorLoginMutation = (
     & Pick<AdministratorDto, 'token'>
     & { user: (
       { __typename?: 'User' }
-      & Pick<User, 'firstName' | 'lastName' | 'verified' | 'phoneNumber' | 'address'>
-      & { administrator: (
+      & Pick<User, 'firstName' | 'lastName' | 'verified' | 'phoneNumber'>
+      & { administrator?: Maybe<(
         { __typename?: 'Administrator' }
         & Pick<Administrator, 'id'>
-      ) }
+      )> }
     ), store?: Maybe<(
       { __typename?: 'Store' }
       & Pick<Store, 'id'>
@@ -11490,7 +12279,9 @@ export type GetAllAssetsQuery = (
   )> }
 );
 
-export type GetAssetsAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAssetsAggregateQueryVariables = Exact<{
+  iLike?: Maybe<Scalars['String']>;
+}>;
 
 
 export type GetAssetsAggregateQuery = (
@@ -11910,6 +12701,14 @@ export type GetBillingAgreementQuery = (
   & { GetBillingAgreement: (
     { __typename?: 'BillingAgreement' }
     & Pick<BillingAgreement, 'id' | 'value' | 'type' | 'state' | 'createdAt' | 'updatedAt'>
+    & { collection?: Maybe<(
+      { __typename?: 'Collection' }
+      & Pick<Collection, 'id' | 'name' | 'description' | 'isPrivate'>
+      & { parent?: Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<Collection, 'id' | 'name'>
+      )> }
+    )> }
   ) }
 );
 
@@ -12048,6 +12847,67 @@ export type SearchFacetValueQuery = (
   )> }
 );
 
+export type GetAllUsersQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetAllUsersQuery = (
+  { __typename?: 'Query' }
+  & { users: Array<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>
+    & { administrator?: Maybe<(
+      { __typename?: 'Administrator' }
+      & Pick<Administrator, 'id'>
+    )>, vendor?: Maybe<(
+      { __typename?: 'Vendor' }
+      & Pick<Vendor, 'id'>
+    )> }
+  )> }
+);
+
+export type GetUsersAggregateQueryVariables = Exact<{
+  iLike?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetUsersAggregateQuery = (
+  { __typename?: 'Query' }
+  & { userAggregate: (
+    { __typename?: 'UserAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'UserCountAggregate' }
+      & Pick<UserCountAggregate, 'id'>
+    )> }
+  ) }
+);
+
+export type GetUserInfoQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetUserInfoQuery = (
+  { __typename?: 'Query' }
+  & { user?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'createdAt' | 'updatedAt' | 'email' | 'verified' | 'verificationToken' | 'pendingIdentifier' | 'firstName' | 'lastName' | 'phoneNumber'>
+    & { address?: Maybe<(
+      { __typename?: 'Address' }
+      & Pick<Address, 'id' | 'createdAt' | 'updatedAt' | 'fullName' | 'addressLine' | 'city' | 'state' | 'landmark' | 'postalCode' | 'phoneNumber' | 'alternatePhoneNumber' | 'defaultBillingAddress' | 'defaultShippingAddress' | 'addressType'>
+    )>, administrator?: Maybe<(
+      { __typename?: 'Administrator' }
+      & Pick<Administrator, 'id' | 'firstName' | 'lastName'>
+    )>, vendor?: Maybe<(
+      { __typename?: 'Vendor' }
+      & Pick<Vendor, 'id' | 'email'>
+    )> }
+  )> }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -12057,7 +12917,6 @@ export const AdministratorLoginDocument = gql`
       lastName
       verified
       phoneNumber
-      address
       administrator {
         id
       }
@@ -12611,8 +13470,8 @@ export const GetAllAssetsDocument = gql`
 }
     `;
 export const GetAssetsAggregateDocument = gql`
-    query GetAssetsAggregate {
-  assetAggregate {
+    query GetAssetsAggregate($iLike: String) {
+  assetAggregate(filter: {name: {like: $iLike}}) {
     count {
       id
     }
@@ -12987,6 +13846,16 @@ export const GetBillingAgreementDocument = gql`
     state
     createdAt
     updatedAt
+    collection {
+      id
+      name
+      description
+      isPrivate
+      parent {
+        id
+        name
+      }
+    }
   }
 }
     `;
@@ -13096,6 +13965,71 @@ export const SearchFacetValueDocument = gql`
       name
     }
     code
+  }
+}
+    `;
+export const GetAllUsersDocument = gql`
+    query GetAllUsers($limit: Int, $iLike: String, $offset: Int) {
+  users(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {or: [{email: {like: $iLike}}, {firstName: {like: $iLike}}, {lastName: {like: $iLike}}]}) {
+    id
+    email
+    firstName
+    lastName
+    administrator {
+      id
+    }
+    vendor {
+      id
+    }
+  }
+}
+    `;
+export const GetUsersAggregateDocument = gql`
+    query GetUsersAggregate($iLike: String) {
+  userAggregate(filter: {or: [{email: {like: $iLike}}, {firstName: {like: $iLike}}, {lastName: {like: $iLike}}]}) {
+    count {
+      id
+    }
+  }
+}
+    `;
+export const GetUserInfoDocument = gql`
+    query GetUserInfo($id: ID!) {
+  user(id: $id) {
+    createdAt
+    updatedAt
+    email
+    verified
+    verificationToken
+    pendingIdentifier
+    firstName
+    lastName
+    phoneNumber
+    address {
+      id
+      createdAt
+      updatedAt
+      fullName
+      addressLine
+      city
+      state
+      landmark
+      postalCode
+      phoneNumber
+      alternatePhoneNumber
+      defaultBillingAddress
+      defaultShippingAddress
+      addressType
+    }
+    administrator {
+      id
+      firstName
+      lastName
+    }
+    vendor {
+      id
+      email
+    }
   }
 }
     `;

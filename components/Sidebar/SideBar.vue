@@ -237,7 +237,7 @@
                 admin: (store: any) => store.admin.administrator,
                 store: (store: any) => store.admin.store,
                 vendorStore: (store: any) => store.admin.vendorStore,
-                vendor: (store: any) => store.vendor.vendor
+                vendor: (store: any) => store.admin.vendor
             })
         }
     })
