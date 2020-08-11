@@ -257,8 +257,9 @@ mutation UpdateCollection($colId: ID!, $seoID: ID!, $name: String, $inMenu: Bool
 mutation CreateAsset($file: Upload!){
     createAsset(file: $file) {
         id
-        source
         preview
+        source
+        fileSize
     }
 }
 
@@ -346,8 +347,8 @@ mutation CreateProductVariants($prodId: ID!, $options: String!){
     }
 }
 
-mutation CreateVariantPrice($taxId: ID!, $price: Float!, $variantId: ID!, $taxIncluded: Boolean!){
-    CreateVariantPrice(taxId:$taxId, price:$price, variantId: $variantId, taxIncluded: $taxIncluded) {
+mutation CreateVariantPrice($taxId: ID!, $price: Float!, $variantId: ID!, $taxIncluded: Boolean!, $storeId: ID){
+    CreateVariantPrice(taxId:$taxId, price:$price, variantId: $variantId, taxIncluded: $taxIncluded, storeId: $storeId) {
         id
     }
 }
@@ -606,6 +607,31 @@ mutation CreateMenuChildNode($nodeId: ID!, $target: String!, $targetId: String!,
         title: $title,
         targetId: $targetId
     ) {
+        id
+    }
+}
+
+mutation CreateHome($title: String, $targetId: String, $single: JSON, $pageType: PageType){
+    createOnePage(input:{
+        page: {
+            title: $title,
+            targetId: $targetId,
+            single: $single,
+            pageType: $pageType,
+            pageCategory:HOME
+        }
+    }) {
+        id
+    }
+}
+
+mutation UpdateHome($id: ID!, $single: JSON){
+    updateOnePage(input:{
+        id: $id,
+        update: {
+            single: $single
+        }
+    }) {
         id
     }
 }

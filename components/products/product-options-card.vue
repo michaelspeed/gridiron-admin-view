@@ -208,8 +208,9 @@
         computed: {
             ...mapState({
                 admin: (store: any) => store.admin.administrator,
-                store: (store: any) => store.store.store,
-                vendor: (store: any) => store.vendor.vendor
+                store: (store: any) => store.admin.store,
+                vendorStore: (store: any) => store.admin.vendorStore,
+                vendor: (store: any) => store.admin.vendor
             })
         }
     })

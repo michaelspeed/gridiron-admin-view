@@ -6,7 +6,11 @@
         </h3>
       </div>
         <div class="card-body">
-            <div class="">
+            <div class="d-flex justify-content-center align-items-center m-20 w-100"
+                 v-if="$apollo.queries.GetPriceForVariant.loading">
+                <div class="spinner spinner-primary spinner-lg mr-15"></div>
+            </div>
+            <div v-if="!$apollo.queries.GetPriceForVariant.loading">
                 <v-select
                         label="Tax Rule"
                         :items="allTaxRates"
@@ -42,11 +46,25 @@
     import {
         CreateVariantPriceDocument,
         CreateVariantPriceMutationVariables,
-        GetAllTaxRatesDocument,
+        GetAllTaxRatesDocument, GetPriceForVariantDocument,
         ProductVariantPrice, UpdateVariantPriceDocument, UpdateVariantPriceMutationVariables
     } from '../../gql';
 
-    @Component
+    @Component({
+        apollo: {
+            GetPriceForVariant:{
+                query: GetPriceForVariantDocument,
+                variables() {
+                    console.log(this.$store.state.admin)
+                    return {
+                        prodId: this.variant,
+                        storeId: this.$store.state.admin.vendorStore !== null ? this.$store.state.admin.vendorStore.id : this.$store.state.admin.store.id
+                    }
+                },
+                pollInterval: 3000
+            }
+        }
+    })
     export default class ProductPriceOptions extends Vue {
         @Prop() price: ProductVariantPrice | null
         @Prop() variant: string
@@ -55,21 +73,33 @@
         private allTaxRates = []
         private taxIncluded: boolean = true
 
+        private GetPriceForVariant
+
+        @Watch('GetPriceForVariant')
+        onPriceVariantChanged() {
+            if (this.GetPriceForVariant !== null) {
+                this.mainprice = this.GetPriceForVariant!.price
+                this.taxSlab = this.GetPriceForVariant!.tax.id
+                this.taxIncluded = this.GetPriceForVariant!.taxIncluded
+            }
+        }
+
         onUpdatePrice() {
-            if (this.price === null) {
+            if (this.GetPriceForVariant === null) {
                 this.$apollo.mutate<{CreateVariantPrice: ProductVariantPrice}, CreateVariantPriceMutationVariables>({
                     mutation: CreateVariantPriceDocument,
                     variables: {
                         taxId: this.taxSlab,
                         price: Number(this.mainprice),
                         variantId: this.variant,
-                        taxIncluded: this.taxIncluded
+                        taxIncluded: this.taxIncluded,
+                        storeId: this.$store.state.admin.vendorStore !== null ? this.$store.state.admin.vendorStore.id : this.$store.state.admin.store.id
                     }
                 }).then(value => {
-                    this.$toasted.show('Price Updated', {duration: 3000, theme: 'outline'})
+                    this.$Message.success('Price Updated')
                 })
                 .catch(error => {
-                    this.$toasted.show(error.message, {duration: 3000, type: 'error'})
+                    this.$Message.error(error.message)
                 })
             } else {
                 this.$apollo.mutate<{UpdateVariantPrice: ProductVariantPrice}, UpdateVariantPriceMutationVariables>({
@@ -77,35 +107,15 @@
                     variables :{
                         taxId: this.taxSlab,
                         price: Number(this.mainprice),
-                        variantPriceId: this.price!.id,
+                        variantPriceId: this.GetPriceForVariant!.id,
                         taxIncluded: this.taxIncluded
                     }
                 }).then(value => {
-                    this.$toasted.show('Price Updated', {duration: 3000, theme: 'outline'})
+                    this.$Message.success('Price Updated')
                 }).catch(error => {
-                    this.$toasted.show(error.message, {duration: 3000, type: 'error'})
+                    this.$Message.error(error.message)
                 })
             }
-        }
-
-        @Watch('price')
-        onMountedPrice() {
-            this.mainprice = this.price!.price
-            this.taxSlab = this.price!.tax.id
-            this.taxIncluded = this.price!.taxIncluded
-        }
-
-        mounted() {
-            this.$apollo.watchQuery({
-                query: GetAllTaxRatesDocument
-            }).subscribe(value => {
-                this.allTaxRates = value.data!.GetAllTaxRates
-                if (this.price !== null) {
-                    this.mainprice = this.price!.price
-                    this.taxSlab = this.price!.tax.id
-                    this.taxIncluded = this.price!.taxIncluded
-                }
-            })
         }
     }
 </script>

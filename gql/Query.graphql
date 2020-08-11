@@ -26,6 +26,11 @@ query GetVendorInfo {
             singleStore
             rentalStore
             channelMarkets
+            balance {
+                id
+                balance
+                updatedAt
+            }
         }
     }
 }
@@ -43,6 +48,11 @@ query GetDefaultStore {
         singleStore
         rentalStore
         channelMarkets
+        balance {
+            id
+            balance
+            updatedAt
+        }
     }
 }
 
@@ -454,15 +464,6 @@ query GetProductVariant($id: ID!){
             specs {
                 id
                 specs
-            }
-            price {
-                id
-                price
-                tax{
-                    id
-                    value
-                }
-                taxIncluded
             }
             asset {
                 id
@@ -910,5 +911,89 @@ query GetUserInfo($id: ID!){
             id
             email
         }
+    }
+}
+
+query GetPriceForVariant($prodId: ID, $storeId: ID){
+    GetPriceForVariant(prodId: $prodId, storeId: $storeId){
+        id
+        price
+        taxIncluded
+        tax {
+            id
+            name
+        }
+    }
+}
+
+query GetAllVebdors($limit: Int, $iLike: String, $offset: Int){
+    vendors(
+        paging:{
+            limit: $limit,
+            offset: $offset
+        }
+        filter:{
+            vendorName:{
+                like: $iLike
+            }
+        }
+        sorting:{
+            field:createdAt,
+            direction:DESC
+        }
+    ){
+        id
+        vendorName
+        email
+        store {
+            id
+            storeName
+        }
+        phoneNumber
+    }
+}
+
+query GetVendorAggregate{
+    vendorAggregate {
+        count{
+            id
+        }
+    }
+}
+
+query GetQueryProductVariant($iLike: String){
+    productVariants(filter: {
+        name: {
+            like: $iLike
+        }
+    }) {
+        id
+        name
+        seo {
+            id
+            urlKey
+        }
+    }
+}
+
+query GetCollectionForSearch($iLike: String){
+    collections(filter: {
+        name: {
+            like: $iLike
+        }
+    }) {
+        id
+        name
+    }
+}
+
+query getHomePage {
+    getHomePage {
+        id
+        title
+        targetId
+        single
+        list
+        pageCategory
     }
 }

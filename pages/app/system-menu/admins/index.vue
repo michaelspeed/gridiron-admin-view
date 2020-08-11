@@ -17,14 +17,14 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total"></span>
                                 <div class="ml-5">
-                                    <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
+                                    <!--<div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                                         <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." v-model="search"/>
                                         <div class="input-group-append">
                                             <i class="fas fa-search"></i>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                             <!--end::Search Form-->
@@ -52,7 +52,7 @@
                     <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.GetAllAdministrator.loading">
                         <div class="spinner spinner-primary spinner-lg mr-15"></div>
                     </div>
-                    <div class="card-body" v-if="$apollo.queries.GetAllAdministrator.loading">
+                    <div class="card-body" v-if="!$apollo.queries.GetAllAdministrator.loading">
                         <ag-grid-vue
                             style="height: 100vh"
                             ref="agGridTable"

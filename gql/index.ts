@@ -677,9 +677,9 @@ export type User = {
   email: Scalars['String'];
   password: Scalars['String'];
   verified: Scalars['Boolean'];
-  verificationToken: Scalars['String'];
-  passwordResetToken: Scalars['String'];
-  identifierChangeToken: Scalars['String'];
+  verificationToken?: Maybe<Scalars['String']>;
+  passwordResetToken?: Maybe<Scalars['String']>;
+  identifierChangeToken?: Maybe<Scalars['String']>;
   pendingIdentifier?: Maybe<Scalars['String']>;
   lastLogin?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
@@ -687,6 +687,7 @@ export type User = {
   phoneNumber: Scalars['String'];
   administrator?: Maybe<Administrator>;
   vendor?: Maybe<Vendor>;
+  delivery: Delivery;
   address?: Maybe<Address>;
 };
 
@@ -796,6 +797,21 @@ export type ProductVariantPriceFilter = {
   updatedAt?: Maybe<DateFieldComparison>;
   price?: Maybe<NumberFieldComparison>;
   taxIncluded?: Maybe<BooleanFieldComparison>;
+  variant?: Maybe<ProductVariantPriceFilterProductVariantFilter>;
+};
+
+export type ProductVariantPriceFilterProductVariantFilter = {
+  and?: Maybe<Array<ProductVariantPriceFilterProductVariantFilter>>;
+  or?: Maybe<Array<ProductVariantPriceFilterProductVariantFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
 };
 
 export type ProductVariantPriceSort = {
@@ -967,6 +983,33 @@ export type StoreAggregateFilter = {
   channelMarkets?: Maybe<BooleanFieldComparison>;
 };
 
+export type StoreBalance = {
+  __typename?: 'StoreBalance';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  balance: Scalars['Float'];
+};
+
+export type Settlements = {
+  __typename?: 'Settlements';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  amount: Scalars['Float'];
+  taxamount: Scalars['Float'];
+  finalamount: Scalars['Float'];
+  transactionID: Scalars['String'];
+  remarks: Scalars['String'];
+  type: SettlementType;
+  store: Store;
+};
+
+export enum SettlementType {
+  Processing = 'PROCESSING',
+  Processed = 'PROCESSED'
+}
+
 export type Store = {
   __typename?: 'Store';
   id: Scalars['ID'];
@@ -983,9 +1026,28 @@ export type Store = {
   rentalStore: Scalars['Boolean'];
   channelMarkets: Scalars['Boolean'];
   type: StoreTypeEnum;
+  prices: Array<Settlements>;
+  settlements: Array<Settlements>;
   skus: Array<StockKeeping>;
+  balance: StoreBalance;
   country: Country;
+  pricesAggregate: StorePricesAggregateResponse;
+  settlementsAggregate: StoreSettlementsAggregateResponse;
   skusAggregate: StoreSkusAggregateResponse;
+};
+
+
+export type StorePricesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<SettlementsFilter>;
+  sorting?: Maybe<Array<SettlementsSort>>;
+};
+
+
+export type StoreSettlementsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<SettlementsFilter>;
+  sorting?: Maybe<Array<SettlementsSort>>;
 };
 
 
@@ -996,6 +1058,16 @@ export type StoreSkusArgs = {
 };
 
 
+export type StorePricesAggregateArgs = {
+  filter?: Maybe<SettlementsAggregateFilter>;
+};
+
+
+export type StoreSettlementsAggregateArgs = {
+  filter?: Maybe<SettlementsAggregateFilter>;
+};
+
+
 export type StoreSkusAggregateArgs = {
   filter?: Maybe<StockKeepingAggregateFilter>;
 };
@@ -1003,6 +1075,55 @@ export type StoreSkusAggregateArgs = {
 export enum StoreTypeEnum {
   Default = 'DEFAULT',
   Vendor = 'VENDOR'
+}
+
+export type SettlementsFilter = {
+  and?: Maybe<Array<SettlementsFilter>>;
+  or?: Maybe<Array<SettlementsFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  taxamount?: Maybe<NumberFieldComparison>;
+  finalamount?: Maybe<NumberFieldComparison>;
+  transactionID?: Maybe<StringFieldComparison>;
+  remarks?: Maybe<StringFieldComparison>;
+  type?: Maybe<SettlementTypeFilterComparison>;
+};
+
+export type SettlementTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<SettlementType>;
+  neq?: Maybe<SettlementType>;
+  gt?: Maybe<SettlementType>;
+  gte?: Maybe<SettlementType>;
+  lt?: Maybe<SettlementType>;
+  lte?: Maybe<SettlementType>;
+  like?: Maybe<SettlementType>;
+  notLike?: Maybe<SettlementType>;
+  iLike?: Maybe<SettlementType>;
+  notILike?: Maybe<SettlementType>;
+  in?: Maybe<Array<SettlementType>>;
+  notIn?: Maybe<Array<SettlementType>>;
+};
+
+export type SettlementsSort = {
+  field: SettlementsSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum SettlementsSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Amount = 'amount',
+  Taxamount = 'taxamount',
+  Finalamount = 'finalamount',
+  TransactionId = 'transactionID',
+  Remarks = 'remarks',
+  Type = 'type'
 }
 
 export type StockKeepingFilter = {
@@ -1040,6 +1161,20 @@ export enum StockKeepingSortFields {
   Sku = 'sku',
   Type = 'type'
 }
+
+export type SettlementsAggregateFilter = {
+  and?: Maybe<Array<SettlementsAggregateFilter>>;
+  or?: Maybe<Array<SettlementsAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  taxamount?: Maybe<NumberFieldComparison>;
+  finalamount?: Maybe<NumberFieldComparison>;
+  transactionID?: Maybe<StringFieldComparison>;
+  remarks?: Maybe<StringFieldComparison>;
+  type?: Maybe<SettlementTypeFilterComparison>;
+};
 
 export type StockKeepingAggregateFilter = {
   and?: Maybe<Array<StockKeepingAggregateFilter>>;
@@ -1301,12 +1436,13 @@ export type ProductVariant = {
   name: Scalars['String'];
   trackInventory: Scalars['Boolean'];
   stocks: Array<StockKeeping>;
+  prices?: Maybe<Array<ProductVariantPrice>>;
   seo?: Maybe<Seo>;
   specs?: Maybe<ProductVariantSpecs>;
-  price?: Maybe<ProductVariantPrice>;
   asset?: Maybe<ProductVariantAsset>;
   product: Product;
   stocksAggregate: ProductVariantStocksAggregateResponse;
+  pricesAggregate: ProductVariantPricesAggregateResponse;
 };
 
 
@@ -1317,8 +1453,20 @@ export type ProductVariantStocksArgs = {
 };
 
 
+export type ProductVariantPricesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantPriceFilter>;
+  sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
 export type ProductVariantStocksAggregateArgs = {
   filter?: Maybe<StockKeepingAggregateFilter>;
+};
+
+
+export type ProductVariantPricesAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
 };
 
 export type ProductVariantAsset = {
@@ -1337,6 +1485,7 @@ export type ProductVariantPrice = {
   updatedAt: Scalars['DateTime'];
   price: Scalars['Float'];
   taxIncluded: Scalars['Boolean'];
+  store: TaxRate;
   tax: TaxRate;
   variant: ProductVariant;
 };
@@ -1640,7 +1789,7 @@ export type Page = {
   updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
   targetId: Scalars['String'];
-  single?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['JSON']>;
   list?: Maybe<Array<Scalars['String']>>;
   pageType: PageType;
   pageCategory: PageCategory;
@@ -1657,6 +1806,14 @@ export enum PageCategory {
   Singleprod = 'SINGLEPROD',
   Prodvariant = 'PRODVARIANT'
 }
+
+export type Delivery = {
+  __typename?: 'Delivery';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+};
 
 export type Country = {
   __typename?: 'Country';
@@ -2367,6 +2524,130 @@ export type StoreAggregateResponse = {
   max?: Maybe<StoreMaxAggregate>;
 };
 
+export type StorePricesCountAggregate = {
+  __typename?: 'StorePricesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  amount?: Maybe<Scalars['Int']>;
+  taxamount?: Maybe<Scalars['Int']>;
+  finalamount?: Maybe<Scalars['Int']>;
+  transactionID?: Maybe<Scalars['Int']>;
+  remarks?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
+};
+
+export type StorePricesSumAggregate = {
+  __typename?: 'StorePricesSumAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+};
+
+export type StorePricesAvgAggregate = {
+  __typename?: 'StorePricesAvgAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+};
+
+export type StorePricesMinAggregate = {
+  __typename?: 'StorePricesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+  transactionID?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  type?: Maybe<SettlementType>;
+};
+
+export type StorePricesMaxAggregate = {
+  __typename?: 'StorePricesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+  transactionID?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  type?: Maybe<SettlementType>;
+};
+
+export type StorePricesAggregateResponse = {
+  __typename?: 'StorePricesAggregateResponse';
+  count?: Maybe<StorePricesCountAggregate>;
+  sum?: Maybe<StorePricesSumAggregate>;
+  avg?: Maybe<StorePricesAvgAggregate>;
+  min?: Maybe<StorePricesMinAggregate>;
+  max?: Maybe<StorePricesMaxAggregate>;
+};
+
+export type StoreSettlementsCountAggregate = {
+  __typename?: 'StoreSettlementsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  amount?: Maybe<Scalars['Int']>;
+  taxamount?: Maybe<Scalars['Int']>;
+  finalamount?: Maybe<Scalars['Int']>;
+  transactionID?: Maybe<Scalars['Int']>;
+  remarks?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
+};
+
+export type StoreSettlementsSumAggregate = {
+  __typename?: 'StoreSettlementsSumAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+};
+
+export type StoreSettlementsAvgAggregate = {
+  __typename?: 'StoreSettlementsAvgAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+};
+
+export type StoreSettlementsMinAggregate = {
+  __typename?: 'StoreSettlementsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+  transactionID?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  type?: Maybe<SettlementType>;
+};
+
+export type StoreSettlementsMaxAggregate = {
+  __typename?: 'StoreSettlementsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+  transactionID?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  type?: Maybe<SettlementType>;
+};
+
+export type StoreSettlementsAggregateResponse = {
+  __typename?: 'StoreSettlementsAggregateResponse';
+  count?: Maybe<StoreSettlementsCountAggregate>;
+  sum?: Maybe<StoreSettlementsSumAggregate>;
+  avg?: Maybe<StoreSettlementsAvgAggregate>;
+  min?: Maybe<StoreSettlementsMinAggregate>;
+  max?: Maybe<StoreSettlementsMaxAggregate>;
+};
+
 export type StoreSkusCountAggregate = {
   __typename?: 'StoreSkusCountAggregate';
   id?: Maybe<Scalars['Int']>;
@@ -2634,6 +2915,7 @@ export type UserDeleteResponse = {
   phoneNumber?: Maybe<Scalars['String']>;
   administrator?: Maybe<Administrator>;
   vendor?: Maybe<Vendor>;
+  delivery?: Maybe<Delivery>;
 };
 
 export type UserCountAggregate = {
@@ -3606,6 +3888,50 @@ export type ProductVariantStocksAggregateResponse = {
   avg?: Maybe<ProductVariantStocksAvgAggregate>;
   min?: Maybe<ProductVariantStocksMinAggregate>;
   max?: Maybe<ProductVariantStocksMaxAggregate>;
+};
+
+export type ProductVariantPricesCountAggregate = {
+  __typename?: 'ProductVariantPricesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Int']>;
+  taxIncluded?: Maybe<Scalars['Int']>;
+};
+
+export type ProductVariantPricesSumAggregate = {
+  __typename?: 'ProductVariantPricesSumAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPricesAvgAggregate = {
+  __typename?: 'ProductVariantPricesAvgAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPricesMinAggregate = {
+  __typename?: 'ProductVariantPricesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPricesMaxAggregate = {
+  __typename?: 'ProductVariantPricesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantPricesAggregateResponse = {
+  __typename?: 'ProductVariantPricesAggregateResponse';
+  count?: Maybe<ProductVariantPricesCountAggregate>;
+  sum?: Maybe<ProductVariantPricesSumAggregate>;
+  avg?: Maybe<ProductVariantPricesAvgAggregate>;
+  min?: Maybe<ProductVariantPricesMinAggregate>;
+  max?: Maybe<ProductVariantPricesMaxAggregate>;
 };
 
 export type ProductOptionDeleteResponse = {
@@ -4600,7 +4926,7 @@ export type PageDeleteResponse = {
   updatedAt?: Maybe<Scalars['DateTime']>;
   title?: Maybe<Scalars['String']>;
   targetId?: Maybe<Scalars['String']>;
-  single?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['JSON']>;
   list?: Maybe<Array<Scalars['String']>>;
   pageType?: Maybe<PageType>;
   pageCategory?: Maybe<PageCategory>;
@@ -4805,6 +5131,81 @@ export type AddressUsersAggregateResponse = {
   max?: Maybe<AddressUsersMaxAggregate>;
 };
 
+export type SettlementsDeleteResponse = {
+  __typename?: 'SettlementsDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+  transactionID?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  type?: Maybe<SettlementType>;
+};
+
+export type SettlementsCountAggregate = {
+  __typename?: 'SettlementsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  amount?: Maybe<Scalars['Int']>;
+  taxamount?: Maybe<Scalars['Int']>;
+  finalamount?: Maybe<Scalars['Int']>;
+  transactionID?: Maybe<Scalars['Int']>;
+  remarks?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
+};
+
+export type SettlementsSumAggregate = {
+  __typename?: 'SettlementsSumAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+};
+
+export type SettlementsAvgAggregate = {
+  __typename?: 'SettlementsAvgAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+};
+
+export type SettlementsMinAggregate = {
+  __typename?: 'SettlementsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+  transactionID?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  type?: Maybe<SettlementType>;
+};
+
+export type SettlementsMaxAggregate = {
+  __typename?: 'SettlementsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  amount?: Maybe<Scalars['Float']>;
+  taxamount?: Maybe<Scalars['Float']>;
+  finalamount?: Maybe<Scalars['Float']>;
+  transactionID?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  type?: Maybe<SettlementType>;
+};
+
+export type SettlementsAggregateResponse = {
+  __typename?: 'SettlementsAggregateResponse';
+  count?: Maybe<SettlementsCountAggregate>;
+  sum?: Maybe<SettlementsSumAggregate>;
+  avg?: Maybe<SettlementsAvgAggregate>;
+  min?: Maybe<SettlementsMinAggregate>;
+  max?: Maybe<SettlementsMaxAggregate>;
+};
+
 export type Query = {
   __typename?: 'Query';
   GetAdministratorData: Administrator;
@@ -4875,6 +5276,7 @@ export type Query = {
   productVariantPrice?: Maybe<ProductVariantPrice>;
   productVariantPrices: Array<ProductVariantPrice>;
   productVariantPriceAggregate: ProductVariantPriceAggregateResponse;
+  GetPriceForVariant?: Maybe<ProductVariantPrice>;
   productVariantAsset?: Maybe<ProductVariantAsset>;
   productVariantAssets: Array<ProductVariantAsset>;
   productVariantAssetAggregate: ProductVariantAssetAggregateResponse;
@@ -4919,9 +5321,12 @@ export type Query = {
   page?: Maybe<Page>;
   pages: Array<Page>;
   pageAggregate: PageAggregateResponse;
+  getHomePage: Page;
   address?: Maybe<Address>;
   addresses: Array<Address>;
   addressAggregate: AddressAggregateResponse;
+  settlements: Array<Settlements>;
+  settlementsAggregate: SettlementsAggregateResponse;
 };
 
 
@@ -5258,6 +5663,12 @@ export type QueryProductVariantPriceAggregateArgs = {
 };
 
 
+export type QueryGetPriceForVariantArgs = {
+  prodId?: Maybe<Scalars['ID']>;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+
 export type QueryProductVariantAssetArgs = {
   id: Scalars['ID'];
 };
@@ -5487,6 +5898,18 @@ export type QueryAddressesArgs = {
 
 export type QueryAddressAggregateArgs = {
   filter?: Maybe<AddressAggregateFilter>;
+};
+
+
+export type QuerySettlementsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<SettlementsFilter>;
+  sorting?: Maybe<Array<SettlementsSort>>;
+};
+
+
+export type QuerySettlementsAggregateArgs = {
+  filter?: Maybe<SettlementsAggregateFilter>;
 };
 
 export type AssetFilter = {
@@ -6092,9 +6515,15 @@ export type Mutation = {
   updateManyStores: UpdateManyResponse;
   createOneStore: Store;
   createManyStores: Array<Store>;
+  removePricesFromStore: Store;
+  removeSettlementsFromStore: Store;
   removeSkusFromStore: Store;
+  removeBalanceFromStore: Store;
   removeCountryFromStore: Store;
+  addPricesToStore: Store;
+  addSettlementsToStore: Store;
   addSkusToStore: Store;
+  setBalanceOnStore: Store;
   setCountryOnStore: Store;
   CreateDefaultStore: Store;
   deleteOneTaxCategory: TaxCategoryDeleteResponse;
@@ -6211,20 +6640,16 @@ export type Mutation = {
   updateProduct: Product;
   deleteOneProductVariant: ProductVariantDeleteResponse;
   deleteManyProductVariants: DeleteManyResponse;
-  updateOneProductVariant: ProductVariant;
-  updateManyProductVariants: UpdateManyResponse;
-  createOneProductVariant: ProductVariant;
-  createManyProductVariants: Array<ProductVariant>;
   removeStocksFromProductVariant: ProductVariant;
+  removePricesFromProductVariant: ProductVariant;
   removeSeoFromProductVariant: ProductVariant;
   removeSpecsFromProductVariant: ProductVariant;
-  removePriceFromProductVariant: ProductVariant;
   removeAssetFromProductVariant: ProductVariant;
   removeProductFromProductVariant: ProductVariant;
   addStocksToProductVariant: ProductVariant;
+  addPricesToProductVariant: ProductVariant;
   setSeoOnProductVariant: ProductVariant;
   setSpecsOnProductVariant: ProductVariant;
-  setPriceOnProductVariant: ProductVariant;
   setAssetOnProductVariant: ProductVariant;
   setProductOnProductVariant: ProductVariant;
   CreateProductVariants: Array<ProductVariant>;
@@ -6256,8 +6681,10 @@ export type Mutation = {
   updateManyProductVariantPrices: UpdateManyResponse;
   createOneProductVariantPrice: ProductVariantPrice;
   createManyProductVariantPrices: Array<ProductVariantPrice>;
+  removeStoreFromProductVariantPrice: ProductVariantPrice;
   removeTaxFromProductVariantPrice: ProductVariantPrice;
   removeVariantFromProductVariantPrice: ProductVariantPrice;
+  setStoreOnProductVariantPrice: ProductVariantPrice;
   setTaxOnProductVariantPrice: ProductVariantPrice;
   setVariantOnProductVariantPrice: ProductVariantPrice;
   CreateVariantPrice: ProductVariantPrice;
@@ -6363,6 +6790,8 @@ export type Mutation = {
   createManyAddresses: Array<Address>;
   removeUsersFromAddress: Address;
   addUsersToAddress: Address;
+  removeStoreFromSettlements: Settlements;
+  setStoreOnSettlements: Settlements;
 };
 
 
@@ -6573,8 +7002,23 @@ export type MutationCreateManyStoresArgs = {
 };
 
 
+export type MutationRemovePricesFromStoreArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationRemoveSettlementsFromStoreArgs = {
+  input: RelationsInput;
+};
+
+
 export type MutationRemoveSkusFromStoreArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationRemoveBalanceFromStoreArgs = {
+  input: RelationInput;
 };
 
 
@@ -6583,8 +7027,23 @@ export type MutationRemoveCountryFromStoreArgs = {
 };
 
 
+export type MutationAddPricesToStoreArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationAddSettlementsToStoreArgs = {
+  input: RelationsInput;
+};
+
+
 export type MutationAddSkusToStoreArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationSetBalanceOnStoreArgs = {
+  input: RelationInput;
 };
 
 
@@ -7209,27 +7668,12 @@ export type MutationDeleteManyProductVariantsArgs = {
 };
 
 
-export type MutationUpdateOneProductVariantArgs = {
-  input: UpdateOneProductVariantInput;
-};
-
-
-export type MutationUpdateManyProductVariantsArgs = {
-  input: UpdateManyProductVariantsInput;
-};
-
-
-export type MutationCreateOneProductVariantArgs = {
-  input: CreateOneProductVariantInput;
-};
-
-
-export type MutationCreateManyProductVariantsArgs = {
-  input: CreateManyProductVariantsInput;
-};
-
-
 export type MutationRemoveStocksFromProductVariantArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationRemovePricesFromProductVariantArgs = {
   input: RelationsInput;
 };
 
@@ -7240,11 +7684,6 @@ export type MutationRemoveSeoFromProductVariantArgs = {
 
 
 export type MutationRemoveSpecsFromProductVariantArgs = {
-  input: RelationInput;
-};
-
-
-export type MutationRemovePriceFromProductVariantArgs = {
   input: RelationInput;
 };
 
@@ -7264,17 +7703,17 @@ export type MutationAddStocksToProductVariantArgs = {
 };
 
 
+export type MutationAddPricesToProductVariantArgs = {
+  input: RelationsInput;
+};
+
+
 export type MutationSetSeoOnProductVariantArgs = {
   input: RelationInput;
 };
 
 
 export type MutationSetSpecsOnProductVariantArgs = {
-  input: RelationInput;
-};
-
-
-export type MutationSetPriceOnProductVariantArgs = {
   input: RelationInput;
 };
 
@@ -7437,12 +7876,22 @@ export type MutationCreateManyProductVariantPricesArgs = {
 };
 
 
+export type MutationRemoveStoreFromProductVariantPriceArgs = {
+  input: RelationInput;
+};
+
+
 export type MutationRemoveTaxFromProductVariantPriceArgs = {
   input: RelationInput;
 };
 
 
 export type MutationRemoveVariantFromProductVariantPriceArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetStoreOnProductVariantPriceArgs = {
   input: RelationInput;
 };
 
@@ -7458,6 +7907,7 @@ export type MutationSetVariantOnProductVariantPriceArgs = {
 
 
 export type MutationCreateVariantPriceArgs = {
+  storeId?: Maybe<Scalars['ID']>;
   taxIncluded: Scalars['Boolean'];
   taxId: Scalars['ID'];
   price: Scalars['Float'];
@@ -7994,6 +8444,16 @@ export type MutationRemoveUsersFromAddressArgs = {
 
 export type MutationAddUsersToAddressArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationRemoveStoreFromSettlementsArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetStoreOnSettlementsArgs = {
+  input: RelationInput;
 };
 
 export type RelationsInput = {
@@ -8847,68 +9307,6 @@ export type ProductVariantDeleteFilter = {
   trackInventory?: Maybe<BooleanFieldComparison>;
 };
 
-export type UpdateOneProductVariantInput = {
-  /** The id of the record to update */
-  id: Scalars['ID'];
-  /** The update to apply. */
-  update: UpdateProductVariant;
-};
-
-export type UpdateProductVariant = {
-  id?: Maybe<Scalars['ID']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  deletedAt?: Maybe<Scalars['DateTime']>;
-  dum_price?: Maybe<Scalars['Float']>;
-  enabled?: Maybe<Scalars['Boolean']>;
-  sku?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  trackInventory?: Maybe<Scalars['Boolean']>;
-};
-
-export type UpdateManyProductVariantsInput = {
-  /** Filter used to find fields to update */
-  filter: ProductVariantUpdateFilter;
-  /** The update to apply to all records found using the filter */
-  update: UpdateProductVariant;
-};
-
-export type ProductVariantUpdateFilter = {
-  and?: Maybe<Array<ProductVariantUpdateFilter>>;
-  or?: Maybe<Array<ProductVariantUpdateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  dum_price?: Maybe<NumberFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-  sku?: Maybe<StringFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  trackInventory?: Maybe<BooleanFieldComparison>;
-};
-
-export type CreateOneProductVariantInput = {
-  /** The record to create */
-  productVariant: CreateProductVariant;
-};
-
-export type CreateProductVariant = {
-  id?: Maybe<Scalars['ID']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  deletedAt?: Maybe<Scalars['DateTime']>;
-  dum_price?: Maybe<Scalars['Float']>;
-  enabled?: Maybe<Scalars['Boolean']>;
-  sku?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  trackInventory?: Maybe<Scalars['Boolean']>;
-};
-
-export type CreateManyProductVariantsInput = {
-  /** Array of records to create */
-  productVariants: Array<CreateProductVariant>;
-};
-
 export type DeleteManyProductOptionsInput = {
   /** Filter to find records to delete */
   filter: ProductOptionDeleteFilter;
@@ -9657,7 +10055,7 @@ export type UpdatePage = {
   updatedAt?: Maybe<Scalars['DateTime']>;
   title?: Maybe<Scalars['String']>;
   targetId?: Maybe<Scalars['String']>;
-  single?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['JSON']>;
   list?: Maybe<Array<Scalars['String']>>;
   pageType?: Maybe<PageType>;
   pageCategory?: Maybe<PageCategory>;
@@ -9693,7 +10091,7 @@ export type CreatePage = {
   updatedAt?: Maybe<Scalars['DateTime']>;
   title?: Maybe<Scalars['String']>;
   targetId?: Maybe<Scalars['String']>;
-  single?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['JSON']>;
   list?: Maybe<Array<Scalars['String']>>;
   pageType?: Maybe<PageType>;
   pageCategory?: Maybe<PageCategory>;
@@ -9967,6 +10365,11 @@ export type Subscription = {
   updatedOneAddress: Address;
   updatedManyAddresses: UpdateManyResponse;
   createdAddress: Address;
+  deletedOneSettlements: SettlementsDeleteResponse;
+  deletedManySettlements: DeleteManyResponse;
+  updatedOneSettlements: Settlements;
+  updatedManySettlements: UpdateManyResponse;
+  createdSettlements: Settlements;
 };
 
 
@@ -10447,6 +10850,21 @@ export type SubscriptionUpdatedOneAddressArgs = {
 
 export type SubscriptionCreatedAddressArgs = {
   input?: Maybe<CreateAddressSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneSettlementsArgs = {
+  input?: Maybe<DeleteOneSettlementsSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneSettlementsArgs = {
+  input?: Maybe<UpdateOneSettlementsSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedSettlementsArgs = {
+  input?: Maybe<CreateSettlementsSubscriptionFilterInput>;
 };
 
 export type DeleteOneAssetSubscriptionFilterInput = {
@@ -11297,6 +11715,35 @@ export type CreateAddressSubscriptionFilterInput = {
   filter: AddressSubscriptionFilter;
 };
 
+export type DeleteOneSettlementsSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SettlementsSubscriptionFilter;
+};
+
+export type SettlementsSubscriptionFilter = {
+  and?: Maybe<Array<SettlementsSubscriptionFilter>>;
+  or?: Maybe<Array<SettlementsSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  taxamount?: Maybe<NumberFieldComparison>;
+  finalamount?: Maybe<NumberFieldComparison>;
+  transactionID?: Maybe<StringFieldComparison>;
+  remarks?: Maybe<StringFieldComparison>;
+  type?: Maybe<SettlementTypeFilterComparison>;
+};
+
+export type UpdateOneSettlementsSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SettlementsSubscriptionFilter;
+};
+
+export type CreateSettlementsSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: SettlementsSubscriptionFilter;
+};
+
 export type AdministratorLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -11576,7 +12023,7 @@ export type CreateAssetMutation = (
   { __typename?: 'Mutation' }
   & { createAsset: (
     { __typename?: 'Asset' }
-    & Pick<Asset, 'id' | 'source' | 'preview'>
+    & Pick<Asset, 'id' | 'preview' | 'source' | 'fileSize'>
   ) }
 );
 
@@ -11707,6 +12154,7 @@ export type CreateVariantPriceMutationVariables = Exact<{
   price: Scalars['Float'];
   variantId: Scalars['ID'];
   taxIncluded: Scalars['Boolean'];
+  storeId?: Maybe<Scalars['ID']>;
 }>;
 
 
@@ -12075,6 +12523,36 @@ export type CreateMenuChildNodeMutation = (
   ) }
 );
 
+export type CreateHomeMutationVariables = Exact<{
+  title?: Maybe<Scalars['String']>;
+  targetId?: Maybe<Scalars['String']>;
+  single?: Maybe<Scalars['JSON']>;
+  pageType?: Maybe<PageType>;
+}>;
+
+
+export type CreateHomeMutation = (
+  { __typename?: 'Mutation' }
+  & { createOnePage: (
+    { __typename?: 'Page' }
+    & Pick<Page, 'id'>
+  ) }
+);
+
+export type UpdateHomeMutationVariables = Exact<{
+  id: Scalars['ID'];
+  single?: Maybe<Scalars['JSON']>;
+}>;
+
+
+export type UpdateHomeMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOnePage: (
+    { __typename?: 'Page' }
+    & Pick<Page, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -12097,6 +12575,10 @@ export type GetVendorInfoQuery = (
     & { store: (
       { __typename?: 'Store' }
       & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'zipcode' | 'streetAddress1' | 'streetAddress2' | 'GSTIN' | 'singleStore' | 'rentalStore' | 'channelMarkets'>
+      & { balance: (
+        { __typename?: 'StoreBalance' }
+        & Pick<StoreBalance, 'id' | 'balance' | 'updatedAt'>
+      ) }
     ) }
   )> }
 );
@@ -12109,6 +12591,10 @@ export type GetDefaultStoreQuery = (
   & { GetDefaultStore: (
     { __typename?: 'Store' }
     & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'zipcode' | 'streetAddress1' | 'streetAddress2' | 'GSTIN' | 'singleStore' | 'rentalStore' | 'channelMarkets'>
+    & { balance: (
+      { __typename?: 'StoreBalance' }
+      & Pick<StoreBalance, 'id' | 'balance' | 'updatedAt'>
+    ) }
   ) }
 );
 
@@ -12489,13 +12975,6 @@ export type GetProductVariantQuery = (
       )>, specs?: Maybe<(
         { __typename?: 'ProductVariantSpecs' }
         & Pick<ProductVariantSpecs, 'id' | 'specs'>
-      )>, price?: Maybe<(
-        { __typename?: 'ProductVariantPrice' }
-        & Pick<ProductVariantPrice, 'id' | 'price' | 'taxIncluded'>
-        & { tax: (
-          { __typename?: 'TaxRate' }
-          & Pick<TaxRate, 'id' | 'value'>
-        ) }
       )>, asset?: Maybe<(
         { __typename?: 'ProductVariantAsset' }
         & Pick<ProductVariantAsset, 'id'>
@@ -12908,6 +13387,98 @@ export type GetUserInfoQuery = (
   )> }
 );
 
+export type GetPriceForVariantQueryVariables = Exact<{
+  prodId?: Maybe<Scalars['ID']>;
+  storeId?: Maybe<Scalars['ID']>;
+}>;
+
+
+export type GetPriceForVariantQuery = (
+  { __typename?: 'Query' }
+  & { GetPriceForVariant?: Maybe<(
+    { __typename?: 'ProductVariantPrice' }
+    & Pick<ProductVariantPrice, 'id' | 'price' | 'taxIncluded'>
+    & { tax: (
+      { __typename?: 'TaxRate' }
+      & Pick<TaxRate, 'id' | 'name'>
+    ) }
+  )> }
+);
+
+export type GetAllVebdorsQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetAllVebdorsQuery = (
+  { __typename?: 'Query' }
+  & { vendors: Array<(
+    { __typename?: 'Vendor' }
+    & Pick<Vendor, 'id' | 'vendorName' | 'email' | 'phoneNumber'>
+    & { store: (
+      { __typename?: 'Store' }
+      & Pick<Store, 'id' | 'storeName'>
+    ) }
+  )> }
+);
+
+export type GetVendorAggregateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetVendorAggregateQuery = (
+  { __typename?: 'Query' }
+  & { vendorAggregate: (
+    { __typename?: 'VendorAggregateResponse' }
+    & { count?: Maybe<(
+      { __typename?: 'VendorCountAggregate' }
+      & Pick<VendorCountAggregate, 'id'>
+    )> }
+  ) }
+);
+
+export type GetQueryProductVariantQueryVariables = Exact<{
+  iLike?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetQueryProductVariantQuery = (
+  { __typename?: 'Query' }
+  & { productVariants: Array<(
+    { __typename?: 'ProductVariant' }
+    & Pick<ProductVariant, 'id' | 'name'>
+    & { seo?: Maybe<(
+      { __typename?: 'Seo' }
+      & Pick<Seo, 'id' | 'urlKey'>
+    )> }
+  )> }
+);
+
+export type GetCollectionForSearchQueryVariables = Exact<{
+  iLike?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetCollectionForSearchQuery = (
+  { __typename?: 'Query' }
+  & { collections: Array<(
+    { __typename?: 'Collection' }
+    & Pick<Collection, 'id' | 'name'>
+  )> }
+);
+
+export type GetHomePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetHomePageQuery = (
+  { __typename?: 'Query' }
+  & { getHomePage: (
+    { __typename?: 'Page' }
+    & Pick<Page, 'id' | 'title' | 'targetId' | 'single' | 'list' | 'pageCategory'>
+  ) }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -13040,8 +13611,9 @@ export const CreateAssetDocument = gql`
     mutation CreateAsset($file: Upload!) {
   createAsset(file: $file) {
     id
-    source
     preview
+    source
+    fileSize
   }
 }
     `;
@@ -13102,8 +13674,8 @@ export const CreateProductVariantsDocument = gql`
 }
     `;
 export const CreateVariantPriceDocument = gql`
-    mutation CreateVariantPrice($taxId: ID!, $price: Float!, $variantId: ID!, $taxIncluded: Boolean!) {
-  CreateVariantPrice(taxId: $taxId, price: $price, variantId: $variantId, taxIncluded: $taxIncluded) {
+    mutation CreateVariantPrice($taxId: ID!, $price: Float!, $variantId: ID!, $taxIncluded: Boolean!, $storeId: ID) {
+  CreateVariantPrice(taxId: $taxId, price: $price, variantId: $variantId, taxIncluded: $taxIncluded, storeId: $storeId) {
     id
   }
 }
@@ -13277,6 +13849,20 @@ export const CreateMenuChildNodeDocument = gql`
   }
 }
     `;
+export const CreateHomeDocument = gql`
+    mutation CreateHome($title: String, $targetId: String, $single: JSON, $pageType: PageType) {
+  createOnePage(input: {page: {title: $title, targetId: $targetId, single: $single, pageType: $pageType, pageCategory: HOME}}) {
+    id
+  }
+}
+    `;
+export const UpdateHomeDocument = gql`
+    mutation UpdateHome($id: ID!, $single: JSON) {
+  updateOnePage(input: {id: $id, update: {single: $single}}) {
+    id
+  }
+}
+    `;
 export const GetAdministratorDataDocument = gql`
     query GetAdministratorData {
   GetAdministratorData {
@@ -13307,6 +13893,11 @@ export const GetVendorInfoDocument = gql`
       singleStore
       rentalStore
       channelMarkets
+      balance {
+        id
+        balance
+        updatedAt
+      }
     }
   }
 }
@@ -13325,6 +13916,11 @@ export const GetDefaultStoreDocument = gql`
     singleStore
     rentalStore
     channelMarkets
+    balance {
+      id
+      balance
+      updatedAt
+    }
   }
 }
     `;
@@ -13648,15 +14244,6 @@ export const GetProductVariantDocument = gql`
       specs {
         id
         specs
-      }
-      price {
-        id
-        price
-        tax {
-          id
-          value
-        }
-        taxIncluded
       }
       asset {
         id
@@ -14030,6 +14617,74 @@ export const GetUserInfoDocument = gql`
       id
       email
     }
+  }
+}
+    `;
+export const GetPriceForVariantDocument = gql`
+    query GetPriceForVariant($prodId: ID, $storeId: ID) {
+  GetPriceForVariant(prodId: $prodId, storeId: $storeId) {
+    id
+    price
+    taxIncluded
+    tax {
+      id
+      name
+    }
+  }
+}
+    `;
+export const GetAllVebdorsDocument = gql`
+    query GetAllVebdors($limit: Int, $iLike: String, $offset: Int) {
+  vendors(paging: {limit: $limit, offset: $offset}, filter: {vendorName: {like: $iLike}}, sorting: {field: createdAt, direction: DESC}) {
+    id
+    vendorName
+    email
+    store {
+      id
+      storeName
+    }
+    phoneNumber
+  }
+}
+    `;
+export const GetVendorAggregateDocument = gql`
+    query GetVendorAggregate {
+  vendorAggregate {
+    count {
+      id
+    }
+  }
+}
+    `;
+export const GetQueryProductVariantDocument = gql`
+    query GetQueryProductVariant($iLike: String) {
+  productVariants(filter: {name: {like: $iLike}}) {
+    id
+    name
+    seo {
+      id
+      urlKey
+    }
+  }
+}
+    `;
+export const GetCollectionForSearchDocument = gql`
+    query GetCollectionForSearch($iLike: String) {
+  collections(filter: {name: {like: $iLike}}) {
+    id
+    name
+  }
+}
+    `;
+export const GetHomePageDocument = gql`
+    query getHomePage {
+  getHomePage {
+    id
+    title
+    targetId
+    single
+    list
+    pageCategory
   }
 }
     `;

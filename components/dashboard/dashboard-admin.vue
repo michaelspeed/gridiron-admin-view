@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="store">
         <div class="card card-custom gutter-b">
             <div class="card-body">
                 <div class="d-flex">
@@ -75,7 +75,7 @@
                 </span>
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Earnings</span>
-                            <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">$</span>249,500</span>
+                            <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">$</span>{{store.balance.balance}}</span>
                         </div>
                     </div>
                     <!--end: Item-->

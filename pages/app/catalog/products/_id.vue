@@ -561,4 +561,7 @@
     .v-sheet {
         border-radius: 0px;
     }
+    .container {
+        display: block;
+    }
 </style>

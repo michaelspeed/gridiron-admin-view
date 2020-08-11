@@ -62,7 +62,7 @@
                  style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
                 <!--begin::Body-->
                 <div class="card-body">
-                    <img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">
+                    <!--<img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">-->
                     <h3 class="text-white font-weight-bolder">{{store.storeName}}</h3>
                     <p class="text-muted font-size-lg mt-5">
                         {{store.streetAddress1}}, {{store.streetAddress2}}

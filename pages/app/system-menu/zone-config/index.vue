@@ -50,7 +50,12 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
+                        <div class="d-flex justify-content-center align-items-center m-20 w-100"
+                             v-if="$apollo.queries.zones.loading">
+                            <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                        </div>
                         <ag-grid-vue
+                            v-if="!$apollo.queries.zones.loading"
                             style="height: 100vh"
                             ref="agGridTable"
                             :gridOptions="gridOptions"
@@ -129,6 +134,10 @@
         apollo: {
             zoneAggregate: {
                 query: GetZoneAgreegateDocument
+            },
+            zones: {
+                query: GetAllZonesDocument,
+                pollInterval: 3000
             }
         }
     })
@@ -147,6 +156,8 @@
             resizable: true,
             suppressMenu: true
         };
+
+        private zones
 
         private zoneAggregate
 
@@ -185,15 +196,9 @@
             this.gridApi!.sizeColumnsToFit();
         }
 
-        mounted() {
-            this.apolloClient = this.$apollo.getClient()
-            this.showGrid = true
-            this.apolloClient?.watchQuery({
-                query: GetAllZonesDocument,
-                pollInterval: 3000
-            }).subscribe(value => {
-                this.allZones = value.data.zones
-            })
+        @Watch('zones')
+        onGetAllZone() {
+            this.allZones = this.zones
         }
 
         onCreateZone() {
