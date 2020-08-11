@@ -20,13 +20,13 @@
                                 <span class="text-dark-50 font-weight-bold" id="kt_subheader_total"
                                       ></span>
                                 <div class="ml-5">
-                                    <!--<div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
+                                    <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                                         <input type="text" class="form-control" id="kt_subheader_search_form"
                                                placeholder="Search..." v-model="search"/>
                                         <div class="input-group-append">
                                             <i class="fas fa-search"></i>
                                         </div>
-                                    </div>-->
+                                    </div>
                                 </div>
                             </div>
                             <!--end::Search Form-->
@@ -50,6 +50,30 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
+                <div class="card card-custom gutter-b">
+                    <div class="d-flex justify-content-center align-items-center m-20 w-100"
+                         v-if="$apollo.queries.pages.loading">
+                        <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                    </div>
+                    <div class="card-body">
+                        <ag-grid-vue
+                            v-if="!$apollo.queries.pages.loading"
+                            style="height: 100vh"
+                            ref="agGridTable"
+                            :gridOptions="gridOptions"
+                            class="ag-theme-material"
+                            :columnDefs="columnDefs"
+                            :defaultColDef="defaultColDef"
+                            :rowData="pages"
+                            colResizeDefault="shift"
+                            :animateRows="true"
+                            :floatingFilter="true"
+                            :pagination="true"
+                            @grid-ready="onGridReady"
+                            :suppressPaginationPanel="true" :enableRtl="false">
+                        </ag-grid-vue>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -57,11 +81,57 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
+    import {GetAllPagesDocument} from "~/gql";
 
     @Component({
-        layout: 'console'
+        layout: 'console',
+        apollo: {
+            pages: {
+                query: GetAllPagesDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset,
+                        iLike: `%${this.search}%`
+                    }
+                },
+                pollInterval: 3000
+            }
+        }
     })
     export default class Pages extends Vue{
+        private limit = 50
+        private offset = 0
+        private search: string = ''
+
+        private pages
+
+        // Table
+        private gridOptions: any = {};
+        private gridApi: any = null;
+        private defaultColDef = {
+            sortable: true,
+            editable: false,
+            resizable: true,
+            suppressMenu: true
+        };
+        private columnDefs = [
+            {
+                headerName: 'Name',
+                filter: false,
+                field: 'title'
+            },
+            {
+                headerName: 'type',
+                filter: false,
+                field: 'pageCategory'
+            }
+        ]
+
+        onGridReady() {
+            this.gridApi = this.gridOptions!.api;
+            this.gridApi!.sizeColumnsToFit();
+        }
 
     }
 </script>

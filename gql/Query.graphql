@@ -997,3 +997,58 @@ query getHomePage {
         pageCategory
     }
 }
+
+query GetSearchProd($limit: Int, $iLike: String, $offset: Int){
+    products(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field: createdAt,
+            direction: DESC
+        },
+        filter:{
+            productName:{
+                like: $iLike
+            }
+        }
+    ) {
+        id
+        productName
+    }
+}
+
+query GetSearchProductVariant($iLike: String){
+    productVariants(filter: {
+        name: {
+            like: $iLike
+        }
+    }) {
+        id
+        name
+    }
+}
+
+query GetAllPages($limit: Int, $iLike: String, $offset: Int){
+    pages(
+        paging:{
+            limit: $limit,
+            offset: $offset
+        }
+        filter:{
+            title: {
+                like: $iLike
+            }
+        }
+        sorting:{
+            field:createdAt,
+            direction:DESC
+        }
+    ) {
+        title
+        targetId
+        pageType
+        pageCategory
+    }
+}

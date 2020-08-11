@@ -13479,6 +13479,49 @@ export type GetHomePageQuery = (
   ) }
 );
 
+export type GetSearchProdQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetSearchProdQuery = (
+  { __typename?: 'Query' }
+  & { products: Array<(
+    { __typename?: 'Product' }
+    & Pick<Product, 'id' | 'productName'>
+  )> }
+);
+
+export type GetSearchProductVariantQueryVariables = Exact<{
+  iLike?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetSearchProductVariantQuery = (
+  { __typename?: 'Query' }
+  & { productVariants: Array<(
+    { __typename?: 'ProductVariant' }
+    & Pick<ProductVariant, 'id' | 'name'>
+  )> }
+);
+
+export type GetAllPagesQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  iLike?: Maybe<Scalars['String']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetAllPagesQuery = (
+  { __typename?: 'Query' }
+  & { pages: Array<(
+    { __typename?: 'Page' }
+    & Pick<Page, 'title' | 'targetId' | 'pageType' | 'pageCategory'>
+  )> }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -14684,6 +14727,32 @@ export const GetHomePageDocument = gql`
     targetId
     single
     list
+    pageCategory
+  }
+}
+    `;
+export const GetSearchProdDocument = gql`
+    query GetSearchProd($limit: Int, $iLike: String, $offset: Int) {
+  products(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: DESC}, filter: {productName: {like: $iLike}}) {
+    id
+    productName
+  }
+}
+    `;
+export const GetSearchProductVariantDocument = gql`
+    query GetSearchProductVariant($iLike: String) {
+  productVariants(filter: {name: {like: $iLike}}) {
+    id
+    name
+  }
+}
+    `;
+export const GetAllPagesDocument = gql`
+    query GetAllPages($limit: Int, $iLike: String, $offset: Int) {
+  pages(paging: {limit: $limit, offset: $offset}, filter: {title: {like: $iLike}}, sorting: {field: createdAt, direction: DESC}) {
+    title
+    targetId
+    pageType
     pageCategory
   }
 }
