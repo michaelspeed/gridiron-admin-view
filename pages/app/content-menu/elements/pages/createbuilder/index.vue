@@ -58,6 +58,7 @@
                 </div>
 
                 <HomePage v-if="pageType === 'HOME'"/>
+                <PageBuilder v-if="pageType !== 'HOME'" :type="pageType"/>
             </div>
         </div>
     </div>
@@ -66,11 +67,13 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import HomePage from "~/components/pages/HomePageBuilder.vue";
+    import PageBuilder from "~/components/pages/PageBuilder.vue";
 
     @Component({
         layout: 'console',
         components: {
-            HomePage
+            HomePage,
+            PageBuilder
         }
     })
     export default class CreatePageBuilder extends Vue {
