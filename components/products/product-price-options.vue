@@ -45,7 +45,7 @@
     import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
     import {
         CreateVariantPriceDocument,
-        CreateVariantPriceMutationVariables,
+        CreateVariantPriceMutationVariables, GetAllTaxCategoryDocument,
         GetAllTaxRatesDocument, GetPriceForVariantDocument,
         ProductVariantPrice, UpdateVariantPriceDocument, UpdateVariantPriceMutationVariables
     } from '../../gql';
@@ -55,13 +55,15 @@
             GetPriceForVariant:{
                 query: GetPriceForVariantDocument,
                 variables() {
-                    console.log(this.$store.state.admin)
                     return {
                         prodId: this.variant,
                         storeId: this.$store.state.admin.vendorStore !== null ? this.$store.state.admin.vendorStore.id : this.$store.state.admin.store.id
                     }
                 },
                 pollInterval: 3000
+            },
+            GetAllTaxCategory: {
+                query: GetAllTaxCategoryDocument
             }
         }
     })
@@ -74,6 +76,12 @@
         private taxIncluded: boolean = true
 
         private GetPriceForVariant
+        private GetAllTaxCategory
+
+        @Watch('GetAllTaxCategory')
+        onChangeTaxRates() {
+            this.allTaxRates = this.GetAllTaxCategory
+        }
 
         @Watch('GetPriceForVariant')
         onPriceVariantChanged() {

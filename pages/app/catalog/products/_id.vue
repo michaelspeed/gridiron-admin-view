@@ -177,7 +177,7 @@
                             <v-list-item @click="onSelectFeatured" :disabled="featureActive">
                               <v-list-item-title>Set as Featured</v-list-item-title>
                             </v-list-item>
-                            <v-list-item>
+                            <v-list-item @click="onRemoveAsset">
                               <v-list-item-title>Remove Asset</v-list-item-title>
                             </v-list-item>
                           </v-list>
@@ -312,9 +312,10 @@
                 variables() {
                     return {
                         limit: 50,
-                        search: `%${this.facetSearch}%`
+                        iLike: `%${this.facetSearch}%`
                     }
-                }
+                },
+                pollInterval: 3000
             }
         }
     })
@@ -349,6 +350,8 @@
 
         private facetSearch = ''
         private facetValues: any
+
+        private init = false
 
         @Watch('GetCollectionTree')
         onGetCollections() {
@@ -398,8 +401,10 @@
         onGetOneProdDoc() {
             this.name = this.product.productName;
             this.slug = this.product.slug;
-            this.selectedFacet = this.product.facets.map(item => item);
-            this.selectedAssets = this.product.assets.map(item => item.asset);
+            if (!this.init) {
+                this.selectedAssets = this.product.assets.map(item => item.asset);
+                this.selectedFacet = this.product.facets.map(item => item);
+            }
             this.editorDesc = this.product.description
             this.featuredAssets = this.product.featuredAsset;
             this.menuId = this.product.featuredAsset;
@@ -409,6 +414,7 @@
             if (this.editorRef !== null) {
                 this.editorModel = this.editorRef.setContent(this.product.description);
             }
+            this.init = true
         }
 
         @Watch('editorRef')
@@ -460,6 +466,9 @@
                     description: 'Product Updated',
                     message: 'Product updating Successful'
                 });
+            }).catch(error => {
+                load()
+                this.$Message.error(error.message)
             });
         }
 
@@ -473,6 +482,18 @@
 
         onSetupEditor(editor) {
             this.editorRef = editor;
+        }
+
+        onClickSelectAsset(node) {
+            if (this.featuredAssets === null) {
+                this.featuredAssets = node
+            }
+            this.selectedAssets.push(node)
+        }
+
+        onRemoveAsset() {
+            const index = this.selectedAssets.findIndex(item => item.id === this.menuId)
+            this.selectedAssets.splice(index, 1)
         }
 
         onUpdateCollection(selected, info) {
@@ -489,8 +510,12 @@
 
         @Watch('facetValues')
         onChangeFacetValue() {
-            console.log(this.facetValues)
             this.allFacets = this.facetValues
+        }
+
+        @Watch('selectedAssets')
+        onChangeAssetS(){
+            console.log(this.selectedAssets)
         }
 
         mounted() {
