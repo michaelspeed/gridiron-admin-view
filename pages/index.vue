@@ -199,9 +199,6 @@ export default class Index extends Vue {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
 .title {

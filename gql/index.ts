@@ -675,19 +675,20 @@ export type User = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   email: Scalars['String'];
-  password: Scalars['String'];
   verified: Scalars['Boolean'];
   verificationToken?: Maybe<Scalars['String']>;
   passwordResetToken?: Maybe<Scalars['String']>;
   identifierChangeToken?: Maybe<Scalars['String']>;
   pendingIdentifier?: Maybe<Scalars['String']>;
-  lastLogin?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber: Scalars['String'];
   administrator?: Maybe<Administrator>;
   vendor?: Maybe<Vendor>;
   delivery: Delivery;
+  cart: Cart;
+  view: Array<View>;
   address?: Maybe<Address>;
 };
 
@@ -699,9 +700,72 @@ export type Vendor = {
   vendorName: Scalars['String'];
   phoneNumber: Scalars['String'];
   email: Scalars['String'];
+  zips: Array<Zip>;
   store: Store;
   license: VendorLicense;
   user: User;
+  zipsAggregate: VendorZipsAggregateResponse;
+};
+
+
+export type VendorZipsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ZipFilter>;
+  sorting?: Maybe<Array<ZipSort>>;
+};
+
+
+export type VendorZipsAggregateArgs = {
+  filter?: Maybe<ZipAggregateFilter>;
+};
+
+export type ZipFilter = {
+  and?: Maybe<Array<ZipFilter>>;
+  or?: Maybe<Array<ZipFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
+  vendors?: Maybe<ZipFilterVendorFilter>;
+};
+
+export type ZipFilterVendorFilter = {
+  and?: Maybe<Array<ZipFilterVendorFilter>>;
+  or?: Maybe<Array<ZipFilterVendorFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+};
+
+export type ZipSort = {
+  field: ZipSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ZipSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Name = 'name',
+  Slug = 'slug',
+  Code = 'code'
+}
+
+export type ZipAggregateFilter = {
+  and?: Maybe<Array<ZipAggregateFilter>>;
+  or?: Maybe<Array<ZipAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
 };
 
 export type TaxCategory = {
@@ -1674,6 +1738,16 @@ export type ProductVariantSpecs = {
 };
 
 
+export type Cart = {
+  __typename?: 'Cart';
+  id: Scalars['ID'];
+};
+
+export type View = {
+  __typename?: 'View';
+  id: Scalars['ID'];
+};
+
 export type BillingAgreementRequest = {
   __typename?: 'BillingAgreementRequest';
   id: Scalars['ID'];
@@ -1718,6 +1792,57 @@ export type Zip = {
   name: Scalars['String'];
   slug: Scalars['String'];
   code: Scalars['Float'];
+  vendors: Array<Vendor>;
+  vendorsAggregate: ZipVendorsAggregateResponse;
+};
+
+
+export type ZipVendorsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<VendorFilter>;
+  sorting?: Maybe<Array<VendorSort>>;
+};
+
+
+export type ZipVendorsAggregateArgs = {
+  filter?: Maybe<VendorAggregateFilter>;
+};
+
+export type VendorFilter = {
+  and?: Maybe<Array<VendorFilter>>;
+  or?: Maybe<Array<VendorFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+};
+
+export type VendorSort = {
+  field: VendorSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum VendorSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  VendorName = 'vendorName',
+  PhoneNumber = 'phoneNumber',
+  Email = 'email'
+}
+
+export type VendorAggregateFilter = {
+  and?: Maybe<Array<VendorAggregateFilter>>;
+  or?: Maybe<Array<VendorAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
 };
 
 export type Menu = {
@@ -1945,7 +2070,7 @@ export type UserFilter = {
   passwordResetToken?: Maybe<StringFieldComparison>;
   identifierChangeToken?: Maybe<StringFieldComparison>;
   pendingIdentifier?: Maybe<StringFieldComparison>;
-  lastLogin?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<DateFieldComparison>;
   firstName?: Maybe<StringFieldComparison>;
   lastName?: Maybe<StringFieldComparison>;
   phoneNumber?: Maybe<StringFieldComparison>;
@@ -1985,7 +2110,7 @@ export type UserAggregateFilter = {
   passwordResetToken?: Maybe<StringFieldComparison>;
   identifierChangeToken?: Maybe<StringFieldComparison>;
   pendingIdentifier?: Maybe<StringFieldComparison>;
-  lastLogin?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<DateFieldComparison>;
   firstName?: Maybe<StringFieldComparison>;
   lastName?: Maybe<StringFieldComparison>;
   phoneNumber?: Maybe<StringFieldComparison>;
@@ -2903,19 +3028,21 @@ export type UserDeleteResponse = {
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   email?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
   verified?: Maybe<Scalars['Boolean']>;
   verificationToken?: Maybe<Scalars['String']>;
   passwordResetToken?: Maybe<Scalars['String']>;
   identifierChangeToken?: Maybe<Scalars['String']>;
   pendingIdentifier?: Maybe<Scalars['String']>;
-  lastLogin?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   administrator?: Maybe<Administrator>;
   vendor?: Maybe<Vendor>;
   delivery?: Maybe<Delivery>;
+  cart?: Maybe<Cart>;
+  view?: Maybe<Array<View>>;
+  address?: Maybe<Array<Address>>;
 };
 
 export type UserCountAggregate = {
@@ -2945,7 +3072,7 @@ export type UserMinAggregate = {
   passwordResetToken?: Maybe<Scalars['String']>;
   identifierChangeToken?: Maybe<Scalars['String']>;
   pendingIdentifier?: Maybe<Scalars['String']>;
-  lastLogin?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
@@ -2961,7 +3088,7 @@ export type UserMaxAggregate = {
   passwordResetToken?: Maybe<Scalars['String']>;
   identifierChangeToken?: Maybe<Scalars['String']>;
   pendingIdentifier?: Maybe<Scalars['String']>;
-  lastLogin?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
@@ -3026,6 +3153,55 @@ export type VendorAggregateResponse = {
   count?: Maybe<VendorCountAggregate>;
   min?: Maybe<VendorMinAggregate>;
   max?: Maybe<VendorMaxAggregate>;
+};
+
+export type VendorZipsCountAggregate = {
+  __typename?: 'VendorZipsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type VendorZipsSumAggregate = {
+  __typename?: 'VendorZipsSumAggregate';
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type VendorZipsAvgAggregate = {
+  __typename?: 'VendorZipsAvgAggregate';
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type VendorZipsMinAggregate = {
+  __typename?: 'VendorZipsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type VendorZipsMaxAggregate = {
+  __typename?: 'VendorZipsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type VendorZipsAggregateResponse = {
+  __typename?: 'VendorZipsAggregateResponse';
+  count?: Maybe<VendorZipsCountAggregate>;
+  sum?: Maybe<VendorZipsSumAggregate>;
+  avg?: Maybe<VendorZipsAvgAggregate>;
+  min?: Maybe<VendorZipsMinAggregate>;
+  max?: Maybe<VendorZipsMaxAggregate>;
 };
 
 export type ZoneDeleteResponse = {
@@ -4353,6 +4529,11 @@ export type VendorLicenseAggregateResponse = {
   max?: Maybe<VendorLicenseMaxAggregate>;
 };
 
+export type MenuResponseTypes = {
+  __typename?: 'MenuResponseTypes';
+  menu: Scalars['String'];
+};
+
 export type StockKeepingDeleteResponse = {
   __typename?: 'StockKeepingDeleteResponse';
   id?: Maybe<Scalars['ID']>;
@@ -4830,9 +5011,41 @@ export type ZipAggregateResponse = {
   max?: Maybe<ZipMaxAggregate>;
 };
 
-export type MenuResponseTypes = {
-  __typename?: 'MenuResponseTypes';
-  menu: Scalars['String'];
+export type ZipVendorsCountAggregate = {
+  __typename?: 'ZipVendorsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  vendorName?: Maybe<Scalars['Int']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  email?: Maybe<Scalars['Int']>;
+};
+
+export type ZipVendorsMinAggregate = {
+  __typename?: 'ZipVendorsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  vendorName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
+export type ZipVendorsMaxAggregate = {
+  __typename?: 'ZipVendorsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  vendorName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
+export type ZipVendorsAggregateResponse = {
+  __typename?: 'ZipVendorsAggregateResponse';
+  count?: Maybe<ZipVendorsCountAggregate>;
+  min?: Maybe<ZipVendorsMinAggregate>;
+  max?: Maybe<ZipVendorsMaxAggregate>;
 };
 
 export type MenuDeleteResponse = {
@@ -5102,7 +5315,7 @@ export type AddressUsersMinAggregate = {
   passwordResetToken?: Maybe<Scalars['String']>;
   identifierChangeToken?: Maybe<Scalars['String']>;
   pendingIdentifier?: Maybe<Scalars['String']>;
-  lastLogin?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
@@ -5118,7 +5331,7 @@ export type AddressUsersMaxAggregate = {
   passwordResetToken?: Maybe<Scalars['String']>;
   identifierChangeToken?: Maybe<Scalars['String']>;
   pendingIdentifier?: Maybe<Scalars['String']>;
-  lastLogin?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
@@ -6072,43 +6285,6 @@ export type TaxCategoryAggregateFilter = {
   name?: Maybe<StringFieldComparison>;
 };
 
-export type VendorFilter = {
-  and?: Maybe<Array<VendorFilter>>;
-  or?: Maybe<Array<VendorFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  vendorName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  email?: Maybe<StringFieldComparison>;
-};
-
-export type VendorSort = {
-  field: VendorSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum VendorSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  VendorName = 'vendorName',
-  PhoneNumber = 'phoneNumber',
-  Email = 'email'
-}
-
-export type VendorAggregateFilter = {
-  and?: Maybe<Array<VendorAggregateFilter>>;
-  or?: Maybe<Array<VendorAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  vendorName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  email?: Maybe<StringFieldComparison>;
-};
-
 export type SeoFilter = {
   and?: Maybe<Array<SeoFilter>>;
   or?: Maybe<Array<SeoFilter>>;
@@ -6283,43 +6459,6 @@ export type OrderAggregateFilter = {
   orderPlacedAt?: Maybe<DateFieldComparison>;
   totalPrice?: Maybe<NumberFieldComparison>;
   address?: Maybe<StringFieldComparison>;
-};
-
-export type ZipFilter = {
-  and?: Maybe<Array<ZipFilter>>;
-  or?: Maybe<Array<ZipFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  code?: Maybe<NumberFieldComparison>;
-};
-
-export type ZipSort = {
-  field: ZipSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ZipSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Name = 'name',
-  Slug = 'slug',
-  Code = 'code'
-}
-
-export type ZipAggregateFilter = {
-  and?: Maybe<Array<ZipAggregateFilter>>;
-  or?: Maybe<Array<ZipAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  code?: Maybe<NumberFieldComparison>;
 };
 
 export type PageFilter = {
@@ -6554,9 +6693,11 @@ export type Mutation = {
   setAddressOnUser: User;
   setVendorOnUser: User;
   setAdministratorOnUser: User;
+  removeZipsFromVendor: Vendor;
   removeStoreFromVendor: Vendor;
   removeLicenseFromVendor: Vendor;
   removeUserFromVendor: Vendor;
+  addZipsToVendor: Vendor;
   setStoreOnVendor: Vendor;
   setLicenseOnVendor: Vendor;
   setUserOnVendor: Vendor;
@@ -6765,6 +6906,9 @@ export type Mutation = {
   updateManyZips: UpdateManyResponse;
   createOneZip: Zip;
   createManyZips: Array<Zip>;
+  removeVendorsFromZip: Zip;
+  addVendorsToZip: Zip;
+  CreateZipToVendor: Vendor;
   deleteOneMenu: MenuDeleteResponse;
   deleteManyMenus: DeleteManyResponse;
   updateOneMenu: Menu;
@@ -7204,6 +7348,11 @@ export type MutationSetAdministratorOnUserArgs = {
 };
 
 
+export type MutationRemoveZipsFromVendorArgs = {
+  input: RelationsInput;
+};
+
+
 export type MutationRemoveStoreFromVendorArgs = {
   input: RelationInput;
 };
@@ -7216,6 +7365,11 @@ export type MutationRemoveLicenseFromVendorArgs = {
 
 export type MutationRemoveUserFromVendorArgs = {
   input: RelationInput;
+};
+
+
+export type MutationAddZipsToVendorArgs = {
+  input: RelationsInput;
 };
 
 
@@ -8319,6 +8473,22 @@ export type MutationCreateManyZipsArgs = {
 };
 
 
+export type MutationRemoveVendorsFromZipArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationAddVendorsToZipArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationCreateZipToVendorArgs = {
+  zips: Array<Scalars['ID']>;
+  vendorId: Scalars['ID'];
+};
+
+
 export type MutationDeleteOneMenuArgs = {
   input: DeleteOneInput;
 };
@@ -8880,7 +9050,7 @@ export type UserDeleteFilter = {
   passwordResetToken?: Maybe<StringFieldComparison>;
   identifierChangeToken?: Maybe<StringFieldComparison>;
   pendingIdentifier?: Maybe<StringFieldComparison>;
-  lastLogin?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<DateFieldComparison>;
   firstName?: Maybe<StringFieldComparison>;
   lastName?: Maybe<StringFieldComparison>;
   phoneNumber?: Maybe<StringFieldComparison>;
@@ -11080,7 +11250,7 @@ export type UserSubscriptionFilter = {
   passwordResetToken?: Maybe<StringFieldComparison>;
   identifierChangeToken?: Maybe<StringFieldComparison>;
   pendingIdentifier?: Maybe<StringFieldComparison>;
-  lastLogin?: Maybe<StringFieldComparison>;
+  lastLogin?: Maybe<DateFieldComparison>;
   firstName?: Maybe<StringFieldComparison>;
   lastName?: Maybe<StringFieldComparison>;
   phoneNumber?: Maybe<StringFieldComparison>;
@@ -12553,6 +12723,34 @@ export type UpdateHomeMutation = (
   ) }
 );
 
+export type AddZipsToVendorMutationVariables = Exact<{
+  id: Scalars['ID'];
+  zips: Array<Scalars['ID']>;
+}>;
+
+
+export type AddZipsToVendorMutation = (
+  { __typename?: 'Mutation' }
+  & { addZipsToVendor: (
+    { __typename?: 'Vendor' }
+    & Pick<Vendor, 'id'>
+  ) }
+);
+
+export type CreateZipToVendorMutationVariables = Exact<{
+  zips: Array<Scalars['ID']>;
+  vendorId: Scalars['ID'];
+}>;
+
+
+export type CreateZipToVendorMutation = (
+  { __typename?: 'Mutation' }
+  & { CreateZipToVendor: (
+    { __typename?: 'Vendor' }
+    & Pick<Vendor, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -13522,6 +13720,36 @@ export type GetAllPagesQuery = (
   )> }
 );
 
+export type AllZipsQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  vendor?: Maybe<Scalars['ID']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type AllZipsQuery = (
+  { __typename?: 'Query' }
+  & { zips: Array<(
+    { __typename?: 'Zip' }
+    & Pick<Zip, 'id' | 'name' | 'code' | 'slug'>
+  )> }
+);
+
+export type SearchAllZipQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type SearchAllZipQuery = (
+  { __typename?: 'Query' }
+  & { zips: Array<(
+    { __typename?: 'Zip' }
+    & Pick<Zip, 'id' | 'name' | 'code' | 'slug'>
+  )> }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -13902,6 +14130,20 @@ export const CreateHomeDocument = gql`
 export const UpdateHomeDocument = gql`
     mutation UpdateHome($id: ID!, $single: JSON) {
   updateOnePage(input: {id: $id, update: {single: $single}}) {
+    id
+  }
+}
+    `;
+export const AddZipsToVendorDocument = gql`
+    mutation addZipsToVendor($id: ID!, $zips: [ID!]!) {
+  addZipsToVendor(input: {id: $id, relationIds: $zips}) {
+    id
+  }
+}
+    `;
+export const CreateZipToVendorDocument = gql`
+    mutation CreateZipToVendor($zips: [ID!]!, $vendorId: ID!) {
+  CreateZipToVendor(zips: $zips, vendorId: $vendorId) {
     id
   }
 }
@@ -14754,6 +14996,26 @@ export const GetAllPagesDocument = gql`
     targetId
     pageType
     pageCategory
+  }
+}
+    `;
+export const AllZipsDocument = gql`
+    query AllZips($limit: Int, $vendor: ID, $offset: Int) {
+  zips(paging: {limit: $limit, offset: $offset}, filter: {vendors: {id: {eq: $vendor}}}, sorting: {field: createdAt, direction: DESC}) {
+    id
+    name
+    code
+    slug
+  }
+}
+    `;
+export const SearchAllZipDocument = gql`
+    query SearchAllZip($limit: Int, $offset: Int, $code: Float) {
+  zips(paging: {limit: $limit, offset: $offset}, filter: {code: {eq: $code}}, sorting: {field: createdAt, direction: DESC}) {
+    id
+    name
+    code
+    slug
   }
 }
     `;

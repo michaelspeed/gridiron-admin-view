@@ -1052,3 +1052,51 @@ query GetAllPages($limit: Int, $iLike: String, $offset: Int){
         pageCategory
     }
 }
+
+query AllZips ($limit: Int, $vendor: ID, $offset: Int){
+    zips(
+        paging:{
+            limit: $limit,
+            offset: $offset
+        }
+        filter:{
+            vendors: {
+                id: {
+                    eq: $vendor
+                }
+            }
+        }
+        sorting:{
+            field:createdAt,
+            direction:DESC
+        }
+    ) {
+        id
+        name
+        code
+        slug
+    }
+}
+
+query SearchAllZip ($limit: Int, $offset: Int, $code: Float){
+    zips(
+        paging:{
+            limit: $limit,
+            offset: $offset
+        }
+        filter:{
+            code: {
+                eq: $code
+            }
+        }
+        sorting:{
+            field:createdAt,
+            direction:DESC
+        }
+    ) {
+        id
+        name
+        code
+        slug
+    }
+}

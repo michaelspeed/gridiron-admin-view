@@ -635,3 +635,18 @@ mutation UpdateHome($id: ID!, $single: JSON){
         id
     }
 }
+
+mutation addZipsToVendor($id: ID!, $zips: [ID!]!){
+    addZipsToVendor(input:{
+        id: $id,
+        relationIds: $zips
+    }) {
+        id
+    }
+}
+
+mutation CreateZipToVendor($zips: [ID!]!, $vendorId: ID!){
+    CreateZipToVendor(zips: $zips, vendorId: $vendorId){
+        id
+    }
+}
