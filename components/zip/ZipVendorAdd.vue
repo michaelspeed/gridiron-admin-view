@@ -7,7 +7,7 @@
                 type="number"
             ></v-text-field>
             <v-radio-group v-model="allZipsOfVendor" column multiple>
-                <v-radio :label="pins.code.toString()" :value="pins.id" v-for="pins of zips"></v-radio>
+                <v-radio :label="pins.code.toString()" :value="pins.id" v-for="pins of zips" :key="pins.id"></v-radio>
             </v-radio-group>
         </v-card-text>
     </div>

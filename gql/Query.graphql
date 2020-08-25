@@ -1100,3 +1100,18 @@ query SearchAllZip ($limit: Int, $offset: Int, $code: Float){
         slug
     }
 }
+
+query QueryUSerByEmailOrPhone($type: String){
+    users(filter:{
+        or: [
+            {email:{like: $type}},
+            {phoneNumber: {like: $type}}
+        ]
+    }) {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+    }
+}

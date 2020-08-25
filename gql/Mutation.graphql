@@ -650,3 +650,9 @@ mutation CreateZipToVendor($zips: [ID!]!, $vendorId: ID!){
         id
     }
 }
+
+mutation createOrderAdmin($orderLineDto: [OrderLineDto!]!, $address: String!, $userId: ID!){
+    createOrderAdmin(orderLineDto: $orderLineDto, address: $address, userId: $userId){
+        id
+    }
+}
