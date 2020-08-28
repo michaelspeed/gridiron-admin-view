@@ -19,13 +19,8 @@
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import {DeleteOneFacetDocument} from '../../gql';
-    import {Popconfirm} from 'ant-design-vue'
 
-    @Component({
-        components: {
-            'a-popconfirm':Popconfirm
-        }
-    })
+    @Component
     export default class FacetActions extends Vue {
         private params: any
 

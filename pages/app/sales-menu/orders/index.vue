@@ -40,6 +40,54 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
+                <div class="card card-custom gutter-b" v-if="!vendorStore">
+                    <div class="d-flex justify-content-center align-items-center m-20 w-100"
+                         v-if="$apollo.queries.orders.loading">
+                        <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                    </div>
+                    <div class="card-body">
+                        <ag-grid-vue
+                            v-if="!$apollo.queries.orders.loading"
+                            style="height: 100vh"
+                            ref="agGridTable"
+                            :gridOptions="gridOptions"
+                            class="ag-theme-material"
+                            :columnDefs="columnDefs"
+                            :defaultColDef="defaultColDef"
+                            :rowData="orders"
+                            colResizeDefault="shift"
+                            :animateRows="true"
+                            :floatingFilter="true"
+                            :pagination="true"
+                            @grid-ready="onGridReady"
+                            :suppressPaginationPanel="true" :enableRtl="false">
+                        </ag-grid-vue>
+                    </div>
+                </div>
+                <div class="card card-custom gutter-b" v-if="vendorStore">
+                    <div class="d-flex justify-content-center align-items-center m-20 w-100"
+                         v-if="$apollo.queries.orderLines.loading">
+                        <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                    </div>
+                    <div class="card-body">
+                        <ag-grid-vue
+                            v-if="!$apollo.queries.orderLines.loading"
+                            style="height: 100vh"
+                            ref="agGridTable"
+                            :gridOptions="gridOptions"
+                            class="ag-theme-material"
+                            :columnDefs="secondColumnDefs"
+                            :defaultColDef="defaultColDef"
+                            :rowData="orderLines"
+                            colResizeDefault="shift"
+                            :animateRows="true"
+                            :floatingFilter="true"
+                            :pagination="true"
+                            @grid-ready="onGridReady"
+                            :suppressPaginationPanel="true" :enableRtl="false">
+                        </ag-grid-vue>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -49,6 +97,10 @@
 
     import {Component, Vue} from 'vue-property-decorator';
     import {mapState} from "vuex";
+    import {GetOrderLinesDocument, SearchAllOrdersDocument} from "~/gql";
+    import moment from "moment";
+    import OrderActions from "~/components/order/OrderActions.vue";
+    import OrderVendorActions from "~/components/order/OrderVendroActions.vue";
 
     @Component({
         layout: 'console',
@@ -56,10 +108,125 @@
             ...mapState({
                 admin: (store: any) => store.admin.administrator,
                 vendor: (store: any) => store.admin.vendor,
+                vendorStore: (store: any) => store.admin.vendorStore,
             }),
+        },
+        components: {
+            OrderActions,
+            OrderVendorActions
+        },
+        apollo: {
+            orders: {
+                query: SearchAllOrdersDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset,
+                    }
+                },
+                pollInterval: 4000
+            },
+            orderLines: {
+                query: GetOrderLinesDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset,
+                        id: this.vendorStore ? this.vendorStore.id : undefined
+                    }
+                },
+                pollInterval: 4000
+            }
         }
     })
     export default class Orders extends Vue {
+        private limit = 10
+        private offset = 0
+        private store = ''
+
+        private orders
+        private orderLines
+
+        // Table
+        private gridOptions: any = {};
+        private gridApi: any = null;
+
+        private gridSecondOptions: any = {};
+        private gridSecondApi: any = null;
+
+        private defaultColDef = {
+            sortable: true,
+            editable: false,
+            resizable: true,
+            suppressMenu: true
+        };
+        private columnDefs = [
+            {
+                headerName: 'Id',
+                filter: false,
+                field: 'id'
+            },
+            {
+                headerName: 'First Name',
+                filter: false,
+                field: 'user.firstName'
+            },
+            {
+                headerName: 'Last Name',
+                filter: false,
+                field: 'user.lastName'
+            },
+            {
+                headerName: 'Created On',
+                valueFormatter: this.onRenderDate
+            },
+            {
+                headerName: 'Actions',
+                cellRendererFramework: 'OrderActions'
+            }
+        ]
+
+        private secondColumnDefs = [
+            {
+                headerName: 'Id',
+                filter: false,
+                field: 'id'
+            },
+            {
+                headerName: 'Stage',
+                filter: false,
+                field: 'stage'
+            },
+            {
+                headerName: 'Product',
+                filter: false,
+                field: 'item.productVariant.name'
+            },
+            {
+                headerName: 'Quantity',
+                filter: false,
+                field: 'item.quantity'
+            },
+            {
+                headerName: 'Actions',
+                cellRendererFramework: 'OrderVendorActions'
+            }
+        ]
+
+        onRenderDate(data) {
+            console.log(data)
+            return moment(data.data.createdAt).format('DD MMM YYYY')
+        }
+
+        onGridReady() {
+            this.gridApi = this.gridOptions!.api;
+            this.gridApi!.sizeColumnsToFit();
+        }
+
+        onGridReadySecond() {
+            this.gridSecondApi = this.gridSecondApi!.api;
+            this.gridSecondApi!.sizeColumnsToFit();
+        }
 
     }
 </script>

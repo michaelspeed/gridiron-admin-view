@@ -26,7 +26,7 @@
     "@vue/composition-api": "^1.0.0-beta.6",
     "ag-grid-community": "^23.1.0",
     "ag-grid-vue": "^23.1.0",
-    "ant-design-vue": "^1.6.4",
+    "ant-design-vue": "^1.6.5",
     "apexcharts": "^3.20.0",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",

@@ -155,11 +155,79 @@
                                                 <!-- end: custom background-->
 
                                                 <div class="card-body position-relative">
-                                                    <h3 class="7 text-white text-center my-10 my-lg-15">Transparent
-                                                        &amp; Simple Pricing</h3>
 
-                                                    <!-- begin: Tabs-->
-                                                    <div class="d-flex justify-content-center">
+                                                    <v-card style="width: 100%;">
+                                                        <v-toolbar
+                                                            color="primary"
+                                                            dark
+                                                        >
+                                                            <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+                                                            <v-toolbar-title>Transparent
+                                                                &amp; Simple Pricing</v-toolbar-title>
+                                                        </v-toolbar>
+                                                        <v-list two-line subheader v-if="percentagePlan.length > 0">
+                                                            <v-subheader>Percentage Plans</v-subheader>
+
+                                                            <v-list-item v-for="item of percentagePlan"
+                                                                         :key="item.id">
+                                                                <v-list-item-content>
+                                                                    <v-list-item-title><h5>{{item.name}}</h5></v-list-item-title>
+                                                                    <v-list-item-subtitle>{{item.planValue}} % /item</v-list-item-subtitle>
+                                                                </v-list-item-content>
+                                                                <v-list-item-action>
+                                                                    <button
+                                                                        :class="{'spinner spinner-white spinner-right': loading}"
+                                                                        type="button"
+                                                                        @click="onFinalPlanSelect(item.id)"
+                                                                        class="btn btn-primary btn-sm text-uppercase font-weight-bolder px-15 py-3">
+                                                                        Purchase
+                                                                    </button>
+                                                                </v-list-item-action>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                        <v-list two-line subheader v-if="commissionPlans.length > 0">
+                                                            <v-subheader>Commission Plans</v-subheader>
+
+                                                            <v-list-item v-for="item of commissionPlans" :key="item.id">
+                                                                <v-list-item-content>
+                                                                    <v-list-item-title><h5>{{item.name}}</h5></v-list-item-title>
+                                                                    <v-list-item-subtitle>{{item.planValue}} % /item</v-list-item-subtitle>
+                                                                </v-list-item-content>
+                                                                <v-list-item-action>
+                                                                    <button
+                                                                        :class="{'spinner spinner-white spinner-right': loading}"
+                                                                        type="button"
+                                                                        @click="onFinalPlanSelect(item.id)"
+                                                                        class="btn btn-primary btn-sm text-uppercase font-weight-bolder px-15 py-3">
+                                                                        Purchase
+                                                                    </button>
+                                                                </v-list-item-action>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                        <v-list two-line subheader v-if="flatPlan.length > 0">
+                                                            <v-subheader>Flat Plans</v-subheader>
+
+                                                            <v-list-item v-for="item of flatPlan" :key="item.id">
+                                                                <v-list-item-content>
+                                                                    <v-list-item-title><h5>{{item.name}}</h5></v-list-item-title>
+                                                                    <v-list-item-subtitle>₹{{item.planValue}} /item</v-list-item-subtitle>
+                                                                </v-list-item-content>
+                                                                <v-list-item-action>
+                                                                    <button
+                                                                        :class="{'spinner spinner-white spinner-right': loading}"
+                                                                        type="button"
+                                                                        @click="onFinalPlanSelect(item.id)"
+                                                                        class="btn btn-primary btn-sm text-uppercase font-weight-bolder px-15 py-3">
+                                                                        Purchase
+                                                                    </button>
+                                                                </v-list-item-action>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-card>
+
+
+                                                    <!--<div class="d-flex justify-content-center">
                                                         <ul class="nav nav-pills nav-primary mb-10 mb-lg-20 bg-white rounded"
                                                             id="pills-tab" role="tablist">
                                                             <li class="nav-item p-0 m-0">
@@ -188,22 +256,21 @@
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    <!-- end: Tabs-->
 
                                                     <div class="tab-content">
-                                                        <!-- begin: Tab pane-->
+                                                        &lt;!&ndash; begin: Tab pane&ndash;&gt;
                                                         <div class="tab-pane show row text-center"
                                                              id="kt-pricing-2_content1" role="tabpanel"
                                                              aria-labelledby="pills-tab-1">
                                                             <div
                                                                 class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
                                                                 <div class="row">
-                                                                    <!-- begin: Pricing-->
+                                                                    &lt;!&ndash; begin: Pricing&ndash;&gt;
                                                                     <div class="col-md-4" v-for="item of percentagePlan"
                                                                          :key="item.id">
                                                                         <div
                                                                             class="pt-30 pt-md-25 pb-15 px-5 text-center">
-                                                                            <!--begin::Icon-->
+                                                                            &lt;!&ndash;begin::Icon&ndash;&gt;
                                                                             <div class="d-flex flex-center position-relative mb-30">
                                                                                 <span class="svg svg-fill-primary opacity-4 position-absolute">
                                                                                     <svg width="175" height="200">
@@ -212,9 +279,9 @@
                                                                                 </span>
                                                                                 <i class="fas fa-mountain font-size-h1 text-primary"></i>
                                                                             </div>
-                                                                            <!--end::Icon-->
+                                                                            &lt;!&ndash;end::Icon&ndash;&gt;
 
-                                                                            <!--begin::Content-->
+                                                                            &lt;!&ndash;begin::Content&ndash;&gt;
                                                                             <h4 class="font-size-h3 mb-10 mt-10">{{item.name}}</h4>
                                                                             <div
                                                                                 class="d-flex flex-column line-height-xl pb-10">
@@ -234,27 +301,27 @@
                                                                                     Purchase
                                                                                 </button>
                                                                             </div>
-                                                                            <!--end::Content-->
+                                                                            &lt;!&ndash;end::Content&ndash;&gt;
                                                                         </div>
                                                                     </div>
-                                                                    <!-- end: Pricing-->
+                                                                    &lt;!&ndash; end: Pricing&ndash;&gt;
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- end: Tab pane-->
+                                                        &lt;!&ndash; end: Tab pane&ndash;&gt;
 
-                                                        <!-- begin: Tab pane-->
+                                                        &lt;!&ndash; begin: Tab pane&ndash;&gt;
                                                         <div class="tab-pane row text-center active"
                                                              id="kt-pricing-2_content2" role="tabpanel"
                                                              aria-labelledby="pills-tab-2">
                                                             <div v-for="item of commissionPlans" :key="item.id"
                                                                 class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
                                                                 <div class="row justify-content-center">
-                                                                    <!-- begin: Pricing-->
+                                                                    &lt;!&ndash; begin: Pricing&ndash;&gt;
                                                                     <div class="col-md-4">
                                                                         <div
                                                                             class="pt-30 pt-md-25 pb-15 px-5 text-center">
-                                                                            <!--begin::Icon-->
+                                                                            &lt;!&ndash;begin::Icon&ndash;&gt;
                                                                             <div
                                                                                 class="d-flex flex-center position-relative mb-30">
                                                                                     <span class="svg svg-fill-primary opacity-4 position-absolute">
@@ -264,9 +331,9 @@
                                                                                     </span>
                                                                                 <i class="fas fa-atom font-size-h1 text-primary"></i>
                                                                             </div>
-                                                                            <!--end::Icon-->
+                                                                            &lt;!&ndash;end::Icon&ndash;&gt;
 
-                                                                            <!--begin::Content-->
+                                                                            &lt;!&ndash;begin::Content&ndash;&gt;
                                                                             <h4 class="font-size-h3 mb-10">{{item.name}}</h4>
                                                                             <div
                                                                                 class="d-flex flex-column line-height-xl mb-10">
@@ -283,26 +350,26 @@
                                                                                     Purchase
                                                                                 </button>
                                                                             </div>
-                                                                            <!--end::Icon-->
+                                                                            &lt;!&ndash;end::Icon&ndash;&gt;
                                                                         </div>
                                                                     </div>
-                                                                    <!-- end: Pricing-->
+                                                                    &lt;!&ndash; end: Pricing&ndash;&gt;
 
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- end: Tab pane-->
+                                                        &lt;!&ndash; end: Tab pane&ndash;&gt;
                                                         <div class="tab-pane row text-center active"
                                                              id="kt-pricing-2_content3" role="tabpanel"
                                                              aria-labelledby="pills-tab-2">
                                                             <div v-for="item of flatPlan" :key="item.id"
                                                                  class="card-body bg-white col-11 col-lg-12 col-xxl-10 mx-auto">
                                                                 <div class="row justify-content-center">
-                                                                    <!-- begin: Pricing-->
+                                                                    &lt;!&ndash; begin: Pricing&ndash;&gt;
                                                                     <div class="col-md-4">
                                                                         <div
                                                                             class="pt-30 pt-md-25 pb-15 px-5 text-center">
-                                                                            <!--begin::Icon-->
+                                                                            &lt;!&ndash;begin::Icon&ndash;&gt;
                                                                             <div
                                                                                 class="d-flex flex-center position-relative mb-30">
                                                                                     <span class="svg svg-fill-primary opacity-4 position-absolute">
@@ -312,9 +379,9 @@
                                                                                     </span>
                                                                                 <i class="fas fa-atom font-size-h1 text-primary"></i>
                                                                             </div>
-                                                                            <!--end::Icon-->
+                                                                            &lt;!&ndash;end::Icon&ndash;&gt;
 
-                                                                            <!--begin::Content-->
+                                                                            &lt;!&ndash;begin::Content&ndash;&gt;
                                                                             <h4 class="font-size-h3 mb-10">{{item.name}}</h4>
                                                                             <div
                                                                                 class="d-flex flex-column line-height-xl mb-10">
@@ -331,15 +398,15 @@
                                                                                     Purchase
                                                                                 </button>
                                                                             </div>
-                                                                            <!--end::Icon-->
+                                                                            &lt;!&ndash;end::Icon&ndash;&gt;
                                                                         </div>
                                                                     </div>
-                                                                    <!-- end: Pricing-->
+                                                                    &lt;!&ndash; end: Pricing&ndash;&gt;
 
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>-->
                                                 </div>
                                             </div>
                                             <!--end::Card-->

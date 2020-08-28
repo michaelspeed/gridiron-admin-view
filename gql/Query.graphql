@@ -771,6 +771,27 @@ query SearchProductVariants($search: String){
         id
         name
         enabled
+        prices {
+            id
+            price
+            store {
+                id
+                storeName
+            }
+            tax {
+                id
+                value
+                name
+            }
+            taxIncluded
+        }
+        asset {
+            id
+            asset {
+                id
+                preview
+            }
+        }
     }
 }
 
@@ -922,6 +943,12 @@ query GetPriceForVariant($prodId: ID, $storeId: ID){
         tax {
             id
             name
+        }
+        promoprice {
+            id
+            priceType
+            value
+            forever
         }
     }
 }
@@ -1113,5 +1140,147 @@ query QueryUSerByEmailOrPhone($type: String){
         firstName
         lastName
         phoneNumber
+        address {
+            id
+            fullName
+            addressLine
+            landmark
+            city
+            state
+            postalCode
+        }
+    }
+}
+
+query SearchAllOrders ($limit: Int, $offset: Int){
+    orders(
+        paging: {
+            limit: $limit
+            offset: $offset
+        }
+    ) {
+        id
+        totalPrice
+        address
+        createdAt
+        user {
+            id
+            firstName
+            lastName
+        }
+        lines {
+            id
+            priceField
+            stage
+            item {
+                id
+                quantity
+            }
+        }
+    }
+}
+
+query GetOrderById($id: ID!){
+    order(
+        id: $id
+    ) {
+        id
+        totalPrice
+        address
+        createdAt
+        user {
+            id
+            firstName
+            lastName
+        }
+        lines {
+            id
+            stage
+            priceField
+            item {
+                id
+                quantity
+                productVariant {
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
+
+query GetOrderLines($id: ID, $limit: Int, $offset: Int){
+    orderLines(
+        filter: {
+            store:{
+                id: {
+                    eq: $id
+                }
+            }
+        },
+        paging: {
+            limit: $limit
+            offset: $offset
+        }
+    ) {
+        id
+        priceField
+        stage
+        store {
+            id
+            storeName
+            phoneNumber
+        }
+        item {
+            id
+            quantity
+            productVariant {
+                id
+                name
+            }
+        }
+        order {
+            id
+            totalPrice
+            address
+            user{
+                id
+                firstName
+                lastName
+            }
+        }
+    }
+}
+
+query GetSingleOrderLine($id: ID!){
+    orderLine(
+        id: $id
+    ) {
+        id
+        priceField
+        stage
+        store {
+            id
+            storeName
+        }
+        item {
+            id
+            quantity
+            productVariant {
+                id
+                name
+            }
+        }
+        order {
+            id
+            address
+            createdAt
+            user {
+                id
+                firstName
+                lastName
+                phoneNumber
+            }
+        }
     }
 }

@@ -301,11 +301,7 @@
             this.menuId = node
             if (this.featuredAssets === null) {
                 this.featureActive = false
-            } else if (this.featuredAssets!.id !== node.id) {
-                this.featureActive = false
-            } else {
-                this.featureActive = true
-            }
+            } else this.featureActive = this.featuredAssets!.id === node.id;
             this.x = e.clientX
             this.y = e.clientY
             this.$nextTick(() => {

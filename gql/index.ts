@@ -511,19 +511,20 @@ export type Order = {
   updatedAt: Scalars['DateTime'];
   totalPrice: Scalars['Float'];
   address: Scalars['String'];
-  items: Array<OrderLine>;
-  itemsAggregate: OrderItemsAggregateResponse;
+  lines: Array<OrderLine>;
+  user: User;
+  linesAggregate: OrderLinesAggregateResponse;
 };
 
 
-export type OrderItemsArgs = {
+export type OrderLinesArgs = {
   paging?: Maybe<OffsetPaging>;
   filter?: Maybe<OrderLineFilter>;
   sorting?: Maybe<Array<OrderLineSort>>;
 };
 
 
-export type OrderItemsAggregateArgs = {
+export type OrderLinesAggregateArgs = {
   filter?: Maybe<OrderLineAggregateFilter>;
 };
 
@@ -534,6 +535,25 @@ export type OrderLineFilter = {
   createdAt?: Maybe<DateFieldComparison>;
   updatedAt?: Maybe<DateFieldComparison>;
   stage?: Maybe<StringFieldComparison>;
+  store?: Maybe<OrderLineFilterStoreFilter>;
+};
+
+export type OrderLineFilterStoreFilter = {
+  and?: Maybe<Array<OrderLineFilterStoreFilter>>;
+  or?: Maybe<Array<OrderLineFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
 };
 
 export type OrderLineSort = {
@@ -574,7 +594,7 @@ export type OrderLine = {
   id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  priceJSON: Scalars['JSON'];
+  priceField: Scalars['JSON'];
   stage: Scalars['String'];
   store: Store;
   item: OrderItem;
@@ -687,6 +707,7 @@ export type ProductVariantFilter = {
   name?: Maybe<StringFieldComparison>;
   trackInventory?: Maybe<BooleanFieldComparison>;
   line?: Maybe<ProductVariantFilterOrderItemFilter>;
+  price?: Maybe<ProductVariantFilterProductVariantPriceFilter>;
 };
 
 export type ProductVariantFilterOrderItemFilter = {
@@ -696,6 +717,16 @@ export type ProductVariantFilterOrderItemFilter = {
   createdAt?: Maybe<DateFieldComparison>;
   updatedAt?: Maybe<DateFieldComparison>;
   quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type ProductVariantFilterProductVariantPriceFilter = {
+  and?: Maybe<Array<ProductVariantFilterProductVariantPriceFilter>>;
+  or?: Maybe<Array<ProductVariantFilterProductVariantPriceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
 };
 
 export type ProductVariantSort = {
@@ -1176,7 +1207,7 @@ export type Store = {
   prices: Array<Settlements>;
   settlements: Array<Settlements>;
   skus: Array<StockKeeping>;
-  balance: StoreBalance;
+  balance?: Maybe<StoreBalance>;
   country: Country;
   linesAggregate: StoreLinesAggregateResponse;
   pricesAggregate: StorePricesAggregateResponse;
@@ -1690,9 +1721,9 @@ export type ProductVariantPrice = {
   updatedAt: Scalars['DateTime'];
   price: Scalars['Float'];
   taxIncluded: Scalars['Boolean'];
-  promoprice: PromotionVariantPrice;
-  store: TaxRate;
-  tax: TaxRate;
+  promoprice?: Maybe<PromotionVariantPrice>;
+  store: Store;
+  tax?: Maybe<TaxRate>;
   variant: ProductVariant;
 };
 
@@ -2092,6 +2123,7 @@ export type PromotionVariantPrice = {
   startsAt: Scalars['DateTime'];
   endsAt: Scalars['DateTime'];
   enabled: Scalars['Boolean'];
+  price: ProductVariantPrice;
 };
 
 export type CartPriceRules = {
@@ -2101,6 +2133,7 @@ export type CartPriceRules = {
   updatedAt: Scalars['DateTime'];
   priceType: Scalars['String'];
   value: Scalars['Float'];
+  collection?: Maybe<Collection>;
 };
 
 export type Country = {
@@ -5186,35 +5219,35 @@ export type OrderAggregateResponse = {
   max?: Maybe<OrderMaxAggregate>;
 };
 
-export type OrderItemsCountAggregate = {
-  __typename?: 'OrderItemsCountAggregate';
+export type OrderLinesCountAggregate = {
+  __typename?: 'OrderLinesCountAggregate';
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['Int']>;
   stage?: Maybe<Scalars['Int']>;
 };
 
-export type OrderItemsMinAggregate = {
-  __typename?: 'OrderItemsMinAggregate';
+export type OrderLinesMinAggregate = {
+  __typename?: 'OrderLinesMinAggregate';
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   stage?: Maybe<Scalars['String']>;
 };
 
-export type OrderItemsMaxAggregate = {
-  __typename?: 'OrderItemsMaxAggregate';
+export type OrderLinesMaxAggregate = {
+  __typename?: 'OrderLinesMaxAggregate';
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   stage?: Maybe<Scalars['String']>;
 };
 
-export type OrderItemsAggregateResponse = {
-  __typename?: 'OrderItemsAggregateResponse';
-  count?: Maybe<OrderItemsCountAggregate>;
-  min?: Maybe<OrderItemsMinAggregate>;
-  max?: Maybe<OrderItemsMaxAggregate>;
+export type OrderLinesAggregateResponse = {
+  __typename?: 'OrderLinesAggregateResponse';
+  count?: Maybe<OrderLinesCountAggregate>;
+  min?: Maybe<OrderLinesMinAggregate>;
+  max?: Maybe<OrderLinesMaxAggregate>;
 };
 
 export type ZipDeleteResponse = {
@@ -5689,7 +5722,7 @@ export type OrderLineDeleteResponse = {
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  priceJSON?: Maybe<Scalars['JSON']>;
+  priceField?: Maybe<Scalars['JSON']>;
   stage?: Maybe<Scalars['String']>;
 };
 
@@ -5773,6 +5806,128 @@ export type OrderItemAggregateResponse = {
   avg?: Maybe<OrderItemAvgAggregate>;
   min?: Maybe<OrderItemMinAggregate>;
   max?: Maybe<OrderItemMaxAggregate>;
+};
+
+export type PromotionVariantPriceDeleteResponse = {
+  __typename?: 'PromotionVariantPriceDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+  forever?: Maybe<Scalars['Boolean']>;
+  startsAt?: Maybe<Scalars['DateTime']>;
+  endsAt?: Maybe<Scalars['DateTime']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type PromotionVariantPriceCountAggregate = {
+  __typename?: 'PromotionVariantPriceCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  priceType?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+  forever?: Maybe<Scalars['Int']>;
+  startsAt?: Maybe<Scalars['Int']>;
+  endsAt?: Maybe<Scalars['Int']>;
+  enabled?: Maybe<Scalars['Int']>;
+};
+
+export type PromotionVariantPriceSumAggregate = {
+  __typename?: 'PromotionVariantPriceSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type PromotionVariantPriceAvgAggregate = {
+  __typename?: 'PromotionVariantPriceAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type PromotionVariantPriceMinAggregate = {
+  __typename?: 'PromotionVariantPriceMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+  startsAt?: Maybe<Scalars['DateTime']>;
+  endsAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type PromotionVariantPriceMaxAggregate = {
+  __typename?: 'PromotionVariantPriceMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+  startsAt?: Maybe<Scalars['DateTime']>;
+  endsAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type PromotionVariantPriceAggregateResponse = {
+  __typename?: 'PromotionVariantPriceAggregateResponse';
+  count?: Maybe<PromotionVariantPriceCountAggregate>;
+  sum?: Maybe<PromotionVariantPriceSumAggregate>;
+  avg?: Maybe<PromotionVariantPriceAvgAggregate>;
+  min?: Maybe<PromotionVariantPriceMinAggregate>;
+  max?: Maybe<PromotionVariantPriceMaxAggregate>;
+};
+
+export type CartPriceRulesDeleteResponse = {
+  __typename?: 'CartPriceRulesDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CartPriceRulesCountAggregate = {
+  __typename?: 'CartPriceRulesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  priceType?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+};
+
+export type CartPriceRulesSumAggregate = {
+  __typename?: 'CartPriceRulesSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CartPriceRulesAvgAggregate = {
+  __typename?: 'CartPriceRulesAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CartPriceRulesMinAggregate = {
+  __typename?: 'CartPriceRulesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CartPriceRulesMaxAggregate = {
+  __typename?: 'CartPriceRulesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CartPriceRulesAggregateResponse = {
+  __typename?: 'CartPriceRulesAggregateResponse';
+  count?: Maybe<CartPriceRulesCountAggregate>;
+  sum?: Maybe<CartPriceRulesSumAggregate>;
+  avg?: Maybe<CartPriceRulesAvgAggregate>;
+  min?: Maybe<CartPriceRulesMinAggregate>;
+  max?: Maybe<CartPriceRulesMaxAggregate>;
 };
 
 export type Query = {
@@ -5902,6 +6057,11 @@ export type Query = {
   orderItem?: Maybe<OrderItem>;
   orderItems: Array<OrderItem>;
   orderItemAggregate: OrderItemAggregateResponse;
+  promotionVariantPrice?: Maybe<PromotionVariantPrice>;
+  promotionVariantPrices: Array<PromotionVariantPrice>;
+  promotionVariantPriceAggregate: PromotionVariantPriceAggregateResponse;
+  cartPriceRules: Array<CartPriceRules>;
+  cartPriceRulesAggregate: CartPriceRulesAggregateResponse;
 };
 
 
@@ -6521,6 +6681,35 @@ export type QueryOrderItemAggregateArgs = {
   filter?: Maybe<OrderItemAggregateFilter>;
 };
 
+
+export type QueryPromotionVariantPriceArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPromotionVariantPricesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<PromotionVariantPriceFilter>;
+  sorting?: Maybe<Array<PromotionVariantPriceSort>>;
+};
+
+
+export type QueryPromotionVariantPriceAggregateArgs = {
+  filter?: Maybe<PromotionVariantPriceAggregateFilter>;
+};
+
+
+export type QueryCartPriceRulesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<CartPriceRulesFilter>;
+  sorting?: Maybe<Array<CartPriceRulesSort>>;
+};
+
+
+export type QueryCartPriceRulesAggregateArgs = {
+  filter?: Maybe<CartPriceRulesAggregateFilter>;
+};
+
 export type AssetFilter = {
   and?: Maybe<Array<AssetFilter>>;
   or?: Maybe<Array<AssetFilter>>;
@@ -6828,7 +7017,7 @@ export type OrderFilter = {
   updatedAt?: Maybe<DateFieldComparison>;
   totalPrice?: Maybe<NumberFieldComparison>;
   address?: Maybe<StringFieldComparison>;
-  item?: Maybe<OrderFilterOrderLineFilter>;
+  line?: Maybe<OrderFilterOrderLineFilter>;
 };
 
 export type OrderFilterOrderLineFilter = {
@@ -7014,6 +7203,86 @@ export type AddressAggregateFilter = {
   defaultShippingAddress?: Maybe<BooleanFieldComparison>;
   defaultBillingAddress?: Maybe<BooleanFieldComparison>;
   addressType?: Maybe<AddressTypeFilterComparison>;
+};
+
+export type PromotionVariantPriceFilter = {
+  and?: Maybe<Array<PromotionVariantPriceFilter>>;
+  or?: Maybe<Array<PromotionVariantPriceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  forever?: Maybe<BooleanFieldComparison>;
+  startsAt?: Maybe<DateFieldComparison>;
+  endsAt?: Maybe<DateFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type PromotionVariantPriceSort = {
+  field: PromotionVariantPriceSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum PromotionVariantPriceSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  PriceType = 'priceType',
+  Value = 'value',
+  Forever = 'forever',
+  StartsAt = 'startsAt',
+  EndsAt = 'endsAt',
+  Enabled = 'enabled'
+}
+
+export type PromotionVariantPriceAggregateFilter = {
+  and?: Maybe<Array<PromotionVariantPriceAggregateFilter>>;
+  or?: Maybe<Array<PromotionVariantPriceAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  forever?: Maybe<BooleanFieldComparison>;
+  startsAt?: Maybe<DateFieldComparison>;
+  endsAt?: Maybe<DateFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type CartPriceRulesFilter = {
+  and?: Maybe<Array<CartPriceRulesFilter>>;
+  or?: Maybe<Array<CartPriceRulesFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type CartPriceRulesSort = {
+  field: CartPriceRulesSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum CartPriceRulesSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  PriceType = 'priceType',
+  Value = 'value'
+}
+
+export type CartPriceRulesAggregateFilter = {
+  and?: Maybe<Array<CartPriceRulesAggregateFilter>>;
+  or?: Maybe<Array<CartPriceRulesAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
 };
 
 export type Mutation = {
@@ -7303,8 +7572,10 @@ export type Mutation = {
   createManyCancellations: Array<Cancellation>;
   removeKeepingFromCancellation: Cancellation;
   setKeepingOnCancellation: Cancellation;
-  removeItemsFromOrder: Order;
-  addItemsToOrder: Order;
+  removeLinesFromOrder: Order;
+  removeUserFromOrder: Order;
+  addLinesToOrder: Order;
+  setUserOnOrder: Order;
   createOrderAdmin: Order;
   deleteOneZip: ZipDeleteResponse;
   deleteManyZips: DeleteManyResponse;
@@ -7342,6 +7613,8 @@ export type Mutation = {
   addUsersToAddress: Address;
   removeStoreFromSettlements: Settlements;
   setStoreOnSettlements: Settlements;
+  updateOneOrderLine: OrderLine;
+  updateManyOrderLines: UpdateManyResponse;
   removeStoreFromOrderLine: OrderLine;
   removeItemFromOrderLine: OrderLine;
   removeOrderFromOrderLine: OrderLine;
@@ -7354,6 +7627,22 @@ export type Mutation = {
   setLineOnOrderItem: OrderItem;
   setTaxCategoryOnOrderItem: OrderItem;
   setProductVariantOnOrderItem: OrderItem;
+  deleteOnePromotionVariantPrice: PromotionVariantPriceDeleteResponse;
+  deleteManyPromotionVariantPrices: DeleteManyResponse;
+  updateOnePromotionVariantPrice: PromotionVariantPrice;
+  updateManyPromotionVariantPrices: UpdateManyResponse;
+  createOnePromotionVariantPrice: PromotionVariantPrice;
+  createManyPromotionVariantPrices: Array<PromotionVariantPrice>;
+  removePriceFromPromotionVariantPrice: PromotionVariantPrice;
+  setPriceOnPromotionVariantPrice: PromotionVariantPrice;
+  deleteOneCartPriceRules: CartPriceRulesDeleteResponse;
+  deleteManyCartPriceRules: DeleteManyResponse;
+  updateOneCartPriceRules: CartPriceRules;
+  updateManyCartPriceRules: UpdateManyResponse;
+  createOneCartPriceRules: CartPriceRules;
+  createManyCartPriceRules: Array<CartPriceRules>;
+  removeCollectionFromCartPriceRules: CartPriceRules;
+  setCollectionOnCartPriceRules: CartPriceRules;
 };
 
 
@@ -8861,13 +9150,23 @@ export type MutationSetKeepingOnCancellationArgs = {
 };
 
 
-export type MutationRemoveItemsFromOrderArgs = {
+export type MutationRemoveLinesFromOrderArgs = {
   input: RelationsInput;
 };
 
 
-export type MutationAddItemsToOrderArgs = {
+export type MutationRemoveUserFromOrderArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationAddLinesToOrderArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationSetUserOnOrderArgs = {
+  input: RelationInput;
 };
 
 
@@ -9062,6 +9361,16 @@ export type MutationSetStoreOnSettlementsArgs = {
 };
 
 
+export type MutationUpdateOneOrderLineArgs = {
+  input: UpdateOneOrderLineInput;
+};
+
+
+export type MutationUpdateManyOrderLinesArgs = {
+  input: UpdateManyOrderLinesInput;
+};
+
+
 export type MutationRemoveStoreFromOrderLineArgs = {
   input: RelationInput;
 };
@@ -9118,6 +9427,86 @@ export type MutationSetTaxCategoryOnOrderItemArgs = {
 
 
 export type MutationSetProductVariantOnOrderItemArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationDeleteOnePromotionVariantPriceArgs = {
+  input: DeleteOneInput;
+};
+
+
+export type MutationDeleteManyPromotionVariantPricesArgs = {
+  input: DeleteManyPromotionVariantPricesInput;
+};
+
+
+export type MutationUpdateOnePromotionVariantPriceArgs = {
+  input: UpdateOnePromotionVariantPriceInput;
+};
+
+
+export type MutationUpdateManyPromotionVariantPricesArgs = {
+  input: UpdateManyPromotionVariantPricesInput;
+};
+
+
+export type MutationCreateOnePromotionVariantPriceArgs = {
+  input: CreateOnePromotionVariantPriceInput;
+};
+
+
+export type MutationCreateManyPromotionVariantPricesArgs = {
+  input: CreateManyPromotionVariantPricesInput;
+};
+
+
+export type MutationRemovePriceFromPromotionVariantPriceArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetPriceOnPromotionVariantPriceArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationDeleteOneCartPriceRulesArgs = {
+  input: DeleteOneInput;
+};
+
+
+export type MutationDeleteManyCartPriceRulesArgs = {
+  input: DeleteManyCartPriceRulesInput;
+};
+
+
+export type MutationUpdateOneCartPriceRulesArgs = {
+  input: UpdateOneCartPriceRulesInput;
+};
+
+
+export type MutationUpdateManyCartPriceRulesArgs = {
+  input: UpdateManyCartPriceRulesInput;
+};
+
+
+export type MutationCreateOneCartPriceRulesArgs = {
+  input: CreateOneCartPriceRulesInput;
+};
+
+
+export type MutationCreateManyCartPriceRulesArgs = {
+  input: CreateManyCartPriceRulesInput;
+};
+
+
+export type MutationRemoveCollectionFromCartPriceRulesArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetCollectionOnCartPriceRulesArgs = {
   input: RelationInput;
 };
 
@@ -10804,6 +11193,183 @@ export type CreateManyAddressesInput = {
   addresses: Array<CreateAddress>;
 };
 
+export type UpdateOneOrderLineInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdateOrderLine;
+};
+
+export type UpdateOrderLine = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceField?: Maybe<Scalars['JSON']>;
+  stage?: Maybe<Scalars['String']>;
+};
+
+export type UpdateManyOrderLinesInput = {
+  /** Filter used to find fields to update */
+  filter: OrderLineUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdateOrderLine;
+};
+
+export type OrderLineUpdateFilter = {
+  and?: Maybe<Array<OrderLineUpdateFilter>>;
+  or?: Maybe<Array<OrderLineUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  stage?: Maybe<StringFieldComparison>;
+};
+
+export type DeleteManyPromotionVariantPricesInput = {
+  /** Filter to find records to delete */
+  filter: PromotionVariantPriceDeleteFilter;
+};
+
+export type PromotionVariantPriceDeleteFilter = {
+  and?: Maybe<Array<PromotionVariantPriceDeleteFilter>>;
+  or?: Maybe<Array<PromotionVariantPriceDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  forever?: Maybe<BooleanFieldComparison>;
+  startsAt?: Maybe<DateFieldComparison>;
+  endsAt?: Maybe<DateFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOnePromotionVariantPriceInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdatePromotionVariantPrice;
+};
+
+export type UpdatePromotionVariantPrice = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+  forever?: Maybe<Scalars['Boolean']>;
+  startsAt?: Maybe<Scalars['DateTime']>;
+  endsAt?: Maybe<Scalars['DateTime']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type UpdateManyPromotionVariantPricesInput = {
+  /** Filter used to find fields to update */
+  filter: PromotionVariantPriceUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdatePromotionVariantPrice;
+};
+
+export type PromotionVariantPriceUpdateFilter = {
+  and?: Maybe<Array<PromotionVariantPriceUpdateFilter>>;
+  or?: Maybe<Array<PromotionVariantPriceUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  forever?: Maybe<BooleanFieldComparison>;
+  startsAt?: Maybe<DateFieldComparison>;
+  endsAt?: Maybe<DateFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type CreateOnePromotionVariantPriceInput = {
+  /** The record to create */
+  promotionVariantPrice: CreatePromotionVariantPrice;
+};
+
+export type CreatePromotionVariantPrice = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+  forever?: Maybe<Scalars['Boolean']>;
+  startsAt?: Maybe<Scalars['DateTime']>;
+  endsAt?: Maybe<Scalars['DateTime']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type CreateManyPromotionVariantPricesInput = {
+  /** Array of records to create */
+  promotionVariantPrices: Array<CreatePromotionVariantPrice>;
+};
+
+export type DeleteManyCartPriceRulesInput = {
+  /** Filter to find records to delete */
+  filter: CartPriceRulesDeleteFilter;
+};
+
+export type CartPriceRulesDeleteFilter = {
+  and?: Maybe<Array<CartPriceRulesDeleteFilter>>;
+  or?: Maybe<Array<CartPriceRulesDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneCartPriceRulesInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdateCartPriceRules;
+};
+
+export type UpdateCartPriceRules = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type UpdateManyCartPriceRulesInput = {
+  /** Filter used to find fields to update */
+  filter: CartPriceRulesUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdateCartPriceRules;
+};
+
+export type CartPriceRulesUpdateFilter = {
+  and?: Maybe<Array<CartPriceRulesUpdateFilter>>;
+  or?: Maybe<Array<CartPriceRulesUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type CreateOneCartPriceRulesInput = {
+  /** The record to create */
+  cartPriceRules: CreateCartPriceRules;
+};
+
+export type CreateCartPriceRules = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CreateManyCartPriceRulesInput = {
+  /** Array of records to create */
+  cartPriceRules: Array<CreateCartPriceRules>;
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   deletedOneAsset: AssetDeleteResponse;
@@ -10981,6 +11547,16 @@ export type Subscription = {
   updatedOneOrderItem: OrderItem;
   updatedManyOrderItems: UpdateManyResponse;
   createdOrderItem: OrderItem;
+  deletedOnePromotionVariantPrice: PromotionVariantPriceDeleteResponse;
+  deletedManyPromotionVariantPrices: DeleteManyResponse;
+  updatedOnePromotionVariantPrice: PromotionVariantPrice;
+  updatedManyPromotionVariantPrices: UpdateManyResponse;
+  createdPromotionVariantPrice: PromotionVariantPrice;
+  deletedOneCartPriceRules: CartPriceRulesDeleteResponse;
+  deletedManyCartPriceRules: DeleteManyResponse;
+  updatedOneCartPriceRules: CartPriceRules;
+  updatedManyCartPriceRules: UpdateManyResponse;
+  createdCartPriceRules: CartPriceRules;
 };
 
 
@@ -11506,6 +12082,36 @@ export type SubscriptionUpdatedOneOrderItemArgs = {
 
 export type SubscriptionCreatedOrderItemArgs = {
   input?: Maybe<CreateOrderItemSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOnePromotionVariantPriceArgs = {
+  input?: Maybe<DeleteOnePromotionVariantPriceSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOnePromotionVariantPriceArgs = {
+  input?: Maybe<UpdateOnePromotionVariantPriceSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedPromotionVariantPriceArgs = {
+  input?: Maybe<CreatePromotionVariantPriceSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneCartPriceRulesArgs = {
+  input?: Maybe<DeleteOneCartPriceRulesSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneCartPriceRulesArgs = {
+  input?: Maybe<UpdateOneCartPriceRulesSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedCartPriceRulesArgs = {
+  input?: Maybe<CreateCartPriceRulesSubscriptionFilterInput>;
 };
 
 export type DeleteOneAssetSubscriptionFilterInput = {
@@ -12432,6 +13038,60 @@ export type CreateOrderItemSubscriptionFilterInput = {
   filter: OrderItemSubscriptionFilter;
 };
 
+export type DeleteOnePromotionVariantPriceSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: PromotionVariantPriceSubscriptionFilter;
+};
+
+export type PromotionVariantPriceSubscriptionFilter = {
+  and?: Maybe<Array<PromotionVariantPriceSubscriptionFilter>>;
+  or?: Maybe<Array<PromotionVariantPriceSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  forever?: Maybe<BooleanFieldComparison>;
+  startsAt?: Maybe<DateFieldComparison>;
+  endsAt?: Maybe<DateFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type UpdateOnePromotionVariantPriceSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: PromotionVariantPriceSubscriptionFilter;
+};
+
+export type CreatePromotionVariantPriceSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: PromotionVariantPriceSubscriptionFilter;
+};
+
+export type DeleteOneCartPriceRulesSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CartPriceRulesSubscriptionFilter;
+};
+
+export type CartPriceRulesSubscriptionFilter = {
+  and?: Maybe<Array<CartPriceRulesSubscriptionFilter>>;
+  or?: Maybe<Array<CartPriceRulesSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  priceType?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneCartPriceRulesSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CartPriceRulesSubscriptionFilter;
+};
+
+export type CreateCartPriceRulesSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: CartPriceRulesSubscriptionFilter;
+};
+
 export type AdministratorLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -13284,6 +13944,49 @@ export type CreateOrderAdminMutation = (
   ) }
 );
 
+export type UpdateOrderLineMutationVariables = Exact<{
+  id: Scalars['ID'];
+  stage?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateOrderLineMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOneOrderLine: (
+    { __typename?: 'OrderLine' }
+    & Pick<OrderLine, 'id'>
+  ) }
+);
+
+export type CreateOnePromotionVariantPriceMutationVariables = Exact<{
+  priceType?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+  startsAt?: Maybe<Scalars['DateTime']>;
+}>;
+
+
+export type CreateOnePromotionVariantPriceMutation = (
+  { __typename?: 'Mutation' }
+  & { createOnePromotionVariantPrice: (
+    { __typename?: 'PromotionVariantPrice' }
+    & Pick<PromotionVariantPrice, 'id'>
+  ) }
+);
+
+export type SetPriceOnPromotionVariantPriceMutationVariables = Exact<{
+  promo: Scalars['ID'];
+  relan: Scalars['ID'];
+}>;
+
+
+export type SetPriceOnPromotionVariantPriceMutation = (
+  { __typename?: 'Mutation' }
+  & { setPriceOnPromotionVariantPrice: (
+    { __typename?: 'PromotionVariantPrice' }
+    & Pick<PromotionVariantPrice, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -13306,10 +14009,10 @@ export type GetVendorInfoQuery = (
     & { store: (
       { __typename?: 'Store' }
       & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'zipcode' | 'streetAddress1' | 'streetAddress2' | 'GSTIN' | 'singleStore' | 'rentalStore' | 'channelMarkets'>
-      & { balance: (
+      & { balance?: Maybe<(
         { __typename?: 'StoreBalance' }
         & Pick<StoreBalance, 'id' | 'balance' | 'updatedAt'>
-      ) }
+      )> }
     ) }
   )> }
 );
@@ -13322,10 +14025,10 @@ export type GetDefaultStoreQuery = (
   & { GetDefaultStore: (
     { __typename?: 'Store' }
     & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'zipcode' | 'streetAddress1' | 'streetAddress2' | 'GSTIN' | 'singleStore' | 'rentalStore' | 'channelMarkets'>
-    & { balance: (
+    & { balance?: Maybe<(
       { __typename?: 'StoreBalance' }
       & Pick<StoreBalance, 'id' | 'balance' | 'updatedAt'>
-    ) }
+    )> }
   ) }
 );
 
@@ -14024,6 +14727,24 @@ export type SearchProductVariantsQuery = (
   & { productVariants: Array<(
     { __typename?: 'ProductVariant' }
     & Pick<ProductVariant, 'id' | 'name' | 'enabled'>
+    & { prices?: Maybe<Array<(
+      { __typename?: 'ProductVariantPrice' }
+      & Pick<ProductVariantPrice, 'id' | 'price' | 'taxIncluded'>
+      & { store: (
+        { __typename?: 'Store' }
+        & Pick<Store, 'id' | 'storeName'>
+      ), tax?: Maybe<(
+        { __typename?: 'TaxRate' }
+        & Pick<TaxRate, 'id' | 'value' | 'name'>
+      )> }
+    )>>, asset?: Maybe<(
+      { __typename?: 'ProductVariantAsset' }
+      & Pick<ProductVariantAsset, 'id'>
+      & { asset: (
+        { __typename?: 'Asset' }
+        & Pick<Asset, 'id' | 'preview'>
+      ) }
+    )> }
   )> }
 );
 
@@ -14129,10 +14850,13 @@ export type GetPriceForVariantQuery = (
   & { GetPriceForVariant?: Maybe<(
     { __typename?: 'ProductVariantPrice' }
     & Pick<ProductVariantPrice, 'id' | 'price' | 'taxIncluded'>
-    & { tax: (
+    & { tax?: Maybe<(
       { __typename?: 'TaxRate' }
       & Pick<TaxRate, 'id' | 'name'>
-    ) }
+    )>, promoprice?: Maybe<(
+      { __typename?: 'PromotionVariantPrice' }
+      & Pick<PromotionVariantPrice, 'id' | 'priceType' | 'value' | 'forever'>
+    )> }
   )> }
 );
 
@@ -14293,6 +15017,127 @@ export type QueryUSerByEmailOrPhoneQuery = (
   & { users: Array<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'phoneNumber'>
+    & { address?: Maybe<(
+      { __typename?: 'Address' }
+      & Pick<Address, 'id' | 'fullName' | 'addressLine' | 'landmark' | 'city' | 'state' | 'postalCode'>
+    )> }
+  )> }
+);
+
+export type SearchAllOrdersQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type SearchAllOrdersQuery = (
+  { __typename?: 'Query' }
+  & { orders: Array<(
+    { __typename?: 'Order' }
+    & Pick<Order, 'id' | 'totalPrice' | 'address' | 'createdAt'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName'>
+    ), lines: Array<(
+      { __typename?: 'OrderLine' }
+      & Pick<OrderLine, 'id' | 'priceField' | 'stage'>
+      & { item: (
+        { __typename?: 'OrderItem' }
+        & Pick<OrderItem, 'id' | 'quantity'>
+      ) }
+    )> }
+  )> }
+);
+
+export type GetOrderByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetOrderByIdQuery = (
+  { __typename?: 'Query' }
+  & { order?: Maybe<(
+    { __typename?: 'Order' }
+    & Pick<Order, 'id' | 'totalPrice' | 'address' | 'createdAt'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName'>
+    ), lines: Array<(
+      { __typename?: 'OrderLine' }
+      & Pick<OrderLine, 'id' | 'stage' | 'priceField'>
+      & { item: (
+        { __typename?: 'OrderItem' }
+        & Pick<OrderItem, 'id' | 'quantity'>
+        & { productVariant: (
+          { __typename?: 'ProductVariant' }
+          & Pick<ProductVariant, 'id' | 'name'>
+        ) }
+      ) }
+    )> }
+  )> }
+);
+
+export type GetOrderLinesQueryVariables = Exact<{
+  id?: Maybe<Scalars['ID']>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetOrderLinesQuery = (
+  { __typename?: 'Query' }
+  & { orderLines: Array<(
+    { __typename?: 'OrderLine' }
+    & Pick<OrderLine, 'id' | 'priceField' | 'stage'>
+    & { store: (
+      { __typename?: 'Store' }
+      & Pick<Store, 'id' | 'storeName' | 'phoneNumber'>
+    ), item: (
+      { __typename?: 'OrderItem' }
+      & Pick<OrderItem, 'id' | 'quantity'>
+      & { productVariant: (
+        { __typename?: 'ProductVariant' }
+        & Pick<ProductVariant, 'id' | 'name'>
+      ) }
+    ), order: (
+      { __typename?: 'Order' }
+      & Pick<Order, 'id' | 'totalPrice' | 'address'>
+      & { user: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName'>
+      ) }
+    ) }
+  )> }
+);
+
+export type GetSingleOrderLineQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetSingleOrderLineQuery = (
+  { __typename?: 'Query' }
+  & { orderLine?: Maybe<(
+    { __typename?: 'OrderLine' }
+    & Pick<OrderLine, 'id' | 'priceField' | 'stage'>
+    & { store: (
+      { __typename?: 'Store' }
+      & Pick<Store, 'id' | 'storeName'>
+    ), item: (
+      { __typename?: 'OrderItem' }
+      & Pick<OrderItem, 'id' | 'quantity'>
+      & { productVariant: (
+        { __typename?: 'ProductVariant' }
+        & Pick<ProductVariant, 'id' | 'name'>
+      ) }
+    ), order: (
+      { __typename?: 'Order' }
+      & Pick<Order, 'id' | 'address' | 'createdAt'>
+      & { user: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'phoneNumber'>
+      ) }
+    ) }
   )> }
 );
 
@@ -14697,6 +15542,27 @@ export const CreateZipToVendorDocument = gql`
 export const CreateOrderAdminDocument = gql`
     mutation createOrderAdmin($orderLineDto: [OrderLineDto!]!, $address: String!, $userId: ID!) {
   createOrderAdmin(orderLineDto: $orderLineDto, address: $address, userId: $userId) {
+    id
+  }
+}
+    `;
+export const UpdateOrderLineDocument = gql`
+    mutation updateOrderLine($id: ID!, $stage: String) {
+  updateOneOrderLine(input: {id: $id, update: {stage: $stage}}) {
+    id
+  }
+}
+    `;
+export const CreateOnePromotionVariantPriceDocument = gql`
+    mutation createOnePromotionVariantPrice($priceType: String, $value: Float, $startsAt: DateTime) {
+  createOnePromotionVariantPrice(input: {promotionVariantPrice: {priceType: $priceType, value: $value, forever: true, startsAt: $startsAt, enabled: true}}) {
+    id
+  }
+}
+    `;
+export const SetPriceOnPromotionVariantPriceDocument = gql`
+    mutation setPriceOnPromotionVariantPrice($promo: ID!, $relan: ID!) {
+  setPriceOnPromotionVariantPrice(input: {id: $promo, relationId: $relan}) {
     id
   }
 }
@@ -15370,6 +16236,27 @@ export const SearchProductVariantsDocument = gql`
     id
     name
     enabled
+    prices {
+      id
+      price
+      store {
+        id
+        storeName
+      }
+      tax {
+        id
+        value
+        name
+      }
+      taxIncluded
+    }
+    asset {
+      id
+      asset {
+        id
+        preview
+      }
+    }
   }
 }
     `;
@@ -15467,6 +16354,12 @@ export const GetPriceForVariantDocument = gql`
     tax {
       id
       name
+    }
+    promoprice {
+      id
+      priceType
+      value
+      forever
     }
   }
 }
@@ -15580,6 +16473,131 @@ export const QueryUSerByEmailOrPhoneDocument = gql`
     firstName
     lastName
     phoneNumber
+    address {
+      id
+      fullName
+      addressLine
+      landmark
+      city
+      state
+      postalCode
+    }
+  }
+}
+    `;
+export const SearchAllOrdersDocument = gql`
+    query SearchAllOrders($limit: Int, $offset: Int) {
+  orders(paging: {limit: $limit, offset: $offset}) {
+    id
+    totalPrice
+    address
+    createdAt
+    user {
+      id
+      firstName
+      lastName
+    }
+    lines {
+      id
+      priceField
+      stage
+      item {
+        id
+        quantity
+      }
+    }
+  }
+}
+    `;
+export const GetOrderByIdDocument = gql`
+    query GetOrderById($id: ID!) {
+  order(id: $id) {
+    id
+    totalPrice
+    address
+    createdAt
+    user {
+      id
+      firstName
+      lastName
+    }
+    lines {
+      id
+      stage
+      priceField
+      item {
+        id
+        quantity
+        productVariant {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+export const GetOrderLinesDocument = gql`
+    query GetOrderLines($id: ID, $limit: Int, $offset: Int) {
+  orderLines(filter: {store: {id: {eq: $id}}}, paging: {limit: $limit, offset: $offset}) {
+    id
+    priceField
+    stage
+    store {
+      id
+      storeName
+      phoneNumber
+    }
+    item {
+      id
+      quantity
+      productVariant {
+        id
+        name
+      }
+    }
+    order {
+      id
+      totalPrice
+      address
+      user {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+}
+    `;
+export const GetSingleOrderLineDocument = gql`
+    query GetSingleOrderLine($id: ID!) {
+  orderLine(id: $id) {
+    id
+    priceField
+    stage
+    store {
+      id
+      storeName
+    }
+    item {
+      id
+      quantity
+      productVariant {
+        id
+        name
+      }
+    }
+    order {
+      id
+      address
+      createdAt
+      user {
+        id
+        firstName
+        lastName
+        phoneNumber
+      }
+    }
   }
 }
     `;

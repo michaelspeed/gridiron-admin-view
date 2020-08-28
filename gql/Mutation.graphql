@@ -656,3 +656,43 @@ mutation createOrderAdmin($orderLineDto: [OrderLineDto!]!, $address: String!, $u
         id
     }
 }
+
+mutation updateOrderLine($id: ID!, $stage: String){
+    updateOneOrderLine(
+        input:{
+            id: $id,
+            update:{
+                stage: $stage
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation createOnePromotionVariantPrice($priceType: String, $value: Float, $startsAt: DateTime){
+    createOnePromotionVariantPrice(
+        input: {
+            promotionVariantPrice:{
+                priceType: $priceType,
+                value: $value,
+                forever:true
+                startsAt: $startsAt,
+                enabled:true
+            }
+        }
+    ) {
+        id
+    }
+}
+
+mutation setPriceOnPromotionVariantPrice($promo: ID!, $relan: ID!){
+    setPriceOnPromotionVariantPrice(
+        input:{
+            id: $promo,
+            relationId: $relan
+        }
+    ) {
+        id
+    }
+}
