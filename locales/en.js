@@ -78,6 +78,9 @@ export default {
         "stock-mana": "Stocks Managaement",
         "stock-back": "Stocks Backorders",
         "menu-builder": "Menu Builder",
+        "delivery-guys": "Delivery Guys",
+        "delivery-manager": "Delivery Manager",
+        "delivery": "Delivery Management",
     },
     "pages": {
         "appname": "Air-Econ",

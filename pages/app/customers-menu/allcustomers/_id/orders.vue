@@ -67,7 +67,7 @@
         private user
 
         getDate(date) {
-            return moment(date).format('DD MMM YYYY')
+            return moment(date).format('DD MMM YYYY HH:mm')
         }
     }
 </script>

@@ -11,9 +11,41 @@
                         <div
                             class="aside-nav d-flex flex-column align-items-center flex-column-fluid pb-10 pt-10 pt-lg-22">
                             <!--begin::Nav-->
-                            <ul class="nav flex-column">
+                            <ul class="nav flex-column" v-if="admin">
                                 <!--begin::Item-->
-                                <a-popover placement="right" v-for="(menitem, index) of menu" :key="index">
+                                <a-popover placement="right" v-for="(menitem, index) of adminMenu" :key="index">
+                                    <template slot="title">
+                                        <span class="text-primary font-size-h3">{{$t(`${menitem.label}`)}}</span>
+                                    </template>
+                                    <template slot="content">
+                                        <ul class="navi navi-hover navi-active navi-accent" v-if="!menitem.subs">
+                                            <li class="navi-item">
+                                                <a class="navi-link" href="javascript:;" @click="$router.push(menitem.to)">
+                                                    <span class="navi-icon"><i class="flaticon2-dashboard"></i></span>
+                                                    <span class="navi-text">{{$t(`${menitem.label}`)}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="navi navi-hover navi-active navi-accent" v-if="menitem.subs">
+                                            <li class="navi-item" v-for="(subitem) of menitem.subs" :key="subitem.id">
+                                                <a class="navi-link" href="javascript:;" @click="$router.push(subitem.to)">
+                                                    <span class="navi-icon"><i class="flaticon2-hexagonal"></i></span>
+                                                    <span class="navi-text">{{$t(`${subitem.label}`)}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </template>
+                                    <li class="nav-item mb-2">
+                                        <a href="javascript:;" @click="onClickMenu(menitem)"
+                                           class="nav-link btn btn-icon btn-hover-text-primary btn-lg active">
+                                            <i :class="menitem.icon"></i>
+                                        </a>
+                                    </li>
+                                </a-popover>
+                            </ul>
+                            <ul class="nav flex-column" v-if="vendor">
+                                <!--begin::Item-->
+                                <a-popover placement="right" v-for="(menitem, index) of vendorMenu" :key="index">
                                     <template slot="title">
                                         <span class="text-primary font-size-h3">{{$t(`${menitem.label}`)}}</span>
                                     </template>
@@ -160,7 +192,7 @@
     import QuickPanel from "../components/actions/QuickPanel";
     import {mapState} from "vuex";
     import {Component, Vue} from "vue-property-decorator";
-    import menudata from "../constants/menu";
+    import {adminMenuData, menudata, vendorMenuData} from "../constants/menu";
 
     export default Vue.extend(({
         components: {
@@ -180,12 +212,14 @@
                 datascroll: 'off',
                 menu: menudata,
                 subs: [],
-                overlay: false
+                overlay: false,
+                adminMenu: adminMenuData,
+                vendorMenu: vendorMenuData
             }
         },
         mounted() {
             const merpath = this.$route.path.split('/')
-            const findMenu = menudata.find(item => item.id === merpath[2])
+            const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
             if (findMenu.subs) {
                 this.subs = findMenu.subs
             } else {
@@ -224,7 +258,7 @@
         watch: {
             $route: function (val) {
                 const merpath = val.path.split('/')
-                const findMenu = menudata.find(item => item.id === merpath[2])
+                const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
                 if (findMenu.subs) {
                     this.subs = findMenu.subs
                 } else {
@@ -237,6 +271,12 @@
                 const paths = this.$route.path.split('/')
                 return paths
             },
+            ...mapState({
+                admin: (store) => store.admin.administrator,
+                store: (store) => store.admin.store,
+                vendorStore: (store) => store.admin.vendorStore,
+                vendor: (store) => store.admin.vendor
+            })
         },
     }))
 </script>

@@ -30,6 +30,7 @@ query GetVendorInfo {
                 id
                 balance
                 updatedAt
+                balanceVolume
             }
         }
     }
@@ -923,7 +924,12 @@ query GetUserInfo($id: ID!){
             defaultShippingAddress
             addressType
         }
-        orders{
+        orders(
+            sorting:{
+                field: createdAt,
+                direction:ASC
+            }
+        ){
             id
             totalPrice
             address
@@ -1181,6 +1187,10 @@ query SearchAllOrders ($limit: Int, $offset: Int){
         paging: {
             limit: $limit
             offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
         }
     ) {
         id
@@ -1245,6 +1255,10 @@ query GetOrderLines($id: ID, $limit: Int, $offset: Int){
         paging: {
             limit: $limit
             offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
         }
     ) {
         id
@@ -1323,5 +1337,14 @@ query GetPromotionsPrices {
             endsAt
             enabled
         }
+    }
+}
+
+query GetVendorAccount {
+    GetVendorAccount {
+        id
+        createdAt
+        currentBalance
+        totalVolumeBalance
     }
 }

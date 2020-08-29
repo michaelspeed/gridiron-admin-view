@@ -17,7 +17,7 @@
 
                             <!--begin::Search Form-->
                             <div class="d-flex align-items-center" id="kt_subheader_search">
-                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total"> Total</span>
+                                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total"></span>
                             </div>
                             <!--end::Search Form-->
                         </div>
@@ -32,7 +32,7 @@
                             <!--end::Button-->
 
                             <!--begin::Button-->
-                            <a href="javascript:;" :disabled="!admin" class="btn btn-light-primary font-weight-bold ml-2" @click="$router.push('/app/sales-menu/orders/createorder')">
+                            <a href="javascript:;" v-if="admin" class="btn btn-light-primary font-weight-bold ml-2" @click="$router.push('/app/sales-menu/orders/createorder')">
                                 Create Order
                             </a>
                             <!--end::Button-->

@@ -54,7 +54,7 @@
             <div v-if="store && vendorStore" class="card card-custom bgi-no-repeat gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/media/svg/shapes/abstract-4.svg)">
                 <!--begin::Body-->
                 <div class="card-body">
-                    <a href="#" class="card-title font-weight-bold text-muted text-hover-primary font-size-h1">{{store.storeName}}</a>
+                    <a href="#" class="card-title font-weight-bold text-primary text-hover-primary font-size-h1">{{store.storeName}}</a>
                 </div>
                 <!--end::Body-->
             </div>
@@ -95,38 +95,18 @@
                 <div class="card-header align-items-center border-0 mt-4">
                     <h3 class="card-title align-items-start flex-column">
                         <span class="font-weight-bolder text-success">Recent Orders</span>
-                        <span class="text-muted mt-3 font-weight-bold font-size-sm">890,344 Sales</span>
+                        <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
                     </h3>
                 </div>
                 <!--end::Header-->
 
                 <!--begin::Body-->
                 <div class="card-body pt-4">
-                    <div class="timeline timeline-5 mt-3">
+                    <div class="timeline timeline-5 mt-3" v-if="admin">
                         <!--begin::Item-->
-                        <div class="timeline-item align-items-start">
+                        <div class="timeline-item align-items-start" v-for="order of orders">
                             <!--begin::Label-->
-                            <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">08:42</div>
-                            <!--end::Label-->
-
-                            <!--begin::Badge-->
-                            <div class="timeline-badge">
-                                <i class="fa fa-genderless text-warning icon-xl"></i>
-                            </div>
-                            <!--end::Badge-->
-
-                            <!--begin::Text-->
-                            <div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">
-                                Outlines keep you honest. And keep structure
-                            </div>
-                            <!--end::Text-->
-                        </div>
-                        <!--end::Item-->
-
-                        <!--begin::Item-->
-                        <div class="timeline-item align-items-start">
-                            <!--begin::Label-->
-                            <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">10:00</div>
+                            <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">{{getDate(order.createdAt)}}</div>
                             <!--end::Label-->
 
                             <!--begin::Badge-->
@@ -137,7 +117,38 @@
 
                             <!--begin::Content-->
                             <div class="timeline-content d-flex">
-                                <span class="font-weight-bolder text-dark-75 pl-3 font-size-lg">AEOL meeting</span>
+                                <span class="font-weight-bolder text-dark-75 pl-3 font-size-lg">{{order.user.firstName}}{{order.user.lastName}}</span>
+                            </div>
+                            <div>
+                                <span class="text-muted">₹ {{order.totalPrice}}</span>
+                            </div>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Item-->
+
+                    </div>
+                    <div class="timeline timeline-5 mt-3" v-if="vendorStore">
+                        <!--begin::Item-->
+                        <div class="timeline-item align-items-start" v-for="order of orderLines">
+                            <!--begin::Label-->
+                            <div class="timeline-label text-dark-75 font-size-sm">{{getDate(order.order.createdAt)}}</div>
+                            <!--end::Label-->
+
+                            <!--begin::Badge-->
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-success icon-xl"></i>
+                            </div>
+                            <!--end::Badge-->
+
+                            <!--begin::Content-->
+                            <div class="timeline-content d-flex">
+                                <span class="font-weight-bolder text-dark-75 pl-3 font-size-lg">{{order.order.user.firstName}}{{order.order.user.lastName}}
+                                    <br/>
+                                    <span class="text-muted font-size-sm">{{order.stage}}</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-muted">₹ {{order.order.totalPrice}}</span>
                             </div>
                             <!--end::Content-->
                         </div>
@@ -148,74 +159,18 @@
                 </div>
                 <!--end: Card Body-->
             </div>
-            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px">
+            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px" v-if="vendorStore">
                 <!--begin::Body-->
                 <div class="card-body d-flex flex-column">
                     <!--begin::Stats-->
                     <div class="flex-grow-1">
-                        <div class="text-dark-50 font-weight-bold">Total Sales</div>
-                        <div class="font-weight-bolder font-size-h3">4,9M</div>
+                        <div class="text-dark-50 font-weight-bold">Total Volume</div>
+                        <div class="font-weight-bolder font-size-h3">{{vendorStore.balance.balance}} INR</div>
                     </div>
                     <!--end::Stats-->
 
-                    <!--begin::Progress-->
-                    <div class="progress progress-xs">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <!--end::Progress-->
                 </div>
                 <!--end::Body-->
-            </div>
-            <div class="card card-custom gutter-b">
-                <!--begin::Header-->
-                <div class="card-header border-0">
-                    <h3 class="card-title font-weight-bolder text-dark">Notifications</h3>
-                </div>
-                <!--end::Header-->
-
-                <!--begin::Body-->
-                <div class="card-body pt-0">
-                    <!--begin::Item-->
-                    <div class="mb-6">
-                        <!--begin::Content-->
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <!--begin::Checkbox-->
-                            <label class="checkbox checkbox-lg checkbox-lg flex-shrink-0 mr-4">
-                                <input type="checkbox" value="1">
-                                <span></span>
-                            </label>
-                            <!--end::Checkbox-->
-
-                            <!--begin::Section-->
-                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                    <!--begin::Title-->
-                                    <a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
-                                        Daily Standup Meeting
-                                    </a>
-                                    <!--end::Title-->
-
-                                    <!--begin::Data-->
-                                    <span class="text-muted font-weight-bold">
-                            Due in 2 Days
-                        </span>
-                                    <!--end::Data-->
-                                </div>
-                                <!--end::Info-->
-
-                                <!--begin::Label-->
-                                <span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Approved</span>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Section-->
-                        </div>
-                        <!--end::Content-->
-                    </div>
-                    <!--end::Item-->
-
-                </div>
-                <!--end: Card Body-->
             </div>
         </div>
         <!--end::Aside Secondary Content-->
@@ -225,8 +180,10 @@
 <script lang="ts">
     import {Component, Vue, Watch} from "vue-property-decorator";
     import {PerfectScrollbar} from "vue2-perfect-scrollbar";
-    import menudata from "../../constants/menu";
+    import {adminMenuData, menudata, vendorMenuData} from "../../constants/menu";
     import {mapState} from "vuex";
+    import {GetOrderLinesDocument, GetVendorAccountDocument, SearchAllOrdersDocument} from "~/gql";
+    import moment from "moment";
 
     @Component({
         components: {
@@ -239,6 +196,29 @@
                 vendorStore: (store: any) => store.admin.vendorStore,
                 vendor: (store: any) => store.admin.vendor
             })
+        },
+        apollo: {
+            orders: {
+                query: SearchAllOrdersDocument,
+                variables() {
+                    return {
+                        limit: 5,
+                        offset: 0,
+                    }
+                },
+                pollInterval: 4000
+            },
+            orderLines: {
+                query: GetOrderLinesDocument,
+                variables() {
+                    return {
+                        limit: 5,
+                        offset: 0,
+                        id: this.vendorStore ? this.vendorStore.id : undefined
+                    }
+                },
+                pollInterval: 4000
+            }
         }
     })
     export default class SideBar extends Vue {
@@ -247,9 +227,18 @@
         private tempscript: any = null;
         private scrollbarscript: any = null
         private menu: any[] = menudata
+        private adminMenu: any[] = adminMenuData
+        private vendorMenu: any[] = vendorMenuData
+
+        private orders
+        private orderLines
+        private GetVendorAccount
+
+        getDate(date) {
+            return moment(date).format('DD/MM HH:mm')
+        }
 
         mounted() {
-            console.log(this.$route.path)
             this.tempscript = document.createElement('script');
             this.scrollbarscript = document.createElement('script');
             this.tempscript.src = '/components/menu-left/index.js';
@@ -260,9 +249,9 @@
             document.body.appendChild(this.scrollbarscript)
         }
 
-        @Watch('store')
+        @Watch('GetVendorAccount')
         onChangeStore() {
-            console.log(this.store)
+            console.log(this.GetVendorAccount)
         }
 
         beforeDestroy() {

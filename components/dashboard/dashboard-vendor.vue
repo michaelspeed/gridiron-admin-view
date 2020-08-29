@@ -3,13 +3,6 @@
         <div class="card card-custom gutter-b">
             <div class="card-body">
                 <div class="d-flex">
-                    <!--begin: Pic-->
-                    <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
-                        <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none">
-                            <span class="font-size-h3 symbol-label font-weight-boldest">JM</span>
-                        </div>
-                    </div>
-                    <!--end: Pic-->
 
                     <!--begin: Info-->
                     <div class="flex-grow-1">
@@ -17,7 +10,7 @@
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                             <div class="mr-3">
                                 <!--begin::Name-->
-                                <a href="#" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
+                                <a href="#" class="d-flex align-items-center text-primary text-hover-primary font-size-h5 font-weight-bold mr-3">
                                     {{vendorStore.storeName}}
                                 </a>
                                 <!--end::Name-->
@@ -40,8 +33,8 @@
                                 <!--end::Contacts-->
                             </div>
                             <div class="my-lg-0 my-1">
-                                <a href="#" class="btn btn-sm btn-light-success font-weight-bolder text-uppercase mr-3">Reports</a>
-                                <a href="#" class="btn btn-sm btn-info font-weight-bolder text-uppercase">New Task</a>
+                                <!--<a href="#" class="btn btn-sm btn-light-success font-weight-bolder text-uppercase mr-3">Reports</a>
+                                <a href="#" class="btn btn-sm btn-info font-weight-bolder text-uppercase">New Task</a>-->
                             </div>
                         </div>
                         <!--end: Title-->
@@ -74,8 +67,8 @@
                     <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
                 </span>
                         <div class="d-flex flex-column text-dark-75">
-                            <span class="font-weight-bolder font-size-sm">Earnings</span>
-                            <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">$</span>{{store.balance.balance}}</span>
+                            <span class="font-weight-bolder font-size-sm">Account Balance</span>
+                            <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">₹</span>{{vendorStore.balance.balance}}</span>
                         </div>
                     </div>
                     <!--end: Item-->
@@ -86,53 +79,9 @@
                     <i class="flaticon-confetti icon-2x text-muted font-weight-bold"></i>
                 </span>
                         <div class="d-flex flex-column text-dark-75">
-                            <span class="font-weight-bolder font-size-sm">Expenses</span>
-                            <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">$</span>164,700</span>
+                            <span class="font-weight-bolder font-size-sm">Volume</span>
+                            <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">₹</span>{{vendorStore.balance.balanceVolume}}</span>
                         </div>
-                    </div>
-                    <!--end: Item-->
-
-                    <!--begin: Item-->
-                    <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                <span class="mr-4">
-                    <i class="flaticon-pie-chart icon-2x text-muted font-weight-bold"></i>
-                </span>
-                        <div class="d-flex flex-column text-dark-75">
-                            <span class="font-weight-bolder font-size-sm">Net</span>
-                            <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">$</span>782,300</span>
-                        </div>
-                    </div>
-                    <!--end: Item-->
-
-                    <!--begin: Item-->
-                    <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                <span class="mr-4">
-                    <i class="flaticon-file-2 icon-2x text-muted font-weight-bold"></i>
-                </span>
-                        <div class="d-flex flex-column flex-lg-fill">
-                            <span class="text-dark-75 font-weight-bolder font-size-sm">73 Tasks</span>
-                            <a href="#" class="text-primary font-weight-bolder">View</a>
-                        </div>
-                    </div>
-                    <!--end: Item-->
-
-                    <!--begin: Item-->
-                    <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                <span class="mr-4">
-                    <i class="flaticon-chat-1 icon-2x text-muted font-weight-bold"></i>
-                </span>
-                        <div class="d-flex flex-column">
-                            <span class="text-dark-75 font-weight-bolder font-size-sm">648 Comments</span>
-                            <a href="#" class="text-primary font-weight-bolder">View</a>
-                        </div>
-                    </div>
-                    <!--end: Item-->
-
-                    <!--begin: Item-->
-                    <div class="d-flex align-items-center flex-lg-fill my-1">
-                        <span class="mr-4">
-                            <i class="flaticon-network icon-2x text-muted font-weight-bold"></i>
-                        </span>
                     </div>
                     <!--end: Item-->
                 </div>
@@ -145,6 +94,7 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import {mapState} from "vuex";
+    import {GetVendorAccountDocument} from "~/gql";
 
     @Component({
         computed: {
@@ -154,9 +104,9 @@
                 vendorStore: (store: any) => store.admin.vendorStore,
                 vendor: (store: any) => store.admin.vendor
             })
-        }
+        },
     })
     export default class DashboardVendor extends Vue {
-
+        private GetVendorAccount
     }
 </script>

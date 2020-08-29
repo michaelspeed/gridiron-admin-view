@@ -957,6 +957,7 @@ export type Vendor = {
   phoneNumber: Scalars['String'];
   email: Scalars['String'];
   zips: Array<Zip>;
+  account: Store;
   store: Store;
   license: VendorLicense;
   user: User;
@@ -1338,6 +1339,7 @@ export type StoreBalance = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   balance: Scalars['Float'];
+  balanceVolume: Scalars['Float'];
 };
 
 export type Settlements = {
@@ -2306,6 +2308,16 @@ export type CartPriceRules = {
   priceType: Scalars['String'];
   value: Scalars['Float'];
   collection?: Maybe<Collection>;
+};
+
+export type Account = {
+  __typename?: 'Account';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  currentBalance: Scalars['Float'];
+  totalVolumeBalance: Scalars['Float'];
+  vendor: Vendor;
 };
 
 export type Country = {
@@ -6033,6 +6045,43 @@ export type CartPriceRulesAggregateResponse = {
   max?: Maybe<CartPriceRulesMaxAggregate>;
 };
 
+export type AccountDeleteResponse = {
+  __typename?: 'AccountDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  currentBalance?: Maybe<Scalars['Float']>;
+  totalVolumeBalance?: Maybe<Scalars['Float']>;
+};
+
+export type AccountCountAggregate = {
+  __typename?: 'AccountCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+};
+
+export type AccountMinAggregate = {
+  __typename?: 'AccountMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AccountMaxAggregate = {
+  __typename?: 'AccountMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AccountAggregateResponse = {
+  __typename?: 'AccountAggregateResponse';
+  count?: Maybe<AccountCountAggregate>;
+  min?: Maybe<AccountMinAggregate>;
+  max?: Maybe<AccountMaxAggregate>;
+};
+
 export type Query = {
   __typename?: 'Query';
   GetAdministratorData: Administrator;
@@ -6166,6 +6215,10 @@ export type Query = {
   GetPromotionsPrices: Array<ProductVariantPrice>;
   cartPriceRules: Array<CartPriceRules>;
   cartPriceRulesAggregate: CartPriceRulesAggregateResponse;
+  account?: Maybe<Account>;
+  accounts: Array<Account>;
+  accountAggregate: AccountAggregateResponse;
+  GetVendorAccount: Account;
 };
 
 
@@ -6814,6 +6867,23 @@ export type QueryCartPriceRulesAggregateArgs = {
   filter?: Maybe<CartPriceRulesAggregateFilter>;
 };
 
+
+export type QueryAccountArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAccountsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<AccountFilter>;
+  sorting?: Maybe<Array<AccountSort>>;
+};
+
+
+export type QueryAccountAggregateArgs = {
+  filter?: Maybe<AccountAggregateFilter>;
+};
+
 export type AssetFilter = {
   and?: Maybe<Array<AssetFilter>>;
   or?: Maybe<Array<AssetFilter>>;
@@ -7336,6 +7406,34 @@ export type CartPriceRulesAggregateFilter = {
   value?: Maybe<NumberFieldComparison>;
 };
 
+export type AccountFilter = {
+  and?: Maybe<Array<AccountFilter>>;
+  or?: Maybe<Array<AccountFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type AccountSort = {
+  field: AccountSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum AccountSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt'
+}
+
+export type AccountAggregateFilter = {
+  and?: Maybe<Array<AccountAggregateFilter>>;
+  or?: Maybe<Array<AccountAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   administratorLogin: AdministratorDto;
@@ -7423,10 +7521,12 @@ export type Mutation = {
   setVendorOnUser: User;
   setAdministratorOnUser: User;
   removeZipsFromVendor: Vendor;
+  removeAccountFromVendor: Vendor;
   removeStoreFromVendor: Vendor;
   removeLicenseFromVendor: Vendor;
   removeUserFromVendor: Vendor;
   addZipsToVendor: Vendor;
+  setAccountOnVendor: Vendor;
   setStoreOnVendor: Vendor;
   setLicenseOnVendor: Vendor;
   setUserOnVendor: Vendor;
@@ -7696,6 +7796,8 @@ export type Mutation = {
   createManyCartPriceRules: Array<CartPriceRules>;
   removeCollectionFromCartPriceRules: CartPriceRules;
   setCollectionOnCartPriceRules: CartPriceRules;
+  removeVendorFromAccount: Account;
+  setVendorOnAccount: Account;
 };
 
 
@@ -8143,6 +8245,11 @@ export type MutationRemoveZipsFromVendorArgs = {
 };
 
 
+export type MutationRemoveAccountFromVendorArgs = {
+  input: RelationInput;
+};
+
+
 export type MutationRemoveStoreFromVendorArgs = {
   input: RelationInput;
 };
@@ -8160,6 +8267,11 @@ export type MutationRemoveUserFromVendorArgs = {
 
 export type MutationAddZipsToVendorArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationSetAccountOnVendorArgs = {
+  input: RelationInput;
 };
 
 
@@ -9570,6 +9682,16 @@ export type MutationRemoveCollectionFromCartPriceRulesArgs = {
 
 
 export type MutationSetCollectionOnCartPriceRulesArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationRemoveVendorFromAccountArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetVendorOnAccountArgs = {
   input: RelationInput;
 };
 
@@ -11620,6 +11742,11 @@ export type Subscription = {
   updatedOneCartPriceRules: CartPriceRules;
   updatedManyCartPriceRules: UpdateManyResponse;
   createdCartPriceRules: CartPriceRules;
+  deletedOneAccount: AccountDeleteResponse;
+  deletedManyAccounts: DeleteManyResponse;
+  updatedOneAccount: Account;
+  updatedManyAccounts: UpdateManyResponse;
+  createdAccount: Account;
 };
 
 
@@ -12175,6 +12302,21 @@ export type SubscriptionUpdatedOneCartPriceRulesArgs = {
 
 export type SubscriptionCreatedCartPriceRulesArgs = {
   input?: Maybe<CreateCartPriceRulesSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneAccountArgs = {
+  input?: Maybe<DeleteOneAccountSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneAccountArgs = {
+  input?: Maybe<UpdateOneAccountSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedAccountArgs = {
+  input?: Maybe<CreateAccountSubscriptionFilterInput>;
 };
 
 export type DeleteOneAssetSubscriptionFilterInput = {
@@ -13155,6 +13297,29 @@ export type CreateCartPriceRulesSubscriptionFilterInput = {
   filter: CartPriceRulesSubscriptionFilter;
 };
 
+export type DeleteOneAccountSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AccountSubscriptionFilter;
+};
+
+export type AccountSubscriptionFilter = {
+  and?: Maybe<Array<AccountSubscriptionFilter>>;
+  or?: Maybe<Array<AccountSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type UpdateOneAccountSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AccountSubscriptionFilter;
+};
+
+export type CreateAccountSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: AccountSubscriptionFilter;
+};
+
 export type AdministratorLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -14074,7 +14239,7 @@ export type GetVendorInfoQuery = (
       & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'zipcode' | 'streetAddress1' | 'streetAddress2' | 'GSTIN' | 'singleStore' | 'rentalStore' | 'channelMarkets'>
       & { balance?: Maybe<(
         { __typename?: 'StoreBalance' }
-        & Pick<StoreBalance, 'id' | 'balance' | 'updatedAt'>
+        & Pick<StoreBalance, 'id' | 'balance' | 'updatedAt' | 'balanceVolume'>
       )> }
     ) }
   )> }
@@ -15240,6 +15405,17 @@ export type GetPromotionsPricesQuery = (
   )> }
 );
 
+export type GetVendorAccountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetVendorAccountQuery = (
+  { __typename?: 'Query' }
+  & { GetVendorAccount: (
+    { __typename?: 'Account' }
+    & Pick<Account, 'id' | 'createdAt' | 'currentBalance' | 'totalVolumeBalance'>
+  ) }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -15700,6 +15876,7 @@ export const GetVendorInfoDocument = gql`
         id
         balance
         updatedAt
+        balanceVolume
       }
     }
   }
@@ -16432,7 +16609,7 @@ export const GetUserInfoDocument = gql`
       defaultShippingAddress
       addressType
     }
-    orders {
+    orders(sorting: {field: createdAt, direction: ASC}) {
       id
       totalPrice
       address
@@ -16610,7 +16787,7 @@ export const QueryUSerByEmailOrPhoneDocument = gql`
     `;
 export const SearchAllOrdersDocument = gql`
     query SearchAllOrders($limit: Int, $offset: Int) {
-  orders(paging: {limit: $limit, offset: $offset}) {
+  orders(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: ASC}) {
     id
     totalPrice
     address
@@ -16662,7 +16839,7 @@ export const GetOrderByIdDocument = gql`
     `;
 export const GetOrderLinesDocument = gql`
     query GetOrderLines($id: ID, $limit: Int, $offset: Int) {
-  orderLines(filter: {store: {id: {eq: $id}}}, paging: {limit: $limit, offset: $offset}) {
+  orderLines(filter: {store: {id: {eq: $id}}}, paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: ASC}) {
     id
     priceField
     stage
@@ -16739,6 +16916,16 @@ export const GetPromotionsPricesDocument = gql`
       endsAt
       enabled
     }
+  }
+}
+    `;
+export const GetVendorAccountDocument = gql`
+    query GetVendorAccount {
+  GetVendorAccount {
+    id
+    createdAt
+    currentBalance
+    totalVolumeBalance
   }
 }
     `;
