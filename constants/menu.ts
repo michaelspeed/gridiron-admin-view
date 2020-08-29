@@ -21,11 +21,11 @@ const menudata = [
                 label: "menu.invoices",
                 to: "/app/sales-menu/invoices"
             },
-            {
+            /*{
                 icon: "note_add",
                 label: "menu.credit-memo",
                 to: "/app/sales-menu/credit-memo"
-            },
+            },*/
             {
                 icon: "iconsminds-jet",
                 label: "menu.shipment",
@@ -112,7 +112,7 @@ const menudata = [
             },
         ]
     },
-    {
+    /*{
         id: "marketing-menu",
         label: "menu.communication",
         icon: "fas fa-ad",
@@ -149,7 +149,7 @@ const menudata = [
                 to: "/app/marketing-menu/communication/cart-price-rule"
             }
         ]
-    },
+    },*/
     {
         id: "seo-menu",
         label: "menu.seo-search",
@@ -194,21 +194,21 @@ const menudata = [
                 label: "menu.blocks",
                 to: "/app/content-menu/elements/blocks"
             },
-            {
+            /*{
                 icon: "iconsminds-record",
                 label: "menu.widget",
                 to: "/app/content-menu/elements/widget"
-            },
+            },*/
             {
                 icon: "iconsminds-receipt-4",
                 label: "menu.menu-builder",
                 to: "/app/content-menu/design/menubuilder"
             },
-            {
+            /*{
                 icon: "iconsminds-bowling",
                 label: "menu.schedule",
                 to: "/app/content-menu/design/schedule"
-            }
+            }*/
         ]
     },
     {

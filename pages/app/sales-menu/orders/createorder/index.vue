@@ -40,7 +40,7 @@
                         <div class="d-flex justify-content-center align-items-center">
                             <a-input-search placeholder="search user" style="width: 500px" enter-button @search="onSearch" />
                         </div>
-                        <div class="container">
+                        <div>
                             <v-card style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px" v-if="searchUser.length > 0" outlined>
                                 <v-list
                                     flat
@@ -344,6 +344,7 @@
         }
 
         onCreateNewOrder() {
+            this.$Message.loading('Action in progress ....')
             const orderLineDTO: OrderLineDto[] = this.orderList.map(item => ({
                 priceId: item.price.id,
                 quantity: item.quantity
@@ -356,8 +357,8 @@
                     orderLineDto: orderLineDTO
                 }
             }).then(value => {
-                console.log(value)
                 this.$Message.success('Order Created')
+                this.$router.back()
                 this.search = ''
                 this.searchUser = []
                 this.selectedUser = ''

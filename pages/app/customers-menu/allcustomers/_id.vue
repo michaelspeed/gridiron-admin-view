@@ -113,7 +113,7 @@
                                                 </span>
                                             </a>
                                         </div>
-                                        <div class="navi-item mb-2">
+                                        <!--<div class="navi-item mb-2">
                                             <a href="javascript:;" @click="$router.push(`/app/customers-menu/allcustomers/${$route.params.id}/override`)" class="navi-link py-4"
                                                :class="{'active': `/app/customers-menu/allcustomers/${$route.params.id}/override` === $route.path}"
                                             >
@@ -124,7 +124,7 @@
                                                     Override settings
                                                 </span>
                                             </a>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <!--end::Nav-->
                                 </div>

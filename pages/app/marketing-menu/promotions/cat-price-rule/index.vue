@@ -52,12 +52,55 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
+    import {Component, Vue, Watch} from "vue-property-decorator";
+    import {GetPromotionsPricesDocument} from "~/gql";
 
     @Component({
-        layout: 'console'
+        layout: 'console',
+        apollo: {
+            GetPromotionsPrices: {
+                query: GetPromotionsPricesDocument
+            }
+        }
     })
     export default class CatPriceRule extends Vue {
         private search = ''
+        private GetPromotionsPrices
+
+        @Watch('GetPromotionsPrices')
+        onChangeProPrice() {
+            console.log(this.GetPromotionsPrices)
+        }
+
+        //table
+        private gridOptions: any = {};
+        private gridApi: any = null;
+        private columnDefs = [
+            {
+                headerName: 'First Name',
+                filter: false,
+                field: 'firstName'
+            },
+            {
+                headerName: 'Last Name',
+                filter: false,
+                field: 'lastName'
+            },
+            {
+                headerName: 'Actions',
+                cellRendererFramework: 'UserActions'
+            }
+        ]
+        private defaultColDef = {
+            sortable: true,
+            editable: false,
+            resizable: true,
+            suppressMenu: true
+        };
+
+        onGridReady() {
+            this.gridApi = this.gridOptions!.api;
+            this.gridApi!.sizeColumnsToFit();
+        }
     }
 </script>

@@ -907,7 +907,7 @@ query GetUserInfo($id: ID!){
         firstName
         lastName
         phoneNumber
-        address {
+        addresses {
             id
             createdAt
             updatedAt
@@ -922,6 +922,30 @@ query GetUserInfo($id: ID!){
             defaultBillingAddress
             defaultShippingAddress
             addressType
+        }
+        orders{
+            id
+            totalPrice
+            address
+            createdAt
+            lines {
+                id
+                createdAt
+                priceField
+                stage
+                item {
+                    id
+                    productVariant {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+        ordersAggregate {
+            count {
+                id
+            }
         }
         administrator {
             id
@@ -1281,6 +1305,23 @@ query GetSingleOrderLine($id: ID!){
                 lastName
                 phoneNumber
             }
+        }
+    }
+}
+
+query GetPromotionsPrices {
+    GetPromotionsPrices {
+        id
+        createdAt
+        price
+        promoprice {
+            id
+            priceType
+            value
+            forever
+            startsAt
+            endsAt
+            enabled
         }
     }
 }

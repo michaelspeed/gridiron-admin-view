@@ -91,10 +91,10 @@
                                     <a-select-option :value="orderStageType.PACKAGED">
                                         PACKAGED
                                     </a-select-option>
-                                    <a-select-option :value="orderStageType.SHIPPED">
+                                    <a-select-option :value="orderStageType.SHIPPED" :disabled="true">
                                         SHIPPED
                                     </a-select-option>
-                                    <a-select-option :value="orderStageType.DELIVERED">
+                                    <a-select-option :value="orderStageType.DELIVERED" :disabled="true">
                                         DELIVERED
                                     </a-select-option>
                                 </a-select>
@@ -153,6 +153,7 @@
         }
 
         onUpdateOrderLine() {
+            this.$Message.loading('Action in Progress ....')
             this.$apollo.mutate({
                 mutation: UpdateOrderLineDocument,
                 variables: {
