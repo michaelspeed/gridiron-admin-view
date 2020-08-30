@@ -106,10 +106,10 @@
                                                :class="{'active': `/app/customers-menu/allcustomers/${$route.params.id}/reset` === $route.path}"
                                             >
                                                 <span class="navi-icon mr-2">
-                                                    <i class="fas fa-key"></i>
+                                                    <i class="fas fa-gamepad"></i>
                                                 </span>
                                                 <span class="navi-text font-size-lg">
-                                                    Reset Password
+                                                    Controls
                                                 </span>
                                             </a>
                                         </div>

@@ -220,7 +220,7 @@
         mounted() {
             const merpath = this.$route.path.split('/')
             const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
-            if (findMenu.subs) {
+            if (findMenu && findMenu.subs) {
                 this.subs = findMenu.subs
             } else {
                 this.subs = []
@@ -248,6 +248,7 @@
                 }
             },
             onLogout() {
+                this.$store.dispatch('admin/resetAllStore')
                 this.$apolloHelpers.onLogout().then(() => {
                     this.$router.push({
                         path: '/'
@@ -258,6 +259,24 @@
         watch: {
             $route: function (val) {
                 const merpath = val.path.split('/')
+                const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
+                if (findMenu.subs) {
+                    this.subs = findMenu.subs
+                } else {
+                    this.subs = []
+                }
+            },
+            admin: function (val) {
+                const merpath = this.$route.path.split('/')
+                const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
+                if (findMenu.subs) {
+                    this.subs = findMenu.subs
+                } else {
+                    this.subs = []
+                }
+            },
+            vendor: function (val) {
+                const merpath = this.$route.path.split('/')
                 const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
                 if (findMenu.subs) {
                     this.subs = findMenu.subs

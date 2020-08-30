@@ -696,3 +696,9 @@ mutation setPriceOnPromotionVariantPrice($promo: ID!, $relan: ID!){
         id
     }
 }
+
+mutation SetNewDeliveryGuy($userId: ID!){
+    SetNewDeliveryGuy(userId: $userId) {
+        id
+    }
+}

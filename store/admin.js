@@ -80,4 +80,11 @@ export const actions = {
             commit('resetVendorStore')
         })
     },
+    async resetAllStore({commit}) {
+        console.log('reset')
+        commit('removeAdministrator')
+        commit('removeVendor')
+        commit('resetVendorStore')
+        commit('resetStore')
+    }
 }

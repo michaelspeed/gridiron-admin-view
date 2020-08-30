@@ -478,11 +478,11 @@ const adminMenuData = [
                 label: "menu.all-reviews",
                 to: "/app/content-menu/user-content/all-reviews"
             },
-            {
+            /*{
                 icon: "iconsminds-server-2",
                 label: "menu.pending-reviews",
                 to: "/app/content-menu/user-content/pending-reviews"
-            },
+            },*/
             {
                 icon: "iconsminds-stop-2",
                 label: "menu.pages",

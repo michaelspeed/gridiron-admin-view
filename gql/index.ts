@@ -533,7 +533,16 @@ export type OrderLineFilter = {
   createdAt?: Maybe<DateFieldComparison>;
   updatedAt?: Maybe<DateFieldComparison>;
   stage?: Maybe<StringFieldComparison>;
+  pool?: Maybe<OrderLineFilterDeliveryPoolFilter>;
   store?: Maybe<OrderLineFilterStoreFilter>;
+};
+
+export type OrderLineFilterDeliveryPoolFilter = {
+  and?: Maybe<Array<OrderLineFilterDeliveryPoolFilter>>;
+  or?: Maybe<Array<OrderLineFilterDeliveryPoolFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
 };
 
 export type OrderLineFilterStoreFilter = {
@@ -594,6 +603,7 @@ export type OrderLine = {
   updatedAt: Scalars['DateTime'];
   priceField: Scalars['JSON'];
   stage: Scalars['String'];
+  pool: DeliveryPool;
   store: Store;
   item: OrderItem;
   order: Order;
@@ -786,8 +796,8 @@ export type User = {
   phoneNumber: Scalars['String'];
   administrator?: Maybe<Administrator>;
   vendor?: Maybe<Vendor>;
-  delivery: Delivery;
-  cart: Cart;
+  delivery?: Maybe<Delivery>;
+  cart?: Maybe<Cart>;
   view: Array<View>;
   address?: Maybe<Array<Address>>;
   order?: Maybe<Array<Order>>;
@@ -2283,7 +2293,59 @@ export type Delivery = {
   id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  user: User;
+  user?: Maybe<User>;
+  signIn: Array<DeliverySignIn>;
+  signIns?: Maybe<Array<DeliverySignIn>>;
+  signInsAggregate: DeliverySignInsAggregateResponse;
+};
+
+
+export type DeliverySignInsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<DeliverySignInFilter>;
+  sorting?: Maybe<Array<DeliverySignInSort>>;
+};
+
+
+export type DeliverySignInsAggregateArgs = {
+  filter?: Maybe<DeliverySignInAggregateFilter>;
+};
+
+export type DeliverySignInFilter = {
+  and?: Maybe<Array<DeliverySignInFilter>>;
+  or?: Maybe<Array<DeliverySignInFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type DeliverySignInSort = {
+  field: DeliverySignInSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum DeliverySignInSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt'
+}
+
+export type DeliverySignInAggregateFilter = {
+  and?: Maybe<Array<DeliverySignInAggregateFilter>>;
+  or?: Maybe<Array<DeliverySignInAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type DeliveryPool = {
+  __typename?: 'DeliveryPool';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  signIn: DeliverySignIn;
+  lines: Array<OrderLine>;
 };
 
 export type PromotionVariantPrice = {
@@ -2318,6 +2380,15 @@ export type Account = {
   currentBalance: Scalars['Float'];
   totalVolumeBalance: Scalars['Float'];
   vendor: Vendor;
+};
+
+export type DeliverySignIn = {
+  __typename?: 'DeliverySignIn';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  delivery: Delivery;
+  pool: DeliveryPool;
 };
 
 export type Country = {
@@ -6082,6 +6153,76 @@ export type AccountAggregateResponse = {
   max?: Maybe<AccountMaxAggregate>;
 };
 
+export type DeliveryStrandedCount = {
+  __typename?: 'DeliveryStrandedCount';
+  count: Scalars['Float'];
+};
+
+export type DeliveryDeleteResponse = {
+  __typename?: 'DeliveryDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user?: Maybe<User>;
+  signIn?: Maybe<Array<DeliverySignIn>>;
+};
+
+export type DeliveryCountAggregate = {
+  __typename?: 'DeliveryCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+};
+
+export type DeliveryMinAggregate = {
+  __typename?: 'DeliveryMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DeliveryMaxAggregate = {
+  __typename?: 'DeliveryMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DeliveryAggregateResponse = {
+  __typename?: 'DeliveryAggregateResponse';
+  count?: Maybe<DeliveryCountAggregate>;
+  min?: Maybe<DeliveryMinAggregate>;
+  max?: Maybe<DeliveryMaxAggregate>;
+};
+
+export type DeliverySignInsCountAggregate = {
+  __typename?: 'DeliverySignInsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+};
+
+export type DeliverySignInsMinAggregate = {
+  __typename?: 'DeliverySignInsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DeliverySignInsMaxAggregate = {
+  __typename?: 'DeliverySignInsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DeliverySignInsAggregateResponse = {
+  __typename?: 'DeliverySignInsAggregateResponse';
+  count?: Maybe<DeliverySignInsCountAggregate>;
+  min?: Maybe<DeliverySignInsMinAggregate>;
+  max?: Maybe<DeliverySignInsMaxAggregate>;
+};
+
 export type Query = {
   __typename?: 'Query';
   GetAdministratorData: Administrator;
@@ -6219,6 +6360,11 @@ export type Query = {
   accounts: Array<Account>;
   accountAggregate: AccountAggregateResponse;
   GetVendorAccount: Account;
+  delivery?: Maybe<Delivery>;
+  deliveries: Array<Delivery>;
+  deliveryAggregate: DeliveryAggregateResponse;
+  GetPoolStrength: Array<DeliveryPool>;
+  GetDeliveryStrandedCount: DeliveryStrandedCount;
 };
 
 
@@ -6884,6 +7030,23 @@ export type QueryAccountAggregateArgs = {
   filter?: Maybe<AccountAggregateFilter>;
 };
 
+
+export type QueryDeliveryArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryDeliveriesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<DeliveryFilter>;
+  sorting?: Maybe<Array<DeliverySort>>;
+};
+
+
+export type QueryDeliveryAggregateArgs = {
+  filter?: Maybe<DeliveryAggregateFilter>;
+};
+
 export type AssetFilter = {
   and?: Maybe<Array<AssetFilter>>;
   or?: Maybe<Array<AssetFilter>>;
@@ -7434,6 +7597,43 @@ export type AccountAggregateFilter = {
   updatedAt?: Maybe<DateFieldComparison>;
 };
 
+export type DeliveryFilter = {
+  and?: Maybe<Array<DeliveryFilter>>;
+  or?: Maybe<Array<DeliveryFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  signIn?: Maybe<DeliveryFilterDeliverySignInFilter>;
+};
+
+export type DeliveryFilterDeliverySignInFilter = {
+  and?: Maybe<Array<DeliveryFilterDeliverySignInFilter>>;
+  or?: Maybe<Array<DeliveryFilterDeliverySignInFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type DeliverySort = {
+  field: DeliverySortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum DeliverySortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt'
+}
+
+export type DeliveryAggregateFilter = {
+  and?: Maybe<Array<DeliveryAggregateFilter>>;
+  or?: Maybe<Array<DeliveryAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   administratorLogin: AdministratorDto;
@@ -7514,10 +7714,12 @@ export type Mutation = {
   deleteManyUsers: DeleteManyResponse;
   removeOrdersFromUser: User;
   removeAddressesFromUser: User;
+  removeDeliveryFromUser: User;
   removeVendorFromUser: User;
   removeAdministratorFromUser: User;
   addOrdersToUser: User;
   addAddressesToUser: User;
+  setDeliveryOnUser: User;
   setVendorOnUser: User;
   setAdministratorOnUser: User;
   removeZipsFromVendor: Vendor;
@@ -7768,9 +7970,11 @@ export type Mutation = {
   setStoreOnSettlements: Settlements;
   updateOneOrderLine: OrderLine;
   updateManyOrderLines: UpdateManyResponse;
+  removePoolFromOrderLine: OrderLine;
   removeStoreFromOrderLine: OrderLine;
   removeItemFromOrderLine: OrderLine;
   removeOrderFromOrderLine: OrderLine;
+  setPoolOnOrderLine: OrderLine;
   setStoreOnOrderLine: OrderLine;
   setItemOnOrderLine: OrderLine;
   setOrderOnOrderLine: OrderLine;
@@ -7798,6 +8002,12 @@ export type Mutation = {
   setCollectionOnCartPriceRules: CartPriceRules;
   removeVendorFromAccount: Account;
   setVendorOnAccount: Account;
+  removeSignInsFromDelivery: Delivery;
+  removeUserFromDelivery: Delivery;
+  addSignInsToDelivery: Delivery;
+  setUserOnDelivery: Delivery;
+  SetNewDeliveryGuy: Delivery;
+  SetDeliverySignIn: DeliverySignIn;
 };
 
 
@@ -8210,6 +8420,11 @@ export type MutationRemoveAddressesFromUserArgs = {
 };
 
 
+export type MutationRemoveDeliveryFromUserArgs = {
+  input: RelationInput;
+};
+
+
 export type MutationRemoveVendorFromUserArgs = {
   input: RelationInput;
 };
@@ -8227,6 +8442,11 @@ export type MutationAddOrdersToUserArgs = {
 
 export type MutationAddAddressesToUserArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationSetDeliveryOnUserArgs = {
+  input: RelationInput;
 };
 
 
@@ -9546,6 +9766,11 @@ export type MutationUpdateManyOrderLinesArgs = {
 };
 
 
+export type MutationRemovePoolFromOrderLineArgs = {
+  input: RelationInput;
+};
+
+
 export type MutationRemoveStoreFromOrderLineArgs = {
   input: RelationInput;
 };
@@ -9557,6 +9782,11 @@ export type MutationRemoveItemFromOrderLineArgs = {
 
 
 export type MutationRemoveOrderFromOrderLineArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetPoolOnOrderLineArgs = {
   input: RelationInput;
 };
 
@@ -9693,6 +9923,36 @@ export type MutationRemoveVendorFromAccountArgs = {
 
 export type MutationSetVendorOnAccountArgs = {
   input: RelationInput;
+};
+
+
+export type MutationRemoveSignInsFromDeliveryArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationRemoveUserFromDeliveryArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationAddSignInsToDeliveryArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationSetUserOnDeliveryArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetNewDeliveryGuyArgs = {
+  userId: Scalars['ID'];
+};
+
+
+export type MutationSetDeliverySignInArgs = {
+  type: Scalars['Boolean'];
 };
 
 export type RelationsInput = {
@@ -11747,6 +12007,11 @@ export type Subscription = {
   updatedOneAccount: Account;
   updatedManyAccounts: UpdateManyResponse;
   createdAccount: Account;
+  deletedOneDelivery: DeliveryDeleteResponse;
+  deletedManyDeliveries: DeleteManyResponse;
+  updatedOneDelivery: Delivery;
+  updatedManyDeliveries: UpdateManyResponse;
+  createdDelivery: Delivery;
 };
 
 
@@ -12317,6 +12582,21 @@ export type SubscriptionUpdatedOneAccountArgs = {
 
 export type SubscriptionCreatedAccountArgs = {
   input?: Maybe<CreateAccountSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneDeliveryArgs = {
+  input?: Maybe<DeleteOneDeliverySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneDeliveryArgs = {
+  input?: Maybe<UpdateOneDeliverySubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedDeliveryArgs = {
+  input?: Maybe<CreateDeliverySubscriptionFilterInput>;
 };
 
 export type DeleteOneAssetSubscriptionFilterInput = {
@@ -13320,6 +13600,29 @@ export type CreateAccountSubscriptionFilterInput = {
   filter: AccountSubscriptionFilter;
 };
 
+export type DeleteOneDeliverySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: DeliverySubscriptionFilter;
+};
+
+export type DeliverySubscriptionFilter = {
+  and?: Maybe<Array<DeliverySubscriptionFilter>>;
+  or?: Maybe<Array<DeliverySubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+};
+
+export type UpdateOneDeliverySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: DeliverySubscriptionFilter;
+};
+
+export type CreateDeliverySubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: DeliverySubscriptionFilter;
+};
+
 export type AdministratorLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -14215,6 +14518,19 @@ export type SetPriceOnPromotionVariantPriceMutation = (
   ) }
 );
 
+export type SetNewDeliveryGuyMutationVariables = Exact<{
+  userId: Scalars['ID'];
+}>;
+
+
+export type SetNewDeliveryGuyMutation = (
+  { __typename?: 'Mutation' }
+  & { SetNewDeliveryGuy: (
+    { __typename?: 'Delivery' }
+    & Pick<Delivery, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -15024,6 +15340,9 @@ export type GetAllUsersQuery = (
     )>, vendor?: Maybe<(
       { __typename?: 'Vendor' }
       & Pick<Vendor, 'id'>
+    )>, delivery?: Maybe<(
+      { __typename?: 'Delivery' }
+      & Pick<Delivery, 'id'>
     )> }
   )> }
 );
@@ -15084,6 +15403,9 @@ export type GetUserInfoQuery = (
     )>, vendor?: Maybe<(
       { __typename?: 'Vendor' }
       & Pick<Vendor, 'id' | 'email'>
+    )>, delivery?: Maybe<(
+      { __typename?: 'Delivery' }
+      & Pick<Delivery, 'id'>
     )> }
   )> }
 );
@@ -15413,6 +15735,35 @@ export type GetVendorAccountQuery = (
   & { GetVendorAccount: (
     { __typename?: 'Account' }
     & Pick<Account, 'id' | 'createdAt' | 'currentBalance' | 'totalVolumeBalance'>
+  ) }
+);
+
+export type GetDeliveriesQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetDeliveriesQuery = (
+  { __typename?: 'Query' }
+  & { deliveries: Array<(
+    { __typename?: 'Delivery' }
+    & Pick<Delivery, 'id'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'phoneNumber'>
+    )> }
+  )> }
+);
+
+export type GetDeliveryStrandedCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDeliveryStrandedCountQuery = (
+  { __typename?: 'Query' }
+  & { GetDeliveryStrandedCount: (
+    { __typename?: 'DeliveryStrandedCount' }
+    & Pick<DeliveryStrandedCount, 'count'>
   ) }
 );
 
@@ -15838,6 +16189,13 @@ export const CreateOnePromotionVariantPriceDocument = gql`
 export const SetPriceOnPromotionVariantPriceDocument = gql`
     mutation setPriceOnPromotionVariantPrice($promo: ID!, $relan: ID!) {
   setPriceOnPromotionVariantPrice(input: {id: $promo, relationId: $relan}) {
+    id
+  }
+}
+    `;
+export const SetNewDeliveryGuyDocument = gql`
+    mutation SetNewDeliveryGuy($userId: ID!) {
+  SetNewDeliveryGuy(userId: $userId) {
     id
   }
 }
@@ -16569,6 +16927,9 @@ export const GetAllUsersDocument = gql`
     vendor {
       id
     }
+    delivery {
+      id
+    }
   }
 }
     `;
@@ -16641,6 +17002,9 @@ export const GetUserInfoDocument = gql`
     vendor {
       id
       email
+    }
+    delivery {
+      id
     }
   }
 }
@@ -16926,6 +17290,26 @@ export const GetVendorAccountDocument = gql`
     createdAt
     currentBalance
     totalVolumeBalance
+  }
+}
+    `;
+export const GetDeliveriesDocument = gql`
+    query GetDeliveries($limit: Int, $offset: Int) {
+  deliveries(paging: {limit: $limit, offset: $offset}) {
+    id
+    user {
+      id
+      firstName
+      lastName
+      phoneNumber
+    }
+  }
+}
+    `;
+export const GetDeliveryStrandedCountDocument = gql`
+    query GetDeliveryStrandedCount {
+  GetDeliveryStrandedCount {
+    count
   }
 }
     `;
