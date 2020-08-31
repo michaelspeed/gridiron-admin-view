@@ -1381,3 +1381,13 @@ query GetDeliveryStrandedCount {
         count
     }
 }
+
+
+query GetAllPaymentMethods {
+    GetAllPaymentMethods {
+        id
+        api
+        secretKey
+        enabled
+    }
+}

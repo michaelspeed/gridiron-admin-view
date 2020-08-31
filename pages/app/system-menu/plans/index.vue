@@ -92,7 +92,7 @@
                                 <v-select
                                     v-model="pricingStrategy"
                                     :items="pricingStrategyItems"
-                                    solo
+                                    filled
                                 ></v-select>
                                 <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                             </div>
@@ -103,7 +103,7 @@
                                 <v-select
                                     v-model="tenureStrategy"
                                     :items="tenureStrategyItems"
-                                    solo
+                                    filled
                                 ></v-select>
                                 <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                             </div>
@@ -143,7 +143,8 @@
                         limit: this.limit,
                         offset: this.offset
                     }
-                }
+                },
+                pollInterval: 3000
             }
         }
     })

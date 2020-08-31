@@ -709,3 +709,15 @@ mutation UpdateAdministratorPassword($email: String!, $password: String!, $newpa
         id
     }
 }
+
+mutation CreatePaymentMethod($api: String!, $secret: String!) {
+    CreatePaymentMethod(api: $api, secret: $secret) {
+        id
+    }
+}
+
+mutation UpdatePaymentMethod($enabled: Boolean!, $modeId: String!){
+    UpdatePaymentMethod(enabled: $enabled, modeId: $modeId) {
+        id
+    }
+}

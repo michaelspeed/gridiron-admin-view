@@ -510,6 +510,7 @@ export type Order = {
   totalPrice: Scalars['Float'];
   address: Scalars['String'];
   lines: Array<OrderLine>;
+  payment?: Maybe<Payment>;
   user: User;
   linesAggregate: OrderLinesAggregateResponse;
 };
@@ -2389,6 +2390,26 @@ export type DeliverySignIn = {
   updatedAt: Scalars['DateTime'];
   delivery: Delivery;
   pool: DeliveryPool;
+};
+
+export type Payment = {
+  __typename?: 'Payment';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  amount: Scalars['Float'];
+  errorMessage: Scalars['String'];
+  transactionId: Scalars['String'];
+};
+
+export type PaymentMethod = {
+  __typename?: 'PaymentMethod';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  api: Scalars['String'];
+  secretKey: Scalars['String'];
+  enabled: Scalars['Boolean'];
 };
 
 export type Country = {
@@ -6365,6 +6386,8 @@ export type Query = {
   deliveryAggregate: DeliveryAggregateResponse;
   GetPoolStrength: Array<DeliveryPool>;
   GetDeliveryStrandedCount: DeliveryStrandedCount;
+  GetAllPaymentMethods: Array<PaymentMethod>;
+  GetDefaultPaymentMethods: PaymentMethod;
 };
 
 
@@ -7928,8 +7951,10 @@ export type Mutation = {
   removeKeepingFromCancellation: Cancellation;
   setKeepingOnCancellation: Cancellation;
   removeLinesFromOrder: Order;
+  removePaymentFromOrder: Order;
   removeUserFromOrder: Order;
   addLinesToOrder: Order;
+  setPaymentOnOrder: Order;
   setUserOnOrder: Order;
   createOrderAdmin: Order;
   deleteOneZip: ZipDeleteResponse;
@@ -8008,6 +8033,8 @@ export type Mutation = {
   setUserOnDelivery: Delivery;
   SetNewDeliveryGuy: Delivery;
   SetDeliverySignIn: DeliverySignIn;
+  CreatePaymentMethod: PaymentMethod;
+  UpdatePaymentMethod: PaymentMethod;
 };
 
 
@@ -9551,6 +9578,11 @@ export type MutationRemoveLinesFromOrderArgs = {
 };
 
 
+export type MutationRemovePaymentFromOrderArgs = {
+  input: RelationInput;
+};
+
+
 export type MutationRemoveUserFromOrderArgs = {
   input: RelationInput;
 };
@@ -9558,6 +9590,11 @@ export type MutationRemoveUserFromOrderArgs = {
 
 export type MutationAddLinesToOrderArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationSetPaymentOnOrderArgs = {
+  input: RelationInput;
 };
 
 
@@ -9954,6 +9991,18 @@ export type MutationSetNewDeliveryGuyArgs = {
 
 export type MutationSetDeliverySignInArgs = {
   type: Scalars['Boolean'];
+};
+
+
+export type MutationCreatePaymentMethodArgs = {
+  secret: Scalars['String'];
+  api: Scalars['String'];
+};
+
+
+export type MutationUpdatePaymentMethodArgs = {
+  enabled: Scalars['Boolean'];
+  modeId: Scalars['String'];
 };
 
 export type RelationsInput = {
@@ -14548,6 +14597,34 @@ export type UpdateAdministratorPasswordMutation = (
   ) }
 );
 
+export type CreatePaymentMethodMutationVariables = Exact<{
+  api: Scalars['String'];
+  secret: Scalars['String'];
+}>;
+
+
+export type CreatePaymentMethodMutation = (
+  { __typename?: 'Mutation' }
+  & { CreatePaymentMethod: (
+    { __typename?: 'PaymentMethod' }
+    & Pick<PaymentMethod, 'id'>
+  ) }
+);
+
+export type UpdatePaymentMethodMutationVariables = Exact<{
+  enabled: Scalars['Boolean'];
+  modeId: Scalars['String'];
+}>;
+
+
+export type UpdatePaymentMethodMutation = (
+  { __typename?: 'Mutation' }
+  & { UpdatePaymentMethod: (
+    { __typename?: 'PaymentMethod' }
+    & Pick<PaymentMethod, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -15788,6 +15865,17 @@ export type GetDeliveryStrandedCountQuery = (
   ) }
 );
 
+export type GetAllPaymentMethodsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllPaymentMethodsQuery = (
+  { __typename?: 'Query' }
+  & { GetAllPaymentMethods: Array<(
+    { __typename?: 'PaymentMethod' }
+    & Pick<PaymentMethod, 'id' | 'api' | 'secretKey' | 'enabled'>
+  )> }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -16224,6 +16312,20 @@ export const SetNewDeliveryGuyDocument = gql`
 export const UpdateAdministratorPasswordDocument = gql`
     mutation UpdateAdministratorPassword($email: String!, $password: String!, $newpassword: String!) {
   updateAdministratorPassword(email: $email, password: $password, newpassword: $newpassword) {
+    id
+  }
+}
+    `;
+export const CreatePaymentMethodDocument = gql`
+    mutation CreatePaymentMethod($api: String!, $secret: String!) {
+  CreatePaymentMethod(api: $api, secret: $secret) {
+    id
+  }
+}
+    `;
+export const UpdatePaymentMethodDocument = gql`
+    mutation UpdatePaymentMethod($enabled: Boolean!, $modeId: String!) {
+  UpdatePaymentMethod(enabled: $enabled, modeId: $modeId) {
     id
   }
 }
@@ -17342,6 +17444,16 @@ export const GetDeliveryStrandedCountDocument = gql`
     query GetDeliveryStrandedCount {
   GetDeliveryStrandedCount {
     count
+  }
+}
+    `;
+export const GetAllPaymentMethodsDocument = gql`
+    query GetAllPaymentMethods {
+  GetAllPaymentMethods {
+    id
+    api
+    secretKey
+    enabled
   }
 }
     `;
