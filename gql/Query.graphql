@@ -564,6 +564,10 @@ query GetAllAdministrator($search: String){
         lastName
         emailAddress
         type
+        user {
+            id
+            email
+        }
     }
 }
 

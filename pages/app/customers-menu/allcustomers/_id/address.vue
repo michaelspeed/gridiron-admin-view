@@ -19,6 +19,7 @@
                         color="primary"
                         dark
                         v-for="add of user.addresses"
+                        :key="add.id"
                     >
                         <div class="d-flex flex-no-wrap justify-space-between">
                             <div>

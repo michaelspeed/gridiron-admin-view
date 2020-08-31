@@ -1,6 +1,6 @@
 export default {
     "general": {
-        "copyright": "Air-Econ © 2020 All Rights Reserved."
+        "copyright": "AirEcommerce © 2020 All Rights Reserved."
     },
     "user": {
         "login-title": "Login",
@@ -83,7 +83,7 @@ export default {
         "delivery": "Delivery Management",
     },
     "pages": {
-        "appname": "Air-Econ",
+        "appname": "AirEcommerce",
         "tag-line": "Next-Gen Ecommerce",
         "error-title": "Ooops... looks like an error occurred!",
         "error-code": "Error Code",

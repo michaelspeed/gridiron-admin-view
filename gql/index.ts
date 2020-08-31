@@ -8019,6 +8019,7 @@ export type MutationAdministratorLoginArgs = {
 
 export type MutationCreateAdministratorArgs = {
   type: AdministratorEnum;
+  password: Scalars['String'];
   phone: Scalars['String'];
   email: Scalars['String'];
   lname: Scalars['String'];
@@ -14151,6 +14152,7 @@ export type CreateAdministratorMutationVariables = Exact<{
   lname: Scalars['String'];
   fname: Scalars['String'];
   phone: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
 
@@ -14528,6 +14530,21 @@ export type SetNewDeliveryGuyMutation = (
   & { SetNewDeliveryGuy: (
     { __typename?: 'Delivery' }
     & Pick<Delivery, 'id'>
+  ) }
+);
+
+export type UpdateAdministratorPasswordMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  newpassword: Scalars['String'];
+}>;
+
+
+export type UpdateAdministratorPasswordMutation = (
+  { __typename?: 'Mutation' }
+  & { updateAdministratorPassword: (
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
   ) }
 );
 
@@ -15050,6 +15067,10 @@ export type GetAllAdministratorQuery = (
   & { GetAllAdministrator: Array<(
     { __typename?: 'Administrator' }
     & Pick<Administrator, 'id' | 'firstName' | 'lastName' | 'emailAddress' | 'type'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email'>
+    ) }
   )> }
 );
 
@@ -16016,8 +16037,8 @@ export const UpdateRoleDocument = gql`
 }
     `;
 export const CreateAdministratorDocument = gql`
-    mutation createAdministrator($type: AdministratorEnum!, $email: String!, $lname: String!, $fname: String!, $phone: String!) {
-  createAdministrator(type: $type, email: $email, lname: $lname, fname: $fname, phone: $phone) {
+    mutation createAdministrator($type: AdministratorEnum!, $email: String!, $lname: String!, $fname: String!, $phone: String!, $password: String!) {
+  createAdministrator(type: $type, email: $email, lname: $lname, fname: $fname, phone: $phone, password: $password) {
     id
   }
 }
@@ -16196,6 +16217,13 @@ export const SetPriceOnPromotionVariantPriceDocument = gql`
 export const SetNewDeliveryGuyDocument = gql`
     mutation SetNewDeliveryGuy($userId: ID!) {
   SetNewDeliveryGuy(userId: $userId) {
+    id
+  }
+}
+    `;
+export const UpdateAdministratorPasswordDocument = gql`
+    mutation UpdateAdministratorPassword($email: String!, $password: String!, $newpassword: String!) {
+  updateAdministratorPassword(email: $email, password: $password, newpassword: $newpassword) {
     id
   }
 }
@@ -16671,6 +16699,10 @@ export const GetAllAdministratorDocument = gql`
     lastName
     emailAddress
     type
+    user {
+      id
+      email
+    }
   }
 }
     `;

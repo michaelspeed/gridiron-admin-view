@@ -19,6 +19,7 @@
                         class="mx-auto mt-5 mb-5"
                         color="secondary"
                         v-for="order of user.orders"
+                        :key="order.id"
                     >
                         <v-card-title class="text-white">{{order.id}}</v-card-title>
 

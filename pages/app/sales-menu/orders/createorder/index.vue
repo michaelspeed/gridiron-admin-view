@@ -50,7 +50,7 @@
                                         v-model="selectedUser"
                                         active-class=""
                                     >
-                                        <v-list-item v-for="user of searchUser">
+                                        <v-list-item v-for="user of searchUser" :key="user.id">
                                             <template v-slot:default="{ active }">
                                                 <v-list-item-action>
                                                     <v-checkbox :input-value="active"></v-checkbox>
@@ -81,7 +81,7 @@
                                     v-model="prodSelect"
                                     active-class=""
                                 >
-                                    <v-list-item v-for="prod of prodsSearch">
+                                    <v-list-item v-for="prod of prodsSearch" :key="prod.id">
                                         <template v-slot:default="{ active }">
                                             <v-list-item-action>
                                                 <v-checkbox :input-value="active"></v-checkbox>

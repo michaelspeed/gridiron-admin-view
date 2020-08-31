@@ -64,6 +64,7 @@
                   <ZipConfiguration/>
                 </v-tab-item>
                 <v-tab-item :key="3">
+                    <PaymentIntegration/>
                 </v-tab-item>
                 <v-tab-item :key="4">
                 </v-tab-item>
@@ -79,9 +80,10 @@
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import StoreConfiguration from '../../../../components/System/StoreConfiguration.vue';
     import ZipConfiguration from '../../../../components/System/ZipConfiguration.vue';
+    import PaymentIntegration from "~/components/integration/PaymentIntegration.vue";
 
     @Component({
-        components: {ZipConfiguration, StoreConfiguration},
+        components: {ZipConfiguration, StoreConfiguration, PaymentIntegration},
         layout: 'console',
         middleware: 'adminonly',
     })

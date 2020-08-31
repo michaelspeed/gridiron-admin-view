@@ -425,13 +425,14 @@ mutation updateRole($roles: [Permission!]!, $description: String!, $id: ID!){
     }
 }
 
-mutation createAdministrator($type: AdministratorEnum!,$email: String! ,$lname: String!, $fname: String!, $phone: String!){
+mutation createAdministrator($type: AdministratorEnum!,$email: String! ,$lname: String!, $fname: String!, $phone: String!, $password: String!){
     createAdministrator(
         type: $type,
         email: $email,
         lname: $lname,
         fname: $fname,
-        phone: $phone
+        phone: $phone,
+        password: $password
     ) {
         id
     }
@@ -699,6 +700,12 @@ mutation setPriceOnPromotionVariantPrice($promo: ID!, $relan: ID!){
 
 mutation SetNewDeliveryGuy($userId: ID!){
     SetNewDeliveryGuy(userId: $userId) {
+        id
+    }
+}
+
+mutation UpdateAdministratorPassword($email: String!, $password: String!, $newpassword:String!){
+    updateAdministratorPassword(email: $email, password: $password, newpassword: $newpassword){
         id
     }
 }

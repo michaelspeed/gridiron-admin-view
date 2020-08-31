@@ -13,14 +13,13 @@
                     <v-card-text>
                         <v-text-field
                             label="Zip Code"
-                            solo
                             v-model="zipcode"
                         ></v-text-field>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <a-button type="danger" style="margin-right: 10px" @click="addZip = false">Cancel</a-button>
-                        <a-button type="primary" @click="onCreateZipCode" :loading="loading">Add</a-button>
+                        <a-button class="btn btn-light-danger" style="margin-right: 10px" @click="addZip = false">Cancel</a-button>
+                        <a-button class="btn btn-light-primary" @click="onCreateZipCode" :loading="loading">Add</a-button>
                     </v-card-actions>
                 </v-card>
             </v-dialog>

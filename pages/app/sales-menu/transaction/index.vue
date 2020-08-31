@@ -8,7 +8,7 @@
                         <div class="d-flex align-items-center flex-wrap mr-2">
 
                             <!--begin::Title-->
-                            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Invoices</h5>
+                            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Transactions</h5>
                             <!--end::Title-->
 
                             <!--begin::Separator-->
@@ -31,7 +31,6 @@
                             </a>
                             <!--end::Button-->
 
-
                             <!--end::Button-->
                         </div>
                         <!--end::Toolbar-->
@@ -43,12 +42,12 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue} from "vue-property-decorator";
 
     @Component({
         layout: 'console'
     })
-    export default class Invoices extends Vue {
+    export default class Transaction extends Vue {
 
     }
 </script>

@@ -82,7 +82,7 @@
                         <span class="card-label font-weight-bolder text-dark ml-6">Add Administrator</span>
                     </h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="margin-top: -50px">
                     <div class="form-group">
                         <label>Enter First Name</label>
                         <a-input v-model="fname"></a-input>
@@ -104,11 +104,15 @@
                         <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                     </div>
                     <div class="form-group">
+                        <label>Password</label>
+                        <a-input v-model="password" type="password"></a-input>
+                        <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
+                    </div>
+                    <div class="form-group">
                         <label>Administrator Type</label>
                         <v-select
                             v-model="adminType"
                             :items="adminMenu"
-                            solo
                         ></v-select>
                         <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                     </div>
@@ -126,6 +130,7 @@
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import {CreateAdministratorDocument, GetAllAdministratorDocument} from '../../../../gql';
     import {AdministratorEnum} from '../../../../utils/AdministratorEnum';
+    import AdministratorActions from "~/components/administrator/administratorActions.vue";
 
     @Component({
         layout: 'console',
@@ -140,6 +145,9 @@
                 },
                 pollInterval: 3000
             }
+        },
+        components: {
+            AdministratorActions
         }
     })
     export default class Admins extends Vue {
@@ -155,6 +163,7 @@
         private adminMenu = Object.values(AdministratorEnum)
         private adminType = ''
         private phone = ''
+        private password = ''
 
         //table
         private gridOptions: any = {};
@@ -179,6 +188,10 @@
                 headerName: 'Type',
                 filter: false,
                 field: 'type'
+            },
+            {
+                headerName: 'Actions',
+                cellRendererFramework: 'AdministratorActions'
             }
         ]
         private defaultColDef = {
@@ -207,7 +220,8 @@
                     email: this.email,
                     fname: this.fname,
                     lname: this.lname,
-                    phone: this.phone
+                    phone: this.phone,
+                    password: this.password
                 }
             }).then(value => {
                 this.loading = false
