@@ -151,8 +151,10 @@
 
         @Watch('colselect')
         onColSelect(){
-            this.title = this.colselect.name
-            this.targetId = this.colselect.id
+            if (this.colselect !== null) {
+                this.title = this.colselect.name
+                this.targetId = this.colselect.id
+            }
         }
 
         @Watch('variantSel')
@@ -163,8 +165,10 @@
 
         @Watch('facetSel')
         onFacetSelect(){
-            this.title = this.facetSel.code
-            this.targetId = this.facetSel.id
+            if (this.variantSel !== null) {
+                this.title = this.facetSel.code
+                this.targetId = this.facetSel.id
+            }
         }
 
         onCreateRoot(){

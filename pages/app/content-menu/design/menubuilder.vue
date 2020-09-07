@@ -97,9 +97,9 @@
             const nods = JSON.parse(this.GetMenuTree.menu)
             let newMods: any[] = []
             for (const nsitem of nods) {
-                console.log(nsitem)
                 let childMod: any[] = []
-                if (nsitem.children.length > 0) {
+                childMod = this.onNodeEnter(nsitem)
+                /*if (nsitem.children.length > 0) {
                     for (const csitem of nsitem.children) {
                         childMod.push({
                             key: csitem.id,
@@ -108,7 +108,7 @@
                             icon: "pi pi-fw pi-sitemap",
                         })
                     }
-                }
+                }*/
                 newMods.push({
                     key: nsitem.id,
                     label: nsitem.title,
@@ -118,7 +118,24 @@
                 })
             }
             this.MenuNodes = newMods
-            console.log(this.MenuNodes)
+        }
+
+        onNodeEnter(nsitem): any[] {
+            let childMod: any[] = []
+            if (nsitem.children.length > 0) {
+                for (const csitem of nsitem.children) {
+                    let asitem: any[] = []
+                    asitem = this.onNodeEnter(csitem)
+                    childMod.push({
+                        key: csitem.id,
+                        label: csitem.title,
+                        data: csitem,
+                        icon: "pi pi-fw pi-sitemap",
+                        children: asitem
+                    })
+                }
+            }
+            return childMod
         }
     }
 </script>

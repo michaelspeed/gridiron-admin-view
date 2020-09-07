@@ -184,6 +184,27 @@ query getallcollection {
                 inMenu
                 name
                 description
+                children {
+                    id
+                    isRoot
+                    inMenu
+                    name
+                    description
+                    children {
+                        id
+                        isRoot
+                        inMenu
+                        name
+                        description
+                        children {
+                            id
+                            isRoot
+                            inMenu
+                            name
+                            description
+                        }
+                    }
+                }
             }
         }
     }
@@ -1389,5 +1410,19 @@ query GetAllPaymentMethods {
         api
         secretKey
         enabled
+    }
+}
+
+query SearchStore($like: String){
+    stores(filter:{storeName: {like: $like}}) {
+        id
+        storeName
+    }
+}
+
+query GetBillingAgreementForStore($variantId: String!, $storeId: String!){
+    GetBillingAgreementForStore(variantId: $variantId, storeId: $storeId){
+        id
+        value
     }
 }

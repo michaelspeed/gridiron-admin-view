@@ -63,10 +63,10 @@
                 <div class="d-flex align-items-center flex-wrap">
                     <!--begin: Item-->
                     <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                <span class="mr-4">
-                    <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
-                </span>
-                        <div class="d-flex flex-column text-dark-75">
+                        <span class="mr-4">
+                            <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
+                        </span>
+                        <div class="d-flex flex-column text-dark-75" v-if="vendorStore && vendorStore.balance">
                             <span class="font-weight-bolder font-size-sm">Account Balance</span>
                             <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">₹</span>{{vendorStore.balance.balance}}</span>
                         </div>
@@ -75,10 +75,10 @@
 
                     <!--begin: Item-->
                     <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                <span class="mr-4">
-                    <i class="flaticon-confetti icon-2x text-muted font-weight-bold"></i>
-                </span>
-                        <div class="d-flex flex-column text-dark-75">
+                        <span class="mr-4">
+                            <i class="flaticon-confetti icon-2x text-muted font-weight-bold"></i>
+                        </span>
+                        <div class="d-flex flex-column text-dark-75" v-if="vendorStore && vendorStore.balance">
                             <span class="font-weight-bolder font-size-sm">Volume</span>
                             <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">₹</span>{{vendorStore.balance.balanceVolume}}</span>
                         </div>

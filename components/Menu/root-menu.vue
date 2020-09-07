@@ -147,14 +147,18 @@
 
         @Watch('colselect')
         onColSelect(){
-            this.title = this.colselect.name
-            this.targetId = this.colselect.id
+            if (this.colselect !== null) {
+                this.title = this.colselect.name
+                this.targetId = this.colselect.id
+            }
         }
 
         @Watch('variantSel')
         onValSelect(){
-            this.title = this.variantSel.name
-            this.targetId = this.variantSel.id
+            if (this.variantSel !== null) {
+                this.title = this.variantSel.name
+                this.targetId = this.variantSel.id
+            }
         }
 
         @Watch('facetSel')

@@ -159,7 +159,7 @@
                 </div>
                 <!--end: Card Body-->
             </div>
-            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px" v-if="vendorStore">
+            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px" v-if="vendorStore && vendorStore.balance">
                 <!--begin::Body-->
                 <div class="card-body d-flex flex-column">
                     <!--begin::Stats-->

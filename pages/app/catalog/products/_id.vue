@@ -358,7 +358,8 @@
             let onechindren: any[] = [];
             for (let vls of this.GetCollectionTree) {
                 let twochildren: any[] = [];
-                if (vls.children.length > 0) {
+                twochildren = this.onNodeEnter(vls)
+                /*if (vls.children.length > 0) {
                     for (let second of vls.children) {
                         let thirdchild: any[] = [];
                         if (second.children.length > 0) {
@@ -383,7 +384,7 @@
                         };
                         twochildren.push(twonode);
                     }
-                }
+                }*/
                 let onNode = {
                     key: vls.id,
                     title: vls.name,
@@ -395,6 +396,25 @@
                 onechindren.push(onNode);
             }
             this.allCollections = onechindren;
+        }
+
+        onNodeEnter(nsitem): any[] {
+            let childMod: any[] = []
+            if (nsitem.children && nsitem.children.length > 0) {
+                for (const csitem of nsitem.children) {
+                    let asitem: any[] = []
+                    asitem = this.onNodeEnter(csitem)
+                    childMod.push({
+                        key: csitem.id,
+                        title: csitem.name,
+                        menu: csitem.inMenu,
+                        add: false,
+                        edit: true,
+                        children: asitem
+                    })
+                }
+            }
+            return childMod
         }
 
         @Watch('product')

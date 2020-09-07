@@ -39,7 +39,7 @@
                     ></v-switch>
                 </div>
                 <hr/>
-                <div class="d-flex justify-content-between align-items-center mt-5 mb-5" v-if="GetPriceForVariant.promoprice">
+                <div class="d-flex justify-content-between align-items-center mt-5 mb-5" v-if="GetPriceForVariant && GetPriceForVariant.promoprice !== null">
                     <span class="text-muted">{{GetPriceForVariant.promoprice.priceType}}</span>
                     <span class="text-muted">{{GetPriceForVariant.promoprice.priceType === promopriceType.FLAT ? '₹' : '%'}} {{GetPriceForVariant.promoprice.value}}</span>
                 </div>
@@ -150,12 +150,12 @@
         }
 
         getMainPrice() {
-            if (this.GetPriceForVariant.promoprice) {
+            if (this.GetPriceForVariant && this.GetPriceForVariant.promoprice !== null) {
                 if (this.GetPriceForVariant.promoprice.priceType === PricePromoType.PERCENTAGE) {
                     let totalPrice = this.mainprice - (this.mainprice * (this.GetPriceForVariant.promoprice.value / 100))
                     return totalPrice.toFixed(2)
                 } else {
-                    return this.GetPriceForVariant.promoprice.value
+                    return this.mainprice - this.GetPriceForVariant.promoprice.value
                 }
             } else {
                 return this.mainprice

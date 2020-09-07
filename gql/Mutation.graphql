@@ -721,3 +721,15 @@ mutation UpdatePaymentMethod($enabled: Boolean!, $modeId: String!){
         id
     }
 }
+
+mutation CreateVendorProdVariant($value: Float!, $variantId: ID!, $storeId: ID!){
+    CreateVendorProdVariant(value: $value, variantId: $variantId, storeId: $storeId) {
+        id
+    }
+}
+
+mutation UpdateVendorProdVariant($id: ID!, $value: Float!){
+    UpdateVendorProdVariant(id: $id, value: $value){
+        id
+    }
+}

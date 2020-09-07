@@ -354,6 +354,7 @@ export type BillingAgreementFilter = {
   updatedAt?: Maybe<DateFieldComparison>;
   value?: Maybe<NumberFieldComparison>;
   store?: Maybe<BillingAgreementFilterStoreFilter>;
+  variant?: Maybe<BillingAgreementFilterProductVariantFilter>;
 };
 
 export type BillingAgreementFilterStoreFilter = {
@@ -372,6 +373,20 @@ export type BillingAgreementFilterStoreFilter = {
   singleStore?: Maybe<BooleanFieldComparison>;
   rentalStore?: Maybe<BooleanFieldComparison>;
   channelMarkets?: Maybe<BooleanFieldComparison>;
+};
+
+export type BillingAgreementFilterProductVariantFilter = {
+  and?: Maybe<Array<BillingAgreementFilterProductVariantFilter>>;
+  or?: Maybe<Array<BillingAgreementFilterProductVariantFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
 };
 
 export type BillingAgreementSort = {
@@ -716,6 +731,7 @@ export type ProductVariantFilter = {
   name?: Maybe<StringFieldComparison>;
   trackInventory?: Maybe<BooleanFieldComparison>;
   line?: Maybe<ProductVariantFilterOrderItemFilter>;
+  agreements?: Maybe<ProductVariantFilterBillingAgreementFilter>;
   price?: Maybe<ProductVariantFilterProductVariantPriceFilter>;
 };
 
@@ -726,6 +742,15 @@ export type ProductVariantFilterOrderItemFilter = {
   createdAt?: Maybe<DateFieldComparison>;
   updatedAt?: Maybe<DateFieldComparison>;
   quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type ProductVariantFilterBillingAgreementFilter = {
+  and?: Maybe<Array<ProductVariantFilterBillingAgreementFilter>>;
+  or?: Maybe<Array<ProductVariantFilterBillingAgreementFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
 };
 
 export type ProductVariantFilterProductVariantPriceFilter = {
@@ -1813,6 +1838,7 @@ export type ProductVariant = {
   trackInventory: Scalars['Boolean'];
   lines: Array<OrderItem>;
   stocks: Array<StockKeeping>;
+  agreements?: Maybe<Array<BillingAgreement>>;
   prices?: Maybe<Array<ProductVariantPrice>>;
   seo?: Maybe<Seo>;
   specs?: Maybe<ProductVariantSpecs>;
@@ -1820,6 +1846,7 @@ export type ProductVariant = {
   product: Product;
   linesAggregate: ProductVariantLinesAggregateResponse;
   stocksAggregate: ProductVariantStocksAggregateResponse;
+  agreementsAggregate: ProductVariantAgreementsAggregateResponse;
   pricesAggregate: ProductVariantPricesAggregateResponse;
 };
 
@@ -1838,6 +1865,13 @@ export type ProductVariantStocksArgs = {
 };
 
 
+export type ProductVariantAgreementsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<BillingAgreementFilter>;
+  sorting?: Maybe<Array<BillingAgreementSort>>;
+};
+
+
 export type ProductVariantPricesArgs = {
   paging?: Maybe<OffsetPaging>;
   filter?: Maybe<ProductVariantPriceFilter>;
@@ -1852,6 +1886,11 @@ export type ProductVariantLinesAggregateArgs = {
 
 export type ProductVariantStocksAggregateArgs = {
   filter?: Maybe<StockKeepingAggregateFilter>;
+};
+
+
+export type ProductVariantAgreementsAggregateArgs = {
+  filter?: Maybe<BillingAgreementAggregateFilter>;
 };
 
 
@@ -2070,6 +2109,7 @@ export type BillingAgreement = {
   value: Scalars['Float'];
   type: BillingAgreementEnum;
   state: BillingAgreementState;
+  variant: ProductVariant;
   collection?: Maybe<Collection>;
   store: Store;
   request: Array<BillingAgreementRequest>;
@@ -2078,7 +2118,8 @@ export type BillingAgreement = {
 export enum BillingAgreementEnum {
   Planbase = 'PLANBASE',
   Collectionbase = 'COLLECTIONBASE',
-  Comissionbase = 'COMISSIONBASE'
+  Comissionbase = 'COMISSIONBASE',
+  Prodcommission = 'PRODCOMMISSION'
 }
 
 export enum BillingAgreementState {
@@ -4628,6 +4669,49 @@ export type ProductVariantStocksAggregateResponse = {
   max?: Maybe<ProductVariantStocksMaxAggregate>;
 };
 
+export type ProductVariantAgreementsCountAggregate = {
+  __typename?: 'ProductVariantAgreementsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+};
+
+export type ProductVariantAgreementsSumAggregate = {
+  __typename?: 'ProductVariantAgreementsSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantAgreementsAvgAggregate = {
+  __typename?: 'ProductVariantAgreementsAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantAgreementsMinAggregate = {
+  __typename?: 'ProductVariantAgreementsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantAgreementsMaxAggregate = {
+  __typename?: 'ProductVariantAgreementsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type ProductVariantAgreementsAggregateResponse = {
+  __typename?: 'ProductVariantAgreementsAggregateResponse';
+  count?: Maybe<ProductVariantAgreementsCountAggregate>;
+  sum?: Maybe<ProductVariantAgreementsSumAggregate>;
+  avg?: Maybe<ProductVariantAgreementsAvgAggregate>;
+  min?: Maybe<ProductVariantAgreementsMinAggregate>;
+  max?: Maybe<ProductVariantAgreementsMaxAggregate>;
+};
+
 export type ProductVariantPricesCountAggregate = {
   __typename?: 'ProductVariantPricesCountAggregate';
   id?: Maybe<Scalars['Int']>;
@@ -6331,6 +6415,7 @@ export type Query = {
   GetBillingAgreementByVendor: Array<BillingAgreement>;
   GetBillingAgreement: BillingAgreement;
   GetBillingRequestForAgreement: Array<BillingAgreementRequest>;
+  GetBillingAgreementForStore: BillingAgreement;
   stockKeeping?: Maybe<StockKeeping>;
   stockKeepings: Array<StockKeeping>;
   stockKeepingAggregate: StockKeepingAggregateResponse;
@@ -6800,6 +6885,12 @@ export type QueryGetBillingAgreementArgs = {
 
 export type QueryGetBillingRequestForAgreementArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryGetBillingAgreementForStoreArgs = {
+  variantId: Scalars['String'];
+  storeId: Scalars['String'];
 };
 
 
@@ -7837,6 +7928,7 @@ export type Mutation = {
   deleteManyProductVariants: DeleteManyResponse;
   removeLinesFromProductVariant: ProductVariant;
   removeStocksFromProductVariant: ProductVariant;
+  removeAgreementsFromProductVariant: ProductVariant;
   removePricesFromProductVariant: ProductVariant;
   removeSeoFromProductVariant: ProductVariant;
   removeSpecsFromProductVariant: ProductVariant;
@@ -7844,6 +7936,7 @@ export type Mutation = {
   removeProductFromProductVariant: ProductVariant;
   addLinesToProductVariant: ProductVariant;
   addStocksToProductVariant: ProductVariant;
+  addAgreementsToProductVariant: ProductVariant;
   addPricesToProductVariant: ProductVariant;
   setSeoOnProductVariant: ProductVariant;
   setSpecsOnProductVariant: ProductVariant;
@@ -7909,6 +8002,8 @@ export type Mutation = {
   UpdatePlan: VendorPlans;
   removeVendorFromVendorLicense: VendorLicense;
   setVendorOnVendorLicense: VendorLicense;
+  CreateVendorProdVariant: BillingAgreement;
+  UpdateVendorProdVariant: BillingAgreement;
   CreateBillingRequest: BillingAgreementRequest;
   UpdateBillingRequest: BillingAgreementRequest;
   deleteOneStockKeeping: StockKeepingDeleteResponse;
@@ -8982,6 +9077,11 @@ export type MutationRemoveStocksFromProductVariantArgs = {
 };
 
 
+export type MutationRemoveAgreementsFromProductVariantArgs = {
+  input: RelationsInput;
+};
+
+
 export type MutationRemovePricesFromProductVariantArgs = {
   input: RelationsInput;
 };
@@ -9013,6 +9113,11 @@ export type MutationAddLinesToProductVariantArgs = {
 
 
 export type MutationAddStocksToProductVariantArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationAddAgreementsToProductVariantArgs = {
   input: RelationsInput;
 };
 
@@ -9354,6 +9459,19 @@ export type MutationRemoveVendorFromVendorLicenseArgs = {
 
 export type MutationSetVendorOnVendorLicenseArgs = {
   input: RelationInput;
+};
+
+
+export type MutationCreateVendorProdVariantArgs = {
+  value: Scalars['Float'];
+  storeId: Scalars['ID'];
+  variantId: Scalars['ID'];
+};
+
+
+export type MutationUpdateVendorProdVariantArgs = {
+  value: Scalars['Float'];
+  id: Scalars['ID'];
 };
 
 
@@ -14625,6 +14743,35 @@ export type UpdatePaymentMethodMutation = (
   ) }
 );
 
+export type CreateVendorProdVariantMutationVariables = Exact<{
+  value: Scalars['Float'];
+  variantId: Scalars['ID'];
+  storeId: Scalars['ID'];
+}>;
+
+
+export type CreateVendorProdVariantMutation = (
+  { __typename?: 'Mutation' }
+  & { CreateVendorProdVariant: (
+    { __typename?: 'BillingAgreement' }
+    & Pick<BillingAgreement, 'id'>
+  ) }
+);
+
+export type UpdateVendorProdVariantMutationVariables = Exact<{
+  id: Scalars['ID'];
+  value: Scalars['Float'];
+}>;
+
+
+export type UpdateVendorProdVariantMutation = (
+  { __typename?: 'Mutation' }
+  & { UpdateVendorProdVariant: (
+    { __typename?: 'BillingAgreement' }
+    & Pick<BillingAgreement, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -14800,6 +14947,18 @@ export type GetallcollectionQuery = (
       & { children: Array<(
         { __typename?: 'Collection' }
         & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
+        & { children: Array<(
+          { __typename?: 'Collection' }
+          & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
+          & { children: Array<(
+            { __typename?: 'Collection' }
+            & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
+            & { children: Array<(
+              { __typename?: 'Collection' }
+              & Pick<Collection, 'id' | 'isRoot' | 'inMenu' | 'name' | 'description'>
+            )> }
+          )> }
+        )> }
       )> }
     )> }
   )> }
@@ -15876,6 +16035,33 @@ export type GetAllPaymentMethodsQuery = (
   )> }
 );
 
+export type SearchStoreQueryVariables = Exact<{
+  like?: Maybe<Scalars['String']>;
+}>;
+
+
+export type SearchStoreQuery = (
+  { __typename?: 'Query' }
+  & { stores: Array<(
+    { __typename?: 'Store' }
+    & Pick<Store, 'id' | 'storeName'>
+  )> }
+);
+
+export type GetBillingAgreementForStoreQueryVariables = Exact<{
+  variantId: Scalars['String'];
+  storeId: Scalars['String'];
+}>;
+
+
+export type GetBillingAgreementForStoreQuery = (
+  { __typename?: 'Query' }
+  & { GetBillingAgreementForStore: (
+    { __typename?: 'BillingAgreement' }
+    & Pick<BillingAgreement, 'id' | 'value'>
+  ) }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -16330,6 +16516,20 @@ export const UpdatePaymentMethodDocument = gql`
   }
 }
     `;
+export const CreateVendorProdVariantDocument = gql`
+    mutation CreateVendorProdVariant($value: Float!, $variantId: ID!, $storeId: ID!) {
+  CreateVendorProdVariant(value: $value, variantId: $variantId, storeId: $storeId) {
+    id
+  }
+}
+    `;
+export const UpdateVendorProdVariantDocument = gql`
+    mutation UpdateVendorProdVariant($id: ID!, $value: Float!) {
+  UpdateVendorProdVariant(id: $id, value: $value) {
+    id
+  }
+}
+    `;
 export const GetAdministratorDataDocument = gql`
     query GetAdministratorData {
   GetAdministratorData {
@@ -16494,6 +16694,27 @@ export const GetallcollectionDocument = gql`
         inMenu
         name
         description
+        children {
+          id
+          isRoot
+          inMenu
+          name
+          description
+          children {
+            id
+            isRoot
+            inMenu
+            name
+            description
+            children {
+              id
+              isRoot
+              inMenu
+              name
+              description
+            }
+          }
+        }
       }
     }
   }
@@ -17454,6 +17675,22 @@ export const GetAllPaymentMethodsDocument = gql`
     api
     secretKey
     enabled
+  }
+}
+    `;
+export const SearchStoreDocument = gql`
+    query SearchStore($like: String) {
+  stores(filter: {storeName: {like: $like}}) {
+    id
+    storeName
+  }
+}
+    `;
+export const GetBillingAgreementForStoreDocument = gql`
+    query GetBillingAgreementForStore($variantId: String!, $storeId: String!) {
+  GetBillingAgreementForStore(variantId: $variantId, storeId: $storeId) {
+    id
+    value
   }
 }
     `;

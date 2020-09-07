@@ -2,7 +2,7 @@
     <div v-if="!$apollo.queries.assets.loading">
       <div class="card-header border-0 py-5 d-flex justify-content-between">
         <h3 class="card-title align-items-start flex-column">
-          <span class="card-label font-weight-bolder text-dark">{{variants.name}}</span>
+          <span class="card-label font-weight-bolder text-success">{{variants.name}}</span>
         </h3>
         <div class="card-toolbar">
           <v-switch
@@ -41,6 +41,11 @@
                       <div class="d-flex justify-content-between align-items-center">
                         <h6>Seo Management</h6>
                         <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="addseo = true">Go To Seo Management</a>
+                      </div>
+                        <hr style="margin-top: 5px; margin-bottom: 5px"/>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <h6>Vendors Strategy</h6>
+                        <a href="javascript:;" class="btn btn-light-primary btn-sm font-weight-bold mr-2" @click="addBillAgree = true">Set Vendor Strategy</a>
                       </div>
                     </div>
                 </div>
@@ -174,6 +179,26 @@
                 <product-stock-management :id="variants.id" @close="onClickClose" :vendor="vendor"/>
             </v-card>
         </v-dialog>
+        <v-dialog
+                v-model="addBillAgree"
+                transition="dialog-bottom-transition"
+                width="60%"
+        >
+            <v-card light style="overflow-x: hidden">
+                <v-toolbar
+                        flat
+                        class="bg-primary"
+                >
+                  <a href="javascript:;" @click="addBillAgree = false">
+                    <i class="fas fa-times text-white font-size-h1"></i>
+                  </a>
+                    <v-toolbar-title class="ml-6 text-white font-size-h1-md">Vendor Billing Agreement</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                </v-toolbar>
+                <product-vendor-billing-agreement :id="variants.id" @close="onBillClose"/>
+                <!--<product-stock-management :id="variants.id" @close="onClickClose" :vendor="vendor"/>-->
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -190,9 +215,10 @@
     import {SlugLoader} from '../../utils/slugLoader';
     import ProductStockManagement from './product-stock-management.vue';
     import {mapState} from 'vuex';
+    import ProductVendorBillingAgreement from "~/components/products/product-vendor-billing-agreement.vue";
 
     @Component({
-        components: {ProductStockManagement, ProductPriceOptions},
+        components: {ProductStockManagement, ProductPriceOptions, ProductVendorBillingAgreement},
         apollo: {
             $loadingKey: 'loading',
             assets: {
@@ -222,6 +248,7 @@
         private addAsset = false
         private assetUrl = assetsURL;
         private addseo = false
+        private addBillAgree = false
 
         private vendor: any
 
@@ -242,8 +269,11 @@
             this.stockmanagement = false
         }
 
+        onBillClose() {
+            this.addBillAgree = false
+        }
+
         mounted() {
-          console.log(this.variants)
             if (this.variants !== undefined && this.variants.seo !== null) {
               this.metaUrl = this.variants.seo ? this.variants.seo.urlKey :SlugLoader(this.variants.name)
               this.metaTitle = this.variants.seo.metatitle
