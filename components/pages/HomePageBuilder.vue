@@ -204,7 +204,8 @@
         <!--end::Body-->
         <v-dialog
             v-model="homeCar"
-            width="80vw"
+            style="z-index: 10000 !important;"
+            fullscreen
         >
             <div class="card card-custom card-stretch">
                 <!--begin::Header-->
@@ -237,6 +238,7 @@
                                     label-in-value
                                     style="width: 100%"
                                     v-model="catSelect"
+                                    dropdownClassName="select-s1"
                                 >
                                     <a-select-option value="product">
                                         Product
@@ -651,3 +653,12 @@
         }
     }
 </script>
+
+<style>
+.v-dialog {
+    z-index: 1000;
+}
+.select-s1 {
+    z-index: 10000000;
+}
+</style>

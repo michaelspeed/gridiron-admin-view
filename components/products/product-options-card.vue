@@ -43,7 +43,7 @@
                         <a href="javascript:;" class="btn btn-light-success btn-sm font-weight-bold mr-2" @click="addseo = true">Go To Seo Management</a>
                       </div>
                         <hr style="margin-top: 5px; margin-bottom: 5px"/>
-                      <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex justify-content-between align-items-center" v-if="admin">
                         <h6>Vendors Strategy</h6>
                         <a href="javascript:;" class="btn btn-light-primary btn-sm font-weight-bold mr-2" @click="addBillAgree = true">Set Vendor Strategy</a>
                       </div>
@@ -251,6 +251,7 @@
         private addBillAgree = false
 
         private vendor: any
+        private admin: any
 
         private metaUrl: string = ''
         private metaTitle: string = ''

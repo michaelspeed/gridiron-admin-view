@@ -105,6 +105,7 @@
                                       style="width: 300px"
                                       v-model="rule"
                                       :filter-option="filterOption"
+                                      dropdownClassName="drom"
                                       placeholder="Search Your Tax Rule">
                                 <a-select-option
                                     v-for="item in GetAllTaxCategory"
@@ -123,6 +124,7 @@
                                       style="width: 300px"
                                       v-model="zone"
                                       :filter-option="filterOption"
+                                      dropdownClassName="drom"
                                       placeholder="Search Your Zone">
                                 <a-select-option
                                     v-for="item in zones"
@@ -347,3 +349,9 @@
         }
     }
 </script>
+
+<style>
+.drom {
+    z-index: 10000000;
+}
+</style>

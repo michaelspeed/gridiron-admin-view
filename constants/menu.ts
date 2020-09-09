@@ -189,11 +189,11 @@ const menudata = [
                 label: "menu.pages",
                 to: "/app/content-menu/elements/pages"
             },
-            {
+            /*{
                 icon: "iconsminds-empty-box",
                 label: "menu.blocks",
                 to: "/app/content-menu/elements/blocks"
-            },
+            },*/
             /*{
                 icon: "iconsminds-record",
                 label: "menu.widget",
@@ -488,11 +488,11 @@ const adminMenuData = [
                 label: "menu.pages",
                 to: "/app/content-menu/elements/pages"
             },
-            {
+            /*{
                 icon: "iconsminds-empty-box",
                 label: "menu.blocks",
                 to: "/app/content-menu/elements/blocks"
-            },
+            },*/
             /*{
                 icon: "iconsminds-record",
                 label: "menu.widget",

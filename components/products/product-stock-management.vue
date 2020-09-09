@@ -71,7 +71,9 @@
         computed: {
             ...mapState({
                 admin: (store: any) => store.admin.administrator,
-                store: (store: any) => store.store.store
+                store: (store: any) => store.store.store,
+                vend: (store: any) => store.admin.vendor,
+                vendorStore: (store: any) => store.admin.vendorStore,
             })
         },
         apollo: {
@@ -80,9 +82,10 @@
                 variables() {
                     return {
                         variantId: this.id,
-                        vendorId: this.vendor ? this.vendor.id : null
+                        vendorId: this.vend ? this.vend.id : null
                     }
-                }
+                },
+                pollInterval: 3000
             }
         }
     })
@@ -92,6 +95,8 @@
         private store: any
         private admin: any
         @Prop() vendor: any
+        private vend
+        private vendorStore
 
         private loading = false
 
@@ -109,6 +114,7 @@
 
         @Watch('getStockKeepingVendor')
         onGetStock() {
+            console.log(this.getStockKeepingVendor)
             if (this.getStockKeepingVendor) {
                 this.stockId = this.getStockKeepingVendor.id
                 this.sku = this.getStockKeepingVendor.sku
@@ -143,29 +149,55 @@
 
         onCreateStock() {
             this.loading = true
-            this.$apollo.mutate({
-                mutation: CreateOrUpdateStockDocument,
-                variables: {
-                    quantity: parseFloat(this.quantity),
-                    threshold: parseFloat(this.threshold),
-                    sku: this.sku,
-                    multiple: this.multiple,
-                    backorder: this.backorder,
-                    stockstatus: this.stockstatus,
-                    variantId: this.id,
-                    stockId: this.stockId,
-                    storeId: this.store.id,
-                    type: this.type
-                }
-            }).then(value => {
-                this.loading = false
-                this.stockId = value.data.createOrUpdateStock.id
-                this.$emit('close')
-                this.$Message.success('Stocks Updated')
-            }).catch(error => {
-                this.loading = false
-                this.$Message.error(error.message)
-            })
+            if (this.vend) {
+                this.$apollo.mutate({
+                    mutation: CreateOrUpdateStockDocument,
+                    variables: {
+                        quantity: parseFloat(this.quantity),
+                        threshold: parseFloat(this.threshold),
+                        sku: this.sku,
+                        multiple: this.multiple,
+                        backorder: this.backorder,
+                        stockstatus: this.stockstatus,
+                        variantId: this.id,
+                        stockId: this.stockId,
+                        storeId: this.vendorStore.id,
+                        type: this.type
+                    }
+                }).then(value => {
+                    this.loading = false
+                    this.stockId = value.data.createOrUpdateStock.id
+                    this.$emit('close')
+                    this.$Message.success('Stocks Updated')
+                }).catch(error => {
+                    this.loading = false
+                    this.$Message.error(error.message)
+                })
+            } else {
+                this.$apollo.mutate({
+                    mutation: CreateOrUpdateStockDocument,
+                    variables: {
+                        quantity: parseFloat(this.quantity),
+                        threshold: parseFloat(this.threshold),
+                        sku: this.sku,
+                        multiple: this.multiple,
+                        backorder: this.backorder,
+                        stockstatus: this.stockstatus,
+                        variantId: this.id,
+                        stockId: this.stockId,
+                        storeId: this.store.id,
+                        type: this.type
+                    }
+                }).then(value => {
+                    this.loading = false
+                    this.stockId = value.data.createOrUpdateStock.id
+                    this.$emit('close')
+                    this.$Message.success('Stocks Updated')
+                }).catch(error => {
+                    this.loading = false
+                    this.$Message.error(error.message)
+                })
+            }
         }
     }
 </script>
