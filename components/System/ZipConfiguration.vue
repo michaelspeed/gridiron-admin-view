@@ -93,7 +93,7 @@
                 query: AllZipsDocument,
                 variables() {
                     return {
-                        vendor: this.$store.state.admin.vendor ? this.$store.state.admin.vendor.id : undefined,
+                        vendor: this.$store.state.admin.vendorStore ? this.$store.state.admin.vendorStore.id : undefined,
                         limit: 10,
                         offset: 0,
                         code: undefined
