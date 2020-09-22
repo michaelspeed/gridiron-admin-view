@@ -7,6 +7,7 @@
               <v-tabs v-model="tabs">
                 <v-tab>Product Details</v-tab>
                 <v-tab>Product Variants</v-tab>
+                <v-tab>Product Performance</v-tab>
               </v-tabs>
               <v-divider/>
               <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.product.loading">
@@ -209,6 +210,27 @@
                 <div v-if="tabs === 1">
                   <ProductOptions :id="$route.params.id"/>
                 </div>
+                  <div v-if="tabs === 2">
+                      <div v-if="saleDataSet !== null">
+                          <div class="d-flex justify-content-between align-items-center">
+                              <div>
+                                  <a-select style="width: 120px" :value="chartType" @change="handleChangeChartType">
+                                      <a-select-option value="MONTH">
+                                          LAST MONTH
+                                      </a-select-option>
+                                      <a-select-option value="YEAR">
+                                          LAST YEAR
+                                      </a-select-option>
+                                  </a-select>
+                              </div>
+                              <div>
+                                  <span class="display-2">Total Sales: {{totalMountSales}} INR</span>
+                              </div>
+                          </div>
+                          <ProductSaleChart :chart-data="saleDataSet" :options="chartOptions" />
+                          <ProductSaleChart :chart-data="amountDataSet" :options="chartOptions" />
+                      </div>
+                  </div>
               </v-container>
             </div>
           </div>
@@ -274,15 +296,17 @@
         CreateAssetDocument,
         GetAllAssetsDocument, GetallcollectionDocument, GetAllFacetsDocument,
         GetFacetValuesDocument,
-        GetOneProductDocument, UpdateProductCollectionDocument, UpdateProductDocument
+        GetOneProductDocument, GetProductSaleDataDocument, UpdateProductCollectionDocument, UpdateProductDocument
     } from '../../../../gql';
     import {assetsURL} from '../../../../constants/GlobalURL';
     import Editor from '@tinymce/tinymce-vue';
     import ProductOptions from '../../../../components/products/product-options.vue';
+    import ProductSaleChart from "~/components/charts/ProductSaleChart";
 
     @Component({
         layout: 'console',
         components: {
+            ProductSaleChart,
             ProductOptions,
             'editor': Editor
         },
@@ -316,6 +340,23 @@
                     }
                 },
                 pollInterval: 3000
+            },
+            GetProductSaleData: {
+                query: GetProductSaleDataDocument,
+                variables() {
+                    if (this.$store.state.admin.vendorStore) {
+                        return {
+                            productId: this.$route.params.id,
+                            type: this.chartType,
+                            storeId: this.$store.state.admin.vendorStore.id
+                        }
+                    } else {
+                        return {
+                            productId: this.$route.params.id,
+                            type: this.chartType,
+                        }
+                    }
+                }
             }
         }
     })
@@ -352,6 +393,59 @@
         private facetValues: any
 
         private init = false
+
+        private chartType = 'MONTH'
+
+        private GetProductSaleData
+
+        private saleDataSet: any = null
+        private amountDataSet: any = null
+        private totalMountSales = 0
+        private chartOptions: any = {
+            responsive: true,
+            maintainAspectRatio: false,
+            hover: true
+        }
+
+        private chartLoaded = false
+
+        handleChangeChartType(value) {
+            this.chartLoaded = false
+            this.chartType = value
+        }
+
+        @Watch('GetProductSaleData')
+        onChangeSaleData() {
+            this.totalMountSales = 0
+            const labels = this.GetProductSaleData.labels
+            const saledataset = [
+                {
+                    label: 'Sales',
+                    backgroundColor: '#8950FC',
+                    data: this.GetProductSaleData.datasource.map(item => item.sum)
+                }
+            ]
+            const amountdataset = [
+                {
+                    label: 'Volumetric Sale Value',
+                    backgroundColor: '#8950FC',
+                    data: this.GetProductSaleData.datasource.map(item => item.amount)
+                }
+            ]
+            this.saleDataSet = {
+                labels: labels,
+                datasets: saledataset,
+            }
+            this.amountDataSet = {
+                labels: labels,
+                datasets: amountdataset,
+            }
+            for(const ams of this.GetProductSaleData.datasource) {
+                this.totalMountSales = this.totalMountSales + ams.amount
+            }
+            this.chartLoaded = true
+            console.log(this.saleDataSet, this.amountDataSet)
+        }
 
         @Watch('GetCollectionTree')
         onGetCollections() {

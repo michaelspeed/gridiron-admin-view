@@ -48,12 +48,12 @@
                                 <v-tab>
                                     Zip Codes
                                 </v-tab>
-                                <v-tab>
+                                <!--<v-tab>
                                     Integrations
                                 </v-tab>
                                 <v-tab>
                                     Task
-                                </v-tab>
+                                </v-tab>-->
                             </v-tabs>
                         </div>
                         <v-tabs-items v-model="tabs">
@@ -63,10 +63,10 @@
                             <v-tab-item :key="2">
                                 <ZipConfiguration/>
                             </v-tab-item>
-                            <v-tab-item :key="3">
+                            <!--<v-tab-item :key="3">
                             </v-tab-item>
                             <v-tab-item :key="4">
-                            </v-tab-item>
+                            </v-tab-item>-->
                         </v-tabs-items>
                     </div>
                 </div>

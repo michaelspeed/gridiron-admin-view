@@ -1426,3 +1426,13 @@ query GetBillingAgreementForStore($variantId: String!, $storeId: String!){
         value
     }
 }
+
+query GetProductSaleData($productId:ID!, $type: String!, $storeId: String){
+    GetProductSaleData(productId: $productId, type: $type, storeId: $storeId){
+        labels
+        datasource {
+            sum
+            amount
+        }
+    }
+}

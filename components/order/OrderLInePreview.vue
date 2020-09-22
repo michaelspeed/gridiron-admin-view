@@ -7,14 +7,16 @@
         <div class="p-0" v-if="!$apollo.queries.orderLine.loading">
             <!-- begin: Invoice-->
             <!-- begin: Invoice header-->
-            <div class="row justify-content-center bgi-size-cover bgi-no-repeat py-8 px-8 px-md-0" style="background-image: url(/media/bg/bg-6.jpg);">
+            <div class="row justify-content-center bgi-size-cover bgi-no-repeat py-8 px-8 px-md-0"
+                 style="background-image: url(/media/bg/bg-6.jpg);">
                 <div class="col-md-9">
                     <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
                         <h1 class="display-4 text-white font-weight-boldest mb-10">Order</h1>
                         <div class="d-flex flex-column align-items-md-end px-0">
                             <!--begin::Logo-->
                             <a href="#" class="mb-5">
-                                <h4 style="color: white">{{orderLine.order.user.firstName}} {{orderLine.order.user.lastName}}</h4>
+                                <h4 style="color: white">{{ orderLine.order.user.firstName }}
+                                    {{ orderLine.order.user.lastName }}</h4>
                             </a>
                         </div>
                     </div>
@@ -22,18 +24,25 @@
                     <div class="d-flex justify-content-between text-white pt-6">
                         <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolde mb-2r">DATE</span>
-                            <span class="opacity-70">{{getDate()}}</span>
+                            <span class="opacity-70">{{ getDate() }}</span>
                         </div>
                         <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2">ORDER NO.</span>
-                            <span class="opacity-70">{{orderLine.order.id}}</span>
+                            <span class="opacity-70">{{ orderLine.order.id }}</span>
                         </div>
                         <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2">ORDER TO.</span>
                             <span class="opacity-70">
-                                                    <h4 style="color: white" class="font-weight-bolder">{{orderLine.order.user.firstName}} {{orderLine.order.user.lastName}}</h4>
+                                                    <h4 style="color: white"
+                                                        class="font-weight-bolder">{{ orderLine.order.user.firstName }} {{ orderLine.order.user.lastName }}</h4>
                                                     <br/>
-                                                    <p>{{orderLine.order.address}}</p>
+                                                    <p v-if="!getAddress(orderLine.order.address)">{{ orderLine.order.address }}</p>
+                                                    <p v-if="getAddress(orderLine.order.address)">
+                                                        <p>{{ JSON.parse(orderLine.order.address).fullName }}</p>
+                                                        <p>{{ JSON.parse(orderLine.order.address).addressLine }}</p>
+                                                        <p>{{ JSON.parse(orderLine.order.address).city }}</p>
+                                                        <p>{{ JSON.parse(orderLine.order.address).state }}</p>
+                                                    </p>
                                                 </span>
                         </div>
                     </div>
@@ -57,11 +66,13 @@
                             </thead>
                             <tbody>
                             <tr class="font-weight-boldest font-size-lg">
-                                <td class="pl-0 pt-7">{{orderLine.item.productVariant.name}}</td>
-                                <td class="pl-0 pt-7">{{orderLine.stage}}</td>
-                                <td class="text-right pt-7">{{orderLine.item.quantity}}</td>
-                                <td class="text-right pt-7">₹ {{orderLine.priceField.price}}</td>
-                                <td class="text-danger pr-0 pt-7 text-right">₹{{orderLine.item.quantity * orderLine.priceField.price}} </td>
+                                <td class="pl-0 pt-7">{{ orderLine.item.productVariant.name }}</td>
+                                <td class="pl-0 pt-7">{{ orderLine.stage }}</td>
+                                <td class="text-right pt-7">{{ orderLine.item.quantity }}</td>
+                                <td class="text-right pt-7">₹ {{ orderLine.priceField.price }}</td>
+                                <td class="text-danger pr-0 pt-7 text-right">
+                                    ₹{{ orderLine.item.quantity * orderLine.priceField.price }}
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -110,7 +121,9 @@
             <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                 <div class="col-md-9">
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-light-primary font-weight-bold" @click="onUpdateOrderLine">Update Order State</button>
+                        <button type="button" class="btn btn-light-primary font-weight-bold" @click="onUpdateOrderLine">
+                            Update Order State
+                        </button>
                     </div>
                 </div>
             </div>
@@ -122,57 +135,62 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue, Watch} from "vue-property-decorator";
-    import {GetSingleOrderLineDocument, OrderLine, UpdateOrderLineDocument} from "~/gql";
-    import moment from "moment";
-    import {OrderStageType} from '~/utils/OrderStageType';
+import {Component, Prop, Vue, Watch} from "vue-property-decorator";
+import {GetSingleOrderLineDocument, OrderLine, UpdateOrderLineDocument} from "~/gql";
+import moment from "moment";
+import {OrderStageType} from '~/utils/OrderStageType';
 
-    @Component({
-        apollo:{
-            orderLine: {
-                query: GetSingleOrderLineDocument,
-                variables() {
-                    return {
-                        id: this.id
-                    }
+@Component({
+    apollo: {
+        orderLine: {
+            query: GetSingleOrderLineDocument,
+            variables() {
+                return {
+                    id: this.id
                 }
             }
-        }
-    })
-    export default class OrderLinePreview extends Vue {
-        @Prop() id: string
-        private orderStageType = OrderStageType
-        private orderLine: OrderLine
-        private orderStage = ''
-
-        @Watch('orderLine')
-        onChangeOrderLine() {
-            if (this.orderStage === '') {
-                this.orderStage = this.orderLine.stage
-            }
-        }
-
-        onUpdateOrderLine() {
-            this.$Message.loading('Action in Progress ....')
-            this.$apollo.mutate({
-                mutation: UpdateOrderLineDocument,
-                variables: {
-                    id: this.id,
-                    stage: this.orderStage
-                }
-            }).then(value => {
-                this.$Message.success('Order Line Updated')
-            }).catch(error => {
-                this.$Message.error(error.message)
-            })
-        }
-
-        handleChange(value) {
-            this.orderStage = value
-        }
-
-        getDate() {
-            return moment(this.orderLine.order.createdAt).format('DD MMM YYYY')
         }
     }
+})
+export default class OrderLinePreview extends Vue {
+    @Prop() id: string
+    private orderStageType = OrderStageType
+    private orderLine: OrderLine
+    private orderStage = ''
+
+    @Watch('orderLine')
+    onChangeOrderLine() {
+        if (this.orderStage === '') {
+            this.orderStage = this.orderLine.stage
+        }
+        console.log(this.orderLine)
+    }
+
+    getAddress(address) {
+        return !!JSON.parse(address).id;
+    }
+
+    onUpdateOrderLine() {
+        this.$Message.loading('Action in Progress ....')
+        this.$apollo.mutate({
+            mutation: UpdateOrderLineDocument,
+            variables: {
+                id: this.id,
+                stage: this.orderStage
+            }
+        }).then(value => {
+            this.$Message.success('Order Line Updated')
+        }).catch(error => {
+            this.$Message.error(error.message)
+        })
+    }
+
+    handleChange(value) {
+        this.orderStage = value
+    }
+
+    getDate() {
+        return moment(this.orderLine.order.createdAt).format('DD MMM YYYY')
+    }
+}
 </script>

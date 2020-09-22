@@ -201,7 +201,7 @@
             this.$apollo.mutate({
                 mutation: CreateZipToVendorDocument,
                 variables: {
-                    vendorId: this.vendor.id,
+                    vendorId: this.$store.state.admin.vendorStore ? this.$store.state.admin.vendorStore.id : this.$store.state.admin.store.id,
                     zips: this.allZipsOfVendor
                 }
             }).then(value => {

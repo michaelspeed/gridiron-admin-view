@@ -1027,8 +1027,26 @@ export type ZipFilter = {
   name?: Maybe<StringFieldComparison>;
   slug?: Maybe<StringFieldComparison>;
   code?: Maybe<NumberFieldComparison>;
-  store?: Maybe<ZipFilterVendorFilter>;
+  store?: Maybe<ZipFilterStoreFilter>;
   vendors?: Maybe<ZipFilterVendorFilter>;
+};
+
+export type ZipFilterStoreFilter = {
+  and?: Maybe<Array<ZipFilterStoreFilter>>;
+  or?: Maybe<Array<ZipFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
 };
 
 export type ZipFilterVendorFilter = {
@@ -1314,8 +1332,20 @@ export type StoreFilter = {
   singleStore?: Maybe<BooleanFieldComparison>;
   rentalStore?: Maybe<BooleanFieldComparison>;
   channelMarkets?: Maybe<BooleanFieldComparison>;
+  zip?: Maybe<StoreFilterZipFilter>;
   backlogs?: Maybe<StoreFilterStockBackLogFilter>;
   cart?: Maybe<StoreFilterCartItemFilter>;
+};
+
+export type StoreFilterZipFilter = {
+  and?: Maybe<Array<StoreFilterZipFilter>>;
+  or?: Maybe<Array<StoreFilterZipFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
 };
 
 export type StoreFilterStockBackLogFilter = {
@@ -1428,6 +1458,7 @@ export type Store = {
   rentalStore: Scalars['Boolean'];
   channelMarkets: Scalars['Boolean'];
   type: StoreTypeEnum;
+  zips: Array<Zip>;
   backlogs: Array<StockBackLog>;
   carts: Array<CartItem>;
   prices: Array<Settlements>;
@@ -1435,11 +1466,19 @@ export type Store = {
   skus: Array<StockKeeping>;
   balance?: Maybe<StoreBalance>;
   country: Country;
+  zipsAggregate: StoreZipsAggregateResponse;
   backlogsAggregate: StoreBacklogsAggregateResponse;
   cartsAggregate: StoreCartsAggregateResponse;
   pricesAggregate: StorePricesAggregateResponse;
   settlementsAggregate: StoreSettlementsAggregateResponse;
   skusAggregate: StoreSkusAggregateResponse;
+};
+
+
+export type StoreZipsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ZipFilter>;
+  sorting?: Maybe<Array<ZipSort>>;
 };
 
 
@@ -1475,6 +1514,11 @@ export type StoreSkusArgs = {
   paging?: Maybe<OffsetPaging>;
   filter?: Maybe<StockKeepingFilter>;
   sorting?: Maybe<Array<StockKeepingSort>>;
+};
+
+
+export type StoreZipsAggregateArgs = {
+  filter?: Maybe<ZipAggregateFilter>;
 };
 
 
@@ -2290,7 +2334,7 @@ export type Zip = {
   name: Scalars['String'];
   slug: Scalars['String'];
   code: Scalars['Float'];
-  stores: Array<Vendor>;
+  stores: Array<Store>;
   vendors: Array<Vendor>;
   storesAggregate: ZipStoresAggregateResponse;
   vendorsAggregate: ZipVendorsAggregateResponse;
@@ -2299,8 +2343,8 @@ export type Zip = {
 
 export type ZipStoresArgs = {
   paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<VendorFilter>;
-  sorting?: Maybe<Array<VendorSort>>;
+  filter?: Maybe<StoreFilter>;
+  sorting?: Maybe<Array<StoreSort>>;
 };
 
 
@@ -2312,7 +2356,7 @@ export type ZipVendorsArgs = {
 
 
 export type ZipStoresAggregateArgs = {
-  filter?: Maybe<VendorAggregateFilter>;
+  filter?: Maybe<StoreAggregateFilter>;
 };
 
 
@@ -3217,6 +3261,55 @@ export type StoreAggregateResponse = {
   count?: Maybe<StoreCountAggregate>;
   min?: Maybe<StoreMinAggregate>;
   max?: Maybe<StoreMaxAggregate>;
+};
+
+export type StoreZipsCountAggregate = {
+  __typename?: 'StoreZipsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+};
+
+export type StoreZipsSumAggregate = {
+  __typename?: 'StoreZipsSumAggregate';
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type StoreZipsAvgAggregate = {
+  __typename?: 'StoreZipsAvgAggregate';
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type StoreZipsMinAggregate = {
+  __typename?: 'StoreZipsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type StoreZipsMaxAggregate = {
+  __typename?: 'StoreZipsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['Float']>;
+};
+
+export type StoreZipsAggregateResponse = {
+  __typename?: 'StoreZipsAggregateResponse';
+  count?: Maybe<StoreZipsCountAggregate>;
+  sum?: Maybe<StoreZipsSumAggregate>;
+  avg?: Maybe<StoreZipsAvgAggregate>;
+  min?: Maybe<StoreZipsMinAggregate>;
+  max?: Maybe<StoreZipsMaxAggregate>;
 };
 
 export type StoreBacklogsCountAggregate = {
@@ -5929,9 +6022,16 @@ export type ZipStoresCountAggregate = {
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['Int']>;
-  vendorName?: Maybe<Scalars['Int']>;
+  storeName?: Maybe<Scalars['Int']>;
   phoneNumber?: Maybe<Scalars['Int']>;
-  email?: Maybe<Scalars['Int']>;
+  officialemail?: Maybe<Scalars['Int']>;
+  zipcode?: Maybe<Scalars['Int']>;
+  streetAddress1?: Maybe<Scalars['Int']>;
+  streetAddress2?: Maybe<Scalars['Int']>;
+  GSTIN?: Maybe<Scalars['Int']>;
+  singleStore?: Maybe<Scalars['Int']>;
+  rentalStore?: Maybe<Scalars['Int']>;
+  channelMarkets?: Maybe<Scalars['Int']>;
 };
 
 export type ZipStoresMinAggregate = {
@@ -5939,9 +6039,13 @@ export type ZipStoresMinAggregate = {
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  vendorName?: Maybe<Scalars['String']>;
+  storeName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
 };
 
 export type ZipStoresMaxAggregate = {
@@ -5949,9 +6053,13 @@ export type ZipStoresMaxAggregate = {
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  vendorName?: Maybe<Scalars['String']>;
+  storeName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  officialemail?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  GSTIN?: Maybe<Scalars['String']>;
 };
 
 export type ZipStoresAggregateResponse = {
@@ -6606,6 +6714,18 @@ export type DeliverySignInsAggregateResponse = {
   max?: Maybe<DeliverySignInsMaxAggregate>;
 };
 
+export type DataSource = {
+  __typename?: 'DataSource';
+  sum: Scalars['Float'];
+  amount: Scalars['Float'];
+};
+
+export type StatisticeDto = {
+  __typename?: 'StatisticeDto';
+  labels: Array<Scalars['String']>;
+  datasource: Array<DataSource>;
+};
+
 export type Query = {
   __typename?: 'Query';
   GetAdministratorData: Administrator;
@@ -6751,6 +6871,7 @@ export type Query = {
   GetDeliveryStrandedCount: DeliveryStrandedCount;
   GetAllPaymentMethods: Array<PaymentMethod>;
   GetDefaultPaymentMethods: PaymentMethod;
+  GetProductSaleData: StatisticeDto;
 };
 
 
@@ -7439,6 +7560,12 @@ export type QueryDeliveryAggregateArgs = {
   filter?: Maybe<DeliveryAggregateFilter>;
 };
 
+
+export type QueryGetProductSaleDataArgs = {
+  type: Scalars['String'];
+  productId: Scalars['ID'];
+};
+
 export type AssetFilter = {
   and?: Maybe<Array<AssetFilter>>;
   or?: Maybe<Array<AssetFilter>>;
@@ -8069,6 +8196,7 @@ export type Mutation = {
   updateManyStores: UpdateManyResponse;
   createOneStore: Store;
   createManyStores: Array<Store>;
+  removeZipsFromStore: Store;
   removeBacklogsFromStore: Store;
   removeCartsFromStore: Store;
   removePricesFromStore: Store;
@@ -8076,6 +8204,7 @@ export type Mutation = {
   removeSkusFromStore: Store;
   removeBalanceFromStore: Store;
   removeCountryFromStore: Store;
+  addZipsToStore: Store;
   addBacklogsToStore: Store;
   addCartsToStore: Store;
   addPricesToStore: Store;
@@ -8635,6 +8764,11 @@ export type MutationCreateManyStoresArgs = {
 };
 
 
+export type MutationRemoveZipsFromStoreArgs = {
+  input: RelationsInput;
+};
+
+
 export type MutationRemoveBacklogsFromStoreArgs = {
   input: RelationsInput;
 };
@@ -8667,6 +8801,11 @@ export type MutationRemoveBalanceFromStoreArgs = {
 
 export type MutationRemoveCountryFromStoreArgs = {
   input: RelationInput;
+};
+
+
+export type MutationAddZipsToStoreArgs = {
+  input: RelationsInput;
 };
 
 
@@ -16378,6 +16517,24 @@ export type GetBillingAgreementForStoreQuery = (
   ) }
 );
 
+export type GetProductSaleDataQueryVariables = Exact<{
+  productId: Scalars['ID'];
+  type: Scalars['String'];
+}>;
+
+
+export type GetProductSaleDataQuery = (
+  { __typename?: 'Query' }
+  & { GetProductSaleData: (
+    { __typename?: 'StatisticeDto' }
+    & Pick<StatisticeDto, 'labels'>
+    & { datasource: Array<(
+      { __typename?: 'DataSource' }
+      & Pick<DataSource, 'sum' | 'amount'>
+    )> }
+  ) }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -18007,6 +18164,17 @@ export const GetBillingAgreementForStoreDocument = gql`
   GetBillingAgreementForStore(variantId: $variantId, storeId: $storeId) {
     id
     value
+  }
+}
+    `;
+export const GetProductSaleDataDocument = gql`
+    query GetProductSaleData($productId: ID!, $type: String!) {
+  GetProductSaleData(productId: $productId, type: $type) {
+    labels
+    datasource {
+      sum
+      amount
+    }
   }
 }
     `;
