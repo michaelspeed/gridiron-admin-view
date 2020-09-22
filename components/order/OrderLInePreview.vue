@@ -105,7 +105,7 @@
                                     <a-select-option :value="orderStageType.SHIPPED" :disabled="true">
                                         SHIPPED
                                     </a-select-option>
-                                    <a-select-option :value="orderStageType.DELIVERED" :disabled="true">
+                                    <a-select-option :value="orderStageType.DELIVERED">
                                         DELIVERED
                                     </a-select-option>
                                 </a-select>
