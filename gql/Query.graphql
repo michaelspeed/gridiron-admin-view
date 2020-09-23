@@ -1134,6 +1134,7 @@ query GetAllPages($limit: Int, $iLike: String, $offset: Int){
             direction:DESC
         }
     ) {
+        id
         title
         targetId
         pageType
@@ -1397,6 +1398,53 @@ query GetDeliveries($limit: Int, $offset: Int){
     }
 }
 
+query GetStoreInvoices($store: ID, $limit: Int, $offset: Int){
+    invoices(filter:{
+        store:{
+            id:{
+                eq: $store
+            },
+        }
+        ,
+        type:{
+            eq:"STORE"
+        }
+    },paging: {
+        limit: $limit
+        offset: $offset
+    }) {
+        id
+        type
+        total
+        amount
+        fees
+        tax
+        nulled
+        line {
+            id
+
+        }
+    }
+}
+query GetMasterInvoices($limit: Int, $offset: Int){
+    invoices(paging: {
+        limit: $limit
+        offset: $offset
+    }) {
+        id
+        type
+        total
+        amount
+        fees
+        tax
+        nulled
+        line {
+            id
+
+        }
+    }
+}
+
 query GetDeliveryStrandedCount {
     GetDeliveryStrandedCount {
         count
@@ -1433,6 +1481,67 @@ query GetProductSaleData($productId:ID!, $type: String!, $storeId: String){
         datasource {
             sum
             amount
+        }
+    }
+}
+
+query GetSingleInvoice($id: ID!){
+    invoice(id: $id) {
+        id
+        type
+        total
+        amount
+        fees
+        tax
+        nulled
+        line {
+            id
+            priceField
+            store {
+                id
+                storeName
+            }
+            order {
+                id
+                address
+                user {
+                    id
+                    firstName
+                    lastName
+                }
+            }
+        }
+    }
+}
+
+query GetSingleVendor($id: ID!){
+    vendor(id: $id) {
+        id
+        email
+        store {
+            id
+            storeName
+            phoneNumber
+            streetAddress1
+            streetAddress2
+            GSTIN
+            settlements(
+                sorting:{
+                    field: createdAt,
+                    direction: DESC
+                }
+            ) {
+                id
+                createdAt
+                amount
+                finalamount
+                type
+            }
+        }
+        license {
+            id
+            tenureStart
+            tenureEnd
         }
     }
 }

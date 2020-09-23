@@ -16,7 +16,7 @@
                             <!--end::Separator-->
 
                             <!--begin::Search Form-->
-                            <div class="d-flex align-items-center" id="kt_subheader_search">
+                            <!--<div class="d-flex align-items-center" id="kt_subheader_search">
                                 <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">690 Total</span>
                                 <div class="ml-5">
                                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
@@ -26,7 +26,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <!--end::Search Form-->
                         </div>
                         <!--end::Details-->

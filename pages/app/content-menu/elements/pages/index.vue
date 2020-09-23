@@ -82,9 +82,13 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import {GetAllPagesDocument} from "~/gql";
+    import PageActions from "~/components/pages/PageActions.vue";
 
     @Component({
         layout: 'console',
+        components: {
+            PageActions
+        },
         apollo: {
             pages: {
                 query: GetAllPagesDocument,
@@ -122,9 +126,18 @@
                 field: 'title'
             },
             {
+                headerName: 'Target Id',
+                filter: false,
+                field: 'targetId'
+            },
+            {
                 headerName: 'type',
                 filter: false,
                 field: 'pageCategory'
+            },
+            {
+                headerName: 'actions',
+                cellRendererFramework: 'PageActions'
             }
         ]
 

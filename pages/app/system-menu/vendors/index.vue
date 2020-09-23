@@ -75,9 +75,13 @@
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
     import {GetAllVebdorsDocument} from "~/gql";
+    import VendorActions from "~/components/vendor/vendor-actions.vue";
 
     @Component({
         layout: 'console',
+        components:{
+            VendorActions
+        },
         apollo: {
             vendors: {
                 query: GetAllVebdorsDocument,
@@ -115,6 +119,10 @@
                 headerName: 'Store Name',
                 filter: false,
                 field: 'store.storeName'
+            },
+            {
+                headerName: 'Actions',
+                cellRendererFramework: 'VendorActions'
             }
         ]
         private defaultColDef = {

@@ -48,7 +48,7 @@
     @Component({
         layout: 'console'
     })
-    export default class Shipment extends Vue {
+    export default class Settlements extends Vue {
 
     }
 </script>

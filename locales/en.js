@@ -34,6 +34,7 @@ export default {
         "orders": "Orders",
         "invoices": "Invoices",
         "shipment": "Shipment",
+        "settlements": "Settlements",
         "credit-memo": "Credit Memo",
         "billing-agreement": "Billing Agreement",
         "transaction": "Transaction",

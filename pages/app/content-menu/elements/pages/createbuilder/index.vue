@@ -47,8 +47,8 @@
                                 <a-menu slot="overlay" @click="handleMenuClick">
                                     <a-menu-item key="HOME">Home Page </a-menu-item>
                                     <a-menu-item key="CATEGORY">Category Page </a-menu-item>
-                                    <a-menu-item key="SINGLEPROD">Single Page</a-menu-item>
-                                    <a-menu-item key="PRODVARIANT">Product Variants Page</a-menu-item>
+                                    <!--<a-menu-item key="SINGLEPROD">Single Page</a-menu-item>
+                                    <a-menu-item key="PRODVARIANT">Product Variants Page</a-menu-item>-->
                                 </a-menu>
                             </a-dropdown-button>
                             <!--end::Button-->
