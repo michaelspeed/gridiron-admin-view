@@ -67,7 +67,7 @@
                                 <ZipConfiguration/>
                             </v-tab-item>
                             <v-tab-item :key="3">
-                                <VendorVendorSettlements :id="vendorStore.id"/>
+                                <VendorVendorSettlements :id="vendor.id"/>
                             </v-tab-item>
                         </v-tabs-items>
                     </div>

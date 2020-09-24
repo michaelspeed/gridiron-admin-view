@@ -72,11 +72,9 @@ export const actions = {
     },
     async getVendorStore({commit}) {
         let client = await this.app.apolloProvider.defaultClient
-        await client.watchQuery({
+        await client.query({
             query: GetVendorInfoDocument,
-            pollInterval: 3000
-        }).subscribe(value => {
-            console.log(value)
+        }).then(value => {
             commit('setVendorStore', value.data.GetVendorInfo.store)
         }).catch(error => {
             commit('resetVendorStore')
