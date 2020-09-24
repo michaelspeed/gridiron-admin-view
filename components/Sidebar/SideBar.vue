@@ -51,10 +51,19 @@
                  v-if="!store && !vendorStore">
                 <div class="spinner spinner-primary spinner-lg mr-15"></div>
             </div>
-            <div v-if="store && vendorStore" class="card card-custom bgi-no-repeat gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/media/svg/shapes/abstract-4.svg)">
+            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px" v-if="vendorStore && vendorStore.balance">
                 <!--begin::Body-->
-                <div class="card-body">
-                    <a href="#" class="card-title font-weight-bold text-primary text-hover-primary font-size-h1">{{store.storeName}}</a>
+                <div class="card-body d-flex flex-column">
+                    <div>
+                        <i class="fas fa-money-check-alt text-danger"></i>
+                    </div>
+                    <!--begin::Stats-->
+                    <div class="flex-grow-1">
+                        <div class="text-dark-50 font-weight-bold">Total Volume</div>
+                        <div class="font-weight-bolder text-primary font-size-h3">{{vendorStore.balance.balance}} INR</div>
+                    </div>
+                    <!--end::Stats-->
+
                 </div>
                 <!--end::Body-->
             </div>
@@ -158,19 +167,6 @@
                     <!--end: Items-->
                 </div>
                 <!--end: Card Body-->
-            </div>
-            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px" v-if="vendorStore && vendorStore.balance">
-                <!--begin::Body-->
-                <div class="card-body d-flex flex-column">
-                    <!--begin::Stats-->
-                    <div class="flex-grow-1">
-                        <div class="text-dark-50 font-weight-bold">Total Volume</div>
-                        <div class="font-weight-bolder font-size-h3">{{vendorStore.balance.balance}} INR</div>
-                    </div>
-                    <!--end::Stats-->
-
-                </div>
-                <!--end::Body-->
             </div>
         </div>
         <!--end::Aside Secondary Content-->

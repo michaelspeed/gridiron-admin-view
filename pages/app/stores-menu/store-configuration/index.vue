@@ -48,6 +48,9 @@
                                 <v-tab>
                                     Zip Codes
                                 </v-tab>
+                                <v-tab>
+                                    Settlements
+                                </v-tab>
                                 <!--<v-tab>
                                     Integrations
                                 </v-tab>
@@ -63,10 +66,9 @@
                             <v-tab-item :key="2">
                                 <ZipConfiguration/>
                             </v-tab-item>
-                            <!--<v-tab-item :key="3">
+                            <v-tab-item :key="3">
+                                <VendorVendorSettlements :id="vendorStore.id"/>
                             </v-tab-item>
-                            <v-tab-item :key="4">
-                            </v-tab-item>-->
                         </v-tabs-items>
                     </div>
                 </div>
@@ -79,10 +81,19 @@
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import StoreConfiguration from '../../../../components/System/StoreConfiguration.vue';
     import ZipConfiguration from '../../../../components/System/ZipConfiguration.vue';
+    import VendorVendorSettlements from "~/components/vendor/vendor-vendor-settlements.vue";
+    import {mapState} from "vuex";
 
     @Component({
-        components: {ZipConfiguration, StoreConfiguration},
+        components: {ZipConfiguration, StoreConfiguration, VendorVendorSettlements},
         layout: 'console',
+        computed: {
+            ...mapState({
+                admin: (store: any) => store.admin.administrator,
+                vendor: (store: any) => store.admin.vendor,
+                vendorStore: (store: any) => store.admin.vendorStore,
+            }),
+        },
     })
     export default class SystemConfig extends Vue {
         private tabs = '1'

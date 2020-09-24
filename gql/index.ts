@@ -1455,6 +1455,7 @@ export type StoreFilter = {
   zip?: Maybe<StoreFilterZipFilter>;
   backlogs?: Maybe<StoreFilterStockBackLogFilter>;
   cart?: Maybe<StoreFilterCartItemFilter>;
+  settlement?: Maybe<StoreFilterSettlementsFilter>;
 };
 
 export type StoreFilterInvoiceFilter = {
@@ -1496,6 +1497,42 @@ export type StoreFilterCartItemFilter = {
   or?: Maybe<Array<StoreFilterCartItemFilter>>;
   id?: Maybe<IdFilterComparison>;
 };
+
+export type StoreFilterSettlementsFilter = {
+  and?: Maybe<Array<StoreFilterSettlementsFilter>>;
+  or?: Maybe<Array<StoreFilterSettlementsFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  taxamount?: Maybe<NumberFieldComparison>;
+  finalamount?: Maybe<NumberFieldComparison>;
+  transactionID?: Maybe<StringFieldComparison>;
+  remarks?: Maybe<StringFieldComparison>;
+  type?: Maybe<SettlementTypeFilterComparison>;
+};
+
+export type SettlementTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<SettlementType>;
+  neq?: Maybe<SettlementType>;
+  gt?: Maybe<SettlementType>;
+  gte?: Maybe<SettlementType>;
+  lt?: Maybe<SettlementType>;
+  lte?: Maybe<SettlementType>;
+  like?: Maybe<SettlementType>;
+  notLike?: Maybe<SettlementType>;
+  iLike?: Maybe<SettlementType>;
+  notILike?: Maybe<SettlementType>;
+  in?: Maybe<Array<SettlementType>>;
+  notIn?: Maybe<Array<SettlementType>>;
+};
+
+export enum SettlementType {
+  Processing = 'PROCESSING',
+  Processed = 'PROCESSED'
+}
 
 export type StoreSort = {
   field: StoreSortFields;
@@ -1568,7 +1605,7 @@ export type Store = {
   zips: Array<Zip>;
   backlogs: Array<StockBackLog>;
   carts: Array<CartItem>;
-  prices: Array<Settlements>;
+  prices: Array<ProductVariantPrice>;
   settlements: Array<Settlements>;
   skus: Array<StockKeeping>;
   balance?: Maybe<StoreBalance>;
@@ -1613,8 +1650,8 @@ export type StoreCartsArgs = {
 
 export type StorePricesArgs = {
   paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<SettlementsFilter>;
-  sorting?: Maybe<Array<SettlementsSort>>;
+  filter?: Maybe<ProductVariantPriceFilter>;
+  sorting?: Maybe<Array<ProductVariantPriceSort>>;
 };
 
 
@@ -1653,7 +1690,7 @@ export type StoreCartsAggregateArgs = {
 
 
 export type StorePricesAggregateArgs = {
-  filter?: Maybe<SettlementsAggregateFilter>;
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
 };
 
 
@@ -1678,6 +1715,36 @@ export type StockBackLogFilter = {
   createdAt?: Maybe<DateFieldComparison>;
   updatedAt?: Maybe<DateFieldComparison>;
   quantity?: Maybe<NumberFieldComparison>;
+  store?: Maybe<StockBackLogFilterStoreFilter>;
+  variant?: Maybe<StockBackLogFilterProductVariantPriceFilter>;
+};
+
+export type StockBackLogFilterStoreFilter = {
+  and?: Maybe<Array<StockBackLogFilterStoreFilter>>;
+  or?: Maybe<Array<StockBackLogFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+};
+
+export type StockBackLogFilterProductVariantPriceFilter = {
+  and?: Maybe<Array<StockBackLogFilterProductVariantPriceFilter>>;
+  or?: Maybe<Array<StockBackLogFilterProductVariantPriceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
 };
 
 export type StockBackLogSort = {
@@ -1722,28 +1789,6 @@ export type SettlementsFilter = {
   remarks?: Maybe<StringFieldComparison>;
   type?: Maybe<SettlementTypeFilterComparison>;
 };
-
-export type SettlementTypeFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<SettlementType>;
-  neq?: Maybe<SettlementType>;
-  gt?: Maybe<SettlementType>;
-  gte?: Maybe<SettlementType>;
-  lt?: Maybe<SettlementType>;
-  lte?: Maybe<SettlementType>;
-  like?: Maybe<SettlementType>;
-  notLike?: Maybe<SettlementType>;
-  iLike?: Maybe<SettlementType>;
-  notILike?: Maybe<SettlementType>;
-  in?: Maybe<Array<SettlementType>>;
-  notIn?: Maybe<Array<SettlementType>>;
-};
-
-export enum SettlementType {
-  Processing = 'PROCESSING',
-  Processed = 'PROCESSED'
-}
 
 export type SettlementsSort = {
   field: SettlementsSortFields;
@@ -2152,6 +2197,7 @@ export type VendorLicense = {
   id: Scalars['ID'];
   tenureStart: Scalars['DateTime'];
   tenureEnd: Scalars['DateTime'];
+  plans: VendorPlans;
   vendor: Vendor;
 };
 
@@ -2498,6 +2544,18 @@ export type VendorFilter = {
   vendorName?: Maybe<StringFieldComparison>;
   phoneNumber?: Maybe<StringFieldComparison>;
   email?: Maybe<StringFieldComparison>;
+  zip?: Maybe<VendorFilterZipFilter>;
+};
+
+export type VendorFilterZipFilter = {
+  and?: Maybe<Array<VendorFilterZipFilter>>;
+  or?: Maybe<Array<VendorFilterZipFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
 };
 
 export type VendorSort = {
@@ -3628,26 +3686,18 @@ export type StorePricesCountAggregate = {
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['Int']>;
-  amount?: Maybe<Scalars['Int']>;
-  taxamount?: Maybe<Scalars['Int']>;
-  finalamount?: Maybe<Scalars['Int']>;
-  transactionID?: Maybe<Scalars['Int']>;
-  remarks?: Maybe<Scalars['Int']>;
-  type?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Int']>;
+  taxIncluded?: Maybe<Scalars['Int']>;
 };
 
 export type StorePricesSumAggregate = {
   __typename?: 'StorePricesSumAggregate';
-  amount?: Maybe<Scalars['Float']>;
-  taxamount?: Maybe<Scalars['Float']>;
-  finalamount?: Maybe<Scalars['Float']>;
+  price?: Maybe<Scalars['Float']>;
 };
 
 export type StorePricesAvgAggregate = {
   __typename?: 'StorePricesAvgAggregate';
-  amount?: Maybe<Scalars['Float']>;
-  taxamount?: Maybe<Scalars['Float']>;
-  finalamount?: Maybe<Scalars['Float']>;
+  price?: Maybe<Scalars['Float']>;
 };
 
 export type StorePricesMinAggregate = {
@@ -3655,12 +3705,7 @@ export type StorePricesMinAggregate = {
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  amount?: Maybe<Scalars['Float']>;
-  taxamount?: Maybe<Scalars['Float']>;
-  finalamount?: Maybe<Scalars['Float']>;
-  transactionID?: Maybe<Scalars['String']>;
-  remarks?: Maybe<Scalars['String']>;
-  type?: Maybe<SettlementType>;
+  price?: Maybe<Scalars['Float']>;
 };
 
 export type StorePricesMaxAggregate = {
@@ -3668,12 +3713,7 @@ export type StorePricesMaxAggregate = {
   id?: Maybe<Scalars['ID']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  amount?: Maybe<Scalars['Float']>;
-  taxamount?: Maybe<Scalars['Float']>;
-  finalamount?: Maybe<Scalars['Float']>;
-  transactionID?: Maybe<Scalars['String']>;
-  remarks?: Maybe<Scalars['String']>;
-  type?: Maybe<SettlementType>;
+  price?: Maybe<Scalars['Float']>;
 };
 
 export type StorePricesAggregateResponse = {
@@ -7367,6 +7407,7 @@ export type Query = {
   GetStoreOrderData: StatisticeDto;
   GetAdminOrderData: StatisticeDto;
   GetProductViews: StatisticeProdDto;
+  GetAdminViews: StatisticeProdDto;
   stockBackLog?: Maybe<StockBackLog>;
   stockBackLogs: Array<StockBackLog>;
   stockBackLogAggregate: StockBackLogAggregateResponse;
@@ -8086,6 +8127,11 @@ export type QueryGetAdminOrderDataArgs = {
 export type QueryGetProductViewsArgs = {
   type?: Maybe<Scalars['String']>;
   productId: Scalars['ID'];
+};
+
+
+export type QueryGetAdminViewsArgs = {
+  type?: Maybe<Scalars['String']>;
 };
 
 
@@ -9037,7 +9083,9 @@ export type Mutation = {
   addLicencesToVendorPlans: VendorPlans;
   CreatePlan: VendorPlans;
   UpdatePlan: VendorPlans;
+  removePlansFromVendorLicense: VendorLicense;
   removeVendorFromVendorLicense: VendorLicense;
+  setPlansOnVendorLicense: VendorLicense;
   setVendorOnVendorLicense: VendorLicense;
   CreateVendorProdVariant: BillingAgreement;
   UpdateVendorProdVariant: BillingAgreement;
@@ -10558,7 +10606,17 @@ export type MutationUpdatePlanArgs = {
 };
 
 
+export type MutationRemovePlansFromVendorLicenseArgs = {
+  input: RelationInput;
+};
+
+
 export type MutationRemoveVendorFromVendorLicenseArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetPlansOnVendorLicenseArgs = {
   input: RelationInput;
 };
 
@@ -16250,6 +16308,19 @@ export type DeleteOnePageMutation = (
   ) }
 );
 
+export type CreateSettlementMutationVariables = Exact<{
+  storeId: Scalars['ID'];
+}>;
+
+
+export type CreateSettlementMutation = (
+  { __typename?: 'Mutation' }
+  & { CreateSettlement: (
+    { __typename?: 'Settlements' }
+    & Pick<Settlements, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -17633,19 +17704,163 @@ export type GetSingleVendorQuery = (
   { __typename?: 'Query' }
   & { vendor?: Maybe<(
     { __typename?: 'Vendor' }
-    & Pick<Vendor, 'id' | 'email'>
+    & Pick<Vendor, 'id' | 'email' | 'vendorName'>
     & { store: (
       { __typename?: 'Store' }
-      & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'streetAddress1' | 'streetAddress2' | 'GSTIN'>
-      & { settlements: Array<(
-        { __typename?: 'Settlements' }
-        & Pick<Settlements, 'id' | 'createdAt' | 'amount' | 'finalamount' | 'type'>
-      )> }
+      & Pick<Store, 'id' | 'storeName' | 'phoneNumber' | 'officialemail' | 'streetAddress1' | 'streetAddress2' | 'GSTIN'>
+      & { invoicesAggregate: (
+        { __typename?: 'StoreInvoicesAggregateResponse' }
+        & { count?: Maybe<(
+          { __typename?: 'StoreInvoicesCountAggregate' }
+          & Pick<StoreInvoicesCountAggregate, 'id'>
+        )> }
+      ), zipsAggregate: (
+        { __typename?: 'StoreZipsAggregateResponse' }
+        & { count?: Maybe<(
+          { __typename?: 'StoreZipsCountAggregate' }
+          & Pick<StoreZipsCountAggregate, 'id'>
+        )> }
+      ), backlogsAggregate: (
+        { __typename?: 'StoreBacklogsAggregateResponse' }
+        & { count?: Maybe<(
+          { __typename?: 'StoreBacklogsCountAggregate' }
+          & Pick<StoreBacklogsCountAggregate, 'id'>
+        )> }
+      ), settlementsAggregate: (
+        { __typename?: 'StoreSettlementsAggregateResponse' }
+        & { count?: Maybe<(
+          { __typename?: 'StoreSettlementsCountAggregate' }
+          & Pick<StoreSettlementsCountAggregate, 'id'>
+        )> }
+      ) }
     ), license: (
       { __typename?: 'VendorLicense' }
-      & Pick<VendorLicense, 'id' | 'tenureStart' | 'tenureEnd'>
+      & Pick<VendorLicense, 'tenureEnd' | 'tenureStart'>
+      & { plans: (
+        { __typename?: 'VendorPlans' }
+        & Pick<VendorPlans, 'name' | 'planValue' | 'priceStrategy' | 'tenureStrategy'>
+      ) }
     ) }
   )> }
+);
+
+export type GetVendorSettlementsQueryVariables = Exact<{
+  id: Scalars['ID'];
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetVendorSettlementsQuery = (
+  { __typename?: 'Query' }
+  & { vendor?: Maybe<(
+    { __typename?: 'Vendor' }
+    & Pick<Vendor, 'id'>
+    & { store: (
+      { __typename?: 'Store' }
+      & Pick<Store, 'id'>
+      & { settlements: Array<(
+        { __typename?: 'Settlements' }
+        & Pick<Settlements, 'id' | 'amount' | 'taxamount' | 'finalamount' | 'transactionID' | 'type'>
+      )> }
+    ) }
+  )> }
+);
+
+export type GetVendorZipsQueryVariables = Exact<{
+  id: Scalars['ID'];
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetVendorZipsQuery = (
+  { __typename?: 'Query' }
+  & { vendor?: Maybe<(
+    { __typename?: 'Vendor' }
+    & Pick<Vendor, 'id'>
+    & { store: (
+      { __typename?: 'Store' }
+      & Pick<Store, 'id'>
+      & { zips: Array<(
+        { __typename?: 'Zip' }
+        & Pick<Zip, 'id' | 'code' | 'name'>
+      )> }
+    ) }
+  )> }
+);
+
+export type GetStoreOrderDataQueryVariables = Exact<{
+  type: Scalars['String'];
+  storeId: Scalars['String'];
+}>;
+
+
+export type GetStoreOrderDataQuery = (
+  { __typename?: 'Query' }
+  & { GetStoreOrderData: (
+    { __typename?: 'StatisticeDto' }
+    & Pick<StatisticeDto, 'labels'>
+    & { datasource: Array<(
+      { __typename?: 'DataSource' }
+      & Pick<DataSource, 'sum' | 'amount'>
+    )> }
+  ) }
+);
+
+export type GetVendorLicenseQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetVendorLicenseQuery = (
+  { __typename?: 'Query' }
+  & { vendor?: Maybe<(
+    { __typename?: 'Vendor' }
+    & Pick<Vendor, 'id'>
+    & { license: (
+      { __typename?: 'VendorLicense' }
+      & Pick<VendorLicense, 'tenureStart' | 'tenureEnd'>
+      & { plans: (
+        { __typename?: 'VendorPlans' }
+        & Pick<VendorPlans, 'name' | 'planValue' | 'priceStrategy' | 'tenureStrategy'>
+      ) }
+    ) }
+  )> }
+);
+
+export type GetAdminOrderDataQueryVariables = Exact<{
+  type: Scalars['String'];
+}>;
+
+
+export type GetAdminOrderDataQuery = (
+  { __typename?: 'Query' }
+  & { GetAdminOrderData: (
+    { __typename?: 'StatisticeDto' }
+    & Pick<StatisticeDto, 'labels'>
+    & { datasource: Array<(
+      { __typename?: 'DataSource' }
+      & Pick<DataSource, 'sum' | 'amount'>
+    )> }
+  ) }
+);
+
+export type GetAdminViewsQueryVariables = Exact<{
+  type?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetAdminViewsQuery = (
+  { __typename?: 'Query' }
+  & { GetAdminViews: (
+    { __typename?: 'StatisticeProdDto' }
+    & Pick<StatisticeProdDto, 'labels'>
+    & { datasource: Array<(
+      { __typename?: 'DataSource' }
+      & Pick<DataSource, 'sum'>
+    )> }
+  ) }
 );
 
 
@@ -18126,6 +18341,13 @@ export const UpdateVendorProdVariantDocument = gql`
 export const DeleteOnePageDocument = gql`
     mutation DeleteOnePage($id: ID!) {
   deleteOnePage(input: {id: $id}) {
+    id
+  }
+}
+    `;
+export const CreateSettlementDocument = gql`
+    mutation CreateSettlement($storeId: ID!) {
+  CreateSettlement(storeId: $storeId) {
     id
   }
 }
@@ -19373,25 +19595,127 @@ export const GetSingleVendorDocument = gql`
   vendor(id: $id) {
     id
     email
+    vendorName
     store {
       id
       storeName
       phoneNumber
+      officialemail
       streetAddress1
       streetAddress2
       GSTIN
-      settlements(sorting: {field: createdAt, direction: DESC}) {
-        id
-        createdAt
-        amount
-        finalamount
-        type
+      invoicesAggregate {
+        count {
+          id
+        }
+      }
+      zipsAggregate {
+        count {
+          id
+        }
+      }
+      backlogsAggregate {
+        count {
+          id
+        }
+      }
+      settlementsAggregate {
+        count {
+          id
+        }
       }
     }
     license {
+      tenureEnd
+      tenureStart
+      plans {
+        name
+        planValue
+        priceStrategy
+        tenureStrategy
+      }
+    }
+  }
+}
+    `;
+export const GetVendorSettlementsDocument = gql`
+    query GetVendorSettlements($id: ID!, $limit: Int, $offset: Int) {
+  vendor(id: $id) {
+    id
+    store {
       id
+      settlements(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: ASC}) {
+        id
+        amount
+        taxamount
+        finalamount
+        transactionID
+        type
+      }
+    }
+  }
+}
+    `;
+export const GetVendorZipsDocument = gql`
+    query GetVendorZips($id: ID!, $limit: Int, $offset: Int) {
+  vendor(id: $id) {
+    id
+    store {
+      id
+      zips(paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: ASC}) {
+        id
+        code
+        name
+      }
+    }
+  }
+}
+    `;
+export const GetStoreOrderDataDocument = gql`
+    query GetStoreOrderData($type: String!, $storeId: String!) {
+  GetStoreOrderData(type: $type, storeId: $storeId) {
+    datasource {
+      sum
+      amount
+    }
+    labels
+  }
+}
+    `;
+export const GetVendorLicenseDocument = gql`
+    query GetVendorLicense($id: ID!) {
+  vendor(id: $id) {
+    id
+    license {
       tenureStart
       tenureEnd
+      plans {
+        name
+        planValue
+        priceStrategy
+        tenureStrategy
+      }
+    }
+  }
+}
+    `;
+export const GetAdminOrderDataDocument = gql`
+    query GetAdminOrderData($type: String!) {
+  GetAdminOrderData(type: $type) {
+    labels
+    datasource {
+      sum
+      amount
+    }
+  }
+}
+    `;
+export const GetAdminViewsDocument = gql`
+    query GetAdminViews($type: String) {
+  GetAdminViews(type: $type) {
+    labels
+    datasource {
+      sum
     }
   }
 }

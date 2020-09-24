@@ -50,7 +50,7 @@ import InvoiceActions from "~/components/invoices/invoice-actions.vue";
             query: GetStoreInvoicesDocument,
             variables() {
                 return {
-                    store: this.$store.state.vendorStore.id,
+                    store: this.vendorStore.id,
                     limit: this.limit,
                     offset: this.offset
                 }
@@ -62,6 +62,7 @@ export default class VendorInvoice extends Vue {
     private limit = 10
     private offset = 0
     private invoices
+    private vendorStore
 
     // Table
     private gridOptions: any = {};

@@ -753,3 +753,9 @@ mutation DeleteOnePage($id:ID!){
         id
     }
 }
+
+mutation CreateSettlement($storeId: ID!){
+    CreateSettlement(storeId: $storeId) {
+        id
+    }
+}

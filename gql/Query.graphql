@@ -1518,30 +1518,139 @@ query GetSingleVendor($id: ID!){
     vendor(id: $id) {
         id
         email
+        vendorName
         store {
             id
             storeName
             phoneNumber
+            officialemail
             streetAddress1
             streetAddress2
             GSTIN
-            settlements(
-                sorting:{
-                    field: createdAt,
-                    direction: DESC
+            invoicesAggregate {
+                count {
+                    id
                 }
-            ) {
-                id
-                createdAt
-                amount
-                finalamount
-                type
+            }
+            zipsAggregate {
+                count {
+                    id
+                }
+            }
+            backlogsAggregate {
+                count {
+                    id
+                }
+            }
+            settlementsAggregate {
+                count {
+                    id
+                }
             }
         }
         license {
+            tenureEnd
+            tenureStart
+            plans {
+                name
+                planValue
+                priceStrategy
+                tenureStrategy
+            }
+        }
+    }
+}
+
+query GetVendorSettlements($id: ID!,$limit: Int, $offset: Int){
+    vendor(id: $id) {
+        id
+        store {
             id
+            settlements(
+                paging: {
+                    limit: $limit
+                    offset: $offset
+                },
+                sorting:{
+                    field:createdAt
+                    direction:ASC
+                }
+            ) {
+                id
+                amount
+                taxamount
+                finalamount
+                transactionID
+                type
+            }
+        }
+    }
+}
+
+query GetVendorZips($id: ID!,$limit: Int, $offset: Int){
+    vendor(id:$id) {
+        id
+        store {
+            id
+            zips(
+                paging: {
+                    limit: $limit
+                    offset: $offset
+                },
+                sorting:{
+                    field:createdAt
+                    direction:ASC
+                }
+            ) {
+                id
+                code
+                name
+            }
+        }
+    }
+}
+
+query GetStoreOrderData($type: String!, $storeId: String!){
+    GetStoreOrderData(type: $type, storeId: $storeId) {
+        datasource {
+            sum
+            amount
+        }
+        labels
+    }
+}
+
+query GetVendorLicense($id: ID!){
+    vendor(id: $id) {
+        id
+        license {
             tenureStart
             tenureEnd
+            plans {
+                name
+                planValue
+                priceStrategy
+                tenureStrategy
+            }
+        }
+    }
+}
+
+query GetAdminOrderData($type:String!){
+    GetAdminOrderData(type: $type){
+        labels
+        datasource {
+            sum
+            amount
+        }
+    }
+}
+
+query GetAdminViews($type: String){
+    GetAdminViews(type: $type){
+        labels
+        datasource {
+            sum
         }
     }
 }
