@@ -18,7 +18,7 @@
                     <product-options-card :variants="variants" :all-prod-options="allProdOptions"/>
                 </div>
             </div>
-          <v-bottom-sheet v-model="addOption" inset>
+          <v-bottom-sheet v-model="addOption" inset transition="slide-y-reverse-transition">
             <v-sheet>
               <div class="card">
                 <div class="card-header border-0 d-flex justify-content-between align-items-center">
@@ -114,11 +114,6 @@
                 optionkey: '',
                 optionTags: []
             })
-        }
-
-        @Watch('loading')
-        onLoading() {
-            console.log(this.loading)
         }
 
         onRemoveOption(index) {

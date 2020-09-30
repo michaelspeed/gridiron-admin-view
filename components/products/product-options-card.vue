@@ -1,14 +1,15 @@
 <template>
     <div v-if="!$apollo.queries.assets.loading">
-      <div class="card-header border-0 py-5 d-flex justify-content-between">
+      <div class="card-header border-0 py-5 d-flex justify-content-between" :style="{'background-color': theme.colors.theme.base.primary}">
         <h3 class="card-title align-items-start flex-column">
-          <span class="card-label font-weight-bolder text-success">{{variants.name}}</span>
+          <span class="card-label font-weight-bolder text-white">{{variants.name}}</span>
         </h3>
         <div class="card-toolbar">
           <v-switch
             v-model="variants.enabled"
             label="Enabled"
             dense
+            color="accent"
           ></v-switch>
         </div>
       </div>
@@ -216,6 +217,7 @@
     import ProductStockManagement from './product-stock-management.vue';
     import {mapState} from 'vuex';
     import ProductVendorBillingAgreement from "~/components/products/product-vendor-billing-agreement.vue";
+    import {GridironViewSettings} from "~/utils/theme.settings";
 
     @Component({
         components: {ProductStockManagement, ProductPriceOptions, ProductVendorBillingAgreement},
@@ -265,6 +267,7 @@
         private assetLimit = 50
 
         private stockmanagement = false
+        private theme = GridironViewSettings
 
         onClickClose() {
             this.stockmanagement = false

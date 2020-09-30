@@ -50,9 +50,9 @@
           <div class="row">
             <div class="col-md-4">
               <div class="card card-custom gutter-b">
-                <div class="card-header border-0 py-5">
+                <div class="card-header border-0 py-5" :style="{'background-color': theme.colors.theme.base.primary}">
                   <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bolder text-dark">All Collections</span>
+                    <span class="card-label font-weight-bolder text-white">All Collections</span>
                   </h3>
                 </div>
                 <div class="card-body">
@@ -90,6 +90,7 @@
     import {PerfectScrollbar} from "vue2-perfect-scrollbar";
     import {Collection, GetallcollectionDocument, GetallcollectionQueryVariables} from '../../../../gql';
     import CollectionEdit from '../../../../components/collections/collection-edit.vue';
+    import {GridironViewSettings} from "~/utils/theme.settings";
 
     @Component({
         layout: 'console',
@@ -109,6 +110,8 @@
         private allCollections: any[] = []
         private selected: string | null = null
         private expanded = []
+
+        private theme = GridironViewSettings
 
         private GetCollectionTree
 

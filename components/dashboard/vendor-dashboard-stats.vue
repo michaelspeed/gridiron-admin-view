@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card card-custom gutter-b card-stretch bg-success-o-40">
+        <div class="card card-custom gutter-b card-stretch">
             <!--begin::Header-->
             <div class="card-header border-0 pt-5">
                 <div class="card-title">

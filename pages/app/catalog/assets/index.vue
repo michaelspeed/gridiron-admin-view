@@ -65,11 +65,19 @@
     import {Asset, CreateAssetDocument, GetAllAssetsDocument, GetAssetsAggregateDocument} from '../../../../gql';
     import moment from 'moment';
     import AssetsPreview from '../../../../components/assets/AssetsPreview.vue';
+    import {mapState} from "vuex";
 
     @Component({
         layout: 'console',
         components: {
             AssetsPreview
+        },
+        computed: {
+            ...mapState({
+                admin: (store: any) => store.admin.administrator,
+                vendor: (store: any) => store.admin.vendor,
+                vendorStore: (store: any) => store.admin.vendorStore,
+            }),
         },
         apollo: {
             assets: {

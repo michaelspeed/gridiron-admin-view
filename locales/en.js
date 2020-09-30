@@ -27,7 +27,7 @@ export default {
         "content": "Content",
         "stores": "Stores",
         "system": "System",
-        "products": "products",
+        "products": "Products",
         "collections": "Collections",
         "facets": "Facets",
         "assets": "Assets",

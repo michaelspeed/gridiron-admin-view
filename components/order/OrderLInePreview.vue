@@ -67,7 +67,9 @@
                             <tbody>
                             <tr class="font-weight-boldest font-size-lg">
                                 <td class="pl-0 pt-7">{{ orderLine.item.productVariant.name }}</td>
-                                <td class="pl-0 pt-7">{{ orderLine.stage }}</td>
+                                <td class="pl-0 pt-7">
+                                    <ProgressIndicator :percentage="checkProgress(orderLine.stage)" :header="true"/>
+                                </td>
                                 <td class="text-right pt-7">{{ orderLine.item.quantity }}</td>
                                 <td class="text-right pt-7">₹ {{ orderLine.priceField.price }}</td>
                                 <td class="text-danger pr-0 pt-7 text-right">
@@ -88,7 +90,7 @@
                         <div class="d-flex flex-column mb-10 mb-md-0">
 
                         </div>
-                        <div class="d-flex flex-column text-md-right">
+                        <div class="d-flex flex-column text-md-right" v-if="orderStage !== orderStageType.DELIVERED">
                             <span class="font-size-lg font-weight-bolder mb-1">SELECT STAGE</span>
                             <span class="font-size-h2 font-weight-boldest text-danger mb-1"></span>
                             <div>
@@ -105,7 +107,7 @@
                                     <a-select-option :value="orderStageType.SHIPPED" :disabled="true">
                                         SHIPPED
                                     </a-select-option>
-                                    <a-select-option :value="orderStageType.DELIVERED">
+                                    <a-select-option :value="orderStageType.DELIVERED" :disabled="true">
                                         DELIVERED
                                     </a-select-option>
                                 </a-select>
@@ -138,9 +140,13 @@
 import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 import {GetSingleOrderLineDocument, OrderLine, UpdateOrderLineDocument} from "~/gql";
 import moment from "moment";
-import {OrderStageType} from '~/utils/OrderStageType';
+import {checkOrderProgress, OrderStageType} from '~/utils/OrderStageType';
+import ProgressIndicator from "~/components/progress/progress-indicator.vue";
 
 @Component({
+    components: {
+        ProgressIndicator
+    },
     apollo: {
         orderLine: {
             query: GetSingleOrderLineDocument,
@@ -191,6 +197,10 @@ export default class OrderLinePreview extends Vue {
 
     getDate() {
         return moment(this.orderLine.order.createdAt).format('DD MMM YYYY')
+    }
+
+    checkProgress(stage) {
+        return checkOrderProgress(stage)
     }
 }
 </script>

@@ -3,7 +3,7 @@
         <div class="card">
           <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
-              <span class="card-label font-weight-bolder text-dark">{{name}}</span>
+              <span class="card-label font-weight-bolder text-primary">{{name}}</span>
             </h3>
           </div>
             <div class="card-body" style="overflow: auto">
@@ -164,5 +164,10 @@
 <style>
     .vue-tags-input {
         border: #DCDFE6 solid 0.3px; border-radius: 4px; width: 100%
+    }
+
+    .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+        background-color: #8950FC;
+        color: white;
     }
 </style>

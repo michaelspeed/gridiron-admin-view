@@ -113,7 +113,7 @@
           </div>
         </div>
       </div>
-        <v-bottom-sheet v-model="add" inset>
+        <v-bottom-sheet v-model="add" inset transition="slide-y-transition">
           <div class="card">
             <div class="card-header border-0 d-flex justify-content-between align-items-center">
               <h3 class="card-title align-items-start flex-column">
@@ -129,10 +129,17 @@
                 <a-input v-model="valuecode"></a-input>
                 <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
               </div>
-              <div class="row">
-                <a href="javascript:;" class="btn btn-light-primary font-weight-bolder font-size-sm" @click="onCreateFacetValues">Create Facet Value</a>
-              </div>
             </div>
+              <v-progress-linear
+                  color="lime"
+                  indeterminate
+                  reverse
+                  v-if="loading"
+              ></v-progress-linear>
+              <div class="card-footer" v-if="!loading">
+                  <v-spacer></v-spacer>
+                  <a href="javascript:;" class="btn btn-light-primary font-weight-bolder font-size-sm" @click="onCreateFacetValues">Create Facet Value</a>
+              </div>
           </div>
         </v-bottom-sheet>
     </div>
@@ -171,6 +178,8 @@
         private valuecode = ''
         private facet
 
+        private loading = false
+
         @Watch('facet')
         onGetFacet() {
             if (this.facet !== undefined) {
@@ -186,6 +195,7 @@
 
         onCreateFacetValues() {
             const load: any = this.$Message.loading('Action in progress..');
+            this.loading = true
             this.$apollo.mutate({
                 mutation: CreateFacetValueDocument,
                 variables: {
@@ -200,6 +210,7 @@
                     }
                 }).then(value1 => {
                     load()
+                    this.loading = false
                     this.add = false
                     this.valuecode = ''
                     this.$notification.success({

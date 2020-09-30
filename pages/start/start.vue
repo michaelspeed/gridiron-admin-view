@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <div style="height: 100vh; width: 100vw; background-image: url(/media/error/bg3.jpg);">
         <div class="container">
             <div class="card">
                 <div class="card-body">
@@ -89,7 +89,7 @@
                 </div>
             </div>
         </div>
-    </v-app>
+    </div>
 </template>
 
 <script lang="ts">
@@ -142,6 +142,10 @@
             }).catch(error => {
                 this.$message.error(error.message)
             })
+        }
+
+        mounted() {
+            document.getElementById('__layout')!.style.backgroundImage = 'url(/media/error/bg3.jpg)'
         }
 
     }

@@ -12,194 +12,37 @@
 
             <!--begin::Body-->
             <div class="card-body pt-0">
-                <!--begin::Item-->
-                <div class="mb-6" v-for="settle of vendor.store.settlements">
-                    <!--begin::Content-->
-                    <div class="d-flex align-items-center flex-grow-1">
-
-                        <!--begin::Section-->
-                        <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                            <!--begin::Info-->
-                            <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                <!--begin::Title-->
-                                <a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
-                                    Settlement Created: {{getDate(settle.createdAt)}}
-                                </a>
-                                <!--end::Title-->
-
-                                <!--begin::Data-->
-                                <span class="text-muted font-weight-bold">
-                                    {{settle.amount}}
-                                </span>
-                                <!--end::Data-->
-                            </div>
-                            <!--end::Info-->
-
-                            <!--begin::Label-->
-                            <span class="label label-lg label-light-primary label-inline font-weight-bold py-4">{{settle.type}}</span>
-                            <!--end::Label-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Content-->
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                        <tr class="text-left">
+                            <th style="min-width: 200px">Date</th>
+                            <th style="min-width: 150px">Status</th>
+                            <th style="min-width: 150px">progress</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="settle of vendor.store.settlements" :key="settle.id">
+                            <td class="pl-0">
+                                <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{getDate(settle.createdAt)}}</a>
+                                <span class="text-muted font-weight-bold text-muted d-block">{{settle.amount}} INR</span>
+                            </td>
+                            <td>
+                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                {{settle.type}}
+                            </span>
+                            </td>
+                            <td>
+                                <ProgressIndicator :percentage="calculatePercentage(settle)"/>
+                            </td>
+                            <td>
+                                <VendorSettlementAction :settle="settle"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Item-->
-
-                <!--begin::Item-->
-                <div class="mb-6">
-                    <!--begin::Content-->
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <!--begin::Checkbox-->
-                        <label class="checkbox checkbox-lg checkbox-lg flex-shrink-0 mr-4">
-                            <input type="checkbox" value="1">
-                            <span></span>
-                        </label>
-                        <!--end::Checkbox-->
-
-                        <!--begin::Section-->
-                        <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                            <!--begin::Info-->
-                            <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                <!--begin::Title-->
-                                <a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
-                                    Group Town Hall Meet-up with showcase
-                                </a>
-                                <!--end::Title-->
-
-                                <!--begin::Data-->
-                                <span class="text-muted font-weight-bold">
-                            Due in 2 Days
-                        </span>
-                                <!--end::Data-->
-                            </div>
-                            <!--end::Info-->
-
-                            <!--begin::Label-->
-                            <span class="label label-lg label-light-warning label-inline font-weight-bold py-4">In Progress</span>
-                            <!--end::Label-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Content-->
-                </div>
-                <!--end::Item-->
-
-                <!--begin::Item-->
-                <div class="mb-6">
-                    <!--begin::Content-->
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <!--begin::Checkbox-->
-                        <label class="checkbox checkbox-lg checkbox-lg flex-shrink-0 mr-4">
-                            <input type="checkbox" value="1">
-                            <span></span>
-                        </label>
-                        <!--end::Checkbox-->
-
-                        <!--begin::Section-->
-                        <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                            <!--begin::Info-->
-                            <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                <!--begin::Title-->
-                                <a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
-                                    Next sprint planning and estimations
-                                </a>
-                                <!--end::Title-->
-
-                                <!--begin::Data-->
-                                <span class="text-muted font-weight-bold">
-                            Due in 2 Days
-                        </span>
-                                <!--end::Data-->
-                            </div>
-                            <!--end::Info-->
-
-                            <!--begin::Label-->
-                            <span class="label label-lg label-light-success label-inline font-weight-bold py-4">Success</span>
-                            <!--end::Label-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Content-->
-                </div>
-                <!--end::Item-->
-
-                <!--begin::Item-->
-                <div class="mb-6">
-                    <!--begin::Content-->
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <!--begin::Checkbox-->
-                        <label class="checkbox checkbox-lg checkbox-lg flex-shrink-0 mr-4">
-                            <input type="checkbox" value="1">
-                            <span></span>
-                        </label>
-                        <!--end::Checkbox-->
-
-                        <!--begin::Section-->
-                        <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                            <!--begin::Info-->
-                            <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                <!--begin::Title-->
-                                <a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
-                                    Sprint delivery and project deployment
-                                </a>
-                                <!--end::Title-->
-
-                                <!--begin::Data-->
-                                <span class="text-muted font-weight-bold">
-                            Due in 2 Days
-                        </span>
-                                <!--end::Data-->
-                            </div>
-                            <!--end::Info-->
-
-                            <!--begin::Label-->
-                            <span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Rejected</span>
-                            <!--end::Label-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Content-->
-                </div>
-                <!--end: Item-->
-
-                <!--begin: Item-->
-                <div class="">
-                    <!--begin::Content-->
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <!--begin::Checkbox-->
-                        <label class="checkbox checkbox-lg checkbox-lg flex-shrink-0 mr-4">
-                            <input type="checkbox" value="1">
-                            <span></span>
-                        </label>
-                        <!--end::Checkbox-->
-
-                        <!--begin::Section-->
-                        <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                            <!--begin::Info-->
-                            <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                <!--begin::Title-->
-                                <a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
-                                    Data analytics research showcase
-                                </a>
-                                <!--end::Title-->
-
-                                <!--begin::Data-->
-                                <span class="text-muted font-weight-bold">
-                            Due in 2 Days
-                        </span>
-                                <!--end::Data-->
-                            </div>
-                            <!--end::Info-->
-
-                            <!--begin::Label-->
-                            <span class="label label-lg label-light-warning label-inline font-weight-bold py-4">In Progress</span>
-                            <!--end::Label-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Content-->
-                </div>
-                <!--end: Item-->
             </div>
             <!--end: Card Body-->
         </div>
@@ -208,8 +51,10 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-import {GetVendorSettlementsDocument, Vendor} from "~/gql";
+import {GetVendorSettlementsDocument, Settlements, Vendor} from "~/gql";
 import moment from "moment";
+import ProgressIndicator from "~/components/progress/progress-indicator.vue";
+import VendorSettlementAction from "~/components/vendor/vendor-settlement-action.vue";
 
 @Component({
     apollo: {
@@ -217,18 +62,36 @@ import moment from "moment";
             query: GetVendorSettlementsDocument,
             variables() {
                 return {
-                    id: this.id
+                    id: this.id,
+                    limit: 10,
+                    offset: 0
                 }
-            }
+            },
+            pollInterval: 3000
         }
+    },
+    components: {
+        ProgressIndicator,
+        VendorSettlementAction
     }
 })
 export default class VendorSettlements extends Vue {
     @Prop() id: string
     private vendor: Vendor
 
+    private limit = 10
+    private offset = 0
+
     getDate(date) {
         return moment(date).format('DD MMM YYYY')
+    }
+
+    calculatePercentage(settlement: Settlements) {
+        if (settlement.type === 'PROCESSING') {
+            return 50
+        } else {
+            return 100
+        }
     }
 }
 </script>

@@ -1,17 +1,7 @@
 <template>
-    <div class="air__layout air__layout--hasSider">
-        <div class="air__layout">
-            <v-app>
-                <div class="air__layout__content">
-                    <div class="air__layout__content">
-                        <div class="air__utils__content">
-                            <router-view/>
-                        </div>
-                    </div>
-                </div>
-            </v-app>
-        </div>
-    </div>
+    <v-app>
+        <router-view/>
+    </v-app>
 </template>
 
 <script lang="ts">
@@ -24,7 +14,6 @@
         },
         head: {
             bodyAttrs: {
-                class: 'air__menu--flyout air__menu--white air__menu__submenu--blue air__layout--grayBackground air__layout--cardsShadow',
                 "data-app": "data-app"
             }
         },

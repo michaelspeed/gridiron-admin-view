@@ -57,7 +57,7 @@
                                                 <tr>
                                                     <th class="pl-0 font-weight-bold text-muted  text-uppercase">Description</th>
                                                     <th class="pl-0 font-weight-bold text-muted  text-uppercase">Store</th>
-                                                    <th class="pl-0 font-weight-bold text-muted  text-uppercase">State</th>
+                                                    <th class="pl-0 font-weight-bold text-muted  text-uppercase">Progress</th>
                                                     <th class="text-right font-weight-bold text-muted text-uppercase">Quantity</th>
                                                     <th class="text-right font-weight-bold text-muted text-uppercase">Rate</th>
                                                     <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Amount</th>
@@ -73,7 +73,9 @@
                                                         </template>
                                                         <td class="pl-0 pt-7">{{allvars.priceField.store.storeName}}</td>
                                                     </a-popover>
-                                                    <td class="pl-0 pt-7">{{allvars.stage}}</td>
+                                                    <td class="pl-0 pt-7">
+                                                        <ProgressIndicator :percentage="checkProgress(allvars.stage)" :header="true"/>
+                                                    </td>
                                                     <td class="text-right pt-7">{{allvars.item.quantity}}</td>
                                                     <td class="text-right pt-7">₹ {{allvars.priceField.price}}</td>
                                                     <td class="text-danger pr-0 pt-7 text-right">₹{{allvars.item.quantity * allvars.priceField.price}} </td>
@@ -127,9 +129,14 @@
     import {Component, Vue, Watch} from "vue-property-decorator";
     import {GetOrderByIdDocument, Order} from "~/gql";
     import moment from "moment";
+    import ProgressIndicator from "~/components/progress/progress-indicator.vue";
+    import {checkOrderProgress} from "~/utils/OrderStageType";
 
     @Component({
         layout: 'console',
+        components:{
+            ProgressIndicator
+        },
         apollo: {
             order: {
                 query: GetOrderByIdDocument,
@@ -151,6 +158,10 @@
 
         getDate() {
             return moment(this.order.createdAt).format('DD MMM YYYY')
+        }
+
+        checkProgress(stage) {
+            return checkOrderProgress(stage)
         }
     }
 </script>

@@ -17,8 +17,34 @@
                                     <br/>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-primary font-weight-bold py-3 px-6"
-                               v-if="vendorStore.GSTIN === ''">Add GST</a>
+                            <v-dialog v-model="addGst" scrollable max-width="300px">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <a href="#" class="btn btn-sm btn-primary font-weight-bold py-3 px-6"
+                                       v-if="vendorStore.GSTIN === ''" v-bind="attrs"
+                                       v-on="on">Add GST</a>
+                                </template>
+                                <v-card>
+                                    <v-card-title :style="{'background-color': theme.colors.theme.base.primary, 'color': 'white'}">Add GST</v-card-title>
+                                    <v-divider></v-divider>
+                                    <v-card-text>
+                                        <v-text-field
+                                            label="GST"
+                                            v-model="gst"
+                                        ></v-text-field>
+                                    </v-card-text>
+                                    <v-divider></v-divider>
+                                    <v-progress-linear
+                                        color="lime"
+                                        indeterminate
+                                        reverse
+                                        v-if="loading"
+                                    ></v-progress-linear>
+                                    <v-card-actions v-if="!loading">
+                                        <v-btn color="red" text @click="addGst = false">Close</v-btn>
+                                        <v-btn color="primary" text @click="onSaveGst">Save</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </div>
                         <!--end::Body-->
                     </div>
@@ -158,9 +184,10 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {mapState} from "vuex";
-import {GetVendorAccountDocument} from "~/gql";
+import {GetVendorAccountDocument, UpdateOneStoreDocument} from "~/gql";
 import VueDashboardStats from "~/components/dashboard/vendor-dashboard-stats.vue";
 import VendorLicense from "~/components/vendor/vendor-license.vue";
+import {GridironViewSettings} from "~/utils/theme.settings";
 
 @Component({
     components: {
@@ -178,5 +205,32 @@ import VendorLicense from "~/components/vendor/vendor-license.vue";
 })
 export default class DashboardVendor extends Vue {
     private GetVendorAccount
+
+    private gst = ''
+    private addGst = false
+    private theme = GridironViewSettings
+
+    private loading = false
+
+    private vendorStore
+
+    onSaveGst(){
+        this.loading = true
+        this.$apollo.mutate({
+            mutation: UpdateOneStoreDocument,
+            variables: {
+                id: this.vendorStore.id,
+                GSTIN: this.gst
+            }
+        }).then(value => {
+            this.loading = false
+            this.addGst = false
+            this.$Message.success('GST Updated')
+        }).catch(error => {
+            this.loading = false
+            this.$Message.error(error.message)
+            this.addGst = false
+        })
+    }
 }
 </script>

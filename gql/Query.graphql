@@ -411,6 +411,17 @@ query GetOneProduct($id: ID!){
         productName
         slug
         description
+        viewcode
+        options {
+            id
+            name
+            code
+            options {
+                id
+                name
+                code
+            }
+        }
         collection {
             id
             name
@@ -1652,5 +1663,124 @@ query GetAdminViews($type: String){
         datasource {
             sum
         }
+    }
+}
+
+query GetAllSettlement($limit: Int, $offset: Int){
+    settlements(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ){
+        id
+        amount
+        taxamount
+        finalamount
+        transactionID
+        type
+    }
+}
+
+query GetAllTransactions($limit: Int, $offset: Int){
+    payments(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ){
+        id
+        createdAt
+        updatedAt
+        amount
+        errorMessage
+        transactionId
+    }
+}
+
+query GetAllbackLogs($limit: Int, $offset: Int, $store: ID){
+    stockBackLogs(
+        filter: {
+            store:{
+                id: {
+                    eq: $store
+                }
+            }
+        },
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ){
+        id
+        createdAt
+        updatedAt
+        quantity
+        store {
+            id
+            storeName
+        }
+        variant {
+            id
+            variant {
+                id
+                name
+            }
+        }
+    }
+}
+
+query GetAssetAggregate($id: ID!){
+    asset(id: $id){
+        id
+        featuredsAggregate{
+            count {
+                id
+            }
+        }
+        productAssetsAggregate {
+            count {
+                id
+            }
+        }
+    }
+}
+
+query GetProductViews($productId:ID!, $type: String){
+    GetProductViews(productId:$productId, type: $type) {
+        labels
+        datasource {
+            sum
+        }
+    }
+}
+
+query GetAllViewCodes($limit: Int, $offset: Int){
+    viewCodes(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        value
+        description
     }
 }

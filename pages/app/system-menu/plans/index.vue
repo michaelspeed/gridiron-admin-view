@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <v-bottom-sheet v-model="add" inset>
+        <v-bottom-sheet v-model="add" inset transition="scroll-y-transition">
             <div class="card">
                 <div class="card-header border-0 d-flex justify-content-between align-items-center">
                     <h3 class="card-title align-items-start flex-column">

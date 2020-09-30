@@ -47,7 +47,7 @@
                             <a href="javascript:;" @click="selectCats = true" class="btn btn-sm btn-light-success font-weight-bold mr-2">
                               {{(product.collection === null || product.collection.name === 'default') ? 'Select' : 'Change'}} Collection
                             </a>
-                            <v-dialog v-model="selectCats" scrollable max-width="300px">
+                            <v-dialog v-model="selectCats" scrollable max-width="300px" transition="slide-y-reverse-transition">
                               <v-card>
                                 <v-card-title>Select Category</v-card-title>
                                 <v-divider></v-divider>
@@ -76,7 +76,7 @@
                             <a href="javascript:;" class="btn btn-sm btn-light-success" @click="addFacet = true">
                               <i class="fas fa-plus"></i> Add Facet
                             </a>
-                            <v-dialog v-model="addFacet" scrollable max-width="400px">
+                            <v-dialog v-model="addFacet" scrollable max-width="400px" transition="slide-y-reverse-transition">
                               <v-card>
                                 <v-card-title>Select Facet</v-card-title>
                                 <v-divider></v-divider>
@@ -121,6 +121,46 @@
                           </div>
                           <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                         </div>
+                          <div class="form-group">
+                              <label>View Codes ({{this.settingViewCodes.length}})</label>
+                              <div>
+                                  <a href="javascript:;" @click="manageViewCode = true" class="btn btn-sm btn-light-success font-weight-bold mr-2">
+                                      Manage View Codes
+                                  </a>
+                              </div>
+                              <a-drawer
+                                  title="Manage View Code"
+                                  width="420"
+                                  :closable="true"
+                                  :visible="manageViewCode"
+                                  @close="manageViewCode = false"
+                              >
+                                  <v-list
+                                      subheader
+                                      two-line
+                                      color="primary"
+                                  >
+                                      <v-list-item-group
+                                          v-model="prodViewCodes"
+                                          multiple
+                                          active-class=""
+                                      >
+                                          <v-list-item v-for="(vcode, index) of viewCodes" :key="index" color="primary" @click="onClickViewCode(vcode)">
+                                              <template v-slot:default="{ active }">
+                                                  <v-list-item-action style="margin-right: 5px">
+                                                      <v-checkbox :input-value="active"></v-checkbox>
+                                                  </v-list-item-action>
+
+                                                  <v-list-item-content>
+                                                      <v-list-item-title class="text-success">{{vcode.name}}</v-list-item-title>
+                                                      <v-list-item-subtitle class="text-muted">{{vcode.description}}</v-list-item-subtitle>
+                                                  </v-list-item-content>
+                                              </template>
+                                          </v-list-item>
+                                      </v-list-item-group>
+                                  </v-list>
+                              </a-drawer>
+                          </div>
                       </div>
                       <div class="col-md-4">
                         <v-card outlined>
@@ -202,7 +242,14 @@
                       </client-only>
                       <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                     </div>
-                    <v-card-actions>
+                      <v-card-actions v-if="updating">
+                          <v-progress-linear
+                              color="lime"
+                              indeterminate
+                              reverse
+                          ></v-progress-linear>
+                      </v-card-actions>
+                    <v-card-actions v-if="!updating">
                       <a href="javascript:;" class="btn btn-light-primary font-weight-bold mr-2" @click="updateProduct">Update Product</a>
                     </v-card-actions>
                   </div>
@@ -229,6 +276,7 @@
                           </div>
                           <ProductSaleChart :chart-data="saleDataSet" :options="chartOptions" />
                           <ProductSaleChart :chart-data="amountDataSet" :options="chartOptions" />
+                          <ProductSaleChart :chart-data="viewDataSet" :options="chartOptions" />
                       </div>
                   </div>
               </v-container>
@@ -236,7 +284,7 @@
           </div>
         </div>
       </div>
-      <v-dialog v-model="addAsset" fullscreen transition="dialog-bottom-transition">
+      <v-dialog v-model="addAsset" fullscreen transition="slide-y-reverse-transition">
         <div class="card" v-if="assets">
           <div class="card-header border-0 d-flex justify-content-between align-items-center">
             <h3 class="card-title align-items-start flex-column">
@@ -292,11 +340,19 @@
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import {
-        Asset, Collection,
+        Asset,
+        Collection,
         CreateAssetDocument,
-        GetAllAssetsDocument, GetallcollectionDocument, GetAllFacetsDocument,
+        GetAllAssetsDocument,
+        GetallcollectionDocument,
+        GetAllFacetsDocument, GetAllViewCodesDocument,
         GetFacetValuesDocument,
-        GetOneProductDocument, GetProductSaleDataDocument, UpdateProductCollectionDocument, UpdateProductDocument
+        GetOneProductDocument,
+        GetProductSaleDataDocument,
+        GetProductViewsDocument, Product,
+        UpdateProductCollectionDocument,
+        UpdateProductDocument,
+        ViewCode
     } from '../../../../gql';
     import {assetsURL} from '../../../../constants/GlobalURL';
     import Editor from '@tinymce/tinymce-vue';
@@ -357,6 +413,24 @@
                         }
                     }
                 }
+            },
+            GetProductViews: {
+                query: GetProductViewsDocument,
+                variables() {
+                    return {
+                        productId: this.$route.params.id,
+                        type: this.chartType,
+                    }
+                }
+            },
+            viewCodes: {
+                query: GetAllViewCodesDocument,
+                variables(){
+                    return {
+                        limit: this.limit,
+                        offset: this.offset
+                    }
+                }
             }
         }
     })
@@ -382,12 +456,20 @@
         private menuId: any = null;
         private featureActive: boolean = true;
         private GetCollectionTree;
-        private product;
+        private product: Product;
         private allCollections: any[] = [];
-        private selectedCollection: Collection | null = null
+        private selectedCollection: any = null
         private editorDesc = ''
 
         private assets
+
+        private limit = 10
+        private offset = 0
+        private manageViewCode = false
+        private viewCodes: ViewCode[]
+
+        private prodViewCodes: any[] = []
+        private settingViewCodes: string[] = []
 
         private facetSearch = ''
         private facetValues: any
@@ -397,6 +479,7 @@
         private chartType = 'MONTH'
 
         private GetProductSaleData
+        private GetProductViews
 
         private saleDataSet: any = null
         private amountDataSet: any = null
@@ -407,11 +490,60 @@
             hover: true
         }
 
+        private viewDataSet: any = null
+
         private chartLoaded = false
+
+        private updating = false
 
         handleChangeChartType(value) {
             this.chartLoaded = false
             this.chartType = value
+        }
+
+        @Watch('settingViewCodes')
+        onChangeProdViewCodes() {
+            if (this.settingViewCodes.length > 0 && this.viewCodes) {
+                for (const vcode of this.settingViewCodes) {
+                    const vsindex = this.viewCodes.findIndex(item => item.value === vcode)
+                    this.prodViewCodes.push(vsindex)
+                }
+            }
+        }
+
+        @Watch('viewCodes')
+        onChangeProdCodes() {
+            if (this.viewCodes && this.settingViewCodes.length > 0) {
+                for (const vcode of this.settingViewCodes) {
+                    const vsindex = this.viewCodes.findIndex(item => item.value === vcode)
+                    this.prodViewCodes.push(vsindex)
+                }
+            }
+        }
+
+        onClickViewCode(item: ViewCode){
+            if (this.settingViewCodes.indexOf(item.value) === -1) {
+                this.settingViewCodes.push(item.value)
+            } else {
+                const indexs = this.settingViewCodes.indexOf(item.value)
+                this.settingViewCodes.splice(indexs, 1)
+            }
+        }
+
+        @Watch('GetProductViews')
+        onChangeViews() {
+            const labels = this.GetProductViews.labels
+            const viewset = [
+                {
+                    label: 'Views',
+                    backgroundColor: '#8950FC',
+                    data: this.GetProductViews.datasource.map(item => item.sum)
+                }
+            ]
+            this.viewDataSet = {
+                labels: labels,
+                datasets: viewset
+            }
         }
 
         @Watch('GetProductSaleData')
@@ -513,6 +645,8 @@
 
         @Watch('product')
         onGetOneProdDoc() {
+            console.log(this.product)
+            this.settingViewCodes = this.product.viewcode
             this.name = this.product.productName;
             this.slug = this.product.slug;
             if (!this.init) {
@@ -563,6 +697,7 @@
         }
 
         updateProduct() {
+            this.updating = true
             const load: any = this.$Message.loading('Action in progress..');
             this.$apollo.mutate({
                 mutation: UpdateProductDocument,
@@ -572,15 +707,18 @@
                     desc: this.editorModel,
                     facet: this.selectedFacet.map(item => item.id),
                     asset: this.selectedAssets.map(item => item.id),
-                    featured: this.featuredAssets!.id
+                    featured: this.featuredAssets!.id,
+                    viewcode: this.settingViewCodes
                 }
             }).then(value => {
                 load()
+                this.updating = false
                 this.$notification.success({
                     description: 'Product Updated',
                     message: 'Product updating Successful'
                 });
             }).catch(error => {
+                this.updating = false
                 load()
                 this.$Message.error(error.message)
             });

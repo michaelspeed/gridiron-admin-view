@@ -313,14 +313,15 @@ mutation CreateProduct($name: String!, $slug: String!, $desc: String!, $facet: [
     }
 }
 
-mutation UpdateProduct($name: String!, $id: ID!, $desc: String!, $facet: [String!]!, $asset: [String!]!, $featured: String!){
+mutation UpdateProduct($name: String!, $id: ID!, $desc: String!, $facet: [String!]!, $asset: [String!]!, $featured: String!, $viewcode: [String!]!){
     updateProduct(
         facet: $facet,
         asset: $asset,
         id: $id,
         desc: $desc,
         name: $name,
-        featured: $featured
+        featured: $featured,
+        viewcode: $viewcode
     ) {
         id
     }
@@ -756,6 +757,36 @@ mutation DeleteOnePage($id:ID!){
 
 mutation CreateSettlement($storeId: ID!){
     CreateSettlement(storeId: $storeId) {
+        id
+    }
+}
+
+mutation UpdateSettlement($settlementId:ID!, $transactionId:String) {
+    UpdateSettlement(settlementId:$settlementId, transactionId: $transactionId) {
+        id
+    }
+}
+
+mutation DeleteOneAsset($id:ID!){
+    deleteOneAsset(input:{id: $id}) {
+        id
+    }
+}
+
+mutation CreateOneViewCode($name: String, $value: String, $description: String){
+    createOneViewCode(input:{
+        viewCode:{
+            name: $name,
+            value: $value
+            description: $description
+        }
+    }){
+        id
+    }
+}
+
+mutation UpdateVariantViewCode($variantId:ID!, $viewcode:[String!]!) {
+    UpdateVariantViewCode(variantId: $variantId, viewcode: $viewcode) {
         id
     }
 }

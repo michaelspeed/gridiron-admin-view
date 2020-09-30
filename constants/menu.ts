@@ -565,11 +565,11 @@ const adminMenuData = [
                 to: "/app/system-menu/admins",
                 state: 'admin',
             },
-            {
+            /*{
                 label: "menu.roles-listing",
                 to: "/app/system-menu/roles",
                 state: 'admin',
-            },
+            },*/
             {
                 label: "menu.vendor-listing",
                 to: "/app/system-menu/vendors",

@@ -37,6 +37,44 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
+                <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.settlements.loading">
+                    <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                </div>
+                <div class="card">
+                    <div class="card-body pt-0" v-if="!$apollo.queries.settlements.loading">
+                        <div class="table-responsive">
+                            <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                                <thead>
+                                <tr class="text-left">
+                                    <th style="min-width: 200px">Date</th>
+                                    <th style="min-width: 150px">Status</th>
+                                    <th style="min-width: 150px">progress</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="settle of settlements" :key="settle.id">
+                                    <td class="pl-0">
+                                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{getDate(settle.createdAt)}}</a>
+                                        <span class="text-muted font-weight-bold text-muted d-block">{{settle.amount}} INR</span>
+                                    </td>
+                                    <td>
+                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                {{settle.type}}
+                            </span>
+                                    </td>
+                                    <td>
+                                        <ProgressIndicator :percentage="calculatePercentage(settle)"/>
+                                    </td>
+                                    <td>
+                                        <VendorSettlementAction :settle="settle" :header="true"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -44,11 +82,46 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
+    import {GetAllSettlementDocument, Settlements} from "~/gql";
+    import moment from "moment";
+    import ProgressIndicator from "~/components/progress/progress-indicator.vue";
+    import VendorSettlementAction from "~/components/vendor/vendor-settlement-action.vue";
 
     @Component({
-        layout: 'console'
+        layout: 'console',
+        components:{
+            ProgressIndicator,
+            VendorSettlementAction
+        },
+        apollo: {
+            settlements: {
+                query: GetAllSettlementDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset
+                    }
+                }
+            }
+        }
     })
-    export default class Settlements extends Vue {
+    export default class SettlementsView extends Vue {
+        private limit = 50
+        private offset = 0
+
+        private settlements: Settlements[]
+
+        getDate(date) {
+            return moment(date).format('DD MMM YYYY')
+        }
+
+        calculatePercentage(settle: Settlements) {
+            if (settle.type === 'PROCESSING') {
+                return 50
+            } else {
+                return 100
+            }
+        }
 
     }
 </script>

@@ -145,4 +145,10 @@
         border: 0px !important;
         padding: 0px !important;
     }
+    .p-tree .p-tree-container .p-treenode {
+        padding: 0px !important;
+    }
+    .p-tree .p-tree-container .p-treenode .p-treenode-content {
+        padding: 0.25rem !important;
+    }
 </style>
