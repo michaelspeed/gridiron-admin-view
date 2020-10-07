@@ -793,6 +793,7 @@ export type Product = {
   facets: Array<FacetValue>;
   variants: Array<ProductVariant>;
   assets: Array<ProductAsset>;
+  hsn?: Maybe<Hsn>;
   collection?: Maybe<Collection>;
   featuredAsset: Asset;
   optionsAggregate: ProductOptionsAggregateResponse;
@@ -2992,6 +2993,44 @@ export type ViewCode = {
   name: Scalars['String'];
   value: Scalars['String'];
   description: Scalars['String'];
+};
+
+export type Hsn = {
+  __typename?: 'Hsn';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  code: Scalars['String'];
+  value: Scalars['Float'];
+  prices: Array<ProductVariantPrice>;
+  prods: Array<Product>;
+  pricesAggregate: HsnPricesAggregateResponse;
+  prodsAggregate: HsnProdsAggregateResponse;
+};
+
+
+export type HsnPricesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantPriceFilter>;
+  sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
+export type HsnProdsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductFilter>;
+  sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type HsnPricesAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
+};
+
+
+export type HsnProdsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
 };
 
 export type Country = {
@@ -7673,6 +7712,152 @@ export type ViewCodeAggregateResponse = {
   max?: Maybe<ViewCodeMaxAggregate>;
 };
 
+export type HsnDeleteResponse = {
+  __typename?: 'HsnDeleteResponse';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type HsnCountAggregate = {
+  __typename?: 'HsnCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  deletedAt?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']>;
+};
+
+export type HsnSumAggregate = {
+  __typename?: 'HsnSumAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type HsnAvgAggregate = {
+  __typename?: 'HsnAvgAggregate';
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type HsnMinAggregate = {
+  __typename?: 'HsnMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type HsnMaxAggregate = {
+  __typename?: 'HsnMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type HsnAggregateResponse = {
+  __typename?: 'HsnAggregateResponse';
+  count?: Maybe<HsnCountAggregate>;
+  sum?: Maybe<HsnSumAggregate>;
+  avg?: Maybe<HsnAvgAggregate>;
+  min?: Maybe<HsnMinAggregate>;
+  max?: Maybe<HsnMaxAggregate>;
+};
+
+export type HsnPricesCountAggregate = {
+  __typename?: 'HsnPricesCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  deletedAt?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Int']>;
+  taxIncluded?: Maybe<Scalars['Int']>;
+};
+
+export type HsnPricesSumAggregate = {
+  __typename?: 'HsnPricesSumAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type HsnPricesAvgAggregate = {
+  __typename?: 'HsnPricesAvgAggregate';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type HsnPricesMinAggregate = {
+  __typename?: 'HsnPricesMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type HsnPricesMaxAggregate = {
+  __typename?: 'HsnPricesMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type HsnPricesAggregateResponse = {
+  __typename?: 'HsnPricesAggregateResponse';
+  count?: Maybe<HsnPricesCountAggregate>;
+  sum?: Maybe<HsnPricesSumAggregate>;
+  avg?: Maybe<HsnPricesAvgAggregate>;
+  min?: Maybe<HsnPricesMinAggregate>;
+  max?: Maybe<HsnPricesMaxAggregate>;
+};
+
+export type HsnProdsCountAggregate = {
+  __typename?: 'HsnProdsCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  deletedAt?: Maybe<Scalars['Int']>;
+  productName?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['Int']>;
+};
+
+export type HsnProdsMinAggregate = {
+  __typename?: 'HsnProdsMinAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type HsnProdsMaxAggregate = {
+  __typename?: 'HsnProdsMaxAggregate';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  productName?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type HsnProdsAggregateResponse = {
+  __typename?: 'HsnProdsAggregateResponse';
+  count?: Maybe<HsnProdsCountAggregate>;
+  min?: Maybe<HsnProdsMinAggregate>;
+  max?: Maybe<HsnProdsMaxAggregate>;
+};
+
 export type Query = {
   __typename?: 'Query';
   GetAdministratorData: Administrator;
@@ -7838,6 +8023,9 @@ export type Query = {
   viewCode?: Maybe<ViewCode>;
   viewCodes: Array<ViewCode>;
   viewCodeAggregate: ViewCodeAggregateResponse;
+  hsn?: Maybe<Hsn>;
+  hsns: Array<Hsn>;
+  hsnAggregate: HsnAggregateResponse;
 };
 
 
@@ -8640,6 +8828,23 @@ export type QueryViewCodeAggregateArgs = {
   filter?: Maybe<ViewCodeAggregateFilter>;
 };
 
+
+export type QueryHsnArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryHsnsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<HsnFilter>;
+  sorting?: Maybe<Array<HsnSort>>;
+};
+
+
+export type QueryHsnAggregateArgs = {
+  filter?: Maybe<HsnAggregateFilter>;
+};
+
 export type AssetFilter = {
   and?: Maybe<Array<AssetFilter>>;
   or?: Maybe<Array<AssetFilter>>;
@@ -9393,6 +9598,68 @@ export type ViewCodeAggregateFilter = {
   description?: Maybe<StringFieldComparison>;
 };
 
+export type HsnFilter = {
+  and?: Maybe<Array<HsnFilter>>;
+  or?: Maybe<Array<HsnFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  price?: Maybe<HsnFilterProductVariantPriceFilter>;
+  prod?: Maybe<HsnFilterProductFilter>;
+};
+
+export type HsnFilterProductVariantPriceFilter = {
+  and?: Maybe<Array<HsnFilterProductVariantPriceFilter>>;
+  or?: Maybe<Array<HsnFilterProductVariantPriceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
+};
+
+export type HsnFilterProductFilter = {
+  and?: Maybe<Array<HsnFilterProductFilter>>;
+  or?: Maybe<Array<HsnFilterProductFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  productName?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type HsnSort = {
+  field: HsnSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum HsnSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Code = 'code',
+  Value = 'value'
+}
+
+export type HsnAggregateFilter = {
+  and?: Maybe<Array<HsnAggregateFilter>>;
+  or?: Maybe<Array<HsnAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   administratorLogin: AdministratorDto;
@@ -9567,12 +9834,14 @@ export type Mutation = {
   removeFacetsFromProduct: Product;
   removeVariantsFromProduct: Product;
   removeAssetsFromProduct: Product;
+  removeHsnFromProduct: Product;
   removeCollectionFromProduct: Product;
   removeFeaturedAssetFromProduct: Product;
   addOptionsToProduct: Product;
   addFacetsToProduct: Product;
   addVariantsToProduct: Product;
   addAssetsToProduct: Product;
+  setHsnOnProduct: Product;
   setCollectionOnProduct: Product;
   setFeaturedAssetOnProduct: Product;
   CreateProduct: Product;
@@ -9817,6 +10086,16 @@ export type Mutation = {
   setOrderOnPayment: Payment;
   createOneViewCode: ViewCode;
   createManyViewCodes: Array<ViewCode>;
+  deleteOneHsn: HsnDeleteResponse;
+  deleteManyHsns: DeleteManyResponse;
+  updateOneHsn: Hsn;
+  updateManyHsns: UpdateManyResponse;
+  createOneHsn: Hsn;
+  createManyHsns: Array<Hsn>;
+  removePricesFromHsn: Hsn;
+  removeProdsFromHsn: Hsn;
+  addPricesToHsn: Hsn;
+  addProdsToHsn: Hsn;
 };
 
 
@@ -10723,6 +11002,11 @@ export type MutationRemoveAssetsFromProductArgs = {
 };
 
 
+export type MutationRemoveHsnFromProductArgs = {
+  input: RelationInput;
+};
+
+
 export type MutationRemoveCollectionFromProductArgs = {
   input: RelationInput;
 };
@@ -10750,6 +11034,11 @@ export type MutationAddVariantsToProductArgs = {
 
 export type MutationAddAssetsToProductArgs = {
   input: RelationsInput;
+};
+
+
+export type MutationSetHsnOnProductArgs = {
+  input: RelationInput;
 };
 
 
@@ -12021,6 +12310,56 @@ export type MutationCreateOneViewCodeArgs = {
 
 export type MutationCreateManyViewCodesArgs = {
   input: CreateManyViewCodesInput;
+};
+
+
+export type MutationDeleteOneHsnArgs = {
+  input: DeleteOneInput;
+};
+
+
+export type MutationDeleteManyHsnsArgs = {
+  input: DeleteManyHsnsInput;
+};
+
+
+export type MutationUpdateOneHsnArgs = {
+  input: UpdateOneHsnInput;
+};
+
+
+export type MutationUpdateManyHsnsArgs = {
+  input: UpdateManyHsnsInput;
+};
+
+
+export type MutationCreateOneHsnArgs = {
+  input: CreateOneHsnInput;
+};
+
+
+export type MutationCreateManyHsnsArgs = {
+  input: CreateManyHsnsInput;
+};
+
+
+export type MutationRemovePricesFromHsnArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationRemoveProdsFromHsnArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationAddPricesToHsnArgs = {
+  input: RelationsInput;
+};
+
+
+export type MutationAddProdsToHsnArgs = {
+  input: RelationsInput;
 };
 
 export type DeleteOneInput = {
@@ -14064,6 +14403,75 @@ export type CreateManyViewCodesInput = {
   viewCodes: Array<CreateViewCode>;
 };
 
+export type DeleteManyHsnsInput = {
+  /** Filter to find records to delete */
+  filter: HsnDeleteFilter;
+};
+
+export type HsnDeleteFilter = {
+  and?: Maybe<Array<HsnDeleteFilter>>;
+  or?: Maybe<Array<HsnDeleteFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneHsnInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdateHsn;
+};
+
+export type UpdateHsn = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type UpdateManyHsnsInput = {
+  /** Filter used to find fields to update */
+  filter: HsnUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdateHsn;
+};
+
+export type HsnUpdateFilter = {
+  and?: Maybe<Array<HsnUpdateFilter>>;
+  or?: Maybe<Array<HsnUpdateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type CreateOneHsnInput = {
+  /** The record to create */
+  hsn: CreateHsn;
+};
+
+export type CreateHsn = {
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  deletedAt?: Maybe<Scalars['DateTime']>;
+  code?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type CreateManyHsnsInput = {
+  /** Array of records to create */
+  hsns: Array<CreateHsn>;
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   deletedOneAsset: AssetDeleteResponse;
@@ -14286,6 +14694,11 @@ export type Subscription = {
   updatedOneViewCode: ViewCode;
   updatedManyViewCodes: UpdateManyResponse;
   createdViewCode: ViewCode;
+  deletedOneHsn: HsnDeleteResponse;
+  deletedManyHsns: DeleteManyResponse;
+  updatedOneHsn: Hsn;
+  updatedManyHsns: UpdateManyResponse;
+  createdHsn: Hsn;
 };
 
 
@@ -14946,6 +15359,21 @@ export type SubscriptionUpdatedOneViewCodeArgs = {
 
 export type SubscriptionCreatedViewCodeArgs = {
   input?: Maybe<CreateViewCodeSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionDeletedOneHsnArgs = {
+  input?: Maybe<DeleteOneHsnSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionUpdatedOneHsnArgs = {
+  input?: Maybe<UpdateOneHsnSubscriptionFilterInput>;
+};
+
+
+export type SubscriptionCreatedHsnArgs = {
+  input?: Maybe<CreateHsnSubscriptionFilterInput>;
 };
 
 export type DeleteOneAssetSubscriptionFilterInput = {
@@ -16133,6 +16561,32 @@ export type CreateViewCodeSubscriptionFilterInput = {
   filter: ViewCodeSubscriptionFilter;
 };
 
+export type DeleteOneHsnSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: HsnSubscriptionFilter;
+};
+
+export type HsnSubscriptionFilter = {
+  and?: Maybe<Array<HsnSubscriptionFilter>>;
+  or?: Maybe<Array<HsnSubscriptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type UpdateOneHsnSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: HsnSubscriptionFilter;
+};
+
+export type CreateHsnSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: HsnSubscriptionFilter;
+};
+
 export type AdministratorLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -17213,6 +17667,48 @@ export type UpdateVariantViewCodeMutation = (
   ) }
 );
 
+export type CreateOneHsnMutationVariables = Exact<{
+  value?: Maybe<Scalars['Float']>;
+  code?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreateOneHsnMutation = (
+  { __typename?: 'Mutation' }
+  & { createOneHsn: (
+    { __typename?: 'Hsn' }
+    & Pick<Hsn, 'id'>
+  ) }
+);
+
+export type UpdateOneHsnMutationVariables = Exact<{
+  id: Scalars['ID'];
+  value?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type UpdateOneHsnMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOneHsn: (
+    { __typename?: 'Hsn' }
+    & Pick<Hsn, 'id'>
+  ) }
+);
+
+export type SetHsnOnProductMutationVariables = Exact<{
+  id: Scalars['ID'];
+  relId: Scalars['ID'];
+}>;
+
+
+export type SetHsnOnProductMutation = (
+  { __typename?: 'Mutation' }
+  & { setHsnOnProduct: (
+    { __typename?: 'Product' }
+    & Pick<Product, 'id'>
+  ) }
+);
+
 export type GetAdministratorDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -17596,6 +18092,9 @@ export type GetOneProductQuery = (
         { __typename?: 'ProductOption' }
         & Pick<ProductOption, 'id' | 'name' | 'code'>
       )> }
+    )>, hsn?: Maybe<(
+      { __typename?: 'Hsn' }
+      & Pick<Hsn, 'id' | 'value' | 'code'>
     )>, collection?: Maybe<(
       { __typename?: 'Collection' }
       & Pick<Collection, 'id' | 'name' | 'description'>
@@ -17645,7 +18144,10 @@ export type GetProductVariantQuery = (
   & { product?: Maybe<(
     { __typename?: 'Product' }
     & Pick<Product, 'id'>
-    & { variants: Array<(
+    & { hsn?: Maybe<(
+      { __typename?: 'Hsn' }
+      & Pick<Hsn, 'id' | 'value' | 'code'>
+    )>, variants: Array<(
       { __typename?: 'ProductVariant' }
       & Pick<ProductVariant, 'id' | 'name' | 'enabled' | 'sku' | 'trackInventory' | 'dum_price'>
       & { seo?: Maybe<(
@@ -18874,6 +19376,21 @@ export type GetAllViewCodesQuery = (
   )> }
 );
 
+export type GetAllHsnQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  search?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetAllHsnQuery = (
+  { __typename?: 'Query' }
+  & { hsns: Array<(
+    { __typename?: 'Hsn' }
+    & Pick<Hsn, 'id' | 'code' | 'value'>
+  )> }
+);
+
 
 export const AdministratorLoginDocument = gql`
     mutation administratorLogin($email: String!, $password: String!) {
@@ -19391,6 +19908,27 @@ export const UpdateVariantViewCodeDocument = gql`
   }
 }
     `;
+export const CreateOneHsnDocument = gql`
+    mutation CreateOneHsn($value: Float, $code: String) {
+  createOneHsn(input: {hsn: {value: $value, code: $code}}) {
+    id
+  }
+}
+    `;
+export const UpdateOneHsnDocument = gql`
+    mutation updateOneHsn($id: ID!, $value: Float) {
+  updateOneHsn(input: {id: $id, update: {value: $value}}) {
+    id
+  }
+}
+    `;
+export const SetHsnOnProductDocument = gql`
+    mutation setHsnOnProduct($id: ID!, $relId: ID!) {
+  setHsnOnProduct(input: {id: $id, relationId: $relId}) {
+    id
+  }
+}
+    `;
 export const GetAdministratorDataDocument = gql`
     query GetAdministratorData {
   GetAdministratorData {
@@ -19742,6 +20280,11 @@ export const GetOneProductDocument = gql`
         code
       }
     }
+    hsn {
+      id
+      value
+      code
+    }
     collection {
       id
       name
@@ -19788,6 +20331,11 @@ export const GetProductVariantDocument = gql`
     query GetProductVariant($id: ID!) {
   product(id: $id) {
     id
+    hsn {
+      id
+      value
+      code
+    }
     variants {
       id
       name
@@ -20849,6 +21397,15 @@ export const GetAllViewCodesDocument = gql`
     name
     value
     description
+  }
+}
+    `;
+export const GetAllHsnDocument = gql`
+    query GetAllHsn($limit: Int, $offset: Int, $search: String) {
+  hsns(filter: {code: {like: $search}}, paging: {limit: $limit, offset: $offset}, sorting: {field: createdAt, direction: ASC}) {
+    id
+    code
+    value
   }
 }
     `;

@@ -24,7 +24,16 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <product-price-options :price="variants.price" :variant="variants.id"/>
+                <product-price-options :price="variants.price" :variant="variants.id" v-if="hsn !== null"/>
+                <div v-if="hsn === null">
+                    <v-alert
+                        dense
+                        outlined
+                        type="error"
+                    >
+                        Please add <strong>HSN Code</strong> to enable price options
+                    </v-alert>
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="card">
@@ -209,7 +218,7 @@
     import {
         CreateProductSeoDocument,
         CreateProductVariantAssetDocument,
-        GetAllAssetsDocument, Store,
+        GetAllAssetsDocument, Hsn, Store,
         UpdateProductSeoDocument
     } from '../../gql';
     import {assetsURL} from '../../constants/GlobalURL';
@@ -245,6 +254,9 @@
     export default class ProductOptionsCard extends Vue {
         @Prop() variants
         @Prop() allProdOptions
+
+        @Prop() hsn
+
         private store: Store | null
         private specs = false
         private addAsset = false

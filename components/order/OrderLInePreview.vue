@@ -8,7 +8,7 @@
             <!-- begin: Invoice-->
             <!-- begin: Invoice header-->
             <div class="row justify-content-center bgi-size-cover bgi-no-repeat py-8 px-8 px-md-0"
-                 style="background-image: url(/media/bg/bg-6.jpg);">
+                 style="background-image: url(/media/bg/bg-6.jpg); margin-top: -20px">
                 <div class="col-md-9">
                     <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
                         <h1 class="display-4 text-white font-weight-boldest mb-10">Order</h1>
@@ -36,13 +36,7 @@
                                                     <h4 style="color: white"
                                                         class="font-weight-bolder">{{ orderLine.order.user.firstName }} {{ orderLine.order.user.lastName }}</h4>
                                                     <br/>
-                                                    <p v-if="!getAddress(orderLine.order.address)">{{ orderLine.order.address }}</p>
-                                                    <p v-if="getAddress(orderLine.order.address)">
-                                                        <p>{{ JSON.parse(orderLine.order.address).fullName }}</p>
-                                                        <p>{{ JSON.parse(orderLine.order.address).addressLine }}</p>
-                                                        <p>{{ JSON.parse(orderLine.order.address).city }}</p>
-                                                        <p>{{ JSON.parse(orderLine.order.address).state }}</p>
-                                                    </p>
+                                                    <p>{{orderLine.order.address}}</p>
                                                 </span>
                         </div>
                     </div>
@@ -120,7 +114,14 @@
             <!-- end: Invoice footer-->
 
             <!-- begin: Invoice action-->
-            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0" v-if="loading">
+                <v-progress-linear
+                    color="lime"
+                    indeterminate
+                    reverse
+                ></v-progress-linear>
+            </div>
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0" v-if="!loading">
                 <div class="col-md-9">
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-light-primary font-weight-bold" @click="onUpdateOrderLine">
@@ -163,6 +164,7 @@ export default class OrderLinePreview extends Vue {
     private orderStageType = OrderStageType
     private orderLine: OrderLine
     private orderStage = ''
+    private loading = false
 
     @Watch('orderLine')
     onChangeOrderLine() {
@@ -177,6 +179,7 @@ export default class OrderLinePreview extends Vue {
     }
 
     onUpdateOrderLine() {
+        this.loading = true
         this.$Message.loading('Action in Progress ....')
         this.$apollo.mutate({
             mutation: UpdateOrderLineDocument,
@@ -186,8 +189,10 @@ export default class OrderLinePreview extends Vue {
             }
         }).then(value => {
             this.$Message.success('Order Line Updated')
+            this.loading = false
         }).catch(error => {
             this.$Message.error(error.message)
+            this.loading = false
         })
     }
 

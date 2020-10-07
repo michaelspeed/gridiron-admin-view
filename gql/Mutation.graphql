@@ -790,3 +790,34 @@ mutation UpdateVariantViewCode($variantId:ID!, $viewcode:[String!]!) {
         id
     }
 }
+
+mutation CreateOneHsn($value: Float, $code: String){
+    createOneHsn(input:{
+        hsn:{
+            value: $value,
+            code: $code
+        }
+    }){
+        id
+    }
+}
+
+mutation updateOneHsn($id: ID!, $value: Float){
+    updateOneHsn(input:{
+        id: $id
+        update:{
+            value: $value,
+        }
+    }){
+        id
+    }
+}
+
+mutation setHsnOnProduct($id: ID!, $relId: ID!){
+    setHsnOnProduct(input:{
+        id: $id,
+        relationId: $relId
+    }) {
+        id
+    }
+}

@@ -15,7 +15,7 @@
                         class="card mt-3 mb-3"
                         :key="index"
                 >
-                    <product-options-card :variants="variants" :all-prod-options="allProdOptions"/>
+                    <product-options-card :variants="variants" :all-prod-options="allProdOptions" :hsn="product.hsn"/>
                 </div>
             </div>
           <v-bottom-sheet v-model="addOption" inset transition="slide-y-reverse-transition">
@@ -82,7 +82,7 @@
 <script lang="ts">
     import {Component, Vue, Prop, Watch} from 'vue-property-decorator';
     import {ProductOptionsEnum} from '../../utils/ProductOptionsEnum';
-    import {CreateProductVariantsDocument, GetAllTaxRatesDocument, GetProductVariantDocument} from '../../gql';
+    import {CreateProductVariantsDocument, GetAllTaxRatesDocument, GetProductVariantDocument, Product} from '../../gql';
     import ProductPriceOptions from './product-price-options.vue';
     import ProductOptionsCard from './product-options-card.vue';
     @Component({
@@ -105,7 +105,7 @@
         private allOptions: ProductOptionsEnum[] = []
         private allVariants: any[] = []
         private allProdOptions: any[] = []
-        private product
+        private product: Product
         private loading
 
         onAddOption() {

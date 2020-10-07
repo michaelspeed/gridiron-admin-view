@@ -54,6 +54,9 @@
                     <v-tab>
                     View Codes
                   </v-tab>
+                    <v-tab>
+                    Hsn Codes
+                  </v-tab>
                 </v-tabs>
               </div>
               <v-tabs-items v-model="tabs">
@@ -69,6 +72,9 @@
                   <v-tab-item :key="4">
                       <ViewCodes/>
                   </v-tab-item>
+                  <v-tab-item :key="5">
+                      <HsnCodes/>
+                  </v-tab-item>
               </v-tabs-items>
             </div>
           </div>
@@ -83,9 +89,10 @@
     import ZipConfiguration from '../../../../components/System/ZipConfiguration.vue';
     import PaymentIntegration from "~/components/integration/PaymentIntegration.vue";
     import ViewCodes from "~/components/viewcodes/viewcodes.vue";
+    import HsnCodes from "~/components/hsn/hsn.vue";
 
     @Component({
-        components: {ZipConfiguration, StoreConfiguration, PaymentIntegration, ViewCodes},
+        components: {ZipConfiguration, StoreConfiguration, PaymentIntegration, ViewCodes, HsnCodes},
         layout: 'console',
         middleware: 'adminonly',
     })

@@ -422,6 +422,11 @@ query GetOneProduct($id: ID!){
                 code
             }
         }
+        hsn{
+            id
+            value
+            code
+        }
         collection {
             id
             name
@@ -480,6 +485,11 @@ query GetAllVendurePlans($limit: Int, $iLike: String, $offset: Int){
 query GetProductVariant($id: ID!){
     product(id: $id) {
         id
+        hsn{
+            id
+            value
+            code
+        }
         variants {
             id
             name
@@ -1782,5 +1792,27 @@ query GetAllViewCodes($limit: Int, $offset: Int){
         name
         value
         description
+    }
+}
+
+query GetAllHsn($limit: Int, $offset: Int, $search: String) {
+    hsns(
+        filter: {
+            code: {
+                like: $search
+            }
+        },
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        code
+        value
     }
 }
