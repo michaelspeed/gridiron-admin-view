@@ -11,13 +11,13 @@
                 <div class="spinner spinner-primary spinner-lg mr-15"></div>
             </div>
             <div v-if="!$apollo.queries.GetPriceForVariant.loading">
-                <v-select
+                <!--<v-select
                         label="Tax Rule"
                         :items="allTaxRates"
                         item-value="id"
                         item-text="name"
                         v-model="taxSlab"
-                ></v-select>
+                ></v-select>-->
                 <v-text-field
                         label="Price"
                         v-model="mainprice"
