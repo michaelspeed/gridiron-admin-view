@@ -20336,7 +20336,7 @@ export const GetProductVariantDocument = gql`
       value
       code
     }
-    variants {
+    variants(paging: {limit: 50}) {
       id
       name
       enabled
