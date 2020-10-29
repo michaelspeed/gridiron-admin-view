@@ -1,6 +1,6 @@
 {
   "name": "gridiron-admin-view",
-  "version": "1.0.0",
+  "version": "0.16.1",
   "private": true,
   "scripts": {
     "dev": "nuxt-ts --max_old_space_size=4096",
