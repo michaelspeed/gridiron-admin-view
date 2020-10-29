@@ -8,7 +8,7 @@
                 <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
                     <!--begin::Aside header-->
                     <a href="#" class="text-center mb-10">
-                        <img src="/master/logo/air.png" class="max-h-70px" alt="" />
+                        <img src="/images/logo.png" class="max-h-150px" alt="" />
                     </a>
                     <!--end::Aside header-->
                     <!--begin::Aside title-->
@@ -32,7 +32,7 @@
                         <div class="form" id="kt_login_signin_form">
                             <!--begin::Title-->
                             <div class="pb-13 pt-lg-0 pt-5">
-                                <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Welcome to AirEcommerce</h3>
+                                <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Welcome to <span class="text-warning">Assam Mart</span></h3>
                                 <span class="text-muted font-weight-bold font-size-h4">New Here?
 									<a href="/vendors/register" id="kt_login_signup" class="text-primary font-weight-bolder">Create an Account</a></span>
                             </div>
@@ -94,8 +94,7 @@
                 <!--end::Content body-->
                 <!--begin::Content footer-->
                 <div class="d-flex justify-content-lg-start justify-content-center align-items-end py-7 py-lg-0">
-                    <a href="#" class="text-primary font-weight-bolder font-size-h5">Terms</a>
-                    <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">Contact Us</a>
+                    <span class="text-primary font-weight-bolder font-size-h5">© 2020 Assam Mart[ASSAM MART BUILD: 0.16.1]</span>
                 </div>
                 <!--end::Content footer-->
             </div>
