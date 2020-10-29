@@ -8,7 +8,7 @@
         <!--begin::Aside-->
         <div
           class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-15"
-          :style="{ backgroundImage: `url(/media/bg/bg-4.jpg)` }"
+          :style="{ backgroundImage: `url(/images/main.jpg)` }"
         >
           <!--begin: Aside Container -->
           <div class="d-flex flex-row-fluid flex-column justify-content-between">
@@ -21,20 +21,23 @@
             <div
               class="flex-column-fluid d-flex flex-column justify-content-center"
             >
-              <h3 class="font-size-h1 mt-10 mb-5 text-white">
+              <h1 class="font-weight-bold mb-5 text-primary">
                 Welcome to Air Economics!
-              </h3>
-              <p class="font-weight-lighter text-white opacity-80">
+              </h1>
+              <p class="font-weight-lighter text-danger opacity-80">
                 The ultimate Ecommerce Framework
               </p>
+                <p class="font-weight-bold text-success">
+                    [ASSAM MART BUILD: 0.16.1]
+                </p>
             </div>
             <!--end: Aside content -->
             <!--begin: Aside footer for desktop -->
             <div
               class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
             >
-              <div class="opacity-70 font-weight-bold text-white">
-                © 2020 Air Economics by Atmiyo
+              <div class="opacity-70 font-weight-bold text-muted">
+                © 2020 Air Ecommerce by Atmiyo [ASSAM MART BUILD: 0.16.1]
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>
@@ -48,7 +51,7 @@
 
         <!--begin::Content-->
         <div
-          class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden"
+          class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden bg-primary-o-80"
         >
           <div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
             <div>
@@ -77,6 +80,7 @@
               <!--begin::Signin-->
               <div class="login-form login-signin">
                 <div class="text-center mb-10 mb-lg-20">
+                    <img src="/images/logo.png" style="width: 300px; object-fit: contain"/>
                   <h3 class="font-size-h1">Sign In</h3>
                   <p class="text-muted font-weight-semi-bold">
                     Enter your username and password
