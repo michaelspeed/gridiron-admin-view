@@ -1,9 +1,12 @@
 <template>
     <div>
-        <a href="javascript:;" class="btn btn-sm btn-light-primary font-weight-bold mr-2" @click="changePass = true">
+        <a href="javascript:;" class="btn btn-sm btn-hover-bg-primary btn-text-primary btn-hover-text-white border-0 font-weight-bold mr-2" @click="changePass = true">
             Change Password
         </a>
-        <v-dialog v-model="changePass" width="500">
+        <a href="javascript:;" class="btn btn-sm btn-hover-bg-danger btn-text-danger btn-hover-text-white border-0 font-weight-bold mr-2" @click="changePass = true">
+            Remove
+        </a>
+        <v-dialog v-model="changePass" width="500" transition="scale-transition">
             <v-card>
                 <v-card-title class="bg-primary text-white">
                     Change Password

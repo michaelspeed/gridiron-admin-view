@@ -48,31 +48,33 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
-                <div class="card">
-                    <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.GetAllAdministrator.loading">
-                        <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                <v-scale-transition>
+                    <div class="card">
+                        <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.GetAllAdministrator.loading">
+                            <div class="spinner spinner-primary spinner-lg mr-15"></div>
+                        </div>
+                        <div class="card-body" v-if="!$apollo.queries.GetAllAdministrator.loading">
+                            <ag-grid-vue
+                                style="height: 100vh"
+                                ref="agGridTable"
+                                :gridOptions="gridOptions"
+                                class="ag-theme-material"
+                                :columnDefs="columnDefs"
+                                :defaultColDef="defaultColDef"
+                                :rowData="GetAllAdministrator"
+                                colResizeDefault="shift"
+                                :animateRows="true"
+                                :floatingFilter="true"
+                                :pagination="true"
+                                @grid-ready="onGridReady"
+                                :suppressPaginationPanel="true" :enableRtl="false">
+                            </ag-grid-vue>
+                        </div>
                     </div>
-                    <div class="card-body" v-if="!$apollo.queries.GetAllAdministrator.loading">
-                        <ag-grid-vue
-                            style="height: 100vh"
-                            ref="agGridTable"
-                            :gridOptions="gridOptions"
-                            class="ag-theme-material"
-                            :columnDefs="columnDefs"
-                            :defaultColDef="defaultColDef"
-                            :rowData="GetAllAdministrator"
-                            colResizeDefault="shift"
-                            :animateRows="true"
-                            :floatingFilter="true"
-                            :pagination="true"
-                            @grid-ready="onGridReady"
-                            :suppressPaginationPanel="true" :enableRtl="false">
-                        </ag-grid-vue>
-                    </div>
-                </div>
+                </v-scale-transition>
             </div>
         </div>
-        <v-bottom-sheet v-model="create" inset>
+        <v-bottom-sheet v-model="create" inset transition="scroll-y-transition">
             <div class="card">
                 <div class="card-header border-0 d-flex justify-content-between align-items-center">
                     <h3 class="card-title align-items-start flex-column">

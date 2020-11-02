@@ -51,8 +51,11 @@
                   <v-tab>
                     Integrations
                   </v-tab>
-                  <v-tab>
-                    Task
+                    <v-tab>
+                    View Codes
+                  </v-tab>
+                    <v-tab>
+                    Hsn Codes
                   </v-tab>
                 </v-tabs>
               </div>
@@ -66,8 +69,12 @@
                 <v-tab-item :key="3">
                     <PaymentIntegration/>
                 </v-tab-item>
-                <v-tab-item :key="4">
-                </v-tab-item>
+                  <v-tab-item :key="4">
+                      <ViewCodes/>
+                  </v-tab-item>
+                  <v-tab-item :key="5">
+                      <HsnCodes/>
+                  </v-tab-item>
               </v-tabs-items>
             </div>
           </div>
@@ -81,9 +88,11 @@
     import StoreConfiguration from '../../../../components/System/StoreConfiguration.vue';
     import ZipConfiguration from '../../../../components/System/ZipConfiguration.vue';
     import PaymentIntegration from "~/components/integration/PaymentIntegration.vue";
+    import ViewCodes from "~/components/viewcodes/viewcodes.vue";
+    import HsnCodes from "~/components/hsn/hsn.vue";
 
     @Component({
-        components: {ZipConfiguration, StoreConfiguration, PaymentIntegration},
+        components: {ZipConfiguration, StoreConfiguration, PaymentIntegration, ViewCodes, HsnCodes},
         layout: 'console',
         middleware: 'adminonly',
     })

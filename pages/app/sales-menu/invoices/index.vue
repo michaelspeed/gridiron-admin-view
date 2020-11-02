@@ -37,6 +37,8 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
+                <AdminInvoice v-if="!vendorStore"/>
+                <VendorInvoice v-if="vendorStore"/>
             </div>
         </div>
     </div>
@@ -44,9 +46,23 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
+    import {mapState} from "vuex";
+    import AdminInvoice from "~/components/invoices/admin-invoice.vue";
+    import VendorInvoice from "~/components/invoices/vendor-invoice.vue";
 
     @Component({
-        layout: 'console'
+        layout: 'console',
+        components: {
+            AdminInvoice,
+            VendorInvoice
+        },
+        computed: {
+            ...mapState({
+                admin: (store: any) => store.admin.administrator,
+                vendor: (store: any) => store.admin.vendor,
+                vendorStore: (store: any) => store.admin.vendorStore,
+            }),
+        }
     })
     export default class Invoices extends Vue {
 

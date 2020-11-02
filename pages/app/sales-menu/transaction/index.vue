@@ -36,6 +36,25 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <ag-grid-vue
+                            style="height: 100vh"
+                            ref="agGridTable"
+                            :gridOptions="gridOptions"
+                            class="ag-theme-material"
+                            :columnDefs="columnDefs"
+                            :defaultColDef="defaultColDef"
+                            :rowData="payments"
+                            colResizeDefault="shift"
+                            :animateRows="true"
+                            :floatingFilter="true"
+                            :pagination="true"
+                            @grid-ready="onGridReady"
+                            :suppressPaginationPanel="true" :enableRtl="false">
+                        </ag-grid-vue>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -43,11 +62,85 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
+    import {GetAllTransactionsDocument, Payment} from "~/gql";
+    import moment from "moment";
 
     @Component({
-        layout: 'console'
+        layout: 'console',
+        apollo:{
+            payments: {
+                query: GetAllTransactionsDocument,
+                variables() {
+                    return {
+                        limit: this.limit,
+                        offset: this.offset
+                    }
+                },
+                pollInterval: 3000
+            }
+        }
     })
     export default class Transaction extends Vue {
+        private limit = 50
+        private offset = 0
+
+        private payments: Payment[]
+
+        // Table
+        private gridOptions: any = {};
+        private gridApi: any = null;
+        private defaultColDef = {
+            sortable: true,
+            editable: false,
+            resizable: true,
+            suppressMenu: true
+        };
+        private columnDefs = [
+            {
+                headerName: 'Id',
+                filter: true,
+                field: 'id'
+            },
+            {
+                headerName: 'Created At',
+                valueFormatter: this.onRenderDate
+            },
+            {
+                headerName: 'Status',
+                valueFormatter: this.getStatus
+            },
+            {
+                headerName: 'Amount',
+                valueFormatter: this.getAmount
+            },
+            {
+                headerName: 'Transaction Id',
+                filter: true,
+                field: 'transactionId'
+            },
+        ]
+
+        getAmount(data) {
+            return `${data.data.amount} INR`
+        }
+
+        getStatus(data) {
+            if (data.data.errorMessage) {
+                return 'Failed'
+            } else {
+                return 'Success'
+            }
+        }
+
+        onRenderDate(data) {
+            return moment(data.data.createdAt).format('DD MMM YYYY')
+        }
+
+        onGridReady() {
+            this.gridApi = this.gridOptions!.api;
+            this.gridApi!.sizeColumnsToFit();
+        }
+
 
     }
 </script>

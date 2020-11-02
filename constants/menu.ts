@@ -28,8 +28,8 @@ const menudata = [
             },*/
             {
                 icon: "iconsminds-jet",
-                label: "menu.shipment",
-                to: "/app/sales-menu/shipments"
+                label: "menu.settlements",
+                to: "/app/sales-menu/settlements"
             },
             {
                 icon: "iconsminds-handshake",
@@ -314,8 +314,8 @@ const adminMenuData = [
             },*/
             {
                 icon: "iconsminds-jet",
-                label: "menu.shipment",
-                to: "/app/sales-menu/shipments"
+                label: "menu.settlements",
+                to: "/app/sales-menu/settlements"
             },
             {
                 icon: "iconsminds-handshake",
@@ -460,11 +460,11 @@ const adminMenuData = [
                 label: "menu.url-rewrites",
                 to: "/app/seo-menu/url-rewrites"
             },
-            {
+            /*{
                 icon: "iconsminds-magnifi-glass",
                 label: "menu.search-terms",
                 to: "/app/seo-menu/search-terms"
-            }
+            }*/
         ]
     },
     {
@@ -473,11 +473,11 @@ const adminMenuData = [
         icon: 'fab fa-centercode',
         to: "/app/content-menu",
         subs: [
-            {
+            /*{
                 icon: " iconsminds-power-cable",
                 label: "menu.all-reviews",
                 to: "/app/content-menu/user-content/all-reviews"
-            },
+            },*/
             /*{
                 icon: "iconsminds-server-2",
                 label: "menu.pending-reviews",
@@ -565,11 +565,11 @@ const adminMenuData = [
                 to: "/app/system-menu/admins",
                 state: 'admin',
             },
-            {
+            /*{
                 label: "menu.roles-listing",
                 to: "/app/system-menu/roles",
                 state: 'admin',
-            },
+            },*/
             {
                 label: "menu.vendor-listing",
                 to: "/app/system-menu/vendors",
@@ -610,12 +610,12 @@ const vendorMenuData = [
                 icon: "note_add",
                 label: "menu.credit-memo",
                 to: "/app/sales-menu/credit-memo"
-            },*/
+            },
             {
                 icon: "iconsminds-jet",
                 label: "menu.shipment",
                 to: "/app/sales-menu/shipments"
-            },
+            },*/
             {
                 icon: "iconsminds-handshake",
                 label: "menu.billing-agreement",

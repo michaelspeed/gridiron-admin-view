@@ -628,6 +628,20 @@ mutation CreateHome($title: String, $targetId: String, $single: JSON, $pageType:
     }
 }
 
+mutation CreateSinglPage($title: String, $targetId: String, $single: JSON, $pageType: PageType){
+    createOnePage(input:{
+        page: {
+            title: $title,
+            targetId: $targetId,
+            single: $single,
+            pageType: $pageType,
+            pageCategory: CATEGORY
+        }
+    }) {
+        id
+    }
+}
+
 mutation UpdateHome($id: ID!, $single: JSON){
     updateOnePage(input:{
         id: $id,
@@ -732,6 +746,79 @@ mutation CreateVendorProdVariant($value: Float!, $variantId: ID!, $storeId: ID!)
 
 mutation UpdateVendorProdVariant($id: ID!, $value: Float!){
     UpdateVendorProdVariant(id: $id, value: $value){
+        id
+    }
+}
+
+mutation DeleteOnePage($id:ID!){
+    deleteOnePage(input:{id: $id}) {
+        id
+    }
+}
+
+mutation CreateSettlement($storeId: ID!){
+    CreateSettlement(storeId: $storeId) {
+        id
+    }
+}
+
+mutation UpdateSettlement($settlementId:ID!, $transactionId:String) {
+    UpdateSettlement(settlementId:$settlementId, transactionId: $transactionId) {
+        id
+    }
+}
+
+mutation DeleteOneAsset($id:ID!){
+    deleteOneAsset(input:{id: $id}) {
+        id
+    }
+}
+
+mutation CreateOneViewCode($name: String, $value: String, $description: String){
+    createOneViewCode(input:{
+        viewCode:{
+            name: $name,
+            value: $value
+            description: $description
+        }
+    }){
+        id
+    }
+}
+
+mutation UpdateVariantViewCode($variantId:ID!, $viewcode:[String!]!) {
+    UpdateVariantViewCode(variantId: $variantId, viewcode: $viewcode) {
+        id
+    }
+}
+
+mutation CreateOneHsn($value: Float, $code: String){
+    createOneHsn(input:{
+        hsn:{
+            value: $value,
+            code: $code
+        }
+    }){
+        id
+    }
+}
+
+mutation updateOneHsn($id: ID!, $value: Float){
+    updateOneHsn(input:{
+        id: $id
+        update:{
+            value: $value,
+        }
+    }){
+        id
+    }
+}
+
+mutation setHsnOnProduct($id: ID!, $relId: ID!){
+    setHsnOnProduct(input:{
+        id: $id,
+        relationId: $relId
+    }) {
         id
     }
 }

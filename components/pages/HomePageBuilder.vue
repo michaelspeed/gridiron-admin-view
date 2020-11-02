@@ -206,6 +206,7 @@
             v-model="homeCar"
             style="z-index: 10000 !important;"
             fullscreen
+            hide-overlay
         >
             <div class="card card-custom card-stretch">
                 <!--begin::Header-->
@@ -287,7 +288,7 @@
             </div>
         </v-dialog>
         <v-dialog v-model="homeDestination"
-                  width="80vw">
+                  width="80vw" hide-overlay>
             <div class="card card-custom card-stretch">
                 <!--begin::Header-->
                 <div class="card-header py-3">
@@ -351,6 +352,7 @@
         <v-dialog
             v-model="addlist"
             width="600px"
+            hide-overlay
         >
             <div class="card card-custom card-stretch">
                 <!--begin::Header-->
@@ -381,6 +383,7 @@
         <v-dialog
             v-model="selopen"
             width="80vw"
+            hide-overlay
         >
             <div class="card card-custom card-stretch">
                 <!--begin::Header-->
