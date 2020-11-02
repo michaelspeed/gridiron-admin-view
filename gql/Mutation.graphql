@@ -15,6 +15,7 @@ mutation administratorLogin($email: String!, $password: String!){
         store {
             id
         }
+        type
     }
 }
 
