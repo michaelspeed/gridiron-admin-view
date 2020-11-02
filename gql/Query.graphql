@@ -411,6 +411,22 @@ query GetOneProduct($id: ID!){
         productName
         slug
         description
+        viewcode
+        options {
+            id
+            name
+            code
+            options {
+                id
+                name
+                code
+            }
+        }
+        hsn{
+            id
+            value
+            code
+        }
         collection {
             id
             name
@@ -469,7 +485,12 @@ query GetAllVendurePlans($limit: Int, $iLike: String, $offset: Int){
 query GetProductVariant($id: ID!){
     product(id: $id) {
         id
-        variants {
+        hsn{
+            id
+            value
+            code
+        }
+        variants(paging:{limit: 50}) {
             id
             name
             enabled
@@ -1134,6 +1155,7 @@ query GetAllPages($limit: Int, $iLike: String, $offset: Int){
             direction:DESC
         }
     ) {
+        id
         title
         targetId
         pageType
@@ -1148,7 +1170,7 @@ query AllZips ($limit: Int, $vendor: ID, $offset: Int){
             offset: $offset
         }
         filter:{
-            vendors: {
+            store: {
                 id: {
                     eq: $vendor
                 }
@@ -1397,6 +1419,53 @@ query GetDeliveries($limit: Int, $offset: Int){
     }
 }
 
+query GetStoreInvoices($store: ID, $limit: Int, $offset: Int){
+    invoices(filter:{
+        store:{
+            id:{
+                eq: $store
+            },
+        }
+        ,
+        type:{
+            eq:"STORE"
+        }
+    },paging: {
+        limit: $limit
+        offset: $offset
+    }) {
+        id
+        type
+        total
+        amount
+        fees
+        tax
+        nulled
+        line {
+            id
+
+        }
+    }
+}
+query GetMasterInvoices($limit: Int, $offset: Int){
+    invoices(paging: {
+        limit: $limit
+        offset: $offset
+    }) {
+        id
+        type
+        total
+        amount
+        fees
+        tax
+        nulled
+        line {
+            id
+
+        }
+    }
+}
+
 query GetDeliveryStrandedCount {
     GetDeliveryStrandedCount {
         count
@@ -1423,6 +1492,327 @@ query SearchStore($like: String){
 query GetBillingAgreementForStore($variantId: String!, $storeId: String!){
     GetBillingAgreementForStore(variantId: $variantId, storeId: $storeId){
         id
+        value
+    }
+}
+
+query GetProductSaleData($productId:ID!, $type: String!, $storeId: String){
+    GetProductSaleData(productId: $productId, type: $type, storeId: $storeId){
+        labels
+        datasource {
+            sum
+            amount
+        }
+    }
+}
+
+query GetSingleInvoice($id: ID!){
+    invoice(id: $id) {
+        id
+        type
+        total
+        amount
+        fees
+        tax
+        nulled
+        line {
+            id
+            priceField
+            store {
+                id
+                storeName
+            }
+            order {
+                id
+                address
+                user {
+                    id
+                    firstName
+                    lastName
+                }
+            }
+        }
+    }
+}
+
+query GetSingleVendor($id: ID!){
+    vendor(id: $id) {
+        id
+        email
+        vendorName
+        store {
+            id
+            storeName
+            phoneNumber
+            officialemail
+            streetAddress1
+            streetAddress2
+            GSTIN
+            invoicesAggregate {
+                count {
+                    id
+                }
+            }
+            zipsAggregate {
+                count {
+                    id
+                }
+            }
+            backlogsAggregate {
+                count {
+                    id
+                }
+            }
+            settlementsAggregate {
+                count {
+                    id
+                }
+            }
+        }
+        license {
+            tenureEnd
+            tenureStart
+            plans {
+                name
+                planValue
+                priceStrategy
+                tenureStrategy
+            }
+        }
+    }
+}
+
+query GetVendorSettlements($id: ID!,$limit: Int, $offset: Int){
+    vendor(id: $id) {
+        id
+        store {
+            id
+            settlements(
+                paging: {
+                    limit: $limit
+                    offset: $offset
+                },
+                sorting:{
+                    field:createdAt
+                    direction:ASC
+                }
+            ) {
+                id
+                amount
+                taxamount
+                finalamount
+                transactionID
+                type
+            }
+        }
+    }
+}
+
+query GetVendorZips($id: ID!,$limit: Int, $offset: Int){
+    vendor(id:$id) {
+        id
+        store {
+            id
+            zips(
+                paging: {
+                    limit: $limit
+                    offset: $offset
+                },
+                sorting:{
+                    field:createdAt
+                    direction:ASC
+                }
+            ) {
+                id
+                code
+                name
+            }
+        }
+    }
+}
+
+query GetStoreOrderData($type: String!, $storeId: String!){
+    GetStoreOrderData(type: $type, storeId: $storeId) {
+        datasource {
+            sum
+            amount
+        }
+        labels
+    }
+}
+
+query GetVendorLicense($id: ID!){
+    vendor(id: $id) {
+        id
+        license {
+            tenureStart
+            tenureEnd
+            plans {
+                name
+                planValue
+                priceStrategy
+                tenureStrategy
+            }
+        }
+    }
+}
+
+query GetAdminOrderData($type:String!){
+    GetAdminOrderData(type: $type){
+        labels
+        datasource {
+            sum
+            amount
+        }
+    }
+}
+
+query GetAdminViews($type: String){
+    GetAdminViews(type: $type){
+        labels
+        datasource {
+            sum
+        }
+    }
+}
+
+query GetAllSettlement($limit: Int, $offset: Int){
+    settlements(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ){
+        id
+        amount
+        taxamount
+        finalamount
+        transactionID
+        type
+    }
+}
+
+query GetAllTransactions($limit: Int, $offset: Int){
+    payments(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ){
+        id
+        createdAt
+        updatedAt
+        amount
+        errorMessage
+        transactionId
+    }
+}
+
+query GetAllbackLogs($limit: Int, $offset: Int, $store: ID){
+    stockBackLogs(
+        filter: {
+            store:{
+                id: {
+                    eq: $store
+                }
+            }
+        },
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ){
+        id
+        createdAt
+        updatedAt
+        quantity
+        store {
+            id
+            storeName
+        }
+        variant {
+            id
+            variant {
+                id
+                name
+            }
+        }
+    }
+}
+
+query GetAssetAggregate($id: ID!){
+    asset(id: $id){
+        id
+        featuredsAggregate{
+            count {
+                id
+            }
+        }
+        productAssetsAggregate {
+            count {
+                id
+            }
+        }
+    }
+}
+
+query GetProductViews($productId:ID!, $type: String){
+    GetProductViews(productId:$productId, type: $type) {
+        labels
+        datasource {
+            sum
+        }
+    }
+}
+
+query GetAllViewCodes($limit: Int, $offset: Int){
+    viewCodes(
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        value
+        description
+    }
+}
+
+query GetAllHsn($limit: Int, $offset: Int, $search: String) {
+    hsns(
+        filter: {
+            code: {
+                like: $search
+            }
+        },
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        code
         value
     }
 }

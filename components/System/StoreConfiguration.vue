@@ -73,7 +73,7 @@
                 </div>
                 <button type="button" class="btn btn-light-primary btn-sm" @click="onUpdateStore">Update</button>
             </a-collapse-panel>
-            <a-collapse-panel key="2" header="Store Configuration">
+            <!--<a-collapse-panel key="2" header="Store Configuration">
                 <div slot="title" style="margin-top: 10px">
                     <h6 class="text-primary">Store Configurations</h6>
                 </div>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-            </a-collapse-panel>
+            </a-collapse-panel>-->
         </a-collapse>
     </div>
 </template>

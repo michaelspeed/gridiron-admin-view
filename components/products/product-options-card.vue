@@ -1,14 +1,15 @@
 <template>
     <div v-if="!$apollo.queries.assets.loading">
-      <div class="card-header border-0 py-5 d-flex justify-content-between">
+      <div class="card-header border-0 py-5 d-flex justify-content-between" :style="{'background-color': theme.colors.theme.base.primary}">
         <h3 class="card-title align-items-start flex-column">
-          <span class="card-label font-weight-bolder text-success">{{variants.name}}</span>
+          <span class="card-label font-weight-bolder text-white">{{variants.name}}</span>
         </h3>
         <div class="card-toolbar">
           <v-switch
             v-model="variants.enabled"
             label="Enabled"
             dense
+            color="accent"
           ></v-switch>
         </div>
       </div>
@@ -23,7 +24,16 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <product-price-options :price="variants.price" :variant="variants.id"/>
+                <product-price-options :price="variants.price" :variant="variants.id" v-if="hsn !== null"/>
+                <div v-if="hsn === null">
+                    <v-alert
+                        dense
+                        outlined
+                        type="error"
+                    >
+                        Please add <strong>HSN Code</strong> to enable price options
+                    </v-alert>
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="card">
@@ -208,7 +218,7 @@
     import {
         CreateProductSeoDocument,
         CreateProductVariantAssetDocument,
-        GetAllAssetsDocument, Store,
+        GetAllAssetsDocument, Hsn, Store,
         UpdateProductSeoDocument
     } from '../../gql';
     import {assetsURL} from '../../constants/GlobalURL';
@@ -216,6 +226,7 @@
     import ProductStockManagement from './product-stock-management.vue';
     import {mapState} from 'vuex';
     import ProductVendorBillingAgreement from "~/components/products/product-vendor-billing-agreement.vue";
+    import {GridironViewSettings} from "~/utils/theme.settings";
 
     @Component({
         components: {ProductStockManagement, ProductPriceOptions, ProductVendorBillingAgreement},
@@ -243,6 +254,9 @@
     export default class ProductOptionsCard extends Vue {
         @Prop() variants
         @Prop() allProdOptions
+
+        @Prop() hsn
+
         private store: Store | null
         private specs = false
         private addAsset = false
@@ -265,6 +279,7 @@
         private assetLimit = 50
 
         private stockmanagement = false
+        private theme = GridironViewSettings
 
         onClickClose() {
             this.stockmanagement = false

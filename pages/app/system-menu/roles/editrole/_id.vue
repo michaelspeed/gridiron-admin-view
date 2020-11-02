@@ -29,14 +29,14 @@
                                 label="Roles"
                                 multiple
                                 solo
-                                color="#3F51B5"
+                                color="primary"
                             >
                                 <template v-slot:selection="{ attrs, item, select, selected }">
                                     <v-chip
                                         v-bind="attrs"
                                         :input-value="selected"
                                         close
-                                        color="#3F51B5"
+                                        color="primary"
                                         :outlined="true"
                                         @click="select"
                                         @click:close="remove(item)"

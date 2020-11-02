@@ -9,17 +9,18 @@
                     </div>
                 </template>
                 <v-card>
-                    <v-card-title class="headline">Please Enter Zip Code</v-card-title>
+                    <v-card-title class="headline" :style="{'background-color': theme.colors.theme.base.primary, 'color': 'white'}">Please Enter Zip Code</v-card-title>
                     <v-card-text>
                         <v-text-field
                             label="Zip Code"
                             v-model="zipcode"
                         ></v-text-field>
                     </v-card-text>
+                    <v-divider></v-divider>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <a-button class="btn btn-light-danger" style="margin-right: 10px" @click="addZip = false">Cancel</a-button>
-                        <a-button class="btn btn-light-primary" @click="onCreateZipCode" :loading="loading">Add</a-button>
+                        <v-btn color="red" text style="margin-right: 10px" @click="addZip = false">Cancel</v-btn>
+                        <v-btn color="primary" text @click="onCreateZipCode" :loading="loading">Add</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -29,7 +30,7 @@
                        v-on="on">Add Zip Code</a>
                 </template>
                 <v-card>
-                    <v-card-title>Select Zip</v-card-title>
+                    <v-card-title :style="{'background-color': theme.colors.theme.base.primary, 'color': 'white'}">Select Zip</v-card-title>
                     <v-divider></v-divider>
                     <ZipVendorAdd @onchangezip="onChangeZips"/>
                     <v-divider></v-divider>
@@ -74,6 +75,7 @@
     } from '../../gql';
     import {mapState} from 'vuex';
     import ZipAddVendor from "~/components/zip/ZipVendorAdd.vue";
+    import {GridironViewSettings} from "~/utils/theme.settings";
 
     @Component({
         components:{
@@ -93,7 +95,7 @@
                 query: AllZipsDocument,
                 variables() {
                     return {
-                        vendor: this.$store.state.admin.vendor ? this.$store.state.admin.vendor.id : undefined,
+                        vendor: this.$store.state.admin.vendorStore ? this.$store.state.admin.vendorStore.id : undefined,
                         limit: 10,
                         offset: 0,
                         code: undefined
@@ -108,6 +110,8 @@
         private addZip = false
         private zipcode = ''
         private loading = false
+
+        private theme = GridironViewSettings
 
         private findAllZip
         private zips
@@ -201,7 +205,7 @@
             this.$apollo.mutate({
                 mutation: CreateZipToVendorDocument,
                 variables: {
-                    vendorId: this.vendor.id,
+                    vendorId: this.$store.state.admin.vendorStore ? this.$store.state.admin.vendorStore.id : this.$store.state.admin.store.id,
                     zips: this.allZipsOfVendor
                 }
             }).then(value => {

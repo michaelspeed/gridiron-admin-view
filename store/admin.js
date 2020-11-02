@@ -73,7 +73,7 @@ export const actions = {
     async getVendorStore({commit}) {
         let client = await this.app.apolloProvider.defaultClient
         await client.query({
-            query: GetVendorInfoDocument
+            query: GetVendorInfoDocument,
         }).then(value => {
             commit('setVendorStore', value.data.GetVendorInfo.store)
         }).catch(error => {

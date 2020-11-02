@@ -61514,3 +61514,8 @@ body {
 @media (max-width: 425px) {
   .offcanvas-mobile {
     width: 90% !important; } }
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    background-color: #8950FC;
+    color: white;
+}

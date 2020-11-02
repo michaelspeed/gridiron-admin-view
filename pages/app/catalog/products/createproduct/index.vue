@@ -326,12 +326,14 @@
                     featured: this.featuredAssets!.id
                 }
             }).then(value => {
+                this.$router.back()
                 load()
                 this.$notification.success({
                     description: 'Product Created',
                     message: 'Product Creation Successful'
                 })
-                this.$router.back()
+            }).catch(error => {
+                this.$Message.error(error.message)
             })
         }
 

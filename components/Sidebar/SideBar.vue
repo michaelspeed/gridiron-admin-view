@@ -11,8 +11,8 @@
                         <div class="input-group rounded bg-light">
                             <div class="input-group-prepend">
 							<span class="input-group-text">
-                <i class="fas fa-search"></i>
-              </span>
+                                <i class="fas fa-search"></i>
+                            </span>
                             </div>
 
                             <input type="text" class="form-control h-40px" placeholder="Search..."/>
@@ -51,10 +51,22 @@
                  v-if="!store && !vendorStore">
                 <div class="spinner spinner-primary spinner-lg mr-15"></div>
             </div>
-            <div v-if="store && vendorStore" class="card card-custom bgi-no-repeat gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/media/svg/shapes/abstract-4.svg)">
+            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px"
+                 v-if="vendorStore && vendorStore.balance">
                 <!--begin::Body-->
-                <div class="card-body">
-                    <a href="#" class="card-title font-weight-bold text-primary text-hover-primary font-size-h1">{{store.storeName}}</a>
+                <div class="card-body d-flex flex-column">
+                    <div>
+                        <i class="fas fa-money-check-alt text-danger"></i>
+                    </div>
+                    <!--begin::Stats-->
+                    <div class="flex-grow-1">
+                        <div class="text-dark-50 font-weight-bold">Total Volume</div>
+                        <div class="font-weight-bolder text-primary font-size-h3">{{ vendorStore.balance.balance }}
+                            INR
+                        </div>
+                    </div>
+                    <!--end::Stats-->
+
                 </div>
                 <!--end::Body-->
             </div>
@@ -63,11 +75,11 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <!--<img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">-->
-                    <h3 class="text-white font-weight-bolder">{{store.storeName}}</h3>
+                    <h3 class="text-white font-weight-bolder">{{ store.storeName }}</h3>
                     <p class="text-muted font-size-lg mt-5">
-                        {{store.streetAddress1}}, {{store.streetAddress2}}
+                        {{ store.streetAddress1 }}, {{ store.streetAddress2 }}
                     </p>
-                    <a href="#" class="btn btn-link btn-link-warning font-weight-bold">
+                    <a href="javascript:;" class="btn btn-link btn-link-warning font-weight-bold" @click="$router.push('/app/system-menu/system-config')">
                         Open Settings
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -79,11 +91,11 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">
-                    <h3 class="text-white font-weight-bolder">{{vendorStore.storeName}}</h3>
+                    <h3 class="text-white font-weight-bolder">{{ vendorStore.storeName }}</h3>
                     <p class="text-muted font-size-lg mt-5">
-                        {{vendorStore.streetAddress1}}, {{vendorStore.streetAddress2}}
+                        {{ vendorStore.streetAddress1 }}, {{ vendorStore.streetAddress2 }}
                     </p>
-                    <a href="#" class="btn btn-link btn-link-warning font-weight-bold">
+                    <a href="javascript:;" class="btn btn-link btn-link-warning font-weight-bold" @click="$router.push('/app/stores-menu/store-configuration')">
                         Open Settings
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -106,7 +118,9 @@
                         <!--begin::Item-->
                         <div class="timeline-item align-items-start" v-for="order of orders">
                             <!--begin::Label-->
-                            <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">{{getDate(order.createdAt)}}</div>
+                            <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">
+                                {{ getDate(order.createdAt) }}
+                            </div>
                             <!--end::Label-->
 
                             <!--begin::Badge-->
@@ -117,10 +131,11 @@
 
                             <!--begin::Content-->
                             <div class="timeline-content d-flex">
-                                <span class="font-weight-bolder text-dark-75 pl-3 font-size-lg">{{order.user.firstName}}{{order.user.lastName}}</span>
+                                <span
+                                    class="font-weight-bolder text-dark-75 pl-3 font-size-lg">{{ order.user.firstName }}{{ order.user.lastName }}</span>
                             </div>
                             <div>
-                                <span class="text-muted">₹ {{order.totalPrice}}</span>
+                                <span class="text-muted">₹ {{ order.totalPrice }}</span>
                             </div>
                             <!--end::Content-->
                         </div>
@@ -131,7 +146,8 @@
                         <!--begin::Item-->
                         <div class="timeline-item align-items-start" v-for="order of orderLines">
                             <!--begin::Label-->
-                            <div class="timeline-label text-dark-75 font-size-sm">{{getDate(order.order.createdAt)}}</div>
+                            <div class="timeline-label text-dark-75 font-size-sm">{{ getDate(order.order.createdAt) }}
+                            </div>
                             <!--end::Label-->
 
                             <!--begin::Badge-->
@@ -142,13 +158,14 @@
 
                             <!--begin::Content-->
                             <div class="timeline-content d-flex">
-                                <span class="font-weight-bolder text-dark-75 pl-3 font-size-lg">{{order.order.user.firstName}}{{order.order.user.lastName}}
+                                <span
+                                    class="font-weight-bolder text-dark-75 pl-3 font-size-lg">{{ order.order.user.firstName }}{{ order.order.user.lastName }}
                                     <br/>
-                                    <span class="text-muted font-size-sm">{{order.stage}}</span>
+                                    <span class="text-muted font-size-sm">{{ order.stage }}</span>
                                 </span>
                             </div>
                             <div>
-                                <span class="text-muted">₹ {{order.order.totalPrice}}</span>
+                                <span class="text-muted">₹ {{ order.order.totalPrice }}</span>
                             </div>
                             <!--end::Content-->
                         </div>
@@ -159,114 +176,101 @@
                 </div>
                 <!--end: Card Body-->
             </div>
-            <div class="card card-custom bg-light-danger gutter-b" style="height: 130px" v-if="vendorStore && vendorStore.balance">
-                <!--begin::Body-->
-                <div class="card-body d-flex flex-column">
-                    <!--begin::Stats-->
-                    <div class="flex-grow-1">
-                        <div class="text-dark-50 font-weight-bold">Total Volume</div>
-                        <div class="font-weight-bolder font-size-h3">{{vendorStore.balance.balance}} INR</div>
-                    </div>
-                    <!--end::Stats-->
-
-                </div>
-                <!--end::Body-->
-            </div>
         </div>
         <!--end::Aside Secondary Content-->
     </div>
 </template>
 
 <script lang="ts">
-    import {Component, Vue, Watch} from "vue-property-decorator";
-    import {PerfectScrollbar} from "vue2-perfect-scrollbar";
-    import {adminMenuData, menudata, vendorMenuData} from "../../constants/menu";
-    import {mapState} from "vuex";
-    import {GetOrderLinesDocument, GetVendorAccountDocument, SearchAllOrdersDocument} from "~/gql";
-    import moment from "moment";
+import {Component, Vue, Watch} from "vue-property-decorator";
+import {PerfectScrollbar} from "vue2-perfect-scrollbar";
+import {adminMenuData, menudata, vendorMenuData} from "../../constants/menu";
+import {mapState} from "vuex";
+import {GetOrderLinesDocument, GetVendorAccountDocument, SearchAllOrdersDocument} from "~/gql";
+import moment from "moment";
 
-    @Component({
-        components: {
-            PerfectScrollbar
-        },
-        computed: {
-            ...mapState({
-                admin: (store: any) => store.admin.administrator,
-                store: (store: any) => store.admin.store,
-                vendorStore: (store: any) => store.admin.vendorStore,
-                vendor: (store: any) => store.admin.vendor
-            })
-        },
-        apollo: {
-            orders: {
-                query: SearchAllOrdersDocument,
-                variables() {
-                    return {
-                        limit: 5,
-                        offset: 0,
-                    }
-                },
-                pollInterval: 4000
+@Component({
+    components: {
+        PerfectScrollbar
+    },
+    computed: {
+        ...mapState({
+            admin: (store: any) => store.admin.administrator,
+            store: (store: any) => store.admin.store,
+            vendorStore: (store: any) => store.admin.vendorStore,
+            vendor: (store: any) => store.admin.vendor
+        })
+    },
+    apollo: {
+        orders: {
+            query: SearchAllOrdersDocument,
+            variables() {
+                return {
+                    limit: 5,
+                    offset: 0,
+                }
             },
-            orderLines: {
-                query: GetOrderLinesDocument,
-                variables() {
-                    return {
-                        limit: 5,
-                        offset: 0,
-                        id: this.vendorStore ? this.vendorStore.id : undefined
-                    }
-                },
-                pollInterval: 4000
-            }
-        }
-    })
-    export default class SideBar extends Vue {
-        private store
-        private vendorStore
-        private tempscript: any = null;
-        private scrollbarscript: any = null
-        private menu: any[] = menudata
-        private adminMenu: any[] = adminMenuData
-        private vendorMenu: any[] = vendorMenuData
-
-        private orders
-        private orderLines
-        private GetVendorAccount
-
-        getDate(date) {
-            return moment(date).format('DD/MM HH:mm')
-        }
-
-        mounted() {
-            this.tempscript = document.createElement('script');
-            this.scrollbarscript = document.createElement('script');
-            this.tempscript.src = '/components/menu-left/index.js';
-            this.scrollbarscript.src = '/vendors/perfect-scrollbar/js/perfect-scrollbar.jquery.js';
-            this.tempscript.async = true;
-            this.scrollbarscript.async = true
-            document.body.appendChild(this.tempscript)
-            document.body.appendChild(this.scrollbarscript)
-        }
-
-        @Watch('GetVendorAccount')
-        onChangeStore() {
-            console.log(this.GetVendorAccount)
-        }
-
-        beforeDestroy() {
-            if (this.tempscript !== null) {
-                document.body.removeChild(this.tempscript)
-            }
-            if (this.scrollbarscript !== null) {
-                document.body.removeChild(this.scrollbarscript)
-            }
+            pollInterval: 4000
+        },
+        orderLines: {
+            query: GetOrderLinesDocument,
+            variables() {
+                return {
+                    limit: 5,
+                    offset: 0,
+                    id: this.vendorStore ? this.vendorStore.id : undefined
+                }
+            },
+            pollInterval: 4000
         }
     }
+})
+export default class SideBar extends Vue {
+    private store
+    private vendorStore
+    private tempscript: any = null;
+    private scrollbarscript: any = null
+    private menu: any[] = menudata
+    private adminMenu: any[] = adminMenuData
+    private vendorMenu: any[] = vendorMenuData
+
+    private orders
+    private orderLines
+    private GetVendorAccount
+
+    getDate(date) {
+        return moment(date).format('DD/MM HH:mm')
+    }
+
+    mounted() {
+        this.tempscript = document.createElement('script');
+        this.scrollbarscript = document.createElement('script');
+        this.tempscript.src = '/components/menu-left/index.js';
+        this.scrollbarscript.src = '/vendors/perfect-scrollbar/js/perfect-scrollbar.jquery.js';
+        this.tempscript.async = true;
+        this.scrollbarscript.async = true
+        document.body.appendChild(this.tempscript)
+        document.body.appendChild(this.scrollbarscript)
+    }
+
+    @Watch('GetVendorAccount')
+    onChangeStore() {
+        console.log(this.GetVendorAccount)
+    }
+
+    beforeDestroy() {
+        if (this.tempscript !== null) {
+            document.body.removeChild(this.tempscript)
+        }
+        if (this.scrollbarscript !== null) {
+            document.body.removeChild(this.scrollbarscript)
+        }
+    }
+}
 </script>
 
 <style scoped>
-    .air__menuLeft {
+.air__menuLeft {
 
-    }
+}
 </style>

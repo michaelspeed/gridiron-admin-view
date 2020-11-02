@@ -9,11 +9,37 @@
         >
             {{status ? 'Active': 'Deactivated'}}
         </v-chip>
-        <v-dialog v-model="activeChange" scrollable max-width="300px">
+        <v-dialog v-model="activeChange" max-width="300px" transition="scale-transition">
             <v-card>
                 <v-card-title>Change Status</v-card-title>
                 <v-divider></v-divider>
-                <v-card-text style="height: 300px;">
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn v-if="!status"
+                        color="green darken-1"
+                        text
+                        @click="onUpdatePlan(true)"
+                    >
+                        Activate
+                    </v-btn>
+
+                    <v-btn v-if="status"
+                        color="red darken-1"
+                        text
+                        @click="onUpdatePlan(false)"
+                    >
+                        Deactivate
+                    </v-btn>
+                    <v-btn
+                        color="indigo darken-1"
+                        text
+                        @click="activeChange = false"
+                    >
+                        Close
+                    </v-btn>
+                </v-card-actions>
+                <!--<v-card-text style="height: 300px;">
                     <v-list dense>
                         <v-list-item-group color="primary">
                             <v-list-item
@@ -49,7 +75,7 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-btn color="#1b55e3" text @click="activeChange = false">Close</v-btn>
-                </v-card-actions>
+                </v-card-actions>-->
             </v-card>
         </v-dialog>
     </div>

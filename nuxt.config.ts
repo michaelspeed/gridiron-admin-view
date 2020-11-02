@@ -148,7 +148,7 @@ const config = {
         authenticationType: 'Basic',
         clientConfigs: {
             default: {
-                httpEndpoint: 'http://megatron.thelocaldukan.com/'
+              httpEndpoint: 'http://megatron.thelocaldukan.com/'
             }
         },
         defaultOptions: {

@@ -101,6 +101,7 @@
     import moment from "moment";
     import OrderActions from "~/components/order/OrderActions.vue";
     import OrderVendorActions from "~/components/order/OrderVendroActions.vue";
+    import OrderProgress from "~/components/order/order-progress.vue";
 
     @Component({
         layout: 'console',
@@ -113,7 +114,8 @@
         },
         components: {
             OrderActions,
-            OrderVendorActions
+            OrderVendorActions,
+            OrderProgress
         },
         apollo: {
             orders: {
@@ -203,9 +205,8 @@
                 field: 'item.productVariant.name'
             },
             {
-                headerName: 'Quantity',
-                filter: false,
-                field: 'item.quantity'
+                headerName: 'Progress',
+                cellRendererFramework: 'OrderProgress'
             },
             {
                 headerName: 'Actions',

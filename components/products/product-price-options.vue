@@ -1,8 +1,8 @@
 <template>
     <div class="card">
-      <div class="card-header border-0 py-5 d-flex justify-content-between" style="padding: 10px; margin-bottom: 0px">
+      <div class="card-header border-0 d-flex justify-content-between" style="padding: 10px; margin-bottom: 0px" :style="{'background-color': theme.colors.theme.base.primary}">
         <h3 class="card-title align-items-start flex-column">
-          <span class="card-label font-weight-bolder text-dark">Price</span>
+          <span class="card-label font-weight-bolder text-white">Price</span>
         </h3>
       </div>
         <div class="card-body" style="padding: 14px">
@@ -11,13 +11,13 @@
                 <div class="spinner spinner-primary spinner-lg mr-15"></div>
             </div>
             <div v-if="!$apollo.queries.GetPriceForVariant.loading">
-                <v-select
+                <!--<v-select
                         label="Tax Rule"
                         :items="allTaxRates"
                         item-value="id"
                         item-text="name"
                         v-model="taxSlab"
-                ></v-select>
+                ></v-select>-->
                 <v-text-field
                         label="Price"
                         v-model="mainprice"
@@ -104,6 +104,7 @@
     } from '../../gql';
     import {PricePromoType} from "~/utils/OrderStageType";
     import moment from "moment";
+    import {GridironViewSettings} from "~/utils/theme.settings";
 
     @Component({
         apollo: {
@@ -143,6 +144,8 @@
         private promoprice = 0
         private promopriceType = PricePromoType
         private promopriceselect = PricePromoType.FLAT
+
+        private theme = GridironViewSettings
 
         @Watch('GetAllTaxRates')
         onChangeTaxRates() {
