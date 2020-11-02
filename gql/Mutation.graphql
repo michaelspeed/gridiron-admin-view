@@ -15,6 +15,7 @@ mutation administratorLogin($email: String!, $password: String!){
         store {
             id
         }
+        type
     }
 }
 
@@ -313,14 +314,15 @@ mutation CreateProduct($name: String!, $slug: String!, $desc: String!, $facet: [
     }
 }
 
-mutation UpdateProduct($name: String!, $id: ID!, $desc: String!, $facet: [String!]!, $asset: [String!]!, $featured: String!){
+mutation UpdateProduct($name: String!, $id: ID!, $desc: String!, $facet: [String!]!, $asset: [String!]!, $featured: String!, $viewcode: [String!]!){
     updateProduct(
         facet: $facet,
         asset: $asset,
         id: $id,
         desc: $desc,
         name: $name,
-        featured: $featured
+        featured: $featured,
+        viewcode: $viewcode
     ) {
         id
     }

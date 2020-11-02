@@ -174,7 +174,8 @@ export default class Index extends Vue {
       }
     }).then(value => {
       this.loading = false
-      if (value.data!.administratorLogin.store === null) {
+        console.log(value)
+      /*if (value.data!.administratorLogin.store === null) {
         this.$router.push({
           path: '/start/start'
         })
@@ -183,7 +184,7 @@ export default class Index extends Vue {
         this.$router.push({
           path: '/app/dashboard'
         })
-      }
+      }*/
     }).catch(error => {
       this.loading = false
       this.$Message.error(error.message)
