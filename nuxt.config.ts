@@ -148,9 +148,7 @@ const config = {
         authenticationType: 'Basic',
         clientConfigs: {
             default: {
-                /*httpEndpoint: 'http://45.118.132.119:5588/admin-api'*/
-                /*httpEndpoint: 'http://localhost:5588/admin-api',*/
-                httpEndpoint: 'http://megatron.thelocaldukan.com/',
+              httpEndpoint: 'http://megatron.thelocaldukan.com/'
             }
         },
         defaultOptions: {

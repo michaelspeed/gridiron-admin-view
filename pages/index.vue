@@ -8,7 +8,7 @@
         <!--begin::Aside-->
         <div
           class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-15"
-          :style="{ backgroundImage: `url(/media/bg/bg-4.jpg)` }"
+          :style="{ backgroundImage: `url(/images/back.jpg)` }"
         >
           <!--begin: Aside Container -->
           <div class="d-flex flex-row-fluid flex-column justify-content-between">
@@ -21,10 +21,10 @@
             <div
               class="flex-column-fluid d-flex flex-column justify-content-center"
             >
-              <h3 class="font-size-h1 mt-10 mb-5 text-white">
-                Welcome to Air Economics!
-              </h3>
-              <p class="font-weight-lighter text-white opacity-80">
+              <h1 class="font-weight-bold mt-10 mb-5 text-primary">
+                Welcome to THELOCALDUKAN
+              </h1>
+              <p class="font-weight-bold text-danger opacity-80">
                 The ultimate Ecommerce Framework
               </p>
             </div>
@@ -33,8 +33,8 @@
             <div
               class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
             >
-              <div class="opacity-70 font-weight-bold text-white">
-                © 2020 Air Economics by Atmiyo
+              <div class="opacity-70 font-weight-bold text-primary">
+                © 2020 [THELOCALDUKAN] BUILD 0.16.1
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>
