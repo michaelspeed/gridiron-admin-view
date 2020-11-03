@@ -92,14 +92,14 @@
     "pages/error/404.2f4bcb9.js",
     "pages/error/vendorpage.30cd63f.js",
     "pages/index.b712e39.js",
-    "pages/vendors/login/index.559bdcd.js",
-    "pages/vendors/register/index.f43e842.js",
-    "runtime.46ee0c0.js",
+    "pages/vendors/login/index.9a70d0a.js",
+    "pages/vendors/register/index.a02d5ae.js",
+    "runtime.87d58c2.js",
     "start.start.f9f1439.js",
     "vendors~app.0a351e6.js"
   ],
   "initial": [
-    "runtime.46ee0c0.js",
+    "runtime.87d58c2.js",
     "commons/app.c82acde.js",
     "vendors~app.0a351e6.js",
     "app.54d505c.js"
@@ -175,8 +175,8 @@
     "pages/error/404.2f4bcb9.js",
     "pages/error/vendorpage.30cd63f.js",
     "pages/index.b712e39.js",
-    "pages/vendors/login/index.559bdcd.js",
-    "pages/vendors/register/index.f43e842.js",
+    "pages/vendors/login/index.9a70d0a.js",
+    "pages/vendors/register/index.a02d5ae.js",
     "start.start.f9f1439.js"
   ],
   "modules": {
@@ -31956,7 +31956,7 @@
       15,
       16
     ],
-    "4319b05e": [
+    "b90127bc": [
       92,
       19,
       22,
@@ -31970,7 +31970,7 @@
       15,
       16
     ],
-    "485673c9": [
+    "0d62b81a": [
       92,
       19,
       22,
@@ -32128,13 +32128,13 @@
     "ad4ce71e": [
       91
     ],
-    "6966c570": [
+    "534ba88c": [
       91
     ],
     "de42dfc4": [
       91
     ],
-    "d2608710": [
+    "fe96c0d8": [
       91
     ],
     "1bd1dcfd": [
@@ -33106,13 +33106,13 @@
       "pages/index.b712e39.js"
     ],
     "09b1d8c7": [
-      "pages/vendors/login/index.559bdcd.js"
+      "pages/vendors/login/index.9a70d0a.js"
     ],
     "81f0232a": [
-      "pages/vendors/register/index.f43e842.js"
+      "pages/vendors/register/index.a02d5ae.js"
     ],
     "6fca0322": [
-      "runtime.46ee0c0.js"
+      "runtime.87d58c2.js"
     ],
     "68a4bbc0": [
       "start.start.f9f1439.js"

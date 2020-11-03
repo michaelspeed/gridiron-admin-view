@@ -179,6 +179,30 @@
   "LazyNotification": {
     "description": "Auto imported from components/notification/Notification.vue"
   },
+  "OrderActions": {
+    "description": "Auto imported from components/order/OrderActions.vue"
+  },
+  "LazyOrderActions": {
+    "description": "Auto imported from components/order/OrderActions.vue"
+  },
+  "OrderLInePreview": {
+    "description": "Auto imported from components/order/OrderLInePreview.vue"
+  },
+  "LazyOrderLInePreview": {
+    "description": "Auto imported from components/order/OrderLInePreview.vue"
+  },
+  "OrderVendroActions": {
+    "description": "Auto imported from components/order/OrderVendroActions.vue"
+  },
+  "LazyOrderVendroActions": {
+    "description": "Auto imported from components/order/OrderVendroActions.vue"
+  },
+  "OrderProgress": {
+    "description": "Auto imported from components/order/order-progress.vue"
+  },
+  "LazyOrderProgress": {
+    "description": "Auto imported from components/order/order-progress.vue"
+  },
   "HomePageBuilder": {
     "description": "Auto imported from components/pages/HomePageBuilder.vue"
   },
@@ -245,6 +269,12 @@
   "LazyProductVendorBillingAgreement": {
     "description": "Auto imported from components/products/product-vendor-billing-agreement.vue"
   },
+  "ProgressIndicator": {
+    "description": "Auto imported from components/progress/progress-indicator.vue"
+  },
+  "LazyProgressIndicator": {
+    "description": "Auto imported from components/progress/progress-indicator.vue"
+  },
   "RoleActions": {
     "description": "Auto imported from components/roles/RoleActions.vue"
   },
@@ -262,18 +292,6 @@
   },
   "LazyUserActions": {
     "description": "Auto imported from components/users/userActions.vue"
-  },
-  "Viewcodes": {
-    "description": "Auto imported from components/viewcodes/viewcodes.vue"
-  },
-  "LazyViewcodes": {
-    "description": "Auto imported from components/viewcodes/viewcodes.vue"
-  },
-  "ProgressIndicator": {
-    "description": "Auto imported from components/progress/progress-indicator.vue"
-  },
-  "LazyProgressIndicator": {
-    "description": "Auto imported from components/progress/progress-indicator.vue"
   },
   "VendorActions": {
     "description": "Auto imported from components/vendor/vendor-actions.vue"
@@ -311,6 +329,18 @@
   "LazyVendorZips": {
     "description": "Auto imported from components/vendor/vendor-zips.vue"
   },
+  "Viewcodes": {
+    "description": "Auto imported from components/viewcodes/viewcodes.vue"
+  },
+  "LazyViewcodes": {
+    "description": "Auto imported from components/viewcodes/viewcodes.vue"
+  },
+  "ZipVendorAdd": {
+    "description": "Auto imported from components/zip/ZipVendorAdd.vue"
+  },
+  "LazyZipVendorAdd": {
+    "description": "Auto imported from components/zip/ZipVendorAdd.vue"
+  },
   "TaxRatesActions": {
     "description": "Auto imported from components/Tax/Rates/tax-rates-actions.vue"
   },
@@ -323,12 +353,6 @@
   "LazyTaxRatesEnabled": {
     "description": "Auto imported from components/Tax/Rates/tax-rates-enabled.vue"
   },
-  "ZipVendorAdd": {
-    "description": "Auto imported from components/zip/ZipVendorAdd.vue"
-  },
-  "LazyZipVendorAdd": {
-    "description": "Auto imported from components/zip/ZipVendorAdd.vue"
-  },
   "TaxRulesActions": {
     "description": "Auto imported from components/Tax/Rules/TaxRulesActions.vue"
   },
@@ -340,29 +364,5 @@
   },
   "LazyCreateTaxRule": {
     "description": "Auto imported from components/store/tax/CreateTaxRule.vue"
-  },
-  "OrderActions": {
-    "description": "Auto imported from components/order/OrderActions.vue"
-  },
-  "LazyOrderActions": {
-    "description": "Auto imported from components/order/OrderActions.vue"
-  },
-  "OrderLInePreview": {
-    "description": "Auto imported from components/order/OrderLInePreview.vue"
-  },
-  "LazyOrderLInePreview": {
-    "description": "Auto imported from components/order/OrderLInePreview.vue"
-  },
-  "OrderVendroActions": {
-    "description": "Auto imported from components/order/OrderVendroActions.vue"
-  },
-  "LazyOrderVendroActions": {
-    "description": "Auto imported from components/order/OrderVendroActions.vue"
-  },
-  "OrderProgress": {
-    "description": "Auto imported from components/order/order-progress.vue"
-  },
-  "LazyOrderProgress": {
-    "description": "Auto imported from components/order/order-progress.vue"
   }
 }
