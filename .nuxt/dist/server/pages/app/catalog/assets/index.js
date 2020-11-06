@@ -6316,7 +6316,7 @@ module.exports = exports;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return assetsURL; });
 /*export const assetsURL = 'http://45.118.132.119:5002'*/
-const assetsURL = 'http://localhost:5002';
+const assetsURL = 'http://jazz.thelocaldukan.com';
 
 /***/ }),
 /* 273 */

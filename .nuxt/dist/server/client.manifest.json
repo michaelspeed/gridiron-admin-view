@@ -7,10 +7,10 @@
     "LICENSES",
     "app.54d505c.js",
     "app.catalog.facets.id.9736eba.js",
-    "app.content-menu.elements.pages.createbuilder.index.e1c7332.js",
+    "app.content-menu.elements.pages.createbuilder.index.d0bc997.js",
     "app.customers-menu.allcustomers.id.address.a22557a.js",
     "app.customers-menu.allcustomers.id.orders.b7ab7b7.js",
-    "app.sales-menu.orders.createorder.index.f9295ff.js",
+    "app.sales-menu.orders.createorder.index.5e6beee.js",
     "app.sales-menu.orders.index.c508f4c.js",
     "app.stocks.stocks-management.index.5c3834b.js",
     "app.stores-menu.channels.index.ab409d0.js",
@@ -41,13 +41,13 @@
     "img/primeicons.4e91511.svg",
     "lang-en.c4bb8e8.js",
     "manifest.c98f4fae.json",
-    "pages/app/catalog/assets/index.96e945f.js",
+    "pages/app/catalog/assets/index.b0d2464.js",
     "pages/app/catalog/collections/createnewcollection/_id.98d7969.js",
     "pages/app/catalog/collections/createnewcollection/index.e0f1e04.js",
     "pages/app/catalog/collections/index.d02c678.js",
     "pages/app/catalog/facets/index.ecfde1f.js",
-    "pages/app/catalog/products/_id.d1a1f70.js",
-    "pages/app/catalog/products/createproduct/index.96a3121.js",
+    "pages/app/catalog/products/_id.d6db65d.js",
+    "pages/app/catalog/products/createproduct/index.765d1f2.js",
     "pages/app/catalog/products/index.df74071.js",
     "pages/app/catalog/products/variants/specs/_id.2b84c27.js",
     "pages/app/content-menu/design/menubuilder.cd5302d.js",
@@ -94,12 +94,12 @@
     "pages/index.b712e39.js",
     "pages/vendors/login/index.9a70d0a.js",
     "pages/vendors/register/index.a02d5ae.js",
-    "runtime.87d58c2.js",
+    "runtime.8be9819.js",
     "start.start.f9f1439.js",
     "vendors~app.0a351e6.js"
   ],
   "initial": [
-    "runtime.87d58c2.js",
+    "runtime.8be9819.js",
     "commons/app.c82acde.js",
     "vendors~app.0a351e6.js",
     "app.54d505c.js"
@@ -107,10 +107,10 @@
   "async": [
     "76.4839c4a.js",
     "app.catalog.facets.id.9736eba.js",
-    "app.content-menu.elements.pages.createbuilder.index.e1c7332.js",
+    "app.content-menu.elements.pages.createbuilder.index.d0bc997.js",
     "app.customers-menu.allcustomers.id.address.a22557a.js",
     "app.customers-menu.allcustomers.id.orders.b7ab7b7.js",
-    "app.sales-menu.orders.createorder.index.f9295ff.js",
+    "app.sales-menu.orders.createorder.index.5e6beee.js",
     "app.sales-menu.orders.index.c508f4c.js",
     "app.stocks.stocks-management.index.5c3834b.js",
     "app.stores-menu.channels.index.ab409d0.js",
@@ -124,13 +124,13 @@
     "commons/8ac3158a.8dde02f.js",
     "commons/b595a914.3e9bdb4.js",
     "lang-en.c4bb8e8.js",
-    "pages/app/catalog/assets/index.96e945f.js",
+    "pages/app/catalog/assets/index.b0d2464.js",
     "pages/app/catalog/collections/createnewcollection/_id.98d7969.js",
     "pages/app/catalog/collections/createnewcollection/index.e0f1e04.js",
     "pages/app/catalog/collections/index.d02c678.js",
     "pages/app/catalog/facets/index.ecfde1f.js",
-    "pages/app/catalog/products/_id.d1a1f70.js",
-    "pages/app/catalog/products/createproduct/index.96a3121.js",
+    "pages/app/catalog/products/_id.d6db65d.js",
+    "pages/app/catalog/products/createproduct/index.765d1f2.js",
     "pages/app/catalog/products/index.df74071.js",
     "pages/app/catalog/products/variants/specs/_id.2b84c27.js",
     "pages/app/content-menu/design/menubuilder.cd5302d.js",
@@ -32890,7 +32890,7 @@
   },
   "assetsMapping": {
     "67764398": [
-      "app.sales-menu.orders.createorder.index.f9295ff.js"
+      "app.sales-menu.orders.createorder.index.5e6beee.js"
     ],
     "67992871": [
       "pages/app/delivery-menu/guys/index.30b4314.js"
@@ -32905,7 +32905,7 @@
       "app.catalog.facets.id.9736eba.js"
     ],
     "7ad0a1fa": [
-      "app.content-menu.elements.pages.createbuilder.index.e1c7332.js"
+      "app.content-menu.elements.pages.createbuilder.index.d0bc997.js"
     ],
     "a8675f72": [
       "app.customers-menu.allcustomers.id.address.a22557a.js"
@@ -32956,7 +32956,7 @@
       "lang-en.c4bb8e8.js"
     ],
     "c3cf63ea": [
-      "pages/app/catalog/assets/index.96e945f.js"
+      "pages/app/catalog/assets/index.b0d2464.js"
     ],
     "dd395fe4": [
       "pages/app/catalog/collections/createnewcollection/_id.98d7969.js"
@@ -32971,10 +32971,10 @@
       "pages/app/catalog/facets/index.ecfde1f.js"
     ],
     "b243ad58": [
-      "pages/app/catalog/products/_id.d1a1f70.js"
+      "pages/app/catalog/products/_id.d6db65d.js"
     ],
     "d817b060": [
-      "pages/app/catalog/products/createproduct/index.96a3121.js"
+      "pages/app/catalog/products/createproduct/index.765d1f2.js"
     ],
     "688861ec": [
       "pages/app/catalog/products/index.df74071.js"
@@ -33112,7 +33112,7 @@
       "pages/vendors/register/index.a02d5ae.js"
     ],
     "6fca0322": [
-      "runtime.87d58c2.js"
+      "runtime.8be9819.js"
     ],
     "68a4bbc0": [
       "start.start.f9f1439.js"
