@@ -161,8 +161,7 @@
                             automatic_uploads: true,
                             images_upload_handler: imageUploadHandler,
                             branding: false,
-                            content_style: 'body { font-family: Arial; }'
-                        }" v-model="editorModel"/>
+                            content_style: 'body { font-family: Arial; }'}" v-model="editorModel"/>
                             </client-only>
                             <small class="form-text text-muted">{{$t('store.storenameinfo')}}</small>
                         </div>
