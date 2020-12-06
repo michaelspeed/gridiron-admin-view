@@ -23,17 +23,17 @@
   "LazyHeader": {
     "description": "Auto imported from components/Navigation/Header.vue"
   },
-  "SideBar": {
-    "description": "Auto imported from components/Sidebar/SideBar.vue"
-  },
-  "LazySideBar": {
-    "description": "Auto imported from components/Sidebar/SideBar.vue"
-  },
   "SeoActions": {
     "description": "Auto imported from components/Seo/SeoActions.vue"
   },
   "LazySeoActions": {
     "description": "Auto imported from components/Seo/SeoActions.vue"
+  },
+  "SideBar": {
+    "description": "Auto imported from components/Sidebar/SideBar.vue"
+  },
+  "LazySideBar": {
+    "description": "Auto imported from components/Sidebar/SideBar.vue"
   },
   "StoreConfiguration": {
     "description": "Auto imported from components/System/StoreConfiguration.vue"

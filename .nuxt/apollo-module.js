@@ -28,7 +28,7 @@ export default (ctx, inject) => {
       let defaultClientConfig
 
         defaultClientConfig = {
-  "httpEndpoint": "http://megatron.assammart.shop/"
+  "httpEndpoint": "http://megatron.oihelp.net/"
 }
 
       if (process.server) {

@@ -22,13 +22,13 @@
               class="flex-column-fluid d-flex flex-column justify-content-center"
             >
               <h1 class="font-weight-bold mb-5 text-primary">
-                Welcome to Air Economics!
+                Welcome to OI HELP
               </h1>
               <p class="font-weight-lighter text-danger opacity-80">
                 The ultimate Ecommerce Framework
               </p>
                 <p class="font-weight-bold text-success">
-                    [ASSAM MART BUILD: 0.16.1]
+                    [OI HELP BUILD: 0.16.3]
                 </p>
             </div>
             <!--end: Aside content -->
@@ -37,7 +37,7 @@
               class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
             >
               <div class="opacity-70 font-weight-bold text-muted">
-                © 2020 Air Ecommerce by Atmiyo [ASSAM MART BUILD: 0.16.1]
+                © 2020 Air Ecommerce by Atmiyo [OI HELP BUILD: 0.16.1]
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>
@@ -80,7 +80,9 @@
               <!--begin::Signin-->
               <div class="login-form login-signin">
                 <div class="text-center mb-10 mb-lg-20">
-                    <img src="/images/logo.png" style="width: 300px; object-fit: contain"/>
+                    <!--<img src="/images/logo.png" style="width: 300px; object-fit: contain"/>-->
+                    <h1 class="text-primary" style="font-size: 40px; font-weight: bold">Oi Help</h1>
+                    <hr>
                   <h3 class="font-size-h1">Sign In</h3>
                   <p class="text-muted font-weight-semi-bold">
                     Enter your username and password

@@ -2,8 +2,8 @@ export { default as ChannelAction } from '../../components/Channel/ChannelAction
 export { default as ChildMenu } from '../../components/Menu/child-menu.vue'
 export { default as RootMenu } from '../../components/Menu/root-menu.vue'
 export { default as Header } from '../../components/Navigation/Header.vue'
-export { default as SideBar } from '../../components/Sidebar/SideBar.vue'
 export { default as SeoActions } from '../../components/Seo/SeoActions.vue'
+export { default as SideBar } from '../../components/Sidebar/SideBar.vue'
 export { default as StoreConfiguration } from '../../components/System/StoreConfiguration.vue'
 export { default as ZipConfiguration } from '../../components/System/ZipConfiguration.vue'
 export { default as ZoneActions } from '../../components/Zones/ZoneActions.vue'
@@ -64,8 +64,8 @@ export const LazyChannelAction = import('../../components/Channel/ChannelAction.
 export const LazyChildMenu = import('../../components/Menu/child-menu.vue' /* webpackChunkName: "components/Menu/child-menu'}" */).then(c => c.default || c)
 export const LazyRootMenu = import('../../components/Menu/root-menu.vue' /* webpackChunkName: "components/Menu/root-menu'}" */).then(c => c.default || c)
 export const LazyHeader = import('../../components/Navigation/Header.vue' /* webpackChunkName: "components/Navigation/Header'}" */).then(c => c.default || c)
-export const LazySideBar = import('../../components/Sidebar/SideBar.vue' /* webpackChunkName: "components/Sidebar/SideBar'}" */).then(c => c.default || c)
 export const LazySeoActions = import('../../components/Seo/SeoActions.vue' /* webpackChunkName: "components/Seo/SeoActions'}" */).then(c => c.default || c)
+export const LazySideBar = import('../../components/Sidebar/SideBar.vue' /* webpackChunkName: "components/Sidebar/SideBar'}" */).then(c => c.default || c)
 export const LazyStoreConfiguration = import('../../components/System/StoreConfiguration.vue' /* webpackChunkName: "components/System/StoreConfiguration'}" */).then(c => c.default || c)
 export const LazyZipConfiguration = import('../../components/System/ZipConfiguration.vue' /* webpackChunkName: "components/System/ZipConfiguration'}" */).then(c => c.default || c)
 export const LazyZoneActions = import('../../components/Zones/ZoneActions.vue' /* webpackChunkName: "components/Zones/ZoneActions'}" */).then(c => c.default || c)
