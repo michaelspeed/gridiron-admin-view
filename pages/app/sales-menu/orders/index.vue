@@ -40,7 +40,7 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
-                <div class="card card-custom gutter-b" v-if="!vendorStore">
+                <v-sheet elevation="4" v-if="!vendorStore">
                     <div class="d-flex justify-content-center align-items-center m-20 w-100"
                          v-if="$apollo.queries.orders.loading">
                         <div class="spinner spinner-primary spinner-lg mr-15"></div>
@@ -63,8 +63,8 @@
                             :suppressPaginationPanel="true" :enableRtl="false">
                         </ag-grid-vue>
                     </div>
-                </div>
-                <div class="card card-custom gutter-b" v-if="vendorStore">
+                </v-sheet>
+                <v-sheet elevation="4" v-if="vendorStore">
                     <div class="d-flex justify-content-center align-items-center m-20 w-100"
                          v-if="$apollo.queries.orderLines.loading">
                         <div class="spinner spinner-primary spinner-lg mr-15"></div>
@@ -87,7 +87,7 @@
                             :suppressPaginationPanel="true" :enableRtl="false">
                         </ag-grid-vue>
                     </div>
-                </div>
+                </v-sheet>
             </div>
         </div>
     </div>

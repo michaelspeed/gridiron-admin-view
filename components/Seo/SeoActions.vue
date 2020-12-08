@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a href="javascript:;" class="btn btn-light-primary btn-sm" @click="$router.push(`/app/seo-menu/url-rewrites/${params.data.id}`)">Edit</a>
-        <a href="javascript:;" class="btn btn-sm" :class="{'btn-light-danger': !checkData(), 'btn-light-dark': checkData()}" :disabled="checkData()">Delete</a>
+        <v-btn color="primary" text @click="$router.push(`/app/seo-menu/url-rewrites/${params.data.id}`)">Edit</v-btn>
+        <v-btn color="red" text :class="{'btn-light-danger': !checkData(), 'btn-light-dark': checkData()}" :disabled="checkData()">Delete</v-btn>
     </div>
 </template>
 

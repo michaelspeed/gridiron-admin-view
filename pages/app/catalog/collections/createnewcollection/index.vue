@@ -31,7 +31,7 @@
             </div>
           </div>
 
-          <div class="card">
+          <v-sheet elevation="4">
             <div class="card-body">
               <div class="form-group">
                 <label>Enter Collection Name</label>
@@ -89,7 +89,7 @@
                 <button type="button" class="btn btn-light-danger" @click="onGoBack">Cancel</button>
               </div>
             </div>
-          </div>
+          </v-sheet>
         </div>
       </div>
     </div>

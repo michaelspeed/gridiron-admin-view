@@ -22,13 +22,13 @@
               class="flex-column-fluid d-flex flex-column justify-content-center"
             >
               <h1 class="font-weight-bold mb-5 text-primary">
-                Welcome to Air Economics!
+                Welcome to AssamMart
               </h1>
               <p class="font-weight-lighter text-danger opacity-80">
                 The ultimate Ecommerce Framework
               </p>
                 <p class="font-weight-bold text-success">
-                    [ASSAM MART BUILD: 0.16.1]
+                    [ASSAM MART BUILD: 0.16.3]
                 </p>
             </div>
             <!--end: Aside content -->
@@ -37,7 +37,7 @@
               class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
             >
               <div class="opacity-70 font-weight-bold text-muted">
-                © 2020 Air Ecommerce by Atmiyo [ASSAM MART BUILD: 0.16.1]
+                © 2020 Air Ecommerce by Atmiyo [ASSAM MART BUILD: 0.16.3]
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card card-custom gutter-b">
+        <v-sheet elevation="4">
             <div class="d-flex justify-content-center align-items-center m-20 w-100"
                  v-if="$apollo.queries.invoices.loading">
                 <div class="spinner spinner-primary spinner-lg mr-15"></div>
@@ -23,7 +23,7 @@
                     :suppressPaginationPanel="true" :enableRtl="false">
                 </ag-grid-vue>
             </div>
-        </div>
+        </v-sheet>
     </div>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <a href="javascript:;" class="btn btn-sm btn-light-primary font-weight-bold mr-2"
+        <v-btn color="primary" text
            @click="$router.push(`/app/sales-menu/billing-agreement/${params.data.id}`)">
             View
-        </a>
+        </v-btn>
     </div>
 </template>
 

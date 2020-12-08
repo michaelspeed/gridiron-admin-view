@@ -1,5 +1,5 @@
 <template>
-    <div class="card card-custom card-stretch">
+    <v-sheet elevation="4">
         <!--begin::Header-->
         <div class="card-header py-3">
             <div class="card-title align-items-start flex-column">
@@ -14,7 +14,7 @@
         <!--end::Header-->
 
         <!--begin::Form-->
-        <div class="form">
+        <div >
             <!--begin::Body-->
             <div class="card-body">
                 <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.user.loading">
@@ -62,7 +62,7 @@
             <!--end::Body-->
         </div>
         <!--end::Form-->
-    </div>
+    </v-sheet>
 </template>
 
 <script lang="ts">

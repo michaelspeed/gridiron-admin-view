@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card card-custom">
+        <v-sheet elevation="4">
             <!--begin::Header-->
             <div class="card-header py-3">
                 <div class="card-title align-items-start flex-column">
@@ -20,6 +20,7 @@
                         dark
                         v-for="add of user.addresses"
                         :key="add.id"
+                        style="margin: 5px"
                     >
                         <div class="d-flex flex-no-wrap justify-space-between">
                             <div>
@@ -48,7 +49,7 @@
                 </div>
             </form>
             <!--end::Form-->
-        </div>
+        </v-sheet>
     </div>
 </template>
 

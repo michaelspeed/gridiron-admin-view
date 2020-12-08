@@ -30,7 +30,7 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
-                <div class="card">
+                <v-sheet elevation="4">
                     <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.collection.loading">
                         <div class="spinner spinner-primary spinner-lg mr-15"></div>
                     </div>
@@ -95,7 +95,7 @@
                             <button type="button" class="btn btn-light-danger" @click="onGoBack">Cancel</button>
                         </div>
                     </div>
-                </div>
+                </v-sheet>
             </div>
         </div>
     </div>

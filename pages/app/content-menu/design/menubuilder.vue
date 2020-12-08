@@ -43,12 +43,23 @@
                 <div class="row">
                     <div class="col-md-4">
                         <v-card>
-                            <v-card-title>
-                                <h5>Menu </h5>
+                            <v-card-title style="width: 100%">
+                                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%">
+                                    <div>
+                                        <h5>Menu </h5>
+                                    </div>
+                                    <div>
+                                        <v-btn text color="red">
+                                            Reset Menu
+                                        </v-btn>
+                                    </div>
+                                </div>
                             </v-card-title>
                             <hr/>
                             <v-card-text v-if="MenuNodes !== null">
-                                <PrimeTree :value="MenuNodes" selectionMode="single" :selectionKeys.sync="root" :loading="GetMenuTree === undefined"></PrimeTree>
+                                <PrimeTree :value="MenuNodes" selectionMode="single" :selectionKeys.sync="root" :loading="GetMenuTree === undefined">
+
+                                </PrimeTree>
                             </v-card-text>
                             <v-card-actions>
                                 <a href="javascript:;" class="btn btn-light-primary btn-sm font-weight-bold mr-2" @click="root = null">Add Root Menu Type</a>
@@ -89,7 +100,6 @@
 
         @Watch('root')
         onChangeRoot() {
-            console.log(Object.keys(this.root))
         }
 
         @Watch('GetMenuTree')

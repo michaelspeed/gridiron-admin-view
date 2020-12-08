@@ -12861,6 +12861,11 @@ vue-data-tables@^3.4.3:
     lodash "^4.17.10"
     vue "^2.5.16"
 
+vue-frosted-glass@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/vue-frosted-glass/-/vue-frosted-glass-0.3.0.tgz#3aa56d89bc5b0af6cb726f162b066fa28af268b9"
+  integrity sha512-T83+X+4x5HZ1Z4aRKj2iG3AuSLEDEPu+qaKe/PvnhFYSaemZL3UKhGp+5cGypJ1m4SMosw+/dhAYFi5YLXWVhg==
+
 vue-functional-data-merge@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-3.1.0.tgz#08a7797583b7f35680587f8a1d51d729aa1dc657"
