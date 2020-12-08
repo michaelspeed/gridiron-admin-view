@@ -324,7 +324,7 @@
 
 <script>
 import Header from "../components/Navigation/Header";
-import Sidebar from "../components/Sidebar/Sidebar";
+import Sidebar from "../components/Sidebar/SideBar";
 import Footer from "../components/footer/Footer";
 import Notifications from "../components/notification/Notification";
 import Actions from "../components/actions/Actions";
