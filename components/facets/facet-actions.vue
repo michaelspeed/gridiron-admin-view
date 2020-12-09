@@ -1,17 +1,17 @@
 <template>
     <div>
-      <a href="javascript:;" class="btn btn-sm btn-light-info" @click="onClickEdit">
-        <i class="fas fa-edit"></i> Edit
-      </a>
+      <v-btn color="primary" text @click="onClickEdit">
+        <i class="fas fa-edit text-primary mr-2"></i> Edit
+      </v-btn>
         <a-popconfirm
                 title="Are you sure delete this task?"
                 ok-text="Yes"
                 cancel-text="No"
                 @confirm="onDelete"
         >
-          <a href="javascript:;" class="btn btn-sm btn-light-danger">
-            <i class="fas fa-trash"></i> Delete
-          </a>
+          <v-btn color="red" text>
+            <i class="fas fa-trash text-danger mr-2"></i> Delete
+          </v-btn>
         </a-popconfirm>
     </div>
 </template>

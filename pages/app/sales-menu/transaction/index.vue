@@ -36,7 +36,7 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
-                <div class="card">
+                <v-sheet elevation="4">
                     <div class="card-body">
                         <ag-grid-vue
                             style="height: 100vh"
@@ -54,7 +54,7 @@
                             :suppressPaginationPanel="true" :enableRtl="false">
                         </ag-grid-vue>
                     </div>
-                </div>
+                </v-sheet>
             </div>
         </div>
     </div>

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <a href="javascript:;" class="btn btn-sm btn-light-danger font-weight-bold mr-2"
+        <v-btn text color="red"
            @click="onDeletePage">
             Delete
-        </a>
+        </v-btn>
     </div>
 </template>
 

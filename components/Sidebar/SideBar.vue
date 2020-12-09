@@ -70,7 +70,7 @@
                 </div>
                 <!--end::Body-->
             </div>
-            <div v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b"
+            <v-sheet v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
                  style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
                 <!--begin::Body-->
                 <div class="card-body">
@@ -85,8 +85,8 @@
                     </a>
                 </div>
                 <!--end::Body-->
-            </div>
-            <div v-if="vendorStore" class="card card-custom bgi-no-repeat gutter-b"
+            </v-sheet>
+            <v-sheet v-if="vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
                  style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
                 <!--begin::Body-->
                 <div class="card-body">
@@ -101,8 +101,8 @@
                     </a>
                 </div>
                 <!--end::Body-->
-            </div>
-            <div class="card card-custom bg-light-success gutter-b">
+            </v-sheet>
+            <v-sheet class="card card-custom bg-light-success gutter-b" elevation="4">
                 <!--begin::Header-->
                 <div class="card-header align-items-center border-0 mt-4">
                     <h3 class="card-title align-items-start flex-column">
@@ -175,7 +175,7 @@
                     <!--end: Items-->
                 </div>
                 <!--end: Card Body-->
-            </div>
+            </v-sheet>
         </div>
         <!--end::Aside Secondary Content-->
     </div>

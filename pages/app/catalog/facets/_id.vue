@@ -48,7 +48,7 @@
               <!--end::Toolbar-->
             </div>
           </div>
-          <div class="card">
+          <v-sheet elevation="4">
             <div class="card-body">
               <div class="form-group">
                 <label>Enter Name</label>
@@ -99,9 +99,9 @@
                           cancel-text="No"
                           @confirm="onDelete(item.id)"
                         >
-                          <a href="javascript:;" class="btn btn-sm btn-light-danger">
-                            <i class="fas fa-trash"></i> Delete
-                          </a>
+                          <v-btn color="red" text>
+                            <i class="fas fa-trash text-danger mr-2"></i> Delete
+                          </v-btn>
                         </a-popconfirm>
                       </td>
                     </tr>
@@ -110,7 +110,7 @@
                 </v-simple-table>
               </div>
             </div>
-          </div>
+          </v-sheet>
         </div>
       </div>
         <v-bottom-sheet v-model="add" inset transition="slide-y-transition">

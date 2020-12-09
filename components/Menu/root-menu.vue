@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card elevation="4">
         <v-card-title>
             <h5>Add Root Menu Type </h5>
         </v-card-title>
@@ -59,6 +59,14 @@
                         label="Title"
                         outlined
                         v-model="title"
+                ></v-text-field>
+            </div>
+            <div class="mt-3">
+                <span>Icons names can be found here <a href="https://materialdesignicons.com/" target="_blank">Material Icons</a></span>
+                <v-text-field
+                        label="Meta Icon"
+                        outlined
+                        v-model="mainIcon"
                 ></v-text-field>
             </div>
             <div class="mt-3">
@@ -142,6 +150,8 @@
         private facetSel: any = null
         private title = ''
         private targetId = ''
+
+        private mainIcon = ''
 
         private loading = false
 
