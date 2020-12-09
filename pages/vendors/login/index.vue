@@ -32,7 +32,7 @@
                         <div class="form" id="kt_login_signin_form">
                             <!--begin::Title-->
                             <div class="pb-13 pt-lg-0 pt-5">
-                                <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Welcome to <span class="text-warning">Assam Mart</span></h3>
+                            <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Welcome to THE LOCAL DUKAN</h3>
                                 <span class="text-muted font-weight-bold font-size-h4">New Here?
 									<a href="/vendors/register" id="kt_login_signup" class="text-primary font-weight-bolder">Create an Account</a></span>
                             </div>
@@ -94,7 +94,7 @@
                 <!--end::Content body-->
                 <!--begin::Content footer-->
                 <div class="d-flex justify-content-lg-start justify-content-center align-items-end py-7 py-lg-0">
-                    <span class="text-primary font-weight-bolder font-size-h5">© 2020 Assam Mart[ASSAM MART BUILD: 0.16.1]</span>
+                <span class="text-primary font-weight-bolder font-size-h5">© 2020 [THELOCALDUKAN] BUILD 0.16.1</span>
                 </div>
                 <!--end::Content footer-->
             </div>

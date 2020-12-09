@@ -11,8 +11,9 @@
                         <!--begin::Aside Top-->
                         <div class="d-flex flex-column-auto flex-column px-10">
                             <!--begin::Aside header-->
-                            <a href="#" class="login-logo">
-                                <img src="/images/logo.png" class="max-h-200px" alt=""/>
+                            <a href="#" class="login-logo mb-3">
+                                <!--<img src="/master/logo/air.png" class="max-h-100px" alt=""/>-->
+                                <h1 class="text-primary font-weight-bold">THE LOCAL DUKAN</h1>
                             </a>
                             <div class="text-white font-weight-bold font-size-h4" style="margin-top: -10px; margin-bottom: 10px">
                                 Already have an Account ?

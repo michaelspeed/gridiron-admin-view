@@ -28,8 +28,7 @@ export default (ctx, inject) => {
       let defaultClientConfig
 
         defaultClientConfig = {
-  "httpEndpoint": "http://megatron.assammart.shop/"
-}
+          "httpEndpoint": "http://megatron.thelocaldukan.com/"
 
       if (process.server) {
         onCacheInitStore['default'] = defaultClientConfig.onCacheInit
