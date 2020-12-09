@@ -148,7 +148,7 @@ const config = {
         authenticationType: 'Basic',
         clientConfigs: {
             default: {
-              httpEndpoint: 'http://megatron.assammart.shop/'
+              httpEndpoint: 'http://megatron.thelocaldukan.com/'
               /*httpEndpoint: 'http://localhost:5588/admin-api',*/
             }
         },

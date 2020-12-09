@@ -28,7 +28,7 @@
                 The ultimate Ecommerce Framework
               </p>
                 <p class="font-weight-bold text-success">
-                    [ASSAM MART BUILD: 0.16.3]
+                    [THELOCALDUKAN BUILD: 0.16.3]
                 </p>
             </div>
             <!--end: Aside content -->
@@ -37,7 +37,7 @@
               class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
             >
               <div class="opacity-70 font-weight-bold text-primary">
-                © 2020 [THELOCALDUKAN] BUILD 0.16.1
+                © 2020 [THELOCALDUKAN] BUILD 0.16.3
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>
@@ -80,8 +80,9 @@
               <!--begin::Signin-->
               <div class="login-form login-signin">
                 <div class="text-center mb-10 mb-lg-20">
-                    <img src="/images/logo.png" style="width: 300px; object-fit: contain"/>
-                  <h3 class="font-size-h1">Sign In</h3>
+                    <!--<img src="/images/logo.png" style="width: 300px; object-fit: contain"/>-->
+                    <h1 class="text-primary font-weight-bold">THELOCALDUKAN</h1>
+                  <h3 class="font-size-h3">Sign In</h3>
                   <p class="text-muted font-weight-semi-bold">
                     Enter your username and password
                   </p>
