@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://45.118.132.119:5588/admin-api"
+schema: "http://megatron.thelocaldukan.com/"
 documents: "gql/*.graphql"
 generates:
   gql/index.ts:

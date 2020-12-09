@@ -21,10 +21,10 @@
             <div
               class="flex-column-fluid d-flex flex-column justify-content-center"
             >
-              <h1 class="font-weight-bold mb-5 text-primary">
-                Welcome to AssamMart
+            <h1 class="font-weight-bold mt-10 mb-5 text-primary">
+                Welcome to THELOCALDUKAN
               </h1>
-              <p class="font-weight-lighter text-danger opacity-80">
+              <p class="font-weight-bold text-danger opacity-80">
                 The ultimate Ecommerce Framework
               </p>
                 <p class="font-weight-bold text-success">
@@ -36,8 +36,8 @@
             <div
               class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
             >
-              <div class="opacity-70 font-weight-bold text-muted">
-                © 2020 Air Ecommerce by Atmiyo [ASSAM MART BUILD: 0.16.3]
+              <div class="opacity-70 font-weight-bold text-primary">
+                © 2020 [THELOCALDUKAN] BUILD 0.16.1
               </div>
               <div class="d-flex">
                 <a href="#" class="text-white">Privacy</a>
@@ -178,6 +178,7 @@ export default class Index extends Vue {
       }
     }).then(value => {
       this.loading = false
+        console.log(value)
       if (value.data!.administratorLogin.store === null) {
         this.$router.push({
           path: '/start/start'
