@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card card-custom mt-5 mb-5">
+        <v-sheet elevation="4">
             <!--begin::Header-->
             <div class="card-header py-3">
                 <div class="card-title align-items-start flex-column">
@@ -24,8 +24,8 @@
                 </div>
             </div>
             <!--end::Form-->
-        </div>
-        <div class="card card-custom mt-5 mb-5">
+        </v-sheet>
+        <v-sheet elevation="4" class="mt-4">
             <!--begin::Header-->
             <div class="card-header py-3">
                 <div class="card-title align-items-start flex-column">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <!--end::Form-->
-        </div>
+        </v-sheet>
     </div>
 </template>
 

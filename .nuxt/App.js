@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch, promisify, globalHandleError, urlJoin, sanitizeComponent } from './utils'
 
 import NuxtLoading from './components/nuxt-loading.vue'
+import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
 import '../node_modules/ant-design-vue/dist/antd.less'
 
@@ -16,6 +17,7 @@ import '../node_modules/ag-grid-community/dist/styles/ag-grid.css'
 
 import '../node_modules/ag-grid-community/dist/styles/ag-theme-material.css'
 
+import '../node_modules/vuetify/dist/vuetify.css'
 import _4c0f18a1 from '../layouts/console.vue'
 import _6f6c098b from '../layouts/default.vue'
 import _106b01f6 from '../layouts/ns-error.vue'
@@ -56,7 +58,7 @@ export default {
       }
     }, [
       loadingEl,
-
+      h(NuxtBuildIndicator),
       transitionEl
     ])
   },
@@ -182,6 +184,9 @@ export default {
     },
 
     setLayout (layout) {
+      if(layout && typeof layout !== 'string') {
+        throw new Error('[nuxt] Avoid using non-string value as layout property.')
+      }
       if (!layout || !layouts['_' + layout]) {
         layout = 'default'
       }

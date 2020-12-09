@@ -48,7 +48,7 @@
               <!--end::Toolbar-->
             </div>
           </div>
-          <div class="card card-custom gutter-b">
+          <v-sheet elevation="4">
             <div class="card-body">
               <ag-grid-vue
                 style="height: 100vh"
@@ -71,7 +71,7 @@
                 </ul>
               </nav>
             </div>
-          </div>
+          </v-sheet>
         </div>
       </div>
         <v-bottom-sheet v-model="add" inset>

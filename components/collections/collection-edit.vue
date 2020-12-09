@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card">
+        <v-sheet elevation="4">
           <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
               <span class="card-label font-weight-bolder text-primary">{{name}}</span>
@@ -64,7 +64,7 @@
                     <button type="button" class="btn btn-light-primary font-weight-bold" @click="onUpdate">Save Collection</button>
                 </div>
             </div>
-        </div>
+        </v-sheet>
     </div>
 </template>
 

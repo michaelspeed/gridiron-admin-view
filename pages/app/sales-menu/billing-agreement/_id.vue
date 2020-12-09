@@ -52,17 +52,17 @@
                                             <h6 class="text-inverse-danger mt-2 font-weight-bolder" v-if="GetBillingAgreement.collection">Collection: {{GetBillingAgreement.collection.name}}</h6>
                                             <div class="mt-5">
                                                 <div class="d-flex justify-content-between">
-                                                    <span class="text-white font-size-h3">Activities</span>
+                                                    <span class="text-white font-size-h3">STATE</span>
                                                     <span class="text-white font-size-h3 font-weight-boldest">{{GetBillingAgreement.state}}</span>
                                                 </div>
                                                 <div class="d-flex justify-content-between">
 
-                                                    <span class="text-white font-size-h3">Sales</span>
+                                                    <span class="text-white font-size-h3">TYPE</span>
                                                     <span class="text-white font-size-h3 font-weight-boldest">{{GetBillingAgreement.type}}</span>
                                                 </div>
                                                 <div class="d-flex justify-content-between">
 
-                                                    <span class="text-white font-size-h3">Releases</span>
+                                                    <span class="text-white font-size-h3">VALUE</span>
                                                     <span class="text-white font-size-h3 font-weight-boldest">{{GetBillingAgreement.value}}</span>
                                                 </div>
                                             </div>
@@ -77,7 +77,7 @@
                                             <span class="card-label font-weight-bolder text-dark">Billing Agreement Requests</span>
                                         </h3>
                                         <div class="card-toolbar">
-                                            <a href="javascript:;" @click="createRequest = true" class="btn btn-success font-weight-bolder font-size-sm">Create Request</a>
+                                            <v-btn color="primary" @click="createRequest = true">Create Request</v-btn>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -119,7 +119,7 @@
                 </div>
             </div>
         </div>
-        <v-bottom-sheet inset v-model="createRequest">
+        <v-bottom-sheet inset v-model="createRequest" transition="scroll-y-reverse-transition">
             <div class="card">
                 <div class="card-header border-0 d-flex justify-content-between align-items-center">
                     <h3 class="card-title align-items-start flex-column">
