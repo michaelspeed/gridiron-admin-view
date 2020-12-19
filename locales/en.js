@@ -82,6 +82,7 @@ export default {
         "delivery-guys": "Delivery Guys",
         "delivery-manager": "Delivery Manager",
         "delivery": "Delivery Management",
+        "services": "Serviceable",
     },
     "pages": {
         "appname": "AirEcommerce",

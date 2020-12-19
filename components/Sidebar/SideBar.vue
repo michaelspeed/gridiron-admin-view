@@ -70,6 +70,119 @@
                 </div>
                 <!--end::Body-->
             </div>
+            <v-sheet v-if="health" class="card card-custom gutter-b" elevation="4">
+                <div class="card-header border-0 pt-5">
+                    <div class="card-title font-weight-bolder">
+                        <div class="card-label">
+                            <h3 class="text-primary">Status</h3>
+                            <div class="font-size-sm text-muted mt-2">Server Status</div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="card-body d-flex flex-column" style="position: relative;">
+                    <div class="mt-5 mb-5">
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="primary"
+                                    >
+                                        mdi-database
+                                    </v-icon>
+                                    <!--end::Symbol-->
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Database</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.database.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="red"
+                                    >
+                                        mdi-web
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Socket</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.google.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+
+                        <div class="row row-paddingless">
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="amber"
+                                    >
+                                        mdi-memory
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Memory Heap</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.memory_heap.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="cyan"
+                                    >
+                                        mdi-console-network
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Memory RSS</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.memory_rss.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="light-green"
+                                    >
+                                        mdi-nas
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Storage</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.storage.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Items-->
+                    <div class="resize-triggers"><div class="expand-trigger"><div style="width: 268px; height: 482px;"></div></div><div class="contract-trigger"></div></div></div>
+            </v-sheet>
             <v-sheet v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
                  style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
                 <!--begin::Body-->
@@ -188,6 +301,7 @@ import {adminMenuData, menudata, vendorMenuData} from "../../constants/menu";
 import {mapState} from "vuex";
 import {GetOrderLinesDocument, GetVendorAccountDocument, SearchAllOrdersDocument} from "~/gql";
 import moment from "moment";
+import {mainAPI} from "~/constants/GlobalURL";
 
 @Component({
     components: {
@@ -238,6 +352,8 @@ export default class SideBar extends Vue {
     private orderLines
     private GetVendorAccount
 
+    private health: any = null
+
     getDate(date) {
         return moment(date).format('DD/MM HH:mm')
     }
@@ -251,6 +367,14 @@ export default class SideBar extends Vue {
         this.scrollbarscript.async = true
         document.body.appendChild(this.tempscript)
         document.body.appendChild(this.scrollbarscript)
+        this.$axios.$get(`${mainAPI}/health`)
+        .then((response) => {
+            console.log(response)
+            this.health = response.details
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     }
 
     @Watch('GetVendorAccount')

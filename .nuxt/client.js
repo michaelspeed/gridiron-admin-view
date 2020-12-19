@@ -41,6 +41,7 @@ let store
 
 // Try to rehydrate SSR data from window
 const NUXT = window.__NUXT__ || {}
+
 Object.assign(Vue.config, {"devtools":true,"silent":false,"performance":true})
 
 const logs = NUXT.logs || []
@@ -577,7 +578,8 @@ function fixPrepatch (to, ___) {
       }
     })
     checkForErrors(this)
-// Hot reloading
+
+    // Hot reloading
     setTimeout(() => hotReloadAPI(this), 100)
   })
 }
@@ -709,6 +711,7 @@ function addHotReload ($component, depth) {
     })
   }
 }
+
 async function mountApp (__app) {
   // Set global variables
   app = __app.app
@@ -738,6 +741,7 @@ async function mountApp (__app) {
     Vue.nextTick(() => {
       // Call window.{{globals.readyCallback}} callbacks
       nuxtReady(_app)
+
       // Enable hot reloading
       hotReloadAPI(_app)
     })

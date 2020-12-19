@@ -171,7 +171,7 @@ mutation SetCategoryOnTaxRate($id: ID!, $categoryId: ID!){
     }
 }
 
-mutation CreateOneChannel($code: String, $token: String, $currencyCode: String, $pricesIncludeTax: Boolean, $defaultLanguageCode: String!){
+mutation CreateOneChannel($code: String, $token: String, $currencyCode: CurrencyCode, $pricesIncludeTax: Boolean, $defaultLanguageCode: LanguageCode!){
     createOneChannel(
         input:{
             channel:{
@@ -589,7 +589,7 @@ mutation createOneZip($code: Float!){
     }
 }
 
-mutation createOneMenu($title: String, $targetId: String, $target: String){
+mutation createOneMenu($title: String, $targetId: String, $target: MenuBuilderTypes){
     createOneMenu(
         input: {
             menu: {
@@ -674,7 +674,7 @@ mutation createOrderAdmin($orderLineDto: [OrderLineDto!]!, $address: String!, $u
     }
 }
 
-mutation updateOrderLine($id: ID!, $stage: String){
+mutation updateOrderLine($id: ID!, $stage: OrderStageType){
     updateOneOrderLine(
         input:{
             id: $id,
@@ -687,7 +687,7 @@ mutation updateOrderLine($id: ID!, $stage: String){
     }
 }
 
-mutation createOnePromotionVariantPrice($priceType: String, $value: Float, $startsAt: DateTime){
+mutation createOnePromotionVariantPrice($priceType: PricePromoType, $value: Float, $startsAt: DateTime){
     createOnePromotionVariantPrice(
         input: {
             promotionVariantPrice:{
@@ -818,6 +818,18 @@ mutation setHsnOnProduct($id: ID!, $relId: ID!){
     setHsnOnProduct(input:{
         id: $id,
         relationId: $relId
+    }) {
+        id
+    }
+}
+
+mutation createOneServiceable($name: String, $type: ServiceableTypes, $mode: ServiceableOrderTypes){
+    createOneServiceable(input: {
+        serviceable: {
+            name: $name,
+            type: $type,
+            mode: $mode
+        }
     }) {
         id
     }

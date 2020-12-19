@@ -177,6 +177,42 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label>Serviceable</label>
+                                                <div>
+                                                    <a href="javascript:;" @click="serviceopen = true"
+                                                       class="btn btn-sm btn-light-success font-weight-bold mr-2">
+                                                        Add Serviceable
+                                                    </a>
+                                                    <a href="javascript:;" @click="serviceclose = true"
+                                                       class="btn btn-sm btn-light-danger font-weight-bold mr-2">
+                                                        Remove Serviceable
+                                                    </a>
+                                                </div>
+                                                <v-bottom-sheet
+                                                    v-model="serviceopen"
+                                                    inset
+                                                >
+                                                    <div>
+                                                        <div class="card-header border-0 d-flex justify-content-between align-items-center">
+                                                            <h3 class="card-title align-items-start flex-column">
+                                                                <a href="javascript:;" @click="serviceopen = false">
+                                                                    <i class="fas fa-arrow-left font-size-h3 text-primary"></i>
+                                                                </a>
+                                                                <span class="card-label font-weight-bolder text-dark ml-6">Select Serviceable</span>
+                                                            </h3>
+                                                            <div class="card-toolbar">
+                                                                <v-text-field
+                                                                    style="width: 300px"
+                                                                    v-model="serviceSearch"
+                                                                    label="Search Serviceable"
+                                                                ></v-text-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body"></div>
+                                                    </div>
+                                                </v-bottom-sheet>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>View Codes ({{ this.settingViewCodes.length }})</label>
                                                 <div>
                                                     <a href="javascript:;" @click="manageViewCode = true"
@@ -420,8 +456,8 @@ import {
     GetAllFacetsDocument, GetAllHsnDocument, GetAllViewCodesDocument,
     GetFacetValuesDocument,
     GetOneProductDocument,
-    GetProductSaleDataDocument,
-    GetProductViewsDocument, Hsn, Product, SetHsnOnProductDocument,
+    GetProductSaleDataDocument, GetProductServiceablesDocument,
+    GetProductViewsDocument, Hsn, Product, Serviceable, SetHsnOnProductDocument,
     UpdateProductCollectionDocument,
     UpdateProductDocument,
     ViewCode
@@ -513,6 +549,14 @@ import ProductSaleChart from "~/components/charts/ProductSaleChart";
                     offset: 0
                 }
             }
+        },
+        serviceables: {
+            query: GetProductServiceablesDocument,
+            variables() {
+                return {
+                    search: `%${this.serviceSearch}%`
+                }
+            }
         }
     }
 })
@@ -581,6 +625,10 @@ export default class ProductEdit extends Vue {
     private addHSN = false
     private hsnsearch = ''
     private hsns: Hsn[]
+
+    private serviceSearch = ''
+    private serviceables: Serviceable[]
+    private serviceopen = false
 
     handleChangeChartType(value) {
         this.chartLoaded = false

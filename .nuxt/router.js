@@ -14,6 +14,7 @@ const _65052ba7 = () => interopDefault(import('../pages/app/catalog/assets/index
 const _3aafd347 = () => interopDefault(import('../pages/app/catalog/collections/index.vue' /* webpackChunkName: "pages/app/catalog/collections/index" */))
 const _5d946e80 = () => interopDefault(import('../pages/app/catalog/facets/index.vue' /* webpackChunkName: "pages/app/catalog/facets/index" */))
 const _13ae5608 = () => interopDefault(import('../pages/app/catalog/products/index.vue' /* webpackChunkName: "pages/app/catalog/products/index" */))
+const _3518a482 = () => interopDefault(import('../pages/app/catalog/services/index.vue' /* webpackChunkName: "pages/app/catalog/services/index" */))
 const _f6115718 = () => interopDefault(import('../pages/app/customers-menu/allcustomers/index.vue' /* webpackChunkName: "pages/app/customers-menu/allcustomers/index" */))
 const _23c0454e = () => interopDefault(import('../pages/app/customers-menu/customer-groups/index.vue' /* webpackChunkName: "pages/app/customers-menu/customer-groups/index" */))
 const _0dbeefc2 = () => interopDefault(import('../pages/app/customers-menu/nowonline/index.vue' /* webpackChunkName: "pages/app/customers-menu/nowonline/index" */))
@@ -128,6 +129,10 @@ export const routerOptions = {
     path: "/app/catalog/products",
     component: _13ae5608,
     name: "app-catalog-products___en"
+  }, {
+    path: "/app/catalog/services",
+    component: _3518a482,
+    name: "app-catalog-services___en"
   }, {
     path: "/app/customers-menu/allcustomers",
     component: _f6115718,

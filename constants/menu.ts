@@ -1,18 +1,18 @@
 const menudata = [
     {
         id: "dashboard",
-        icon: "fas fa-align-justify",
+        icon: "desktop-mac-dashboard",
         label: "menu.dashboard",
         to: "/app/dashboard",
     },
     {
         id: "sales-menu",
-        icon: "fas fa-receipt",
+        icon: "point-of-sale",
         label: "menu.sales",
         to: "/app/sales-menu",
         subs: [
             {
-                icon: "toc",
+                icon: "paper-roll",
                 label: "menu.orders",
                 to: "/app/sales-menu/orders"
             },
@@ -27,17 +27,17 @@ const menudata = [
                 to: "/app/sales-menu/credit-memo"
             },*/
             {
-                icon: "iconsminds-jet",
+                icon: "cash-usd",
                 label: "menu.settlements",
                 to: "/app/sales-menu/settlements"
             },
             {
-                icon: "iconsminds-handshake",
+                icon: "file-document-edit",
                 label: "menu.billing-agreement",
                 to: "/app/sales-menu/billing-agreement"
             },
             {
-                icon: "iconsminds-pound-sign-2",
+                icon: "credit-card-settings-outline",
                 label: "menu.transaction",
                 to: "/app/sales-menu/transaction"
             },
@@ -45,27 +45,32 @@ const menudata = [
     },
     {
         id: "catalog",
-        icon: "fas fa-database",
+        icon: "format-list-checks",
         label: "menu.catalog",
         to: "/app/catalog",
         subs: [
             {
-                icon: "iconsminds-books",
+                icon: "sitemap",
                 label: "menu.products",
                 to: "/app/catalog/products"
             },
             {
-                icon: "iconsminds-files",
+                icon: "database-settings-outline",
                 label: "menu.collections",
                 to: "/app/catalog/collections"
             },
             {
-                icon: "iconsminds-tag",
+                icon: "harddisk",
+                label: "menu.services",
+                to: "/app/catalog/services"
+            },
+            {
+                icon: "pound",
                 label: "menu.facets",
                 to: "/app/catalog/facets"
             },
             {
-                icon: "iconsminds-picasa",
+                icon: "image-multiple",
                 label: "menu.assets",
                 to: "/app/catalog/assets"
             },
@@ -78,12 +83,12 @@ const menudata = [
         to: "/app/stocks",
         subs: [
             {
-                icon: "iconsminds-pen",
+                icon: "package-variant",
                 label: "menu.stock-mana",
                 to: "/app/stocks/stocks-management"
             },
             {
-                icon: "iconsminds-magnifi-glass",
+                icon: "package-down",
                 label: "menu.stock-back",
                 to: "/app/stocks/stocks-backorders"
             }
@@ -91,22 +96,22 @@ const menudata = [
     },
     {
         id: "customers-menu",
-        icon: "fas fa-restroom",
+        icon: "account-group",
         label: "menu.customers",
         to: "/app/customers-menu",
         subs: [
             {
-                icon: "iconsminds-mens",
+                icon: "account-group-outline",
                 label: "menu.allsustomers",
                 to: "/app/customers-menu/allcustomers"
             },
             {
-                icon: "iconsminds-assistant",
+                icon: "target-account",
                 label: "menu.nowonline",
                 to: "/app/customers-menu/nowonline"
             },
             {
-                icon: "iconsminds-assistant",
+                icon: "account-network",
                 label: "menu.customer-group",
                 to: "/app/customers-menu/customer-groups"
             },
@@ -287,18 +292,18 @@ const menudata = [
 const adminMenuData = [
     {
         id: "dashboard",
-        icon: "fas fa-align-justify",
+        icon: "desktop-mac-dashboard",
         label: "menu.dashboard",
         to: "/app/dashboard",
     },
     {
         id: "sales-menu",
-        icon: "fas fa-receipt",
+        icon: "point-of-sale",
         label: "menu.sales",
         to: "/app/sales-menu",
         subs: [
             {
-                icon: "toc",
+                icon: "paper-roll",
                 label: "menu.orders",
                 to: "/app/sales-menu/orders"
             },
@@ -313,17 +318,17 @@ const adminMenuData = [
                 to: "/app/sales-menu/credit-memo"
             },*/
             {
-                icon: "iconsminds-jet",
+                icon: "cash-usd",
                 label: "menu.settlements",
                 to: "/app/sales-menu/settlements"
             },
             {
-                icon: "iconsminds-handshake",
+                icon: "file-document-edit",
                 label: "menu.billing-agreement",
                 to: "/app/sales-menu/billing-agreement"
             },
             {
-                icon: "iconsminds-pound-sign-2",
+                icon: "credit-card-settings-outline",
                 label: "menu.transaction",
                 to: "/app/sales-menu/transaction"
             },
@@ -331,27 +336,32 @@ const adminMenuData = [
     },
     {
         id: "catalog",
-        icon: "fas fa-database",
+        icon: "format-list-checks",
         label: "menu.catalog",
         to: "/app/catalog",
         subs: [
             {
-                icon: "iconsminds-books",
+                icon: "sitemap",
                 label: "menu.products",
                 to: "/app/catalog/products"
             },
             {
-                icon: "iconsminds-files",
+                icon: "database-settings-outline",
                 label: "menu.collections",
                 to: "/app/catalog/collections"
             },
             {
-                icon: "iconsminds-tag",
+                icon: "harddisk",
+                label: "menu.services",
+                to: "/app/catalog/services"
+            },
+            {
+                icon: "pound",
                 label: "menu.facets",
                 to: "/app/catalog/facets"
             },
             {
-                icon: "iconsminds-picasa",
+                icon: "image-multiple",
                 label: "menu.assets",
                 to: "/app/catalog/assets"
             },
@@ -360,16 +370,16 @@ const adminMenuData = [
     {
         id: "stocks",
         label: "menu.stock-management",
-        icon: 'fas fa-layer-group',
+        icon: 'package-variant',
         to: "/app/stocks",
         subs: [
             {
-                icon: "iconsminds-pen",
+                icon: "package-variant",
                 label: "menu.stock-mana",
                 to: "/app/stocks/stocks-management"
             },
             {
-                icon: "iconsminds-magnifi-glass",
+                icon: "package-down",
                 label: "menu.stock-back",
                 to: "/app/stocks/stocks-backorders"
             }
@@ -377,17 +387,17 @@ const adminMenuData = [
     },
     {
         id: "customers-menu",
-        icon: "fas fa-restroom",
+        icon: "account-group",
         label: "menu.customers",
         to: "/app/customers-menu",
         subs: [
             {
-                icon: "iconsminds-mens",
+                icon: "account-group-outline",
                 label: "menu.allsustomers",
                 to: "/app/customers-menu/allcustomers"
             },
             {
-                icon: "iconsminds-assistant",
+                icon: "target-account",
                 label: "menu.nowonline",
                 to: "/app/customers-menu/nowonline"
             }

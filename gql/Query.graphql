@@ -1428,7 +1428,7 @@ query GetStoreInvoices($store: ID, $limit: Int, $offset: Int){
         }
         ,
         type:{
-            eq:"STORE"
+            eq: STORE
         }
     },paging: {
         limit: $limit
@@ -1814,5 +1814,72 @@ query GetAllHsn($limit: Int, $offset: Int, $search: String) {
         id
         code
         value
+    }
+}
+
+query GetServiceables($limit: Int, $offset: Int, $search: String){
+    serviceables(
+        filter: {
+            name: {
+                like: $search
+            }
+        },
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        type
+        mode
+    }
+}
+
+query GetProductServiceables($search: String, $type: ServiceableTypes){
+    serviceables(
+        filter: {
+            name: {
+                like: $search
+            },
+            type: {
+                eq: PRODUCT
+            }
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        type
+        mode
+    }
+}
+
+query GetVendorServiceables($search: String, $type: ServiceableTypes){
+    serviceables(
+        filter: {
+            name: {
+                like: $search
+            },
+            type: {
+                eq: VENDOR
+            }
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        type
+        mode
     }
 }
