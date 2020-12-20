@@ -62,12 +62,12 @@
                 ></v-text-field>
             </div>
             <div class="mt-3">
-                <span>Icons names can be found here <a href="https://materialdesignicons.com/" target="_blank">Material Icons</a></span>
-                <v-text-field
-                        label="Meta Icon"
-                        outlined
-                        v-model="mainIcon"
-                ></v-text-field>
+                <input type="file" style="display: none" ref="fileInput" accept="image/*"
+                       v-on:change="onImageChange($event)"/>
+                <button type="button" class="btn btn-light-primary btn-sm mb-3" @click="onClickUpload">
+                    Select Asset
+                </button>
+                <span v-if="mainIcon !== ''">Asset has been loaded</span>
             </div>
             <div class="mt-3">
                 <a href="javascript:;" class="btn btn-light-primary btn-sm font-weight-bold mr-2" @click="onCreateRoot">Create Menu</a>
@@ -79,10 +79,11 @@
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import {
+        CreateAssetDocument,
         CreateOneMenuDocument,
         SearchCollectionDocument,
         SearchFacetValueDocument,
-        SearchProductVariantsDocument
+        SearchProductVariantsDocument, SetAssetOnCollectionDocument, SetAssetOnMenuDocument
     } from '../../gql';
 
     @Component({
@@ -155,6 +156,10 @@
 
         private loading = false
 
+        public $refs: Vue['$refs'] & {
+            fileInput: HTMLInputElement
+        };
+
         @Watch('colselect')
         onColSelect(){
             if (this.colselect !== null) {
@@ -197,6 +202,22 @@
                 }
             }).then(value => {
                 load()
+                if (this.mainIcon !== '') {
+                    this.$apollo.mutate({
+                        mutation: SetAssetOnMenuDocument,
+                        variables: {
+                            rid: this.mainIcon,
+                            id: value.data.createOneMenu.id
+                        }
+                    })
+                    .then(value => {
+                        this.mainIcon = ''
+                    })
+                    .catch(error => {
+                        this.$message.error(error.message)
+                        console.log(error)
+                    })
+                }
                 this.$Message.success('Menu Created ...')
                 this.colselect = null
                 this.variantSel = null
@@ -209,6 +230,46 @@
                 load()
                 this.$Message.error(error.message)
                 this.loading = false
+            })
+        }
+
+        onClickUpload() {
+            this.$refs.fileInput.click()
+        }
+
+        onImageChange(event) {
+            const load: any = this.$Message.loading('Action in progress..');
+            const file = event.target.files[0]
+            console.log(file)
+            this.$apollo.mutate({
+                mutation: CreateAssetDocument,
+                variables: {
+                    file: file
+                }
+            }).then(value => {
+                this.mainIcon = value.data.createAsset.id
+                /*this.$apollo.mutate({
+                    mutation: SetAssetOnCollectionDocument,
+                    variables: {
+                        id: this.id,
+                        rid: value.data.createAsset.id
+                    }
+                })
+                    .then(value1 => {
+                        this.$notification.success({
+                            description: 'Logo Uploaded',
+                            message: 'Asset Creation Successful'
+                        })
+                        load()
+                        this.$store.dispatch('store/getDefaultStore')
+                    })
+                    .catch(error => {
+                        load()
+                        this.$message.error(error.message)
+                    })*/
+            }).catch(error => {
+                load()
+                console.log(error);
             })
         }
 

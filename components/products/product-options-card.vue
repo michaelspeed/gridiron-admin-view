@@ -260,7 +260,7 @@
         private store: Store | null
         private specs = false
         private addAsset = false
-        private assetUrl = assetsURL;
+        private assetUrl = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL;
         private addseo = false
         private addBillAgree = false
 

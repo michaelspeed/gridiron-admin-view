@@ -58,7 +58,20 @@
                             <hr/>
                             <v-card-text v-if="MenuNodes !== null">
                                 <PrimeTree :value="MenuNodes" selectionMode="single" :selectionKeys.sync="root" :loading="GetMenuTree === undefined">
-
+                                    <template #default="slotProps">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
+                                            <b>{{slotProps.node.label}}</b>
+                                            <div>
+                                                <v-btn
+                                                    icon
+                                                    color="red"
+                                                    @click="onClickDelete(slotProps.node.key)"
+                                                >
+                                                    <v-icon>mdi-delete</v-icon>
+                                                </v-btn>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </PrimeTree>
                             </v-card-text>
                             <v-card-actions>
@@ -79,7 +92,7 @@
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import RootMenu from '../../../../components/Menu/root-menu.vue';
-    import {GetMenuTreeDocument} from '../../../../gql';
+    import {DeleteOneMenuDocument, GetMenuTreeDocument} from '../../../../gql';
     import ChildMenu from '../../../../components/Menu/child-menu.vue';
 
     @Component({
@@ -97,10 +110,6 @@
 
         private GetMenuTree
         private MenuNodes: any | null = null
-
-        @Watch('root')
-        onChangeRoot() {
-        }
 
         @Watch('GetMenuTree')
         onGetMenuTree() {
@@ -146,6 +155,21 @@
                 }
             }
             return childMod
+        }
+
+        onClickDelete(id) {
+            this.$apollo.mutate({
+                mutation: DeleteOneMenuDocument,
+                variables: {
+                    id
+                }
+            })
+            .then(() => {
+                this.$message.success('Menu Deleted')
+            })
+            .catch(err => {
+                this.$message.error(err.message)
+            })
         }
     }
 </script>

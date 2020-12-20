@@ -28,7 +28,7 @@ export default (ctx, inject) => {
       let defaultClientConfig
 
         defaultClientConfig = {
-  "httpEndpoint": "http://megatron.assammart.shop/"
+  "httpEndpoint": "http://localhost:5588/admin-api"
 }
 
       if (process.server) {

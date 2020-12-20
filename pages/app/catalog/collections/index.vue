@@ -175,11 +175,11 @@
                     menu: vls.inMenu,
                     add: true,
                     edit: true,
-                    children: twochildren
+                    children: twochildren,
+                    asset: vls.asset
                 };
                 onechindren.push(onNode);
             }
-            console.log(onechindren);
             this.allCollections = onechindren;
         }
 
@@ -195,7 +195,8 @@
                         menu: csitem.inMenu,
                         add: false,
                         edit: true,
-                        children: asitem
+                        children: asitem,
+                        asset: csitem.asset
                     })
                 }
             }
