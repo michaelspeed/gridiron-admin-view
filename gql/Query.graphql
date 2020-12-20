@@ -49,6 +49,14 @@ query GetDefaultStore {
         singleStore
         rentalStore
         channelMarkets
+        assetAPI
+        mainAPI
+        services
+        logo {
+            id
+            preview
+            source
+        }
         balance {
             id
             balance
@@ -172,36 +180,66 @@ query getallcollection {
         inMenu
         name
         description
+        asset {
+            id
+            preview
+            source
+        }
         children {
             id
             isRoot
             inMenu
             name
             description
+            asset {
+                id
+                preview
+                source
+            }
             children {
                 id
                 isRoot
                 inMenu
                 name
                 description
+                asset {
+                    id
+                    preview
+                    source
+                }
                 children {
                     id
                     isRoot
                     inMenu
                     name
                     description
+                    asset {
+                        id
+                        preview
+                        source
+                    }
                     children {
                         id
                         isRoot
                         inMenu
                         name
                         description
+                        asset {
+                            id
+                            preview
+                            source
+                        }
                         children {
                             id
                             isRoot
                             inMenu
                             name
                             description
+                            asset {
+                                id
+                                preview
+                                source
+                            }
                         }
                     }
                 }
@@ -217,6 +255,11 @@ query GetOneCollection($id: ID!){
         isRoot
         inMenu
         description
+        asset {
+            id
+            preview
+            source
+        }
         seo {
             id
             urlKey
@@ -426,6 +469,11 @@ query GetOneProduct($id: ID!){
             id
             value
             code
+        }
+        serviceable {
+            id
+            name
+            mode
         }
         collection {
             id
@@ -1840,7 +1888,7 @@ query GetServiceables($limit: Int, $offset: Int, $search: String){
     }
 }
 
-query GetProductServiceables($search: String, $type: ServiceableTypes){
+query GetProductServiceables($search: String){
     serviceables(
         filter: {
             name: {
@@ -1862,7 +1910,7 @@ query GetProductServiceables($search: String, $type: ServiceableTypes){
     }
 }
 
-query GetVendorServiceables($search: String, $type: ServiceableTypes){
+query GetVendorServiceables($search: String){
     serviceables(
         filter: {
             name: {

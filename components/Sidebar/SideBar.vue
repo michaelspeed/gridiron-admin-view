@@ -70,7 +70,39 @@
                 </div>
                 <!--end::Body-->
             </div>
-            <v-sheet v-if="health" class="card card-custom gutter-b" elevation="4">
+            <v-sheet v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
+                 style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <!--<img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">-->
+                    <h3 class="text-white font-weight-bolder">{{ store.storeName }}</h3>
+                    <p class="text-muted font-size-lg mt-5">
+                        {{ store.streetAddress1 }}, {{ store.streetAddress2 }}
+                    </p>
+                    <a href="javascript:;" class="btn btn-link btn-link-warning font-weight-bold" @click="$router.push('/app/system-menu/system-config')">
+                        Open Settings
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <!--end::Body-->
+            </v-sheet>
+            <v-sheet v-if="vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
+                 style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">
+                    <h3 class="text-white font-weight-bolder">{{ vendorStore.storeName }}</h3>
+                    <p class="text-muted font-size-lg mt-5">
+                        {{ vendorStore.streetAddress1 }}, {{ vendorStore.streetAddress2 }}
+                    </p>
+                    <a href="javascript:;" class="btn btn-link btn-link-warning font-weight-bold" @click="$router.push('/app/stores-menu/store-configuration')">
+                        Open Settings
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <!--end::Body-->
+            </v-sheet>
+            <v-sheet class="card card-custom gutter-b" elevation="4">
                 <div class="card-header border-0 pt-5">
                     <div class="card-title font-weight-bolder">
                         <div class="card-label">
@@ -80,7 +112,7 @@
                     </div>
                 </div>
                 <hr/>
-                <div class="card-body d-flex flex-column" style="position: relative;">
+                <div class="card-body d-flex flex-column" style="position: relative;" v-if="health">
                     <div class="mt-5 mb-5">
                         <div class="row row-paddingless">
                             <div class="col">
@@ -180,40 +212,82 @@
                             </div>
                         </div>
                     </div>
-                    <!--end::Items-->
                     <div class="resize-triggers"><div class="expand-trigger"><div style="width: 268px; height: 482px;"></div></div><div class="contract-trigger"></div></div></div>
-            </v-sheet>
-            <v-sheet v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
-                 style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
-                <!--begin::Body-->
-                <div class="card-body">
-                    <!--<img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">-->
-                    <h3 class="text-white font-weight-bolder">{{ store.storeName }}</h3>
-                    <p class="text-muted font-size-lg mt-5">
-                        {{ store.streetAddress1 }}, {{ store.streetAddress2 }}
-                    </p>
-                    <a href="javascript:;" class="btn btn-link btn-link-warning font-weight-bold" @click="$router.push('/app/system-menu/system-config')">
-                        Open Settings
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
+                <hr/>
+                <div class="card-body d-flex flex-column" style="position: relative;">
+                    <div class="mt-5 mb-5">
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-primary font-weight-bolder">GridIron Core</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-danger font-weight-bolder">GridIron Orders</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+
+                        <div class="row row-paddingless">
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-info font-weight-bolder">Atmiyo MitoSIS</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">2.4.5</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-warning font-weight-bolder">GridIron Stocks</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-success font-weight-bolder">GridIron Shipping</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-success font-weight-bolder">GridIron Admin UI</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">1.15.6</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--end::Body-->
-            </v-sheet>
-            <v-sheet v-if="vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
-                 style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
-                <!--begin::Body-->
-                <div class="card-body">
-                    <img src="/master/logo/air.png" alt="" style="height: 80px; margin-top: -30px; margin-left: -35px">
-                    <h3 class="text-white font-weight-bolder">{{ vendorStore.storeName }}</h3>
-                    <p class="text-muted font-size-lg mt-5">
-                        {{ vendorStore.streetAddress1 }}, {{ vendorStore.streetAddress2 }}
-                    </p>
-                    <a href="javascript:;" class="btn btn-link btn-link-warning font-weight-bold" @click="$router.push('/app/stores-menu/store-configuration')">
-                        Open Settings
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-                <!--end::Body-->
             </v-sheet>
             <v-sheet class="card card-custom bg-light-success gutter-b" elevation="4">
                 <!--begin::Header-->

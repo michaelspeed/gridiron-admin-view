@@ -8,7 +8,6 @@ const _24fc9083 = () => interopDefault(import('../pages/error/403.vue' /* webpac
 const _250aa804 = () => interopDefault(import('../pages/error/404.vue' /* webpackChunkName: "pages/error/404" */))
 const _2008af8a = () => interopDefault(import('../pages/error/vendorpage.vue' /* webpackChunkName: "pages/error/vendorpage" */))
 const _0c57e9f0 = () => interopDefault(import('../pages/start/start.vue' /* webpackChunkName: "pages/start/start" */))
-const _64bf364a = () => interopDefault(import('../pages/vendors/login/index.vue' /* webpackChunkName: "pages/vendors/login/index" */))
 const _1325ed07 = () => interopDefault(import('../pages/vendors/register/index.vue' /* webpackChunkName: "pages/vendors/register/index" */))
 const _65052ba7 = () => interopDefault(import('../pages/app/catalog/assets/index.vue' /* webpackChunkName: "pages/app/catalog/assets/index" */))
 const _3aafd347 = () => interopDefault(import('../pages/app/catalog/collections/index.vue' /* webpackChunkName: "pages/app/catalog/collections/index" */))
@@ -88,263 +87,259 @@ export const routerOptions = {
   routes: [{
     path: "/app/dashboard",
     component: _5422173c,
-    name: "app-dashboard___en"
+    name: "app-dashboard___en___en"
   }, {
     path: "/error/403",
     component: _24fc9083,
-    name: "error-403___en"
+    name: "error-403___en___en"
   }, {
     path: "/error/404",
     component: _250aa804,
-    name: "error-404___en"
+    name: "error-404___en___en"
   }, {
     path: "/error/vendorpage",
     component: _2008af8a,
-    name: "error-vendorpage___en"
+    name: "error-vendorpage___en___en"
   }, {
     path: "/start/start",
     component: _0c57e9f0,
-    name: "start-start___en"
-  }, {
-    path: "/vendors/login",
-    component: _64bf364a,
-    name: "vendors-login___en"
+    name: "start-start___en___en"
   }, {
     path: "/vendors/register",
     component: _1325ed07,
-    name: "vendors-register___en"
+    name: "vendors-register___en___en"
   }, {
     path: "/app/catalog/assets",
     component: _65052ba7,
-    name: "app-catalog-assets___en"
+    name: "app-catalog-assets___en___en"
   }, {
     path: "/app/catalog/collections",
     component: _3aafd347,
-    name: "app-catalog-collections___en"
+    name: "app-catalog-collections___en___en"
   }, {
     path: "/app/catalog/facets",
     component: _5d946e80,
-    name: "app-catalog-facets___en"
+    name: "app-catalog-facets___en___en"
   }, {
     path: "/app/catalog/products",
     component: _13ae5608,
-    name: "app-catalog-products___en"
+    name: "app-catalog-products___en___en"
   }, {
     path: "/app/catalog/services",
     component: _3518a482,
-    name: "app-catalog-services___en"
+    name: "app-catalog-services___en___en"
   }, {
     path: "/app/customers-menu/allcustomers",
     component: _f6115718,
-    name: "app-customers-menu-allcustomers___en"
+    name: "app-customers-menu-allcustomers___en___en"
   }, {
     path: "/app/customers-menu/customer-groups",
     component: _23c0454e,
-    name: "app-customers-menu-customer-groups___en"
+    name: "app-customers-menu-customer-groups___en___en"
   }, {
     path: "/app/customers-menu/nowonline",
     component: _0dbeefc2,
-    name: "app-customers-menu-nowonline___en"
+    name: "app-customers-menu-nowonline___en___en"
   }, {
     path: "/app/delivery-menu/guys",
     component: _53d2fde6,
-    name: "app-delivery-menu-guys___en"
+    name: "app-delivery-menu-guys___en___en"
   }, {
     path: "/app/delivery-menu/manager",
     component: _478c46de,
-    name: "app-delivery-menu-manager___en"
+    name: "app-delivery-menu-manager___en___en"
   }, {
     path: "/app/sales-menu/billing-agreement",
     component: _441b2e97,
-    name: "app-sales-menu-billing-agreement___en"
+    name: "app-sales-menu-billing-agreement___en___en"
   }, {
     path: "/app/sales-menu/invoices",
     component: _51f85c86,
-    name: "app-sales-menu-invoices___en"
+    name: "app-sales-menu-invoices___en___en"
   }, {
     path: "/app/sales-menu/orders",
     component: _5e96fdfc,
-    name: "app-sales-menu-orders___en"
+    name: "app-sales-menu-orders___en___en"
   }, {
     path: "/app/sales-menu/settlements",
     component: _23ae836e,
-    name: "app-sales-menu-settlements___en"
+    name: "app-sales-menu-settlements___en___en"
   }, {
     path: "/app/sales-menu/transaction",
     component: _e1971886,
-    name: "app-sales-menu-transaction___en"
+    name: "app-sales-menu-transaction___en___en"
   }, {
     path: "/app/seo-menu/url-rewrites",
     component: _7810dfa6,
-    name: "app-seo-menu-url-rewrites___en"
+    name: "app-seo-menu-url-rewrites___en___en"
   }, {
     path: "/app/stocks/stocks-backorders",
     component: _5a0dd590,
-    name: "app-stocks-stocks-backorders___en"
+    name: "app-stocks-stocks-backorders___en___en"
   }, {
     path: "/app/stocks/stocks-management",
     component: _467393a2,
-    name: "app-stocks-stocks-management___en"
+    name: "app-stocks-stocks-management___en___en"
   }, {
     path: "/app/stores-menu/channels",
     component: _105af85a,
-    name: "app-stores-menu-channels___en"
+    name: "app-stores-menu-channels___en___en"
   }, {
     path: "/app/stores-menu/store-configuration",
     component: _6f6045bd,
-    name: "app-stores-menu-store-configuration___en"
+    name: "app-stores-menu-store-configuration___en___en"
   }, {
     path: "/app/stores-menu/tax-rates",
     component: _3893c4e4,
-    name: "app-stores-menu-tax-rates___en"
+    name: "app-stores-menu-tax-rates___en___en"
   }, {
     path: "/app/stores-menu/tax-rules",
     component: _69cf5148,
-    name: "app-stores-menu-tax-rules___en"
+    name: "app-stores-menu-tax-rules___en___en"
   }, {
     path: "/app/system-menu/admins",
     component: _e07dda78,
-    name: "app-system-menu-admins___en"
+    name: "app-system-menu-admins___en___en"
   }, {
     path: "/app/system-menu/country-config",
     component: _be7ddc4e,
-    name: "app-system-menu-country-config___en"
+    name: "app-system-menu-country-config___en___en"
   }, {
     path: "/app/system-menu/plans",
     component: _274f42c0,
-    name: "app-system-menu-plans___en"
+    name: "app-system-menu-plans___en___en"
   }, {
     path: "/app/system-menu/roles",
     component: _7b01eb53,
-    name: "app-system-menu-roles___en"
+    name: "app-system-menu-roles___en___en"
   }, {
     path: "/app/system-menu/system-config",
     component: _bf3dab14,
-    name: "app-system-menu-system-config___en"
+    name: "app-system-menu-system-config___en___en"
   }, {
     path: "/app/system-menu/vendors",
     component: _692926fe,
-    name: "app-system-menu-vendors___en"
+    name: "app-system-menu-vendors___en___en"
   }, {
     path: "/app/system-menu/zone-config",
     component: _00237559,
-    name: "app-system-menu-zone-config___en"
+    name: "app-system-menu-zone-config___en___en"
   }, {
     path: "/app/catalog/collections/createnewcollection",
     component: _7195a5ba,
-    name: "app-catalog-collections-createnewcollection___en"
+    name: "app-catalog-collections-createnewcollection___en___en"
   }, {
     path: "/app/catalog/products/createproduct",
     component: _9f29da28,
-    name: "app-catalog-products-createproduct___en"
+    name: "app-catalog-products-createproduct___en___en"
   }, {
     path: "/app/content-menu/design/menubuilder",
     component: _620520e8,
-    name: "app-content-menu-design-menubuilder___en"
+    name: "app-content-menu-design-menubuilder___en___en"
   }, {
     path: "/app/content-menu/elements/blocks",
     component: _4aa216b0,
-    name: "app-content-menu-elements-blocks___en"
+    name: "app-content-menu-elements-blocks___en___en"
   }, {
     path: "/app/content-menu/elements/pages",
     component: _37dbf270,
-    name: "app-content-menu-elements-pages___en"
+    name: "app-content-menu-elements-pages___en___en"
   }, {
     path: "/app/content-menu/user-content/all-reviews",
     component: _3e85c31b,
-    name: "app-content-menu-user-content-all-reviews___en"
+    name: "app-content-menu-user-content-all-reviews___en___en"
   }, {
     path: "/app/marketing-menu/promotions/cat-price-rule",
     component: _4246919b,
-    name: "app-marketing-menu-promotions-cat-price-rule___en"
+    name: "app-marketing-menu-promotions-cat-price-rule___en___en"
   }, {
     path: "/app/sales-menu/orders/createorder",
     component: _a5c80602,
-    name: "app-sales-menu-orders-createorder___en"
+    name: "app-sales-menu-orders-createorder___en___en"
   }, {
     path: "/app/system-menu/roles/createrole",
     component: _2f4f4dc1,
-    name: "app-system-menu-roles-createrole___en"
+    name: "app-system-menu-roles-createrole___en___en"
   }, {
     path: "/app/content-menu/elements/pages/createbuilder",
     component: _1452d600,
-    name: "app-content-menu-elements-pages-createbuilder___en"
+    name: "app-content-menu-elements-pages-createbuilder___en___en"
   }, {
     path: "/app/catalog/products/variants/specs/:id?",
     component: _bf052488,
-    name: "app-catalog-products-variants-specs-id___en"
+    name: "app-catalog-products-variants-specs-id___en___en"
   }, {
     path: "/app/catalog/collections/createnewcollection/:id",
     component: _b83462bc,
-    name: "app-catalog-collections-createnewcollection-id___en"
+    name: "app-catalog-collections-createnewcollection-id___en___en"
   }, {
     path: "/app/sales-menu/orders/vendororders/:id",
     component: _4e4ffe9e,
-    name: "app-sales-menu-orders-vendororders-id___en"
+    name: "app-sales-menu-orders-vendororders-id___en___en"
   }, {
     path: "/app/system-menu/roles/editrole/:id",
     component: _4fb15cba,
-    name: "app-system-menu-roles-editrole-id___en"
+    name: "app-system-menu-roles-editrole-id___en___en"
   }, {
     path: "/app/catalog/facets/:id",
     component: _cf27de30,
-    name: "app-catalog-facets-id___en"
+    name: "app-catalog-facets-id___en___en"
   }, {
     path: "/app/catalog/products/:id",
     component: _d52b8b20,
-    name: "app-catalog-products-id___en"
+    name: "app-catalog-products-id___en___en"
   }, {
     path: "/app/customers-menu/allcustomers/:id?",
     component: _5377e3dc,
     children: [{
       path: "",
       component: _4e69155f,
-      name: "app-customers-menu-allcustomers-id___en"
+      name: "app-customers-menu-allcustomers-id___en___en"
     }, {
       path: "address",
       component: _157b837e,
-      name: "app-customers-menu-allcustomers-id-address___en"
+      name: "app-customers-menu-allcustomers-id-address___en___en"
     }, {
       path: "orders",
       component: _fa1af2b0,
-      name: "app-customers-menu-allcustomers-id-orders___en"
+      name: "app-customers-menu-allcustomers-id-orders___en___en"
     }, {
       path: "override",
       component: _ac4d9562,
-      name: "app-customers-menu-allcustomers-id-override___en"
+      name: "app-customers-menu-allcustomers-id-override___en___en"
     }, {
       path: "reset",
       component: _11a8f948,
-      name: "app-customers-menu-allcustomers-id-reset___en"
+      name: "app-customers-menu-allcustomers-id-reset___en___en"
     }]
   }, {
     path: "/app/sales-menu/billing-agreement/:id?",
     component: _4d01eabf,
-    name: "app-sales-menu-billing-agreement-id___en"
+    name: "app-sales-menu-billing-agreement-id___en___en"
   }, {
     path: "/app/sales-menu/invoices/:id?",
     component: _0be51f65,
-    name: "app-sales-menu-invoices-id___en"
+    name: "app-sales-menu-invoices-id___en___en"
   }, {
     path: "/app/sales-menu/orders/:id?",
     component: _82f76138,
-    name: "app-sales-menu-orders-id___en"
+    name: "app-sales-menu-orders-id___en___en"
   }, {
     path: "/app/seo-menu/url-rewrites/:id?",
     component: _3ad48c56,
-    name: "app-seo-menu-url-rewrites-id___en"
+    name: "app-seo-menu-url-rewrites-id___en___en"
   }, {
     path: "/app/system-menu/vendors/:id?",
     component: _8f86c9ae,
-    name: "app-system-menu-vendors-id___en"
+    name: "app-system-menu-vendors-id___en___en"
   }, {
     path: "/app/system-menu/zone-config/:id?",
     component: _9ede0bfe,
-    name: "app-system-menu-zone-config-id___en"
+    name: "app-system-menu-zone-config-id___en___en"
   }, {
     path: "/",
     component: _2bf9f925,
-    name: "index___en"
+    name: "index___en___en"
   }],
 
   fallback: false

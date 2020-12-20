@@ -5,12 +5,6 @@
   "LazyChannelAction": {
     "description": "Auto imported from components/Channel/ChannelAction.vue"
   },
-  "SeoActions": {
-    "description": "Auto imported from components/Seo/SeoActions.vue"
-  },
-  "LazySeoActions": {
-    "description": "Auto imported from components/Seo/SeoActions.vue"
-  },
   "ChildMenu": {
     "description": "Auto imported from components/Menu/child-menu.vue"
   },
@@ -22,6 +16,24 @@
   },
   "LazyRootMenu": {
     "description": "Auto imported from components/Menu/root-menu.vue"
+  },
+  "Header": {
+    "description": "Auto imported from components/Navigation/Header.vue"
+  },
+  "LazyHeader": {
+    "description": "Auto imported from components/Navigation/Header.vue"
+  },
+  "SeoActions": {
+    "description": "Auto imported from components/Seo/SeoActions.vue"
+  },
+  "LazySeoActions": {
+    "description": "Auto imported from components/Seo/SeoActions.vue"
+  },
+  "SideBar": {
+    "description": "Auto imported from components/Sidebar/SideBar.vue"
+  },
+  "LazySideBar": {
+    "description": "Auto imported from components/Sidebar/SideBar.vue"
   },
   "StoreConfiguration": {
     "description": "Auto imported from components/System/StoreConfiguration.vue"
@@ -35,89 +47,11 @@
   "LazyZipConfiguration": {
     "description": "Auto imported from components/System/ZipConfiguration.vue"
   },
-  "SideBar": {
-    "description": "Auto imported from components/Sidebar/SideBar.vue"
-  },
-  "LazySideBar": {
-    "description": "Auto imported from components/Sidebar/SideBar.vue"
-  },
-  "Header": {
-    "description": "Auto imported from components/Navigation/Header.vue"
-  },
-  "LazyHeader": {
-    "description": "Auto imported from components/Navigation/Header.vue"
-  },
-  "AssetsPreview": {
-    "description": "Auto imported from components/assets/AssetsPreview.vue"
-  },
-  "LazyAssetsPreview": {
-    "description": "Auto imported from components/assets/AssetsPreview.vue"
-  },
-  "AgreementActions": {
-    "description": "Auto imported from components/billing-agreements/AgreementActions.vue"
-  },
-  "LazyAgreementActions": {
-    "description": "Auto imported from components/billing-agreements/AgreementActions.vue"
-  },
-  "AgreementPendings": {
-    "description": "Auto imported from components/billing-agreements/AgreementPendings.vue"
-  },
-  "LazyAgreementPendings": {
-    "description": "Auto imported from components/billing-agreements/AgreementPendings.vue"
-  },
   "ZoneActions": {
     "description": "Auto imported from components/Zones/ZoneActions.vue"
   },
   "LazyZoneActions": {
     "description": "Auto imported from components/Zones/ZoneActions.vue"
-  },
-  "CollectionEdit": {
-    "description": "Auto imported from components/collections/collection-edit.vue"
-  },
-  "LazyCollectionEdit": {
-    "description": "Auto imported from components/collections/collection-edit.vue"
-  },
-  "ProductSaleChart": {
-    "description": "Auto imported from components/charts/ProductSaleChart.js"
-  },
-  "LazyProductSaleChart": {
-    "description": "Auto imported from components/charts/ProductSaleChart.js"
-  },
-  "FacetActions": {
-    "description": "Auto imported from components/facets/facet-actions.vue"
-  },
-  "LazyFacetActions": {
-    "description": "Auto imported from components/facets/facet-actions.vue"
-  },
-  "DashboardAdmin": {
-    "description": "Auto imported from components/dashboard/dashboard-admin.vue"
-  },
-  "LazyDashboardAdmin": {
-    "description": "Auto imported from components/dashboard/dashboard-admin.vue"
-  },
-  "DashboardVendor": {
-    "description": "Auto imported from components/dashboard/dashboard-vendor.vue"
-  },
-  "LazyDashboardVendor": {
-    "description": "Auto imported from components/dashboard/dashboard-vendor.vue"
-  },
-  "VendorDashboardStats": {
-    "description": "Auto imported from components/dashboard/vendor-dashboard-stats.vue"
-  },
-  "LazyVendorDashboardStats": {
-    "description": "Auto imported from components/dashboard/vendor-dashboard-stats.vue"
-  },
-  "Hsn": {
-    "description": "Auto imported from components/hsn/hsn.vue"
-  },
-  "LazyHsn": {
-    "description": "Auto imported from components/hsn/hsn.vue"
-  },
-  "HsnActions": {
-    "description": "Auto imported from components/hsn/hsnActions.vue"
-  },
-  "LazyHsnActions": {
-    "description": "Auto imported from components/hsn/hsnActions.vue"
   },
   "Actions": {
     "description": "Auto imported from components/actions/Actions.vue"
@@ -137,17 +71,89 @@
   "LazyUserPanel": {
     "description": "Auto imported from components/actions/UserPanel.vue"
   },
+  "AdministratorActions": {
+    "description": "Auto imported from components/administrator/administratorActions.vue"
+  },
+  "LazyAdministratorActions": {
+    "description": "Auto imported from components/administrator/administratorActions.vue"
+  },
+  "AssetsPreview": {
+    "description": "Auto imported from components/assets/AssetsPreview.vue"
+  },
+  "LazyAssetsPreview": {
+    "description": "Auto imported from components/assets/AssetsPreview.vue"
+  },
+  "AgreementActions": {
+    "description": "Auto imported from components/billing-agreements/AgreementActions.vue"
+  },
+  "LazyAgreementActions": {
+    "description": "Auto imported from components/billing-agreements/AgreementActions.vue"
+  },
+  "AgreementPendings": {
+    "description": "Auto imported from components/billing-agreements/AgreementPendings.vue"
+  },
+  "LazyAgreementPendings": {
+    "description": "Auto imported from components/billing-agreements/AgreementPendings.vue"
+  },
+  "ProductSaleChart": {
+    "description": "Auto imported from components/charts/ProductSaleChart.js"
+  },
+  "LazyProductSaleChart": {
+    "description": "Auto imported from components/charts/ProductSaleChart.js"
+  },
+  "CollectionEdit": {
+    "description": "Auto imported from components/collections/collection-edit.vue"
+  },
+  "LazyCollectionEdit": {
+    "description": "Auto imported from components/collections/collection-edit.vue"
+  },
+  "DashboardAdmin": {
+    "description": "Auto imported from components/dashboard/dashboard-admin.vue"
+  },
+  "LazyDashboardAdmin": {
+    "description": "Auto imported from components/dashboard/dashboard-admin.vue"
+  },
+  "DashboardVendor": {
+    "description": "Auto imported from components/dashboard/dashboard-vendor.vue"
+  },
+  "LazyDashboardVendor": {
+    "description": "Auto imported from components/dashboard/dashboard-vendor.vue"
+  },
+  "VendorDashboardStats": {
+    "description": "Auto imported from components/dashboard/vendor-dashboard-stats.vue"
+  },
+  "LazyVendorDashboardStats": {
+    "description": "Auto imported from components/dashboard/vendor-dashboard-stats.vue"
+  },
+  "FacetActions": {
+    "description": "Auto imported from components/facets/facet-actions.vue"
+  },
+  "LazyFacetActions": {
+    "description": "Auto imported from components/facets/facet-actions.vue"
+  },
   "Footer": {
     "description": "Auto imported from components/footer/Footer.vue"
   },
   "LazyFooter": {
     "description": "Auto imported from components/footer/Footer.vue"
   },
-  "Notification": {
-    "description": "Auto imported from components/notification/Notification.vue"
+  "Hsn": {
+    "description": "Auto imported from components/hsn/hsn.vue"
   },
-  "LazyNotification": {
-    "description": "Auto imported from components/notification/Notification.vue"
+  "LazyHsn": {
+    "description": "Auto imported from components/hsn/hsn.vue"
+  },
+  "HsnActions": {
+    "description": "Auto imported from components/hsn/hsnActions.vue"
+  },
+  "LazyHsnActions": {
+    "description": "Auto imported from components/hsn/hsnActions.vue"
+  },
+  "PaymentIntegration": {
+    "description": "Auto imported from components/integration/PaymentIntegration.vue"
+  },
+  "LazyPaymentIntegration": {
+    "description": "Auto imported from components/integration/PaymentIntegration.vue"
   },
   "AdminInvoice": {
     "description": "Auto imported from components/invoices/admin-invoice.vue"
@@ -167,29 +173,29 @@
   "LazyVendorInvoice": {
     "description": "Auto imported from components/invoices/vendor-invoice.vue"
   },
-  "OrderActions": {
-    "description": "Auto imported from components/order/OrderActions.vue"
+  "Notification": {
+    "description": "Auto imported from components/notification/Notification.vue"
   },
-  "LazyOrderActions": {
-    "description": "Auto imported from components/order/OrderActions.vue"
+  "LazyNotification": {
+    "description": "Auto imported from components/notification/Notification.vue"
   },
-  "OrderLInePreview": {
-    "description": "Auto imported from components/order/OrderLInePreview.vue"
+  "HomePageBuilder": {
+    "description": "Auto imported from components/pages/HomePageBuilder.vue"
   },
-  "LazyOrderLInePreview": {
-    "description": "Auto imported from components/order/OrderLInePreview.vue"
+  "LazyHomePageBuilder": {
+    "description": "Auto imported from components/pages/HomePageBuilder.vue"
   },
-  "OrderVendroActions": {
-    "description": "Auto imported from components/order/OrderVendroActions.vue"
+  "PageActions": {
+    "description": "Auto imported from components/pages/PageActions.vue"
   },
-  "LazyOrderVendroActions": {
-    "description": "Auto imported from components/order/OrderVendroActions.vue"
+  "LazyPageActions": {
+    "description": "Auto imported from components/pages/PageActions.vue"
   },
-  "OrderProgress": {
-    "description": "Auto imported from components/order/order-progress.vue"
+  "PageBuilder": {
+    "description": "Auto imported from components/pages/PageBuilder.vue"
   },
-  "LazyOrderProgress": {
-    "description": "Auto imported from components/order/order-progress.vue"
+  "LazyPageBuilder": {
+    "description": "Auto imported from components/pages/PageBuilder.vue"
   },
   "PlansAction": {
     "description": "Auto imported from components/plans/plans-action.vue"
@@ -257,29 +263,11 @@
   "LazyStockActions": {
     "description": "Auto imported from components/stocks/stock-actions.vue"
   },
-  "HomePageBuilder": {
-    "description": "Auto imported from components/pages/HomePageBuilder.vue"
+  "UserActions": {
+    "description": "Auto imported from components/users/userActions.vue"
   },
-  "LazyHomePageBuilder": {
-    "description": "Auto imported from components/pages/HomePageBuilder.vue"
-  },
-  "PageActions": {
-    "description": "Auto imported from components/pages/PageActions.vue"
-  },
-  "LazyPageActions": {
-    "description": "Auto imported from components/pages/PageActions.vue"
-  },
-  "PageBuilder": {
-    "description": "Auto imported from components/pages/PageBuilder.vue"
-  },
-  "LazyPageBuilder": {
-    "description": "Auto imported from components/pages/PageBuilder.vue"
-  },
-  "PaymentIntegration": {
-    "description": "Auto imported from components/integration/PaymentIntegration.vue"
-  },
-  "LazyPaymentIntegration": {
-    "description": "Auto imported from components/integration/PaymentIntegration.vue"
+  "LazyUserActions": {
+    "description": "Auto imported from components/users/userActions.vue"
   },
   "VendorActions": {
     "description": "Auto imported from components/vendor/vendor-actions.vue"
@@ -317,11 +305,35 @@
   "LazyVendorZips": {
     "description": "Auto imported from components/vendor/vendor-zips.vue"
   },
-  "AdministratorActions": {
-    "description": "Auto imported from components/administrator/administratorActions.vue"
+  "Viewcodes": {
+    "description": "Auto imported from components/viewcodes/viewcodes.vue"
   },
-  "LazyAdministratorActions": {
-    "description": "Auto imported from components/administrator/administratorActions.vue"
+  "LazyViewcodes": {
+    "description": "Auto imported from components/viewcodes/viewcodes.vue"
+  },
+  "OrderActions": {
+    "description": "Auto imported from components/order/OrderActions.vue"
+  },
+  "LazyOrderActions": {
+    "description": "Auto imported from components/order/OrderActions.vue"
+  },
+  "OrderLInePreview": {
+    "description": "Auto imported from components/order/OrderLInePreview.vue"
+  },
+  "LazyOrderLInePreview": {
+    "description": "Auto imported from components/order/OrderLInePreview.vue"
+  },
+  "OrderVendroActions": {
+    "description": "Auto imported from components/order/OrderVendroActions.vue"
+  },
+  "LazyOrderVendroActions": {
+    "description": "Auto imported from components/order/OrderVendroActions.vue"
+  },
+  "OrderProgress": {
+    "description": "Auto imported from components/order/order-progress.vue"
+  },
+  "LazyOrderProgress": {
+    "description": "Auto imported from components/order/order-progress.vue"
   },
   "TaxRatesActions": {
     "description": "Auto imported from components/Tax/Rates/tax-rates-actions.vue"
@@ -346,18 +358,6 @@
   },
   "LazyCreateTaxRule": {
     "description": "Auto imported from components/store/tax/CreateTaxRule.vue"
-  },
-  "UserActions": {
-    "description": "Auto imported from components/users/userActions.vue"
-  },
-  "LazyUserActions": {
-    "description": "Auto imported from components/users/userActions.vue"
-  },
-  "Viewcodes": {
-    "description": "Auto imported from components/viewcodes/viewcodes.vue"
-  },
-  "LazyViewcodes": {
-    "description": "Auto imported from components/viewcodes/viewcodes.vue"
   },
   "ZipVendorAdd": {
     "description": "Auto imported from components/zip/ZipVendorAdd.vue"

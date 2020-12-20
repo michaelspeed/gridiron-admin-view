@@ -95,7 +95,14 @@
                                     </div>
                                     <hr/>
                                     <div style="padding: 20px" class="right">
-                                        <v-btn color="red" text @click="onLogout">
+                                        <div v-if="logoutloading">
+                                            <v-progress-linear
+                                                color="red"
+                                                indeterminate
+                                                reverse
+                                            ></v-progress-linear>
+                                        </div>
+                                        <v-btn color="red" text @click="onLogout" v-if="!logoutloading">
                                             <v-icon>mdi-eject</v-icon>
                                             Logout
                                         </v-btn>
@@ -196,8 +203,14 @@
                                 </p>
                             </div>
 
-                            <a href="javascript:;" class="btn btn-warning font-weight-bold py-2 px-6" @click="onLogout">Logout
-                                Now</a>
+                            <a href="javascript:;" v-if="!logoutloading" class="btn btn-warning font-weight-bold py-2 px-6" @click="onLogout">Logout Now</a>
+                            <div v-if="logoutloading">
+                                <v-progress-linear
+                                    color="lime"
+                                    indeterminate
+                                    reverse
+                                ></v-progress-linear>
+                            </div>
 
                             <div class="d-flex justify-content-center align-items-center pt-10">
                                 <a href="javascript:;" @click="overlay = false">
@@ -245,7 +258,8 @@ export default Vue.extend(({
             overlay: false,
             adminMenu: adminMenuData,
             vendorMenu: vendorMenuData,
-            sheetmenu: false
+            sheetmenu: false,
+            logoutloading: false
         }
     },
     mounted() {
@@ -283,12 +297,16 @@ export default Vue.extend(({
             this.sheetmenu = false
         },
         onLogout() {
-            this.$store.dispatch('admin/resetAllStore')
-            this.$apolloHelpers.onLogout().then(() => {
-                this.$router.push({
-                    path: '/'
+            this.logoutloading = true
+            setTimeout(() => {
+                this.$store.dispatch('admin/resetAllStore')
+                this.$apolloHelpers.onLogout().then(() => {
+                    this.logoutloading = false
+                    this.$router.push({
+                        path: '/'
+                    })
                 })
-            })
+            }, 3000)
         }
     },
     watch: {
