@@ -148,7 +148,7 @@ const config = {
         authenticationType: 'Basic',
         clientConfigs: {
             default: {
-              httpEndpoint: 'http://megatron.assmmart.com/'
+              httpEndpoint: 'http://megatron.assammart.com/'
               /*httpEndpoint: 'http://localhost:5588/admin-api',*/
             }
         },
