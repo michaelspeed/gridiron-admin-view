@@ -10,3225 +10,12 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: any;
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: any;
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
-};
-
-export type Collection = {
-  __typename?: 'Collection';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  isRoot: Scalars['Boolean'];
-  inMenu: Scalars['Boolean'];
-  position: Scalars['Float'];
-  isPrivate: Scalars['Boolean'];
-  name: Scalars['String'];
-  description: Scalars['String'];
-  children: Array<Collection>;
-  products: Array<Product>;
-  agreements: Array<BillingAgreement>;
-  cartPrice?: Maybe<CartPriceRules>;
-  asset?: Maybe<Asset>;
-  seo?: Maybe<Seo>;
-  parent?: Maybe<Collection>;
-  childrenAggregate: CollectionChildrenAggregateResponse;
-  productsAggregate: CollectionProductsAggregateResponse;
-  agreementsAggregate: CollectionAgreementsAggregateResponse;
-};
-
-
-export type CollectionChildrenArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<CollectionFilter>;
-  sorting?: Maybe<Array<CollectionSort>>;
-};
-
-
-export type CollectionProductsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductFilter>;
-  sorting?: Maybe<Array<ProductSort>>;
-};
-
-
-export type CollectionAgreementsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<BillingAgreementFilter>;
-  sorting?: Maybe<Array<BillingAgreementSort>>;
-};
-
-
-export type CollectionChildrenAggregateArgs = {
-  filter?: Maybe<CollectionAggregateFilter>;
-};
-
-
-export type CollectionProductsAggregateArgs = {
-  filter?: Maybe<ProductAggregateFilter>;
-};
-
-
-export type CollectionAgreementsAggregateArgs = {
-  filter?: Maybe<BillingAgreementAggregateFilter>;
-};
-
-
-export type OffsetPaging = {
-  /** Limit the number of records returned */
-  limit?: Maybe<Scalars['Int']>;
-  /** Offset to start returning records from */
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export type CollectionFilter = {
-  and?: Maybe<Array<CollectionFilter>>;
-  or?: Maybe<Array<CollectionFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  isRoot?: Maybe<BooleanFieldComparison>;
-  inMenu?: Maybe<BooleanFieldComparison>;
-  position?: Maybe<NumberFieldComparison>;
-  isPrivate?: Maybe<BooleanFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  description?: Maybe<StringFieldComparison>;
-};
-
-export type IdFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<Scalars['ID']>;
-  neq?: Maybe<Scalars['ID']>;
-  gt?: Maybe<Scalars['ID']>;
-  gte?: Maybe<Scalars['ID']>;
-  lt?: Maybe<Scalars['ID']>;
-  lte?: Maybe<Scalars['ID']>;
-  like?: Maybe<Scalars['ID']>;
-  notLike?: Maybe<Scalars['ID']>;
-  iLike?: Maybe<Scalars['ID']>;
-  notILike?: Maybe<Scalars['ID']>;
-  in?: Maybe<Array<Scalars['ID']>>;
-  notIn?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type DateFieldComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<Scalars['DateTime']>;
-  neq?: Maybe<Scalars['DateTime']>;
-  gt?: Maybe<Scalars['DateTime']>;
-  gte?: Maybe<Scalars['DateTime']>;
-  lt?: Maybe<Scalars['DateTime']>;
-  lte?: Maybe<Scalars['DateTime']>;
-  in?: Maybe<Array<Scalars['DateTime']>>;
-  notIn?: Maybe<Array<Scalars['DateTime']>>;
-  between?: Maybe<DateFieldComparisonBetween>;
-  notBetween?: Maybe<DateFieldComparisonBetween>;
-};
-
-export type DateFieldComparisonBetween = {
-  lower: Scalars['DateTime'];
-  upper: Scalars['DateTime'];
-};
-
-export type BooleanFieldComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-};
-
-export type NumberFieldComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<Scalars['Float']>;
-  neq?: Maybe<Scalars['Float']>;
-  gt?: Maybe<Scalars['Float']>;
-  gte?: Maybe<Scalars['Float']>;
-  lt?: Maybe<Scalars['Float']>;
-  lte?: Maybe<Scalars['Float']>;
-  in?: Maybe<Array<Scalars['Float']>>;
-  notIn?: Maybe<Array<Scalars['Float']>>;
-  between?: Maybe<NumberFieldComparisonBetween>;
-  notBetween?: Maybe<NumberFieldComparisonBetween>;
-};
-
-export type NumberFieldComparisonBetween = {
-  lower: Scalars['Float'];
-  upper: Scalars['Float'];
-};
-
-export type StringFieldComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<Scalars['String']>;
-  neq?: Maybe<Scalars['String']>;
-  gt?: Maybe<Scalars['String']>;
-  gte?: Maybe<Scalars['String']>;
-  lt?: Maybe<Scalars['String']>;
-  lte?: Maybe<Scalars['String']>;
-  like?: Maybe<Scalars['String']>;
-  notLike?: Maybe<Scalars['String']>;
-  iLike?: Maybe<Scalars['String']>;
-  notILike?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Scalars['String']>>;
-  notIn?: Maybe<Array<Scalars['String']>>;
-};
-
-export type CollectionSort = {
-  field: CollectionSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum CollectionSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  IsRoot = 'isRoot',
-  InMenu = 'inMenu',
-  Position = 'position',
-  IsPrivate = 'isPrivate',
-  Name = 'name',
-  Description = 'description'
-}
-
-/** Sort Directions */
-export enum SortDirection {
-  Asc = 'ASC',
-  Desc = 'DESC'
-}
-
-/** Sort Nulls Options */
-export enum SortNulls {
-  NullsFirst = 'NULLS_FIRST',
-  NullsLast = 'NULLS_LAST'
-}
-
-export type Product = {
-  __typename?: 'Product';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  productName: Scalars['String'];
-  slug: Scalars['String'];
-  description: Scalars['String'];
-  viewcode: Array<Scalars['String']>;
-  options: Array<ProductOptionGroup>;
-  facets: Array<FacetValue>;
-  variants: Array<ProductVariant>;
-  assets: Array<ProductAsset>;
-  hsn?: Maybe<Hsn>;
-  collection?: Maybe<Collection>;
-  featuredAsset: Asset;
-  serviceable?: Maybe<Serviceable>;
-  optionsAggregate: ProductOptionsAggregateResponse;
-  facetsAggregate: ProductFacetsAggregateResponse;
-  variantsAggregate: ProductVariantsAggregateResponse;
-  assetsAggregate: ProductAssetsAggregateResponse;
-};
-
-
-export type ProductOptionsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductOptionGroupFilter>;
-  sorting?: Maybe<Array<ProductOptionGroupSort>>;
-};
-
-
-export type ProductFacetsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<FacetValueFilter>;
-  sorting?: Maybe<Array<FacetValueSort>>;
-};
-
-
-export type ProductVariantsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductVariantFilter>;
-  sorting?: Maybe<Array<ProductVariantSort>>;
-};
-
-
-export type ProductAssetsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductAssetFilter>;
-  sorting?: Maybe<Array<ProductAssetSort>>;
-};
-
-
-export type ProductOptionsAggregateArgs = {
-  filter?: Maybe<ProductOptionGroupAggregateFilter>;
-};
-
-
-export type ProductFacetsAggregateArgs = {
-  filter?: Maybe<FacetValueAggregateFilter>;
-};
-
-
-export type ProductVariantsAggregateArgs = {
-  filter?: Maybe<ProductVariantAggregateFilter>;
-};
-
-
-export type ProductAssetsAggregateArgs = {
-  filter?: Maybe<ProductAssetAggregateFilter>;
-};
-
-export type ProductOptionGroup = {
-  __typename?: 'ProductOptionGroup';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  code: Scalars['String'];
-  options: Array<ProductOption>;
-  product: Product;
-  optionsAggregate: ProductOptionGroupOptionsAggregateResponse;
-};
-
-
-export type ProductOptionGroupOptionsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductOptionFilter>;
-  sorting?: Maybe<Array<ProductOptionSort>>;
-};
-
-
-export type ProductOptionGroupOptionsAggregateArgs = {
-  filter?: Maybe<ProductOptionAggregateFilter>;
-};
-
-export type ProductOption = {
-  __typename?: 'ProductOption';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  code: Scalars['String'];
-  variants: Array<ProductVariant>;
-  group: ProductOptionGroup;
-  variantsAggregate: ProductOptionVariantsAggregateResponse;
-};
-
-
-export type ProductOptionVariantsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductVariantFilter>;
-  sorting?: Maybe<Array<ProductVariantSort>>;
-};
-
-
-export type ProductOptionVariantsAggregateArgs = {
-  filter?: Maybe<ProductVariantAggregateFilter>;
-};
-
-export type ProductVariant = {
-  __typename?: 'ProductVariant';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  dum_price: Scalars['Float'];
-  enabled: Scalars['Boolean'];
-  sku: Scalars['String'];
-  name: Scalars['String'];
-  rating: Scalars['Float'];
-  product: Product;
-  trackInventory: Scalars['Boolean'];
-  specs?: Maybe<ProductVariantSpecs>;
-  viewcode: Array<Scalars['String']>;
-  lines: Array<OrderItem>;
-  stocks: Array<StockKeeping>;
-  agreements?: Maybe<Array<BillingAgreement>>;
-  prices?: Maybe<Array<ProductVariantPrice>>;
-  seo?: Maybe<Seo>;
-  asset?: Maybe<ProductVariantAsset>;
-  linesAggregate: ProductVariantLinesAggregateResponse;
-  stocksAggregate: ProductVariantStocksAggregateResponse;
-  agreementsAggregate: ProductVariantAgreementsAggregateResponse;
-  pricesAggregate: ProductVariantPricesAggregateResponse;
-};
-
-
-export type ProductVariantLinesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<OrderItemFilter>;
-  sorting?: Maybe<Array<OrderItemSort>>;
-};
-
-
-export type ProductVariantStocksArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StockKeepingFilter>;
-  sorting?: Maybe<Array<StockKeepingSort>>;
-};
-
-
-export type ProductVariantAgreementsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<BillingAgreementFilter>;
-  sorting?: Maybe<Array<BillingAgreementSort>>;
-};
-
-
-export type ProductVariantPricesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductVariantPriceFilter>;
-  sorting?: Maybe<Array<ProductVariantPriceSort>>;
-};
-
-
-export type ProductVariantLinesAggregateArgs = {
-  filter?: Maybe<OrderItemAggregateFilter>;
-};
-
-
-export type ProductVariantStocksAggregateArgs = {
-  filter?: Maybe<StockKeepingAggregateFilter>;
-};
-
-
-export type ProductVariantAgreementsAggregateArgs = {
-  filter?: Maybe<BillingAgreementAggregateFilter>;
-};
-
-
-export type ProductVariantPricesAggregateArgs = {
-  filter?: Maybe<ProductVariantPriceAggregateFilter>;
-};
-
-export type ProductVariantSpecs = {
-  __typename?: 'ProductVariantSpecs';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  specs: Scalars['JSON'];
-};
-
-
-export type OrderItem = {
-  __typename?: 'OrderItem';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  quantity: Scalars['Float'];
-  productVariant: ProductVariant;
-  line: OrderLine;
-  taxCategory: TaxRate;
-};
-
-export type OrderLine = {
-  __typename?: 'OrderLine';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  priceField: Scalars['JSON'];
-  stage: OrderStageType;
-  invoices: Array<Invoice>;
-  serviceable: ServiceableOrders;
-  refund: Refund;
-  pool: DeliveryPool;
-  store: Store;
-  item: OrderItem;
-  order: Order;
-  invoicesAggregate: OrderLineInvoicesAggregateResponse;
-};
-
-
-export type OrderLineInvoicesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<InvoiceFilter>;
-  sorting?: Maybe<Array<InvoiceSort>>;
-};
-
-
-export type OrderLineInvoicesAggregateArgs = {
-  filter?: Maybe<InvoiceAggregateFilter>;
-};
-
-export enum OrderStageType {
-  Created = 'CREATED',
-  Packaged = 'PACKAGED',
-  Processed = 'PROCESSED',
-  Shipped = 'SHIPPED',
-  Delivered = 'DELIVERED',
-  Returninitiated = 'RETURNINITIATED',
-  Returned = 'RETURNED',
-  Returnedrefunded = 'RETURNEDREFUNDED'
-}
-
-export type Invoice = {
-  __typename?: 'Invoice';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  type: InvoiceEnum;
-  total: Scalars['Float'];
-  amount: Scalars['Float'];
-  fees: Scalars['Float'];
-  tax: Scalars['Float'];
-  nulled: Scalars['Boolean'];
-  store: Store;
-  line: OrderLine;
-};
-
-export enum InvoiceEnum {
-  Store = 'STORE',
-  Consumer = 'CONSUMER',
-  Master = 'MASTER'
-}
-
-export type Store = {
-  __typename?: 'Store';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  storeName: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  officialemail: Scalars['String'];
-  zipcode: Scalars['String'];
-  streetAddress1: Scalars['String'];
-  streetAddress2: Scalars['String'];
-  GSTIN: Scalars['String'];
-  singleStore: Scalars['Boolean'];
-  rentalStore: Scalars['Boolean'];
-  channelMarkets: Scalars['Boolean'];
-  services: Scalars['Boolean'];
-  assetAPI: Scalars['String'];
-  mainAPI: Scalars['String'];
-  type: StoreTypeEnum;
-  invoices: Array<Invoice>;
-  zips: Array<Zip>;
-  backlogs: Array<StockBackLog>;
-  carts: Array<CartItem>;
-  prices: Array<ProductVariantPrice>;
-  settlements: Array<Settlements>;
-  skus: Array<StockKeeping>;
-  logo?: Maybe<Asset>;
-  balance?: Maybe<StoreBalance>;
-  country: Country;
-  invoicesAggregate: StoreInvoicesAggregateResponse;
-  zipsAggregate: StoreZipsAggregateResponse;
-  backlogsAggregate: StoreBacklogsAggregateResponse;
-  cartsAggregate: StoreCartsAggregateResponse;
-  pricesAggregate: StorePricesAggregateResponse;
-  settlementsAggregate: StoreSettlementsAggregateResponse;
-  skusAggregate: StoreSkusAggregateResponse;
-};
-
-
-export type StoreInvoicesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<InvoiceFilter>;
-  sorting?: Maybe<Array<InvoiceSort>>;
-};
-
-
-export type StoreZipsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ZipFilter>;
-  sorting?: Maybe<Array<ZipSort>>;
-};
-
-
-export type StoreBacklogsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StockBackLogFilter>;
-  sorting?: Maybe<Array<StockBackLogSort>>;
-};
-
-
-export type StoreCartsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<CartItemFilter>;
-  sorting?: Maybe<Array<CartItemSort>>;
-};
-
-
-export type StorePricesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductVariantPriceFilter>;
-  sorting?: Maybe<Array<ProductVariantPriceSort>>;
-};
-
-
-export type StoreSettlementsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<SettlementsFilter>;
-  sorting?: Maybe<Array<SettlementsSort>>;
-};
-
-
-export type StoreSkusArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StockKeepingFilter>;
-  sorting?: Maybe<Array<StockKeepingSort>>;
-};
-
-
-export type StoreInvoicesAggregateArgs = {
-  filter?: Maybe<InvoiceAggregateFilter>;
-};
-
-
-export type StoreZipsAggregateArgs = {
-  filter?: Maybe<ZipAggregateFilter>;
-};
-
-
-export type StoreBacklogsAggregateArgs = {
-  filter?: Maybe<StockBackLogAggregateFilter>;
-};
-
-
-export type StoreCartsAggregateArgs = {
-  filter?: Maybe<CartItemAggregateFilter>;
-};
-
-
-export type StorePricesAggregateArgs = {
-  filter?: Maybe<ProductVariantPriceAggregateFilter>;
-};
-
-
-export type StoreSettlementsAggregateArgs = {
-  filter?: Maybe<SettlementsAggregateFilter>;
-};
-
-
-export type StoreSkusAggregateArgs = {
-  filter?: Maybe<StockKeepingAggregateFilter>;
-};
-
-export enum StoreTypeEnum {
-  Default = 'DEFAULT',
-  Vendor = 'VENDOR'
-}
-
-export type InvoiceFilter = {
-  and?: Maybe<Array<InvoiceFilter>>;
-  or?: Maybe<Array<InvoiceFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  type?: Maybe<InvoiceEnumFilterComparison>;
-  total?: Maybe<NumberFieldComparison>;
-  amount?: Maybe<NumberFieldComparison>;
-  fees?: Maybe<NumberFieldComparison>;
-  tax?: Maybe<NumberFieldComparison>;
-  nulled?: Maybe<BooleanFieldComparison>;
-  store?: Maybe<InvoiceFilterStoreFilter>;
-  line?: Maybe<InvoiceFilterOrderLineFilter>;
-};
-
-export type InvoiceEnumFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<InvoiceEnum>;
-  neq?: Maybe<InvoiceEnum>;
-  gt?: Maybe<InvoiceEnum>;
-  gte?: Maybe<InvoiceEnum>;
-  lt?: Maybe<InvoiceEnum>;
-  lte?: Maybe<InvoiceEnum>;
-  like?: Maybe<InvoiceEnum>;
-  notLike?: Maybe<InvoiceEnum>;
-  iLike?: Maybe<InvoiceEnum>;
-  notILike?: Maybe<InvoiceEnum>;
-  in?: Maybe<Array<InvoiceEnum>>;
-  notIn?: Maybe<Array<InvoiceEnum>>;
-};
-
-export type InvoiceFilterStoreFilter = {
-  and?: Maybe<Array<InvoiceFilterStoreFilter>>;
-  or?: Maybe<Array<InvoiceFilterStoreFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-};
-
-export type InvoiceFilterOrderLineFilter = {
-  and?: Maybe<Array<InvoiceFilterOrderLineFilter>>;
-  or?: Maybe<Array<InvoiceFilterOrderLineFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  stage?: Maybe<OrderStageTypeFilterComparison>;
-};
-
-export type OrderStageTypeFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<OrderStageType>;
-  neq?: Maybe<OrderStageType>;
-  gt?: Maybe<OrderStageType>;
-  gte?: Maybe<OrderStageType>;
-  lt?: Maybe<OrderStageType>;
-  lte?: Maybe<OrderStageType>;
-  like?: Maybe<OrderStageType>;
-  notLike?: Maybe<OrderStageType>;
-  iLike?: Maybe<OrderStageType>;
-  notILike?: Maybe<OrderStageType>;
-  in?: Maybe<Array<OrderStageType>>;
-  notIn?: Maybe<Array<OrderStageType>>;
-};
-
-export type InvoiceSort = {
-  field: InvoiceSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum InvoiceSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Type = 'type',
-  Total = 'total',
-  Amount = 'amount',
-  Fees = 'fees',
-  Tax = 'tax',
-  Nulled = 'nulled'
-}
-
-export type Zip = {
-  __typename?: 'Zip';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  slug: Scalars['String'];
-  code: Scalars['Float'];
-  stores: Array<Store>;
-  vendors: Array<Vendor>;
-  storesAggregate: ZipStoresAggregateResponse;
-  vendorsAggregate: ZipVendorsAggregateResponse;
-};
-
-
-export type ZipStoresArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StoreFilter>;
-  sorting?: Maybe<Array<StoreSort>>;
-};
-
-
-export type ZipVendorsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<VendorFilter>;
-  sorting?: Maybe<Array<VendorSort>>;
-};
-
-
-export type ZipStoresAggregateArgs = {
-  filter?: Maybe<StoreAggregateFilter>;
-};
-
-
-export type ZipVendorsAggregateArgs = {
-  filter?: Maybe<VendorAggregateFilter>;
-};
-
-export type StoreFilter = {
-  and?: Maybe<Array<StoreFilter>>;
-  or?: Maybe<Array<StoreFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-  invoices?: Maybe<StoreFilterInvoiceFilter>;
-  zip?: Maybe<StoreFilterZipFilter>;
-  backlogs?: Maybe<StoreFilterStockBackLogFilter>;
-  cart?: Maybe<StoreFilterCartItemFilter>;
-  settlement?: Maybe<StoreFilterSettlementsFilter>;
-};
-
-export type StoreFilterInvoiceFilter = {
-  and?: Maybe<Array<StoreFilterInvoiceFilter>>;
-  or?: Maybe<Array<StoreFilterInvoiceFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  type?: Maybe<InvoiceEnumFilterComparison>;
-  total?: Maybe<NumberFieldComparison>;
-  amount?: Maybe<NumberFieldComparison>;
-  fees?: Maybe<NumberFieldComparison>;
-  tax?: Maybe<NumberFieldComparison>;
-  nulled?: Maybe<BooleanFieldComparison>;
-};
-
-export type StoreFilterZipFilter = {
-  and?: Maybe<Array<StoreFilterZipFilter>>;
-  or?: Maybe<Array<StoreFilterZipFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  code?: Maybe<NumberFieldComparison>;
-};
-
-export type StoreFilterStockBackLogFilter = {
-  and?: Maybe<Array<StoreFilterStockBackLogFilter>>;
-  or?: Maybe<Array<StoreFilterStockBackLogFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type StoreFilterCartItemFilter = {
-  and?: Maybe<Array<StoreFilterCartItemFilter>>;
-  or?: Maybe<Array<StoreFilterCartItemFilter>>;
-  id?: Maybe<IdFilterComparison>;
-};
-
-export type StoreFilterSettlementsFilter = {
-  and?: Maybe<Array<StoreFilterSettlementsFilter>>;
-  or?: Maybe<Array<StoreFilterSettlementsFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  amount?: Maybe<NumberFieldComparison>;
-  taxamount?: Maybe<NumberFieldComparison>;
-  finalamount?: Maybe<NumberFieldComparison>;
-  transactionID?: Maybe<StringFieldComparison>;
-  remarks?: Maybe<StringFieldComparison>;
-  type?: Maybe<SettlementTypeFilterComparison>;
-};
-
-export type SettlementTypeFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<SettlementType>;
-  neq?: Maybe<SettlementType>;
-  gt?: Maybe<SettlementType>;
-  gte?: Maybe<SettlementType>;
-  lt?: Maybe<SettlementType>;
-  lte?: Maybe<SettlementType>;
-  like?: Maybe<SettlementType>;
-  notLike?: Maybe<SettlementType>;
-  iLike?: Maybe<SettlementType>;
-  notILike?: Maybe<SettlementType>;
-  in?: Maybe<Array<SettlementType>>;
-  notIn?: Maybe<Array<SettlementType>>;
-};
-
-export enum SettlementType {
-  Processing = 'PROCESSING',
-  Processed = 'PROCESSED'
-}
-
-export type StoreSort = {
-  field: StoreSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum StoreSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  StoreName = 'storeName',
-  PhoneNumber = 'phoneNumber',
-  Officialemail = 'officialemail',
-  Zipcode = 'zipcode',
-  StreetAddress1 = 'streetAddress1',
-  StreetAddress2 = 'streetAddress2',
-  Gstin = 'GSTIN',
-  SingleStore = 'singleStore',
-  RentalStore = 'rentalStore',
-  ChannelMarkets = 'channelMarkets',
-  Services = 'services',
-  AssetApi = 'assetAPI',
-  MainApi = 'mainAPI'
-}
-
-export type Vendor = {
-  __typename?: 'Vendor';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  vendorName: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  email: Scalars['String'];
-  zip?: Maybe<Zip>;
-  zips: Array<Zip>;
-  serviceable?: Maybe<Serviceable>;
-  account: Store;
-  store: Store;
-  license: VendorLicense;
-  user: User;
-  zipsAggregate: VendorZipsAggregateResponse;
-};
-
-
-export type VendorZipsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ZipFilter>;
-  sorting?: Maybe<Array<ZipSort>>;
-};
-
-
-export type VendorZipsAggregateArgs = {
-  filter?: Maybe<ZipAggregateFilter>;
-};
-
-export type ZipFilter = {
-  and?: Maybe<Array<ZipFilter>>;
-  or?: Maybe<Array<ZipFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  code?: Maybe<NumberFieldComparison>;
-  store?: Maybe<ZipFilterStoreFilter>;
-  vendors?: Maybe<ZipFilterVendorFilter>;
-};
-
-export type ZipFilterStoreFilter = {
-  and?: Maybe<Array<ZipFilterStoreFilter>>;
-  or?: Maybe<Array<ZipFilterStoreFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-};
-
-export type ZipFilterVendorFilter = {
-  and?: Maybe<Array<ZipFilterVendorFilter>>;
-  or?: Maybe<Array<ZipFilterVendorFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  vendorName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  email?: Maybe<StringFieldComparison>;
-};
-
-export type ZipSort = {
-  field: ZipSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ZipSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Name = 'name',
-  Slug = 'slug',
-  Code = 'code'
-}
-
-export type Serviceable = {
-  __typename?: 'Serviceable';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  type: ServiceableTypes;
-  mode: ServiceableOrderTypes;
-  products?: Maybe<Array<Product>>;
-  vendors?: Maybe<Array<Vendor>>;
-  productsAggregate: ServiceableProductsAggregateResponse;
-  vendorsAggregate: ServiceableVendorsAggregateResponse;
-};
-
-
-export type ServiceableProductsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductFilter>;
-  sorting?: Maybe<Array<ProductSort>>;
-};
-
-
-export type ServiceableVendorsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<VendorFilter>;
-  sorting?: Maybe<Array<VendorSort>>;
-};
-
-
-export type ServiceableProductsAggregateArgs = {
-  filter?: Maybe<ProductAggregateFilter>;
-};
-
-
-export type ServiceableVendorsAggregateArgs = {
-  filter?: Maybe<VendorAggregateFilter>;
-};
-
-export enum ServiceableTypes {
-  Vendor = 'VENDOR',
-  Product = 'PRODUCT'
-}
-
-export enum ServiceableOrderTypes {
-  Immediate = 'IMMEDIATE',
-  Date = 'DATE'
-}
-
-export type ProductFilter = {
-  and?: Maybe<Array<ProductFilter>>;
-  or?: Maybe<Array<ProductFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  productName?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  description?: Maybe<StringFieldComparison>;
-};
-
-export type ProductSort = {
-  field: ProductSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ProductSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  ProductName = 'productName',
-  Slug = 'slug',
-  Description = 'description'
-}
-
-export type VendorFilter = {
-  and?: Maybe<Array<VendorFilter>>;
-  or?: Maybe<Array<VendorFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  vendorName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  email?: Maybe<StringFieldComparison>;
-  zip?: Maybe<VendorFilterZipFilter>;
-};
-
-export type VendorFilterZipFilter = {
-  and?: Maybe<Array<VendorFilterZipFilter>>;
-  or?: Maybe<Array<VendorFilterZipFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  code?: Maybe<NumberFieldComparison>;
-};
-
-export type VendorSort = {
-  field: VendorSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum VendorSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  VendorName = 'vendorName',
-  PhoneNumber = 'phoneNumber',
-  Email = 'email'
-}
-
-export type ProductAggregateFilter = {
-  and?: Maybe<Array<ProductAggregateFilter>>;
-  or?: Maybe<Array<ProductAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  productName?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  description?: Maybe<StringFieldComparison>;
-};
-
-export type VendorAggregateFilter = {
-  and?: Maybe<Array<VendorAggregateFilter>>;
-  or?: Maybe<Array<VendorAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  vendorName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  email?: Maybe<StringFieldComparison>;
-};
-
-export type VendorLicense = {
-  __typename?: 'VendorLicense';
-  id: Scalars['ID'];
-  deletedAt: Scalars['DateTime'];
-  tenureStart: Scalars['DateTime'];
-  tenureEnd: Scalars['DateTime'];
-  plans: VendorPlans;
-  vendor: Vendor;
-};
-
-export type VendorPlans = {
-  __typename?: 'VendorPlans';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  isActive: Scalars['Boolean'];
-  name: Scalars['String'];
-  planValue: Scalars['Float'];
-  priceStrategy: Scalars['String'];
-  tenureStrategy: VendorPlanTenure;
-  licences: Array<VendorLicense>;
-  licencesAggregate: VendorPlansLicencesAggregateResponse;
-};
-
-
-export type VendorPlansLicencesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<VendorLicenseFilter>;
-  sorting?: Maybe<Array<VendorLicenseSort>>;
-};
-
-
-export type VendorPlansLicencesAggregateArgs = {
-  filter?: Maybe<VendorLicenseAggregateFilter>;
-};
-
-export enum VendorPlanTenure {
-  Monthly = 'MONTHLY',
-  Halfyearly = 'HALFYEARLY',
-  Annual = 'ANNUAL'
-}
-
-export type VendorLicenseFilter = {
-  and?: Maybe<Array<VendorLicenseFilter>>;
-  or?: Maybe<Array<VendorLicenseFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  tenureStart?: Maybe<DateFieldComparison>;
-  tenureEnd?: Maybe<DateFieldComparison>;
-};
-
-export type VendorLicenseSort = {
-  field: VendorLicenseSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum VendorLicenseSortFields {
-  Id = 'id',
-  DeletedAt = 'deletedAt',
-  TenureStart = 'tenureStart',
-  TenureEnd = 'tenureEnd'
-}
-
-export type VendorLicenseAggregateFilter = {
-  and?: Maybe<Array<VendorLicenseAggregateFilter>>;
-  or?: Maybe<Array<VendorLicenseAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  tenureStart?: Maybe<DateFieldComparison>;
-  tenureEnd?: Maybe<DateFieldComparison>;
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  email: Scalars['String'];
-  verified: Scalars['Boolean'];
-  verificationToken?: Maybe<Scalars['String']>;
-  passwordResetToken?: Maybe<Scalars['String']>;
-  identifierChangeToken?: Maybe<Scalars['String']>;
-  pendingIdentifier?: Maybe<Scalars['String']>;
-  lastLogin?: Maybe<Scalars['DateTime']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phoneNumber: Scalars['String'];
-  administrator?: Maybe<Administrator>;
-  vendor?: Maybe<Vendor>;
-  delivery?: Maybe<Delivery>;
-  cart?: Maybe<Cart>;
-  view: Array<View>;
-  reviews: Array<Review>;
-  address?: Maybe<Array<Address>>;
-  order?: Maybe<Array<Order>>;
-  reset?: Maybe<Array<ResetCode>>;
-  orders?: Maybe<Array<Order>>;
-  addresses?: Maybe<Array<Address>>;
-  ordersAggregate: UserOrdersAggregateResponse;
-  addressesAggregate: UserAddressesAggregateResponse;
-};
-
-
-export type UserOrdersArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<OrderFilter>;
-  sorting?: Maybe<Array<OrderSort>>;
-};
-
-
-export type UserAddressesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<AddressFilter>;
-  sorting?: Maybe<Array<AddressSort>>;
-};
-
-
-export type UserOrdersAggregateArgs = {
-  filter?: Maybe<OrderAggregateFilter>;
-};
-
-
-export type UserAddressesAggregateArgs = {
-  filter?: Maybe<AddressAggregateFilter>;
-};
-
-export type Administrator = {
-  __typename?: 'Administrator';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  emailAddress: Scalars['String'];
-  type: AdministratorEnum;
-  user: User;
-};
-
-export enum AdministratorEnum {
-  Superadmin = 'SUPERADMIN',
-  Staff = 'STAFF'
-}
-
-export type Delivery = {
-  __typename?: 'Delivery';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  user?: Maybe<User>;
-  signIn: Array<DeliverySignIn>;
-  signIns?: Maybe<Array<DeliverySignIn>>;
-  signInsAggregate: DeliverySignInsAggregateResponse;
-};
-
-
-export type DeliverySignInsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<DeliverySignInFilter>;
-  sorting?: Maybe<Array<DeliverySignInSort>>;
-};
-
-
-export type DeliverySignInsAggregateArgs = {
-  filter?: Maybe<DeliverySignInAggregateFilter>;
-};
-
-export type DeliverySignIn = {
-  __typename?: 'DeliverySignIn';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  delivery: Delivery;
-  pool: DeliveryPool;
-};
-
-export type DeliveryPool = {
-  __typename?: 'DeliveryPool';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  signIn: DeliverySignIn;
-  lines: Array<OrderLine>;
-};
-
-export type DeliverySignInFilter = {
-  and?: Maybe<Array<DeliverySignInFilter>>;
-  or?: Maybe<Array<DeliverySignInFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-};
-
-export type DeliverySignInSort = {
-  field: DeliverySignInSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum DeliverySignInSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt'
-}
-
-export type DeliverySignInAggregateFilter = {
-  and?: Maybe<Array<DeliverySignInAggregateFilter>>;
-  or?: Maybe<Array<DeliverySignInAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-};
-
-export type Cart = {
-  __typename?: 'Cart';
-  id: Scalars['ID'];
-  items: Array<CartItem>;
-  user?: Maybe<User>;
-};
-
-export type CartItem = {
-  __typename?: 'CartItem';
-  id: Scalars['ID'];
-  quantity: Scalars['Float'];
-  cart: Cart;
-  variant: ProductVariant;
-  store: Store;
-  price: ProductVariantPrice;
-};
-
-export type ProductVariantPrice = {
-  __typename?: 'ProductVariantPrice';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  price: Scalars['Float'];
-  taxIncluded: Scalars['Boolean'];
-  backlogs?: Maybe<Array<StockBackLog>>;
-  promoprice?: Maybe<PromotionVariantPrice>;
-  store: Store;
-  tax?: Maybe<TaxRate>;
-  variant: ProductVariant;
-  backlogsAggregate: ProductVariantPriceBacklogsAggregateResponse;
-};
-
-
-export type ProductVariantPriceBacklogsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StockBackLogFilter>;
-  sorting?: Maybe<Array<StockBackLogSort>>;
-};
-
-
-export type ProductVariantPriceBacklogsAggregateArgs = {
-  filter?: Maybe<StockBackLogAggregateFilter>;
-};
-
-export type StockBackLog = {
-  __typename?: 'StockBackLog';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  quantity: Scalars['Float'];
-  store?: Maybe<Store>;
-  variant?: Maybe<ProductVariantPrice>;
-};
-
-export type StockBackLogFilter = {
-  and?: Maybe<Array<StockBackLogFilter>>;
-  or?: Maybe<Array<StockBackLogFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-  store?: Maybe<StockBackLogFilterStoreFilter>;
-  variant?: Maybe<StockBackLogFilterProductVariantPriceFilter>;
-};
-
-export type StockBackLogFilterStoreFilter = {
-  and?: Maybe<Array<StockBackLogFilterStoreFilter>>;
-  or?: Maybe<Array<StockBackLogFilterStoreFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-};
-
-export type StockBackLogFilterProductVariantPriceFilter = {
-  and?: Maybe<Array<StockBackLogFilterProductVariantPriceFilter>>;
-  or?: Maybe<Array<StockBackLogFilterProductVariantPriceFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  price?: Maybe<NumberFieldComparison>;
-  taxIncluded?: Maybe<BooleanFieldComparison>;
-};
-
-export type StockBackLogSort = {
-  field: StockBackLogSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum StockBackLogSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Quantity = 'quantity'
-}
-
-export type PromotionVariantPrice = {
-  __typename?: 'PromotionVariantPrice';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  priceType: PricePromoType;
-  value: Scalars['Float'];
-  forever: Scalars['Boolean'];
-  startsAt: Scalars['DateTime'];
-  endsAt: Scalars['DateTime'];
-  enabled: Scalars['Boolean'];
-  price: ProductVariantPrice;
-};
-
-export enum PricePromoType {
-  Flat = 'FLAT',
-  Percentage = 'PERCENTAGE'
-}
-
-export type TaxRate = {
-  __typename?: 'TaxRate';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  value: Scalars['Float'];
-  enabled: Scalars['Boolean'];
-  variants: Array<ProductVariantPrice>;
-  zone: Zone;
-  category: TaxCategory;
-  variantsAggregate: TaxRateVariantsAggregateResponse;
-};
-
-
-export type TaxRateVariantsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductVariantPriceFilter>;
-  sorting?: Maybe<Array<ProductVariantPriceSort>>;
-};
-
-
-export type TaxRateVariantsAggregateArgs = {
-  filter?: Maybe<ProductVariantPriceAggregateFilter>;
-};
-
-export type ProductVariantPriceFilter = {
-  and?: Maybe<Array<ProductVariantPriceFilter>>;
-  or?: Maybe<Array<ProductVariantPriceFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  price?: Maybe<NumberFieldComparison>;
-  taxIncluded?: Maybe<BooleanFieldComparison>;
-  store?: Maybe<ProductVariantPriceFilterStoreFilter>;
-  variant?: Maybe<ProductVariantPriceFilterProductVariantFilter>;
-};
-
-export type ProductVariantPriceFilterStoreFilter = {
-  and?: Maybe<Array<ProductVariantPriceFilterStoreFilter>>;
-  or?: Maybe<Array<ProductVariantPriceFilterStoreFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-};
-
-export type ProductVariantPriceFilterProductVariantFilter = {
-  and?: Maybe<Array<ProductVariantPriceFilterProductVariantFilter>>;
-  or?: Maybe<Array<ProductVariantPriceFilterProductVariantFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  dum_price?: Maybe<NumberFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-  sku?: Maybe<StringFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  rating?: Maybe<NumberFieldComparison>;
-  trackInventory?: Maybe<BooleanFieldComparison>;
-};
-
-export type ProductVariantPriceSort = {
-  field: ProductVariantPriceSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ProductVariantPriceSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Price = 'price',
-  TaxIncluded = 'taxIncluded'
-}
-
-export type Zone = {
-  __typename?: 'Zone';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  members: Array<Country>;
-  stores: Array<Store>;
-  taxrates: Array<TaxRate>;
-  membersAggregate: ZoneMembersAggregateResponse;
-  storesAggregate: ZoneStoresAggregateResponse;
-  taxratesAggregate: ZoneTaxratesAggregateResponse;
-};
-
-
-export type ZoneMembersArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<CountryFilter>;
-  sorting?: Maybe<Array<CountrySort>>;
-};
-
-
-export type ZoneStoresArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StoreFilter>;
-  sorting?: Maybe<Array<StoreSort>>;
-};
-
-
-export type ZoneTaxratesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<TaxRateFilter>;
-  sorting?: Maybe<Array<TaxRateSort>>;
-};
-
-
-export type ZoneMembersAggregateArgs = {
-  filter?: Maybe<CountryAggregateFilter>;
-};
-
-
-export type ZoneStoresAggregateArgs = {
-  filter?: Maybe<StoreAggregateFilter>;
-};
-
-
-export type ZoneTaxratesAggregateArgs = {
-  filter?: Maybe<TaxRateAggregateFilter>;
-};
-
-export type Country = {
-  __typename?: 'Country';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  code: Scalars['String'];
-  name: Scalars['String'];
-  enabled: Scalars['Boolean'];
-  stores: Array<Store>;
-  zones: Array<Zone>;
-  storesAggregate: CountryStoresAggregateResponse;
-  zonesAggregate: CountryZonesAggregateResponse;
-};
-
-
-export type CountryStoresArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StoreFilter>;
-  sorting?: Maybe<Array<StoreSort>>;
-};
-
-
-export type CountryZonesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ZoneFilter>;
-  sorting?: Maybe<Array<ZoneSort>>;
-};
-
-
-export type CountryStoresAggregateArgs = {
-  filter?: Maybe<StoreAggregateFilter>;
-};
-
-
-export type CountryZonesAggregateArgs = {
-  filter?: Maybe<ZoneAggregateFilter>;
-};
-
-export type ZoneFilter = {
-  and?: Maybe<Array<ZoneFilter>>;
-  or?: Maybe<Array<ZoneFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-};
-
-export type ZoneSort = {
-  field: ZoneSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ZoneSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Name = 'name'
-}
-
-export type StoreAggregateFilter = {
-  and?: Maybe<Array<StoreAggregateFilter>>;
-  or?: Maybe<Array<StoreAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-};
-
-export type ZoneAggregateFilter = {
-  and?: Maybe<Array<ZoneAggregateFilter>>;
-  or?: Maybe<Array<ZoneAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-};
-
-export type CountryFilter = {
-  and?: Maybe<Array<CountryFilter>>;
-  or?: Maybe<Array<CountryFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-};
-
-export type CountrySort = {
-  field: CountrySortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum CountrySortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Code = 'code',
-  Name = 'name',
-  Enabled = 'enabled'
-}
-
-export type TaxRateFilter = {
-  and?: Maybe<Array<TaxRateFilter>>;
-  or?: Maybe<Array<TaxRateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  value?: Maybe<NumberFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-};
-
-export type TaxRateSort = {
-  field: TaxRateSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum TaxRateSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Name = 'name',
-  Value = 'value',
-  Enabled = 'enabled'
-}
-
-export type CountryAggregateFilter = {
-  and?: Maybe<Array<CountryAggregateFilter>>;
-  or?: Maybe<Array<CountryAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-};
-
-export type TaxRateAggregateFilter = {
-  and?: Maybe<Array<TaxRateAggregateFilter>>;
-  or?: Maybe<Array<TaxRateAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  value?: Maybe<NumberFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-};
-
-export type TaxCategory = {
-  __typename?: 'TaxCategory';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  rates: Array<TaxRate>;
-  ratesAggregate: TaxCategoryRatesAggregateResponse;
-};
-
-
-export type TaxCategoryRatesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<TaxRateFilter>;
-  sorting?: Maybe<Array<TaxRateSort>>;
-};
-
-
-export type TaxCategoryRatesAggregateArgs = {
-  filter?: Maybe<TaxRateAggregateFilter>;
-};
-
-export type ProductVariantPriceAggregateFilter = {
-  and?: Maybe<Array<ProductVariantPriceAggregateFilter>>;
-  or?: Maybe<Array<ProductVariantPriceAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  price?: Maybe<NumberFieldComparison>;
-  taxIncluded?: Maybe<BooleanFieldComparison>;
-};
-
-export type StockBackLogAggregateFilter = {
-  and?: Maybe<Array<StockBackLogAggregateFilter>>;
-  or?: Maybe<Array<StockBackLogAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type View = {
-  __typename?: 'View';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type Review = {
-  __typename?: 'Review';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  stars: Scalars['Int'];
-  text: Scalars['String'];
-  user: User;
-  variant: ProductVariant;
-};
-
-export type Address = {
-  __typename?: 'Address';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  fullName: Scalars['String'];
-  addressLine: Scalars['String'];
-  city: Scalars['String'];
-  state: Scalars['String'];
-  landmark: Scalars['String'];
-  postalCode: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  alternatePhoneNumber: Scalars['String'];
-  defaultShippingAddress: Scalars['Boolean'];
-  defaultBillingAddress: Scalars['Boolean'];
-  addressType: AddressType;
-  user?: Maybe<User>;
-};
-
-export enum AddressType {
-  Home = 'HOME',
-  Work = 'WORK'
-}
-
-export type Order = {
-  __typename?: 'Order';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  totalPrice: Scalars['Float'];
-  address: Scalars['String'];
-  lines: Array<OrderLine>;
-  payment?: Maybe<Payment>;
-  user: User;
-  linesAggregate: OrderLinesAggregateResponse;
-};
-
-
-export type OrderLinesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<OrderLineFilter>;
-  sorting?: Maybe<Array<OrderLineSort>>;
-};
-
-
-export type OrderLinesAggregateArgs = {
-  filter?: Maybe<OrderLineAggregateFilter>;
-};
-
-export type OrderLineFilter = {
-  and?: Maybe<Array<OrderLineFilter>>;
-  or?: Maybe<Array<OrderLineFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  stage?: Maybe<OrderStageTypeFilterComparison>;
-  serviceable?: Maybe<OrderLineFilterServiceableOrdersFilter>;
-  refund?: Maybe<OrderLineFilterRefundFilter>;
-  pool?: Maybe<OrderLineFilterDeliveryPoolFilter>;
-  store?: Maybe<OrderLineFilterStoreFilter>;
-  invoice?: Maybe<OrderLineFilterInvoiceFilter>;
-};
-
-export type OrderLineFilterServiceableOrdersFilter = {
-  and?: Maybe<Array<OrderLineFilterServiceableOrdersFilter>>;
-  or?: Maybe<Array<OrderLineFilterServiceableOrdersFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  dateTime?: Maybe<DateFieldComparison>;
-};
-
-export type OrderLineFilterRefundFilter = {
-  and?: Maybe<Array<OrderLineFilterRefundFilter>>;
-  or?: Maybe<Array<OrderLineFilterRefundFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  reason?: Maybe<StringFieldComparison>;
-  destination?: Maybe<StringFieldComparison>;
-  transactionId?: Maybe<StringFieldComparison>;
-  stage?: Maybe<RefundEnumFilterComparison>;
-};
-
-export type RefundEnumFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<RefundEnum>;
-  neq?: Maybe<RefundEnum>;
-  gt?: Maybe<RefundEnum>;
-  gte?: Maybe<RefundEnum>;
-  lt?: Maybe<RefundEnum>;
-  lte?: Maybe<RefundEnum>;
-  like?: Maybe<RefundEnum>;
-  notLike?: Maybe<RefundEnum>;
-  iLike?: Maybe<RefundEnum>;
-  notILike?: Maybe<RefundEnum>;
-  in?: Maybe<Array<RefundEnum>>;
-  notIn?: Maybe<Array<RefundEnum>>;
-};
-
-export enum RefundEnum {
-  Initiated = 'INITIATED',
-  Refunded = 'REFUNDED'
-}
-
-export type OrderLineFilterDeliveryPoolFilter = {
-  and?: Maybe<Array<OrderLineFilterDeliveryPoolFilter>>;
-  or?: Maybe<Array<OrderLineFilterDeliveryPoolFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-};
-
-export type OrderLineFilterStoreFilter = {
-  and?: Maybe<Array<OrderLineFilterStoreFilter>>;
-  or?: Maybe<Array<OrderLineFilterStoreFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-};
-
-export type OrderLineFilterInvoiceFilter = {
-  and?: Maybe<Array<OrderLineFilterInvoiceFilter>>;
-  or?: Maybe<Array<OrderLineFilterInvoiceFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  type?: Maybe<InvoiceEnumFilterComparison>;
-  total?: Maybe<NumberFieldComparison>;
-  amount?: Maybe<NumberFieldComparison>;
-  fees?: Maybe<NumberFieldComparison>;
-  tax?: Maybe<NumberFieldComparison>;
-  nulled?: Maybe<BooleanFieldComparison>;
-};
-
-export type OrderLineSort = {
-  field: OrderLineSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum OrderLineSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Stage = 'stage'
-}
-
-export type Payment = {
-  __typename?: 'Payment';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  amount: Scalars['Float'];
-  errorMessage?: Maybe<Scalars['String']>;
-  transactionId?: Maybe<Scalars['String']>;
-  order: Order;
-};
-
-export type OrderLineAggregateFilter = {
-  and?: Maybe<Array<OrderLineAggregateFilter>>;
-  or?: Maybe<Array<OrderLineAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  stage?: Maybe<OrderStageTypeFilterComparison>;
-};
-
-export type ResetCode = {
-  __typename?: 'ResetCode';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  code: Scalars['String'];
-  user: User;
-};
-
-export type OrderFilter = {
-  and?: Maybe<Array<OrderFilter>>;
-  or?: Maybe<Array<OrderFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  totalPrice?: Maybe<NumberFieldComparison>;
-  address?: Maybe<StringFieldComparison>;
-  line?: Maybe<OrderFilterOrderLineFilter>;
-};
-
-export type OrderFilterOrderLineFilter = {
-  and?: Maybe<Array<OrderFilterOrderLineFilter>>;
-  or?: Maybe<Array<OrderFilterOrderLineFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  stage?: Maybe<OrderStageTypeFilterComparison>;
-};
-
-export type OrderSort = {
-  field: OrderSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum OrderSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  TotalPrice = 'totalPrice',
-  Address = 'address'
-}
-
-export type AddressFilter = {
-  and?: Maybe<Array<AddressFilter>>;
-  or?: Maybe<Array<AddressFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  fullName?: Maybe<StringFieldComparison>;
-  addressLine?: Maybe<StringFieldComparison>;
-  city?: Maybe<StringFieldComparison>;
-  state?: Maybe<StringFieldComparison>;
-  landmark?: Maybe<StringFieldComparison>;
-  postalCode?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  alternatePhoneNumber?: Maybe<StringFieldComparison>;
-  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
-  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
-  addressType?: Maybe<AddressTypeFilterComparison>;
-};
-
-export type AddressTypeFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<AddressType>;
-  neq?: Maybe<AddressType>;
-  gt?: Maybe<AddressType>;
-  gte?: Maybe<AddressType>;
-  lt?: Maybe<AddressType>;
-  lte?: Maybe<AddressType>;
-  like?: Maybe<AddressType>;
-  notLike?: Maybe<AddressType>;
-  iLike?: Maybe<AddressType>;
-  notILike?: Maybe<AddressType>;
-  in?: Maybe<Array<AddressType>>;
-  notIn?: Maybe<Array<AddressType>>;
-};
-
-export type AddressSort = {
-  field: AddressSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum AddressSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  FullName = 'fullName',
-  AddressLine = 'addressLine',
-  City = 'city',
-  State = 'state',
-  Landmark = 'landmark',
-  PostalCode = 'postalCode',
-  PhoneNumber = 'phoneNumber',
-  AlternatePhoneNumber = 'alternatePhoneNumber',
-  DefaultShippingAddress = 'defaultShippingAddress',
-  DefaultBillingAddress = 'defaultBillingAddress',
-  AddressType = 'addressType'
-}
-
-export type OrderAggregateFilter = {
-  and?: Maybe<Array<OrderAggregateFilter>>;
-  or?: Maybe<Array<OrderAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  totalPrice?: Maybe<NumberFieldComparison>;
-  address?: Maybe<StringFieldComparison>;
-};
-
-export type AddressAggregateFilter = {
-  and?: Maybe<Array<AddressAggregateFilter>>;
-  or?: Maybe<Array<AddressAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  fullName?: Maybe<StringFieldComparison>;
-  addressLine?: Maybe<StringFieldComparison>;
-  city?: Maybe<StringFieldComparison>;
-  state?: Maybe<StringFieldComparison>;
-  landmark?: Maybe<StringFieldComparison>;
-  postalCode?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  alternatePhoneNumber?: Maybe<StringFieldComparison>;
-  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
-  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
-  addressType?: Maybe<AddressTypeFilterComparison>;
-};
-
-export type ZipAggregateFilter = {
-  and?: Maybe<Array<ZipAggregateFilter>>;
-  or?: Maybe<Array<ZipAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  slug?: Maybe<StringFieldComparison>;
-  code?: Maybe<NumberFieldComparison>;
-};
-
-export type CartItemFilter = {
-  and?: Maybe<Array<CartItemFilter>>;
-  or?: Maybe<Array<CartItemFilter>>;
-  id?: Maybe<IdFilterComparison>;
-};
-
-export type CartItemSort = {
-  field: CartItemSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum CartItemSortFields {
-  Id = 'id'
-}
-
-export type Settlements = {
-  __typename?: 'Settlements';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  amount: Scalars['Float'];
-  taxamount: Scalars['Float'];
-  finalamount: Scalars['Float'];
-  transactionID: Scalars['String'];
-  remarks: Scalars['String'];
-  type: SettlementType;
-  store: Store;
-};
-
-export type SettlementsFilter = {
-  and?: Maybe<Array<SettlementsFilter>>;
-  or?: Maybe<Array<SettlementsFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  amount?: Maybe<NumberFieldComparison>;
-  taxamount?: Maybe<NumberFieldComparison>;
-  finalamount?: Maybe<NumberFieldComparison>;
-  transactionID?: Maybe<StringFieldComparison>;
-  remarks?: Maybe<StringFieldComparison>;
-  type?: Maybe<SettlementTypeFilterComparison>;
-};
-
-export type SettlementsSort = {
-  field: SettlementsSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum SettlementsSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Amount = 'amount',
-  Taxamount = 'taxamount',
-  Finalamount = 'finalamount',
-  TransactionId = 'transactionID',
-  Remarks = 'remarks',
-  Type = 'type'
-}
-
-export type StockKeeping = {
-  __typename?: 'StockKeeping';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  quantity: Scalars['Float'];
-  available_quantity: Scalars['Float'];
-  threshold: Scalars['Float'];
-  multiple: Scalars['Boolean'];
-  backorder: Scalars['Boolean'];
-  stockstatus: Scalars['Boolean'];
-  sku: Scalars['String'];
-  type: StockKeepingType;
-  sales: Array<Sale>;
-  cancels: Array<Cancellation>;
-  movements: Array<StockMovement>;
-  store: Store;
-  variant: ProductVariant;
-  salesAggregate: StockKeepingSalesAggregateResponse;
-  cancelsAggregate: StockKeepingCancelsAggregateResponse;
-  movementsAggregate: StockKeepingMovementsAggregateResponse;
-};
-
-
-export type StockKeepingSalesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<SaleFilter>;
-  sorting?: Maybe<Array<SaleSort>>;
-};
-
-
-export type StockKeepingCancelsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<CancellationFilter>;
-  sorting?: Maybe<Array<CancellationSort>>;
-};
-
-
-export type StockKeepingMovementsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<StockMovementFilter>;
-  sorting?: Maybe<Array<StockMovementSort>>;
-};
-
-
-export type StockKeepingSalesAggregateArgs = {
-  filter?: Maybe<SaleAggregateFilter>;
-};
-
-
-export type StockKeepingCancelsAggregateArgs = {
-  filter?: Maybe<CancellationAggregateFilter>;
-};
-
-
-export type StockKeepingMovementsAggregateArgs = {
-  filter?: Maybe<StockMovementAggregateFilter>;
-};
-
-export enum StockKeepingType {
-  Global = 'GLOBAL',
-  Vendor = 'VENDOR'
-}
-
-export type Sale = {
-  __typename?: 'Sale';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  quantity: Scalars['Float'];
-  keeping: StockKeeping;
-};
-
-export type SaleFilter = {
-  and?: Maybe<Array<SaleFilter>>;
-  or?: Maybe<Array<SaleFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type SaleSort = {
-  field: SaleSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum SaleSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Quantity = 'quantity'
-}
-
-export type Cancellation = {
-  __typename?: 'Cancellation';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  quantity: Scalars['Float'];
-  keeping: StockKeeping;
-};
-
-export type CancellationFilter = {
-  and?: Maybe<Array<CancellationFilter>>;
-  or?: Maybe<Array<CancellationFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type CancellationSort = {
-  field: CancellationSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum CancellationSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Quantity = 'quantity'
-}
-
-export type StockMovement = {
-  __typename?: 'StockMovement';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  quantity: Scalars['Float'];
-  keeping: StockKeeping;
-};
-
-export type StockMovementFilter = {
-  and?: Maybe<Array<StockMovementFilter>>;
-  or?: Maybe<Array<StockMovementFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type StockMovementSort = {
-  field: StockMovementSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum StockMovementSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Quantity = 'quantity'
-}
-
-export type SaleAggregateFilter = {
-  and?: Maybe<Array<SaleAggregateFilter>>;
-  or?: Maybe<Array<SaleAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type CancellationAggregateFilter = {
-  and?: Maybe<Array<CancellationAggregateFilter>>;
-  or?: Maybe<Array<CancellationAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type StockMovementAggregateFilter = {
-  and?: Maybe<Array<StockMovementAggregateFilter>>;
-  or?: Maybe<Array<StockMovementAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type StockKeepingFilter = {
-  and?: Maybe<Array<StockKeepingFilter>>;
-  or?: Maybe<Array<StockKeepingFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-  available_quantity?: Maybe<NumberFieldComparison>;
-  threshold?: Maybe<NumberFieldComparison>;
-  multiple?: Maybe<BooleanFieldComparison>;
-  backorder?: Maybe<BooleanFieldComparison>;
-  stockstatus?: Maybe<BooleanFieldComparison>;
-  sku?: Maybe<StringFieldComparison>;
-  type?: Maybe<StockKeepingTypeFilterComparison>;
-};
-
-export type StockKeepingTypeFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<StockKeepingType>;
-  neq?: Maybe<StockKeepingType>;
-  gt?: Maybe<StockKeepingType>;
-  gte?: Maybe<StockKeepingType>;
-  lt?: Maybe<StockKeepingType>;
-  lte?: Maybe<StockKeepingType>;
-  like?: Maybe<StockKeepingType>;
-  notLike?: Maybe<StockKeepingType>;
-  iLike?: Maybe<StockKeepingType>;
-  notILike?: Maybe<StockKeepingType>;
-  in?: Maybe<Array<StockKeepingType>>;
-  notIn?: Maybe<Array<StockKeepingType>>;
-};
-
-export type StockKeepingSort = {
-  field: StockKeepingSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum StockKeepingSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Quantity = 'quantity',
-  AvailableQuantity = 'available_quantity',
-  Threshold = 'threshold',
-  Multiple = 'multiple',
-  Backorder = 'backorder',
-  Stockstatus = 'stockstatus',
-  Sku = 'sku',
-  Type = 'type'
-}
-
-export type Asset = {
-  __typename?: 'Asset';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  type: AssetType;
-  mimeType: Scalars['String'];
-  width: Scalars['Float'];
-  height: Scalars['Float'];
-  fileSize: Scalars['Float'];
-  source: Scalars['String'];
-  preview: Scalars['String'];
-  focalPoint: Scalars['JSONObject'];
-  featureds: Array<Product>;
-  productAssets: Array<ProductAsset>;
-  store?: Maybe<Store>;
-  menu?: Maybe<Menu>;
-  collection?: Maybe<Collection>;
-  featuredsAggregate: AssetFeaturedsAggregateResponse;
-  productAssetsAggregate: AssetProductAssetsAggregateResponse;
-};
-
-
-export type AssetFeaturedsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductFilter>;
-  sorting?: Maybe<Array<ProductSort>>;
-};
-
-
-export type AssetProductAssetsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductAssetFilter>;
-  sorting?: Maybe<Array<ProductAssetSort>>;
-};
-
-
-export type AssetFeaturedsAggregateArgs = {
-  filter?: Maybe<ProductAggregateFilter>;
-};
-
-
-export type AssetProductAssetsAggregateArgs = {
-  filter?: Maybe<ProductAssetAggregateFilter>;
-};
-
-export enum AssetType {
-  Image = 'IMAGE',
-  Video = 'VIDEO',
-  Binary = 'BINARY'
-}
-
-
-export type ProductAsset = {
-  __typename?: 'ProductAsset';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  asset: Asset;
-  product: Product;
-};
-
-export type ProductAssetFilter = {
-  and?: Maybe<Array<ProductAssetFilter>>;
-  or?: Maybe<Array<ProductAssetFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-};
-
-export type ProductAssetSort = {
-  field: ProductAssetSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ProductAssetSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt'
-}
-
-export type ProductAssetAggregateFilter = {
-  and?: Maybe<Array<ProductAssetAggregateFilter>>;
-  or?: Maybe<Array<ProductAssetAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-};
-
-export type StoreBalance = {
-  __typename?: 'StoreBalance';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  balance: Scalars['Float'];
-  balanceVolume: Scalars['Float'];
-};
-
-export type InvoiceAggregateFilter = {
-  and?: Maybe<Array<InvoiceAggregateFilter>>;
-  or?: Maybe<Array<InvoiceAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  type?: Maybe<InvoiceEnumFilterComparison>;
-  total?: Maybe<NumberFieldComparison>;
-  amount?: Maybe<NumberFieldComparison>;
-  fees?: Maybe<NumberFieldComparison>;
-  tax?: Maybe<NumberFieldComparison>;
-  nulled?: Maybe<BooleanFieldComparison>;
-};
-
-export type CartItemAggregateFilter = {
-  and?: Maybe<Array<CartItemAggregateFilter>>;
-  or?: Maybe<Array<CartItemAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-};
-
-export type SettlementsAggregateFilter = {
-  and?: Maybe<Array<SettlementsAggregateFilter>>;
-  or?: Maybe<Array<SettlementsAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  amount?: Maybe<NumberFieldComparison>;
-  taxamount?: Maybe<NumberFieldComparison>;
-  finalamount?: Maybe<NumberFieldComparison>;
-  transactionID?: Maybe<StringFieldComparison>;
-  remarks?: Maybe<StringFieldComparison>;
-  type?: Maybe<SettlementTypeFilterComparison>;
-};
-
-export type StockKeepingAggregateFilter = {
-  and?: Maybe<Array<StockKeepingAggregateFilter>>;
-  or?: Maybe<Array<StockKeepingAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-  available_quantity?: Maybe<NumberFieldComparison>;
-  threshold?: Maybe<NumberFieldComparison>;
-  multiple?: Maybe<BooleanFieldComparison>;
-  backorder?: Maybe<BooleanFieldComparison>;
-  stockstatus?: Maybe<BooleanFieldComparison>;
-  sku?: Maybe<StringFieldComparison>;
-  type?: Maybe<StockKeepingTypeFilterComparison>;
-};
-
-export type ServiceableOrders = {
-  __typename?: 'ServiceableOrders';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  dateTime: Scalars['DateTime'];
-};
-
-export type Refund = {
-  __typename?: 'Refund';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  reason: Scalars['String'];
-  destination: Scalars['String'];
-  transactionId: Scalars['String'];
-  stage: RefundEnum;
-  line: OrderLine;
-};
-
-export type OrderItemFilter = {
-  and?: Maybe<Array<OrderItemFilter>>;
-  or?: Maybe<Array<OrderItemFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type OrderItemSort = {
-  field: OrderItemSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum OrderItemSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Quantity = 'quantity'
-}
-
-export type BillingAgreement = {
-  __typename?: 'BillingAgreement';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  value: Scalars['Float'];
-  type: BillingAgreementEnum;
-  state: BillingAgreementState;
-  variant: ProductVariant;
-  collection?: Maybe<Collection>;
-  store: Store;
-  request: Array<BillingAgreementRequest>;
-};
-
-export enum BillingAgreementEnum {
-  Planbase = 'PLANBASE',
-  Collectionbase = 'COLLECTIONBASE',
-  Comissionbase = 'COMISSIONBASE',
-  Prodcommission = 'PRODCOMMISSION'
-}
-
-export enum BillingAgreementState {
-  Approved = 'APPROVED',
-  Pending = 'PENDING',
-  Rejected = 'REJECTED'
-}
-
-export type BillingAgreementRequest = {
-  __typename?: 'BillingAgreementRequest';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  value: Scalars['Float'];
-  state: BillingAgreementState;
-};
-
-export type BillingAgreementFilter = {
-  and?: Maybe<Array<BillingAgreementFilter>>;
-  or?: Maybe<Array<BillingAgreementFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  value?: Maybe<NumberFieldComparison>;
-  store?: Maybe<BillingAgreementFilterStoreFilter>;
-  variant?: Maybe<BillingAgreementFilterProductVariantFilter>;
-};
-
-export type BillingAgreementFilterStoreFilter = {
-  and?: Maybe<Array<BillingAgreementFilterStoreFilter>>;
-  or?: Maybe<Array<BillingAgreementFilterStoreFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  storeName?: Maybe<StringFieldComparison>;
-  phoneNumber?: Maybe<StringFieldComparison>;
-  officialemail?: Maybe<StringFieldComparison>;
-  zipcode?: Maybe<StringFieldComparison>;
-  streetAddress1?: Maybe<StringFieldComparison>;
-  streetAddress2?: Maybe<StringFieldComparison>;
-  GSTIN?: Maybe<StringFieldComparison>;
-  singleStore?: Maybe<BooleanFieldComparison>;
-  rentalStore?: Maybe<BooleanFieldComparison>;
-  channelMarkets?: Maybe<BooleanFieldComparison>;
-  services?: Maybe<BooleanFieldComparison>;
-  assetAPI?: Maybe<StringFieldComparison>;
-  mainAPI?: Maybe<StringFieldComparison>;
-};
-
-export type BillingAgreementFilterProductVariantFilter = {
-  and?: Maybe<Array<BillingAgreementFilterProductVariantFilter>>;
-  or?: Maybe<Array<BillingAgreementFilterProductVariantFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  dum_price?: Maybe<NumberFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-  sku?: Maybe<StringFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  rating?: Maybe<NumberFieldComparison>;
-  trackInventory?: Maybe<BooleanFieldComparison>;
-};
-
-export type BillingAgreementSort = {
-  field: BillingAgreementSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum BillingAgreementSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Value = 'value'
-}
-
-export type Seo = {
-  __typename?: 'Seo';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  urlKey: Scalars['String'];
-  metatitle: Scalars['String'];
-  metakeywords?: Maybe<Array<Scalars['String']>>;
-  metadesc: Scalars['String'];
-  variant?: Maybe<ProductVariant>;
-  collection?: Maybe<Collection>;
-};
-
-export type ProductVariantAsset = {
-  __typename?: 'ProductVariantAsset';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  asset: Asset;
-  variant: ProductVariant;
-};
-
-export type OrderItemAggregateFilter = {
-  and?: Maybe<Array<OrderItemAggregateFilter>>;
-  or?: Maybe<Array<OrderItemAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type BillingAgreementAggregateFilter = {
-  and?: Maybe<Array<BillingAgreementAggregateFilter>>;
-  or?: Maybe<Array<BillingAgreementAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  value?: Maybe<NumberFieldComparison>;
-};
-
-export type ProductVariantFilter = {
-  and?: Maybe<Array<ProductVariantFilter>>;
-  or?: Maybe<Array<ProductVariantFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  dum_price?: Maybe<NumberFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-  sku?: Maybe<StringFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  rating?: Maybe<NumberFieldComparison>;
-  trackInventory?: Maybe<BooleanFieldComparison>;
-  line?: Maybe<ProductVariantFilterOrderItemFilter>;
-  agreements?: Maybe<ProductVariantFilterBillingAgreementFilter>;
-  price?: Maybe<ProductVariantFilterProductVariantPriceFilter>;
-};
-
-export type ProductVariantFilterOrderItemFilter = {
-  and?: Maybe<Array<ProductVariantFilterOrderItemFilter>>;
-  or?: Maybe<Array<ProductVariantFilterOrderItemFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  quantity?: Maybe<NumberFieldComparison>;
-};
-
-export type ProductVariantFilterBillingAgreementFilter = {
-  and?: Maybe<Array<ProductVariantFilterBillingAgreementFilter>>;
-  or?: Maybe<Array<ProductVariantFilterBillingAgreementFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  value?: Maybe<NumberFieldComparison>;
-};
-
-export type ProductVariantFilterProductVariantPriceFilter = {
-  and?: Maybe<Array<ProductVariantFilterProductVariantPriceFilter>>;
-  or?: Maybe<Array<ProductVariantFilterProductVariantPriceFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  price?: Maybe<NumberFieldComparison>;
-  taxIncluded?: Maybe<BooleanFieldComparison>;
-};
-
-export type ProductVariantSort = {
-  field: ProductVariantSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ProductVariantSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  DumPrice = 'dum_price',
-  Enabled = 'enabled',
-  Sku = 'sku',
-  Name = 'name',
-  Rating = 'rating',
-  TrackInventory = 'trackInventory'
-}
-
-export type ProductVariantAggregateFilter = {
-  and?: Maybe<Array<ProductVariantAggregateFilter>>;
-  or?: Maybe<Array<ProductVariantAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  dum_price?: Maybe<NumberFieldComparison>;
-  enabled?: Maybe<BooleanFieldComparison>;
-  sku?: Maybe<StringFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  rating?: Maybe<NumberFieldComparison>;
-  trackInventory?: Maybe<BooleanFieldComparison>;
-};
-
-export type ProductOptionFilter = {
-  and?: Maybe<Array<ProductOptionFilter>>;
-  or?: Maybe<Array<ProductOptionFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-};
-
-export type ProductOptionSort = {
-  field: ProductOptionSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ProductOptionSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Name = 'name',
-  Code = 'code'
-}
-
-export type ProductOptionAggregateFilter = {
-  and?: Maybe<Array<ProductOptionAggregateFilter>>;
-  or?: Maybe<Array<ProductOptionAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-};
-
-export type ProductOptionGroupFilter = {
-  and?: Maybe<Array<ProductOptionGroupFilter>>;
-  or?: Maybe<Array<ProductOptionGroupFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-};
-
-export type ProductOptionGroupSort = {
-  field: ProductOptionGroupSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum ProductOptionGroupSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Name = 'name',
-  Code = 'code'
-}
-
-export type FacetValue = {
-  __typename?: 'FacetValue';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  code: Scalars['String'];
-  products: Array<Product>;
-  facet: Facet;
-  productsAggregate: FacetValueProductsAggregateResponse;
-};
-
-
-export type FacetValueProductsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductFilter>;
-  sorting?: Maybe<Array<ProductSort>>;
-};
-
-
-export type FacetValueProductsAggregateArgs = {
-  filter?: Maybe<ProductAggregateFilter>;
-};
-
-export type Facet = {
-  __typename?: 'Facet';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  isPrivate: Scalars['Boolean'];
-  code: Scalars['String'];
-  products: Array<Product>;
-  values: Array<FacetValue>;
-  productsAggregate: FacetProductsAggregateResponse;
-  valuesAggregate: FacetValuesAggregateResponse;
-};
-
-
-export type FacetProductsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductFilter>;
-  sorting?: Maybe<Array<ProductSort>>;
-};
-
-
-export type FacetValuesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<FacetValueFilter>;
-  sorting?: Maybe<Array<FacetValueSort>>;
-};
-
-
-export type FacetProductsAggregateArgs = {
-  filter?: Maybe<ProductAggregateFilter>;
-};
-
-
-export type FacetValuesAggregateArgs = {
-  filter?: Maybe<FacetValueAggregateFilter>;
-};
-
-export type FacetValueFilter = {
-  and?: Maybe<Array<FacetValueFilter>>;
-  or?: Maybe<Array<FacetValueFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-};
-
-export type FacetValueSort = {
-  field: FacetValueSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum FacetValueSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  DeletedAt = 'deletedAt',
-  Code = 'code'
-}
-
-export type FacetValueAggregateFilter = {
-  and?: Maybe<Array<FacetValueAggregateFilter>>;
-  or?: Maybe<Array<FacetValueAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-};
-
-export type Hsn = {
-  __typename?: 'Hsn';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  code: Scalars['String'];
-  value: Scalars['Float'];
-  prices: Array<ProductVariantPrice>;
-  prods: Array<Product>;
-  pricesAggregate: HsnPricesAggregateResponse;
-  prodsAggregate: HsnProdsAggregateResponse;
-};
-
-
-export type HsnPricesArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductVariantPriceFilter>;
-  sorting?: Maybe<Array<ProductVariantPriceSort>>;
-};
-
-
-export type HsnProdsArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<ProductFilter>;
-  sorting?: Maybe<Array<ProductSort>>;
-};
-
-
-export type HsnPricesAggregateArgs = {
-  filter?: Maybe<ProductVariantPriceAggregateFilter>;
-};
-
-
-export type HsnProdsAggregateArgs = {
-  filter?: Maybe<ProductAggregateFilter>;
-};
-
-export type ProductOptionGroupAggregateFilter = {
-  and?: Maybe<Array<ProductOptionGroupAggregateFilter>>;
-  or?: Maybe<Array<ProductOptionGroupAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  code?: Maybe<StringFieldComparison>;
-};
-
-export type CartPriceRules = {
-  __typename?: 'CartPriceRules';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  deletedAt: Scalars['DateTime'];
-  priceType: PricePromoType;
-  value: Scalars['Float'];
-  collection?: Maybe<Collection>;
-};
-
-export type CollectionAggregateFilter = {
-  and?: Maybe<Array<CollectionAggregateFilter>>;
-  or?: Maybe<Array<CollectionAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  deletedAt?: Maybe<DateFieldComparison>;
-  isRoot?: Maybe<BooleanFieldComparison>;
-  inMenu?: Maybe<BooleanFieldComparison>;
-  position?: Maybe<NumberFieldComparison>;
-  isPrivate?: Maybe<BooleanFieldComparison>;
-  name?: Maybe<StringFieldComparison>;
-  description?: Maybe<StringFieldComparison>;
-};
-
-export type Menu = {
-  __typename?: 'Menu';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Scalars['String'];
-  targetId: Scalars['String'];
-  target: MenuBuilderTypes;
-  children: Array<Menu>;
-  asset?: Maybe<Asset>;
-  parent?: Maybe<Menu>;
-  childrenAggregate: MenuChildrenAggregateResponse;
-};
-
-
-export type MenuChildrenArgs = {
-  paging?: Maybe<OffsetPaging>;
-  filter?: Maybe<MenuFilter>;
-  sorting?: Maybe<Array<MenuSort>>;
-};
-
-
-export type MenuChildrenAggregateArgs = {
-  filter?: Maybe<MenuAggregateFilter>;
-};
-
-export enum MenuBuilderTypes {
-  Collection = 'COLLECTION',
-  Variant = 'VARIANT',
-  Facet = 'FACET',
-  Promo = 'PROMO',
-  Header = 'HEADER'
-}
-
-export type MenuFilter = {
-  and?: Maybe<Array<MenuFilter>>;
-  or?: Maybe<Array<MenuFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  title?: Maybe<StringFieldComparison>;
-  targetId?: Maybe<StringFieldComparison>;
-  target?: Maybe<MenuBuilderTypesFilterComparison>;
-};
-
-export type MenuBuilderTypesFilterComparison = {
-  is?: Maybe<Scalars['Boolean']>;
-  isNot?: Maybe<Scalars['Boolean']>;
-  eq?: Maybe<MenuBuilderTypes>;
-  neq?: Maybe<MenuBuilderTypes>;
-  gt?: Maybe<MenuBuilderTypes>;
-  gte?: Maybe<MenuBuilderTypes>;
-  lt?: Maybe<MenuBuilderTypes>;
-  lte?: Maybe<MenuBuilderTypes>;
-  like?: Maybe<MenuBuilderTypes>;
-  notLike?: Maybe<MenuBuilderTypes>;
-  iLike?: Maybe<MenuBuilderTypes>;
-  notILike?: Maybe<MenuBuilderTypes>;
-  in?: Maybe<Array<MenuBuilderTypes>>;
-  notIn?: Maybe<Array<MenuBuilderTypes>>;
-};
-
-export type MenuSort = {
-  field: MenuSortFields;
-  direction: SortDirection;
-  nulls?: Maybe<SortNulls>;
-};
-
-export enum MenuSortFields {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Title = 'title',
-  TargetId = 'targetId',
-  Target = 'target'
-}
-
-export type MenuAggregateFilter = {
-  and?: Maybe<Array<MenuAggregateFilter>>;
-  or?: Maybe<Array<MenuAggregateFilter>>;
-  id?: Maybe<IdFilterComparison>;
-  createdAt?: Maybe<DateFieldComparison>;
-  updatedAt?: Maybe<DateFieldComparison>;
-  title?: Maybe<StringFieldComparison>;
-  targetId?: Maybe<StringFieldComparison>;
-  target?: Maybe<MenuBuilderTypesFilterComparison>;
 };
 
 export type DeleteManyResponse = {
@@ -3253,6 +40,14 @@ export type AssetDeleteResponse = {
   preview?: Maybe<Scalars['String']>;
   focalPoint?: Maybe<Scalars['JSONObject']>;
 };
+
+
+export enum AssetType {
+  Image = 'IMAGE',
+  Video = 'VIDEO',
+  Binary = 'BINARY'
+}
+
 
 export type UpdateManyResponse = {
   __typename?: 'UpdateManyResponse';
@@ -4128,6 +923,11 @@ export type StoreDeleteResponse = {
   type?: Maybe<StoreTypeEnum>;
 };
 
+export enum StoreTypeEnum {
+  Default = 'DEFAULT',
+  Vendor = 'VENDOR'
+}
+
 export type StoreCountAggregate = {
   __typename?: 'StoreCountAggregate';
   id?: Maybe<Scalars['Int']>;
@@ -4229,6 +1029,12 @@ export type StoreInvoicesMinAggregate = {
   fees?: Maybe<Scalars['Float']>;
   tax?: Maybe<Scalars['Float']>;
 };
+
+export enum InvoiceEnum {
+  Store = 'STORE',
+  Consumer = 'CONSUMER',
+  Master = 'MASTER'
+}
 
 export type StoreInvoicesMaxAggregate = {
   __typename?: 'StoreInvoicesMaxAggregate';
@@ -4455,6 +1261,11 @@ export type StoreSettlementsMinAggregate = {
   type?: Maybe<SettlementType>;
 };
 
+export enum SettlementType {
+  Processing = 'PROCESSING',
+  Processed = 'PROCESSED'
+}
+
 export type StoreSettlementsMaxAggregate = {
   __typename?: 'StoreSettlementsMaxAggregate';
   id?: Maybe<Scalars['ID']>;
@@ -4518,6 +1329,11 @@ export type StoreSkusMinAggregate = {
   sku?: Maybe<Scalars['String']>;
   type?: Maybe<StockKeepingType>;
 };
+
+export enum StockKeepingType {
+  Global = 'GLOBAL',
+  Vendor = 'VENDOR'
+}
 
 export type StoreSkusMaxAggregate = {
   __typename?: 'StoreSkusMaxAggregate';
@@ -4754,6 +1570,3190 @@ export type UserDeleteResponse = {
   address?: Maybe<Array<Address>>;
   order?: Maybe<Array<Order>>;
   reset?: Maybe<Array<ResetCode>>;
+};
+
+export type Administrator = {
+  __typename?: 'Administrator';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  emailAddress: Scalars['String'];
+  type: AdministratorEnum;
+  user: User;
+};
+
+export enum AdministratorEnum {
+  Superadmin = 'SUPERADMIN',
+  Staff = 'STAFF'
+}
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  verified: Scalars['Boolean'];
+  verificationToken?: Maybe<Scalars['String']>;
+  passwordResetToken?: Maybe<Scalars['String']>;
+  identifierChangeToken?: Maybe<Scalars['String']>;
+  pendingIdentifier?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber: Scalars['String'];
+  administrator?: Maybe<Administrator>;
+  vendor?: Maybe<Vendor>;
+  delivery?: Maybe<Delivery>;
+  cart?: Maybe<Cart>;
+  view: Array<View>;
+  reviews: Array<Review>;
+  address?: Maybe<Array<Address>>;
+  order?: Maybe<Array<Order>>;
+  reset?: Maybe<Array<ResetCode>>;
+  orders?: Maybe<Array<Order>>;
+  addresses?: Maybe<Array<Address>>;
+  ordersAggregate: UserOrdersAggregateResponse;
+  addressesAggregate: UserAddressesAggregateResponse;
+};
+
+
+export type UserOrdersArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<OrderFilter>;
+  sorting?: Maybe<Array<OrderSort>>;
+};
+
+
+export type UserAddressesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<AddressFilter>;
+  sorting?: Maybe<Array<AddressSort>>;
+};
+
+
+export type UserOrdersAggregateArgs = {
+  filter?: Maybe<OrderAggregateFilter>;
+};
+
+
+export type UserAddressesAggregateArgs = {
+  filter?: Maybe<AddressAggregateFilter>;
+};
+
+export type Vendor = {
+  __typename?: 'Vendor';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  vendorName: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  email: Scalars['String'];
+  zip?: Maybe<Zip>;
+  zips: Array<Zip>;
+  serviceable?: Maybe<Serviceable>;
+  account: Store;
+  store: Store;
+  license: VendorLicense;
+  user: User;
+  zipsAggregate: VendorZipsAggregateResponse;
+};
+
+
+export type VendorZipsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ZipFilter>;
+  sorting?: Maybe<Array<ZipSort>>;
+};
+
+
+export type VendorZipsAggregateArgs = {
+  filter?: Maybe<ZipAggregateFilter>;
+};
+
+export type Zip = {
+  __typename?: 'Zip';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  code: Scalars['Float'];
+  stores: Array<Store>;
+  vendors: Array<Vendor>;
+  storesAggregate: ZipStoresAggregateResponse;
+  vendorsAggregate: ZipVendorsAggregateResponse;
+};
+
+
+export type ZipStoresArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StoreFilter>;
+  sorting?: Maybe<Array<StoreSort>>;
+};
+
+
+export type ZipVendorsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<VendorFilter>;
+  sorting?: Maybe<Array<VendorSort>>;
+};
+
+
+export type ZipStoresAggregateArgs = {
+  filter?: Maybe<StoreAggregateFilter>;
+};
+
+
+export type ZipVendorsAggregateArgs = {
+  filter?: Maybe<VendorAggregateFilter>;
+};
+
+export type Store = {
+  __typename?: 'Store';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  storeName: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  officialemail: Scalars['String'];
+  zipcode: Scalars['String'];
+  streetAddress1: Scalars['String'];
+  streetAddress2: Scalars['String'];
+  GSTIN: Scalars['String'];
+  singleStore: Scalars['Boolean'];
+  rentalStore: Scalars['Boolean'];
+  channelMarkets: Scalars['Boolean'];
+  services: Scalars['Boolean'];
+  assetAPI: Scalars['String'];
+  mainAPI: Scalars['String'];
+  type: StoreTypeEnum;
+  invoices: Array<Invoice>;
+  zips: Array<Zip>;
+  backlogs: Array<StockBackLog>;
+  carts: Array<CartItem>;
+  prices: Array<ProductVariantPrice>;
+  settlements: Array<Settlements>;
+  skus: Array<StockKeeping>;
+  logo?: Maybe<Asset>;
+  balance?: Maybe<StoreBalance>;
+  country: Country;
+  invoicesAggregate: StoreInvoicesAggregateResponse;
+  zipsAggregate: StoreZipsAggregateResponse;
+  backlogsAggregate: StoreBacklogsAggregateResponse;
+  cartsAggregate: StoreCartsAggregateResponse;
+  pricesAggregate: StorePricesAggregateResponse;
+  settlementsAggregate: StoreSettlementsAggregateResponse;
+  skusAggregate: StoreSkusAggregateResponse;
+};
+
+
+export type StoreInvoicesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<InvoiceFilter>;
+  sorting?: Maybe<Array<InvoiceSort>>;
+};
+
+
+export type StoreZipsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ZipFilter>;
+  sorting?: Maybe<Array<ZipSort>>;
+};
+
+
+export type StoreBacklogsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StockBackLogFilter>;
+  sorting?: Maybe<Array<StockBackLogSort>>;
+};
+
+
+export type StoreCartsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<CartItemFilter>;
+  sorting?: Maybe<Array<CartItemSort>>;
+};
+
+
+export type StorePricesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantPriceFilter>;
+  sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
+export type StoreSettlementsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<SettlementsFilter>;
+  sorting?: Maybe<Array<SettlementsSort>>;
+};
+
+
+export type StoreSkusArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StockKeepingFilter>;
+  sorting?: Maybe<Array<StockKeepingSort>>;
+};
+
+
+export type StoreInvoicesAggregateArgs = {
+  filter?: Maybe<InvoiceAggregateFilter>;
+};
+
+
+export type StoreZipsAggregateArgs = {
+  filter?: Maybe<ZipAggregateFilter>;
+};
+
+
+export type StoreBacklogsAggregateArgs = {
+  filter?: Maybe<StockBackLogAggregateFilter>;
+};
+
+
+export type StoreCartsAggregateArgs = {
+  filter?: Maybe<CartItemAggregateFilter>;
+};
+
+
+export type StorePricesAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
+};
+
+
+export type StoreSettlementsAggregateArgs = {
+  filter?: Maybe<SettlementsAggregateFilter>;
+};
+
+
+export type StoreSkusAggregateArgs = {
+  filter?: Maybe<StockKeepingAggregateFilter>;
+};
+
+export type Invoice = {
+  __typename?: 'Invoice';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  type: InvoiceEnum;
+  total: Scalars['Float'];
+  amount: Scalars['Float'];
+  fees: Scalars['Float'];
+  tax: Scalars['Float'];
+  nulled: Scalars['Boolean'];
+  store: Store;
+  line: OrderLine;
+};
+
+export type OrderLine = {
+  __typename?: 'OrderLine';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  priceField: Scalars['JSON'];
+  stage: OrderStageType;
+  invoices: Array<Invoice>;
+  serviceable: ServiceableOrders;
+  refund: Refund;
+  pool: DeliveryPool;
+  store: Store;
+  item: OrderItem;
+  order: Order;
+  invoicesAggregate: OrderLineInvoicesAggregateResponse;
+};
+
+
+export type OrderLineInvoicesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<InvoiceFilter>;
+  sorting?: Maybe<Array<InvoiceSort>>;
+};
+
+
+export type OrderLineInvoicesAggregateArgs = {
+  filter?: Maybe<InvoiceAggregateFilter>;
+};
+
+
+export enum OrderStageType {
+  Created = 'CREATED',
+  Packaged = 'PACKAGED',
+  Processed = 'PROCESSED',
+  Shipped = 'SHIPPED',
+  Delivered = 'DELIVERED',
+  Returninitiated = 'RETURNINITIATED',
+  Returned = 'RETURNED',
+  Returnedrefunded = 'RETURNEDREFUNDED'
+}
+
+export type OffsetPaging = {
+  /** Limit the number of records returned */
+  limit?: Maybe<Scalars['Int']>;
+  /** Offset to start returning records from */
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type InvoiceFilter = {
+  and?: Maybe<Array<InvoiceFilter>>;
+  or?: Maybe<Array<InvoiceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  type?: Maybe<InvoiceEnumFilterComparison>;
+  total?: Maybe<NumberFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  fees?: Maybe<NumberFieldComparison>;
+  tax?: Maybe<NumberFieldComparison>;
+  nulled?: Maybe<BooleanFieldComparison>;
+  store?: Maybe<InvoiceFilterStoreFilter>;
+  line?: Maybe<InvoiceFilterOrderLineFilter>;
+};
+
+export type IdFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<Scalars['ID']>;
+  neq?: Maybe<Scalars['ID']>;
+  gt?: Maybe<Scalars['ID']>;
+  gte?: Maybe<Scalars['ID']>;
+  lt?: Maybe<Scalars['ID']>;
+  lte?: Maybe<Scalars['ID']>;
+  like?: Maybe<Scalars['ID']>;
+  notLike?: Maybe<Scalars['ID']>;
+  iLike?: Maybe<Scalars['ID']>;
+  notILike?: Maybe<Scalars['ID']>;
+  in?: Maybe<Array<Scalars['ID']>>;
+  notIn?: Maybe<Array<Scalars['ID']>>;
+};
+
+export type DateFieldComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<Scalars['DateTime']>;
+  neq?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Scalars['DateTime']>>;
+  notIn?: Maybe<Array<Scalars['DateTime']>>;
+  between?: Maybe<DateFieldComparisonBetween>;
+  notBetween?: Maybe<DateFieldComparisonBetween>;
+};
+
+export type DateFieldComparisonBetween = {
+  lower: Scalars['DateTime'];
+  upper: Scalars['DateTime'];
+};
+
+export type InvoiceEnumFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<InvoiceEnum>;
+  neq?: Maybe<InvoiceEnum>;
+  gt?: Maybe<InvoiceEnum>;
+  gte?: Maybe<InvoiceEnum>;
+  lt?: Maybe<InvoiceEnum>;
+  lte?: Maybe<InvoiceEnum>;
+  like?: Maybe<InvoiceEnum>;
+  notLike?: Maybe<InvoiceEnum>;
+  iLike?: Maybe<InvoiceEnum>;
+  notILike?: Maybe<InvoiceEnum>;
+  in?: Maybe<Array<InvoiceEnum>>;
+  notIn?: Maybe<Array<InvoiceEnum>>;
+};
+
+export type NumberFieldComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<Scalars['Float']>;
+  neq?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+  between?: Maybe<NumberFieldComparisonBetween>;
+  notBetween?: Maybe<NumberFieldComparisonBetween>;
+};
+
+export type NumberFieldComparisonBetween = {
+  lower: Scalars['Float'];
+  upper: Scalars['Float'];
+};
+
+export type BooleanFieldComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+};
+
+export type InvoiceFilterStoreFilter = {
+  and?: Maybe<Array<InvoiceFilterStoreFilter>>;
+  or?: Maybe<Array<InvoiceFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+};
+
+export type StringFieldComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<Scalars['String']>;
+  neq?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  like?: Maybe<Scalars['String']>;
+  notLike?: Maybe<Scalars['String']>;
+  iLike?: Maybe<Scalars['String']>;
+  notILike?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
+};
+
+export type InvoiceFilterOrderLineFilter = {
+  and?: Maybe<Array<InvoiceFilterOrderLineFilter>>;
+  or?: Maybe<Array<InvoiceFilterOrderLineFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  stage?: Maybe<OrderStageTypeFilterComparison>;
+};
+
+export type OrderStageTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<OrderStageType>;
+  neq?: Maybe<OrderStageType>;
+  gt?: Maybe<OrderStageType>;
+  gte?: Maybe<OrderStageType>;
+  lt?: Maybe<OrderStageType>;
+  lte?: Maybe<OrderStageType>;
+  like?: Maybe<OrderStageType>;
+  notLike?: Maybe<OrderStageType>;
+  iLike?: Maybe<OrderStageType>;
+  notILike?: Maybe<OrderStageType>;
+  in?: Maybe<Array<OrderStageType>>;
+  notIn?: Maybe<Array<OrderStageType>>;
+};
+
+export type InvoiceSort = {
+  field: InvoiceSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum InvoiceSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Type = 'type',
+  Total = 'total',
+  Amount = 'amount',
+  Fees = 'fees',
+  Tax = 'tax',
+  Nulled = 'nulled'
+}
+
+/** Sort Directions */
+export enum SortDirection {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
+/** Sort Nulls Options */
+export enum SortNulls {
+  NullsFirst = 'NULLS_FIRST',
+  NullsLast = 'NULLS_LAST'
+}
+
+export type ServiceableOrders = {
+  __typename?: 'ServiceableOrders';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  dateTime: Scalars['DateTime'];
+};
+
+export type Refund = {
+  __typename?: 'Refund';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  reason: Scalars['String'];
+  destination: Scalars['String'];
+  transactionId: Scalars['String'];
+  stage: RefundEnum;
+  line: OrderLine;
+};
+
+export enum RefundEnum {
+  Initiated = 'INITIATED',
+  Refunded = 'REFUNDED'
+}
+
+export type DeliveryPool = {
+  __typename?: 'DeliveryPool';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  signIn: DeliverySignIn;
+  lines: Array<OrderLine>;
+};
+
+export type DeliverySignIn = {
+  __typename?: 'DeliverySignIn';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  delivery: Delivery;
+  pool: DeliveryPool;
+};
+
+export type Delivery = {
+  __typename?: 'Delivery';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  user?: Maybe<User>;
+  signIn: Array<DeliverySignIn>;
+  signIns?: Maybe<Array<DeliverySignIn>>;
+  signInsAggregate: DeliverySignInsAggregateResponse;
+};
+
+
+export type DeliverySignInsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<DeliverySignInFilter>;
+  sorting?: Maybe<Array<DeliverySignInSort>>;
+};
+
+
+export type DeliverySignInsAggregateArgs = {
+  filter?: Maybe<DeliverySignInAggregateFilter>;
+};
+
+export type DeliverySignInFilter = {
+  and?: Maybe<Array<DeliverySignInFilter>>;
+  or?: Maybe<Array<DeliverySignInFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+};
+
+export type DeliverySignInSort = {
+  field: DeliverySignInSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum DeliverySignInSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt'
+}
+
+export type DeliverySignInAggregateFilter = {
+  and?: Maybe<Array<DeliverySignInAggregateFilter>>;
+  or?: Maybe<Array<DeliverySignInAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+};
+
+export type OrderItem = {
+  __typename?: 'OrderItem';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  quantity: Scalars['Float'];
+  productVariant: ProductVariant;
+  line: OrderLine;
+  taxCategory: TaxRate;
+};
+
+export type ProductVariant = {
+  __typename?: 'ProductVariant';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  dum_price: Scalars['Float'];
+  enabled: Scalars['Boolean'];
+  sku: Scalars['String'];
+  name: Scalars['String'];
+  rating: Scalars['Float'];
+  product: Product;
+  trackInventory: Scalars['Boolean'];
+  specs?: Maybe<ProductVariantSpecs>;
+  viewcode: Array<Scalars['String']>;
+  lines: Array<OrderItem>;
+  stocks: Array<StockKeeping>;
+  agreements?: Maybe<Array<BillingAgreement>>;
+  prices?: Maybe<Array<ProductVariantPrice>>;
+  seo?: Maybe<Seo>;
+  asset?: Maybe<ProductVariantAsset>;
+  linesAggregate: ProductVariantLinesAggregateResponse;
+  stocksAggregate: ProductVariantStocksAggregateResponse;
+  agreementsAggregate: ProductVariantAgreementsAggregateResponse;
+  pricesAggregate: ProductVariantPricesAggregateResponse;
+};
+
+
+export type ProductVariantLinesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<OrderItemFilter>;
+  sorting?: Maybe<Array<OrderItemSort>>;
+};
+
+
+export type ProductVariantStocksArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StockKeepingFilter>;
+  sorting?: Maybe<Array<StockKeepingSort>>;
+};
+
+
+export type ProductVariantAgreementsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<BillingAgreementFilter>;
+  sorting?: Maybe<Array<BillingAgreementSort>>;
+};
+
+
+export type ProductVariantPricesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantPriceFilter>;
+  sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
+export type ProductVariantLinesAggregateArgs = {
+  filter?: Maybe<OrderItemAggregateFilter>;
+};
+
+
+export type ProductVariantStocksAggregateArgs = {
+  filter?: Maybe<StockKeepingAggregateFilter>;
+};
+
+
+export type ProductVariantAgreementsAggregateArgs = {
+  filter?: Maybe<BillingAgreementAggregateFilter>;
+};
+
+
+export type ProductVariantPricesAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
+};
+
+export type Product = {
+  __typename?: 'Product';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  productName: Scalars['String'];
+  slug: Scalars['String'];
+  description: Scalars['String'];
+  viewcode: Array<Scalars['String']>;
+  options: Array<ProductOptionGroup>;
+  facets: Array<FacetValue>;
+  variants: Array<ProductVariant>;
+  assets: Array<ProductAsset>;
+  hsn?: Maybe<Hsn>;
+  collection?: Maybe<Collection>;
+  featuredAsset: Asset;
+  serviceable?: Maybe<Serviceable>;
+  optionsAggregate: ProductOptionsAggregateResponse;
+  facetsAggregate: ProductFacetsAggregateResponse;
+  variantsAggregate: ProductVariantsAggregateResponse;
+  assetsAggregate: ProductAssetsAggregateResponse;
+};
+
+
+export type ProductOptionsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductOptionGroupFilter>;
+  sorting?: Maybe<Array<ProductOptionGroupSort>>;
+};
+
+
+export type ProductFacetsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<FacetValueFilter>;
+  sorting?: Maybe<Array<FacetValueSort>>;
+};
+
+
+export type ProductVariantsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantFilter>;
+  sorting?: Maybe<Array<ProductVariantSort>>;
+};
+
+
+export type ProductAssetsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductAssetFilter>;
+  sorting?: Maybe<Array<ProductAssetSort>>;
+};
+
+
+export type ProductOptionsAggregateArgs = {
+  filter?: Maybe<ProductOptionGroupAggregateFilter>;
+};
+
+
+export type ProductFacetsAggregateArgs = {
+  filter?: Maybe<FacetValueAggregateFilter>;
+};
+
+
+export type ProductVariantsAggregateArgs = {
+  filter?: Maybe<ProductVariantAggregateFilter>;
+};
+
+
+export type ProductAssetsAggregateArgs = {
+  filter?: Maybe<ProductAssetAggregateFilter>;
+};
+
+export type ProductOptionGroup = {
+  __typename?: 'ProductOptionGroup';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  code: Scalars['String'];
+  options: Array<ProductOption>;
+  product: Product;
+  optionsAggregate: ProductOptionGroupOptionsAggregateResponse;
+};
+
+
+export type ProductOptionGroupOptionsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductOptionFilter>;
+  sorting?: Maybe<Array<ProductOptionSort>>;
+};
+
+
+export type ProductOptionGroupOptionsAggregateArgs = {
+  filter?: Maybe<ProductOptionAggregateFilter>;
+};
+
+export type ProductOption = {
+  __typename?: 'ProductOption';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  code: Scalars['String'];
+  variants: Array<ProductVariant>;
+  group: ProductOptionGroup;
+  variantsAggregate: ProductOptionVariantsAggregateResponse;
+};
+
+
+export type ProductOptionVariantsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantFilter>;
+  sorting?: Maybe<Array<ProductVariantSort>>;
+};
+
+
+export type ProductOptionVariantsAggregateArgs = {
+  filter?: Maybe<ProductVariantAggregateFilter>;
+};
+
+export type ProductVariantFilter = {
+  and?: Maybe<Array<ProductVariantFilter>>;
+  or?: Maybe<Array<ProductVariantFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  rating?: Maybe<NumberFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
+  line?: Maybe<ProductVariantFilterOrderItemFilter>;
+  agreements?: Maybe<ProductVariantFilterBillingAgreementFilter>;
+  price?: Maybe<ProductVariantFilterProductVariantPriceFilter>;
+};
+
+export type ProductVariantFilterOrderItemFilter = {
+  and?: Maybe<Array<ProductVariantFilterOrderItemFilter>>;
+  or?: Maybe<Array<ProductVariantFilterOrderItemFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type ProductVariantFilterBillingAgreementFilter = {
+  and?: Maybe<Array<ProductVariantFilterBillingAgreementFilter>>;
+  or?: Maybe<Array<ProductVariantFilterBillingAgreementFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type ProductVariantFilterProductVariantPriceFilter = {
+  and?: Maybe<Array<ProductVariantFilterProductVariantPriceFilter>>;
+  or?: Maybe<Array<ProductVariantFilterProductVariantPriceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
+};
+
+export type ProductVariantSort = {
+  field: ProductVariantSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ProductVariantSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  DumPrice = 'dum_price',
+  Enabled = 'enabled',
+  Sku = 'sku',
+  Name = 'name',
+  Rating = 'rating',
+  TrackInventory = 'trackInventory'
+}
+
+export type ProductVariantAggregateFilter = {
+  and?: Maybe<Array<ProductVariantAggregateFilter>>;
+  or?: Maybe<Array<ProductVariantAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  rating?: Maybe<NumberFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
+};
+
+export type ProductOptionFilter = {
+  and?: Maybe<Array<ProductOptionFilter>>;
+  or?: Maybe<Array<ProductOptionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type ProductOptionSort = {
+  field: ProductOptionSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ProductOptionSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Name = 'name',
+  Code = 'code'
+}
+
+export type ProductOptionAggregateFilter = {
+  and?: Maybe<Array<ProductOptionAggregateFilter>>;
+  or?: Maybe<Array<ProductOptionAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type ProductOptionGroupFilter = {
+  and?: Maybe<Array<ProductOptionGroupFilter>>;
+  or?: Maybe<Array<ProductOptionGroupFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type ProductOptionGroupSort = {
+  field: ProductOptionGroupSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ProductOptionGroupSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Name = 'name',
+  Code = 'code'
+}
+
+export type FacetValue = {
+  __typename?: 'FacetValue';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  code: Scalars['String'];
+  products: Array<Product>;
+  facet: Facet;
+  productsAggregate: FacetValueProductsAggregateResponse;
+};
+
+
+export type FacetValueProductsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductFilter>;
+  sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type FacetValueProductsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+export type ProductFilter = {
+  and?: Maybe<Array<ProductFilter>>;
+  or?: Maybe<Array<ProductFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  productName?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type ProductSort = {
+  field: ProductSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ProductSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  ProductName = 'productName',
+  Slug = 'slug',
+  Description = 'description'
+}
+
+export type Facet = {
+  __typename?: 'Facet';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  isPrivate: Scalars['Boolean'];
+  code: Scalars['String'];
+  products: Array<Product>;
+  values: Array<FacetValue>;
+  productsAggregate: FacetProductsAggregateResponse;
+  valuesAggregate: FacetValuesAggregateResponse;
+};
+
+
+export type FacetProductsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductFilter>;
+  sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type FacetValuesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<FacetValueFilter>;
+  sorting?: Maybe<Array<FacetValueSort>>;
+};
+
+
+export type FacetProductsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+
+export type FacetValuesAggregateArgs = {
+  filter?: Maybe<FacetValueAggregateFilter>;
+};
+
+export type FacetValueFilter = {
+  and?: Maybe<Array<FacetValueFilter>>;
+  or?: Maybe<Array<FacetValueFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type FacetValueSort = {
+  field: FacetValueSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum FacetValueSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Code = 'code'
+}
+
+export type ProductAggregateFilter = {
+  and?: Maybe<Array<ProductAggregateFilter>>;
+  or?: Maybe<Array<ProductAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  productName?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type FacetValueAggregateFilter = {
+  and?: Maybe<Array<FacetValueAggregateFilter>>;
+  or?: Maybe<Array<FacetValueAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type ProductAsset = {
+  __typename?: 'ProductAsset';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  asset: Asset;
+  product: Product;
+};
+
+export type Asset = {
+  __typename?: 'Asset';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  type: AssetType;
+  mimeType: Scalars['String'];
+  width: Scalars['Float'];
+  height: Scalars['Float'];
+  fileSize: Scalars['Float'];
+  source: Scalars['String'];
+  preview: Scalars['String'];
+  focalPoint: Scalars['JSONObject'];
+  featureds: Array<Product>;
+  productAssets: Array<ProductAsset>;
+  store?: Maybe<Store>;
+  menu?: Maybe<Menu>;
+  collection?: Maybe<Collection>;
+  featuredsAggregate: AssetFeaturedsAggregateResponse;
+  productAssetsAggregate: AssetProductAssetsAggregateResponse;
+};
+
+
+export type AssetFeaturedsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductFilter>;
+  sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type AssetProductAssetsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductAssetFilter>;
+  sorting?: Maybe<Array<ProductAssetSort>>;
+};
+
+
+export type AssetFeaturedsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+
+export type AssetProductAssetsAggregateArgs = {
+  filter?: Maybe<ProductAssetAggregateFilter>;
+};
+
+export type ProductAssetFilter = {
+  and?: Maybe<Array<ProductAssetFilter>>;
+  or?: Maybe<Array<ProductAssetFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+};
+
+export type ProductAssetSort = {
+  field: ProductAssetSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ProductAssetSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt'
+}
+
+export type Menu = {
+  __typename?: 'Menu';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Scalars['String'];
+  targetId: Scalars['String'];
+  target: MenuBuilderTypes;
+  children: Array<Menu>;
+  asset?: Maybe<Asset>;
+  parent?: Maybe<Menu>;
+  childrenAggregate: MenuChildrenAggregateResponse;
+};
+
+
+export type MenuChildrenArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<MenuFilter>;
+  sorting?: Maybe<Array<MenuSort>>;
+};
+
+
+export type MenuChildrenAggregateArgs = {
+  filter?: Maybe<MenuAggregateFilter>;
+};
+
+export enum MenuBuilderTypes {
+  Collection = 'COLLECTION',
+  Variant = 'VARIANT',
+  Facet = 'FACET',
+  Promo = 'PROMO',
+  Header = 'HEADER'
+}
+
+export type MenuFilter = {
+  and?: Maybe<Array<MenuFilter>>;
+  or?: Maybe<Array<MenuFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  target?: Maybe<MenuBuilderTypesFilterComparison>;
+};
+
+export type MenuBuilderTypesFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<MenuBuilderTypes>;
+  neq?: Maybe<MenuBuilderTypes>;
+  gt?: Maybe<MenuBuilderTypes>;
+  gte?: Maybe<MenuBuilderTypes>;
+  lt?: Maybe<MenuBuilderTypes>;
+  lte?: Maybe<MenuBuilderTypes>;
+  like?: Maybe<MenuBuilderTypes>;
+  notLike?: Maybe<MenuBuilderTypes>;
+  iLike?: Maybe<MenuBuilderTypes>;
+  notILike?: Maybe<MenuBuilderTypes>;
+  in?: Maybe<Array<MenuBuilderTypes>>;
+  notIn?: Maybe<Array<MenuBuilderTypes>>;
+};
+
+export type MenuSort = {
+  field: MenuSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum MenuSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Title = 'title',
+  TargetId = 'targetId',
+  Target = 'target'
+}
+
+export type MenuAggregateFilter = {
+  and?: Maybe<Array<MenuAggregateFilter>>;
+  or?: Maybe<Array<MenuAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  title?: Maybe<StringFieldComparison>;
+  targetId?: Maybe<StringFieldComparison>;
+  target?: Maybe<MenuBuilderTypesFilterComparison>;
+};
+
+export type Collection = {
+  __typename?: 'Collection';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  isRoot: Scalars['Boolean'];
+  inMenu: Scalars['Boolean'];
+  position: Scalars['Float'];
+  isPrivate: Scalars['Boolean'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  children: Array<Collection>;
+  products: Array<Product>;
+  agreements: Array<BillingAgreement>;
+  cartPrice?: Maybe<CartPriceRules>;
+  asset?: Maybe<Asset>;
+  seo?: Maybe<Seo>;
+  parent?: Maybe<Collection>;
+  childrenAggregate: CollectionChildrenAggregateResponse;
+  productsAggregate: CollectionProductsAggregateResponse;
+  agreementsAggregate: CollectionAgreementsAggregateResponse;
+};
+
+
+export type CollectionChildrenArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<CollectionFilter>;
+  sorting?: Maybe<Array<CollectionSort>>;
+};
+
+
+export type CollectionProductsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductFilter>;
+  sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type CollectionAgreementsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<BillingAgreementFilter>;
+  sorting?: Maybe<Array<BillingAgreementSort>>;
+};
+
+
+export type CollectionChildrenAggregateArgs = {
+  filter?: Maybe<CollectionAggregateFilter>;
+};
+
+
+export type CollectionProductsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+
+export type CollectionAgreementsAggregateArgs = {
+  filter?: Maybe<BillingAgreementAggregateFilter>;
+};
+
+export type CollectionFilter = {
+  and?: Maybe<Array<CollectionFilter>>;
+  or?: Maybe<Array<CollectionFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  isRoot?: Maybe<BooleanFieldComparison>;
+  inMenu?: Maybe<BooleanFieldComparison>;
+  position?: Maybe<NumberFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type CollectionSort = {
+  field: CollectionSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum CollectionSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  IsRoot = 'isRoot',
+  InMenu = 'inMenu',
+  Position = 'position',
+  IsPrivate = 'isPrivate',
+  Name = 'name',
+  Description = 'description'
+}
+
+export type BillingAgreement = {
+  __typename?: 'BillingAgreement';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  value: Scalars['Float'];
+  type: BillingAgreementEnum;
+  state: BillingAgreementState;
+  variant: ProductVariant;
+  collection?: Maybe<Collection>;
+  store: Store;
+  request: Array<BillingAgreementRequest>;
+};
+
+export enum BillingAgreementEnum {
+  Planbase = 'PLANBASE',
+  Collectionbase = 'COLLECTIONBASE',
+  Comissionbase = 'COMISSIONBASE',
+  Prodcommission = 'PRODCOMMISSION'
+}
+
+export enum BillingAgreementState {
+  Approved = 'APPROVED',
+  Pending = 'PENDING',
+  Rejected = 'REJECTED'
+}
+
+export type BillingAgreementRequest = {
+  __typename?: 'BillingAgreementRequest';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  value: Scalars['Float'];
+  state: BillingAgreementState;
+};
+
+export type BillingAgreementFilter = {
+  and?: Maybe<Array<BillingAgreementFilter>>;
+  or?: Maybe<Array<BillingAgreementFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  store?: Maybe<BillingAgreementFilterStoreFilter>;
+  variant?: Maybe<BillingAgreementFilterProductVariantFilter>;
+};
+
+export type BillingAgreementFilterStoreFilter = {
+  and?: Maybe<Array<BillingAgreementFilterStoreFilter>>;
+  or?: Maybe<Array<BillingAgreementFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+};
+
+export type BillingAgreementFilterProductVariantFilter = {
+  and?: Maybe<Array<BillingAgreementFilterProductVariantFilter>>;
+  or?: Maybe<Array<BillingAgreementFilterProductVariantFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  rating?: Maybe<NumberFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
+};
+
+export type BillingAgreementSort = {
+  field: BillingAgreementSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum BillingAgreementSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Value = 'value'
+}
+
+export type CartPriceRules = {
+  __typename?: 'CartPriceRules';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  priceType: PricePromoType;
+  value: Scalars['Float'];
+  collection?: Maybe<Collection>;
+};
+
+export enum PricePromoType {
+  Flat = 'FLAT',
+  Percentage = 'PERCENTAGE'
+}
+
+export type Seo = {
+  __typename?: 'Seo';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  urlKey: Scalars['String'];
+  metatitle: Scalars['String'];
+  metakeywords?: Maybe<Array<Scalars['String']>>;
+  metadesc: Scalars['String'];
+  variant?: Maybe<ProductVariant>;
+  collection?: Maybe<Collection>;
+};
+
+export type CollectionAggregateFilter = {
+  and?: Maybe<Array<CollectionAggregateFilter>>;
+  or?: Maybe<Array<CollectionAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  isRoot?: Maybe<BooleanFieldComparison>;
+  inMenu?: Maybe<BooleanFieldComparison>;
+  position?: Maybe<NumberFieldComparison>;
+  isPrivate?: Maybe<BooleanFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  description?: Maybe<StringFieldComparison>;
+};
+
+export type BillingAgreementAggregateFilter = {
+  and?: Maybe<Array<BillingAgreementAggregateFilter>>;
+  or?: Maybe<Array<BillingAgreementAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+};
+
+export type ProductAssetAggregateFilter = {
+  and?: Maybe<Array<ProductAssetAggregateFilter>>;
+  or?: Maybe<Array<ProductAssetAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+};
+
+export type Hsn = {
+  __typename?: 'Hsn';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  code: Scalars['String'];
+  value: Scalars['Float'];
+  prices: Array<ProductVariantPrice>;
+  prods: Array<Product>;
+  pricesAggregate: HsnPricesAggregateResponse;
+  prodsAggregate: HsnProdsAggregateResponse;
+};
+
+
+export type HsnPricesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantPriceFilter>;
+  sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
+export type HsnProdsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductFilter>;
+  sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type HsnPricesAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
+};
+
+
+export type HsnProdsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+export type ProductVariantPrice = {
+  __typename?: 'ProductVariantPrice';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  price: Scalars['Float'];
+  taxIncluded: Scalars['Boolean'];
+  backlogs?: Maybe<Array<StockBackLog>>;
+  promoprice?: Maybe<PromotionVariantPrice>;
+  store: Store;
+  tax?: Maybe<TaxRate>;
+  variant: ProductVariant;
+  backlogsAggregate: ProductVariantPriceBacklogsAggregateResponse;
+};
+
+
+export type ProductVariantPriceBacklogsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StockBackLogFilter>;
+  sorting?: Maybe<Array<StockBackLogSort>>;
+};
+
+
+export type ProductVariantPriceBacklogsAggregateArgs = {
+  filter?: Maybe<StockBackLogAggregateFilter>;
+};
+
+export type StockBackLog = {
+  __typename?: 'StockBackLog';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  quantity: Scalars['Float'];
+  store?: Maybe<Store>;
+  variant?: Maybe<ProductVariantPrice>;
+};
+
+export type StockBackLogFilter = {
+  and?: Maybe<Array<StockBackLogFilter>>;
+  or?: Maybe<Array<StockBackLogFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+  store?: Maybe<StockBackLogFilterStoreFilter>;
+  variant?: Maybe<StockBackLogFilterProductVariantPriceFilter>;
+};
+
+export type StockBackLogFilterStoreFilter = {
+  and?: Maybe<Array<StockBackLogFilterStoreFilter>>;
+  or?: Maybe<Array<StockBackLogFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+};
+
+export type StockBackLogFilterProductVariantPriceFilter = {
+  and?: Maybe<Array<StockBackLogFilterProductVariantPriceFilter>>;
+  or?: Maybe<Array<StockBackLogFilterProductVariantPriceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
+};
+
+export type StockBackLogSort = {
+  field: StockBackLogSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum StockBackLogSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Quantity = 'quantity'
+}
+
+export type PromotionVariantPrice = {
+  __typename?: 'PromotionVariantPrice';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  priceType: PricePromoType;
+  value: Scalars['Float'];
+  forever: Scalars['Boolean'];
+  startsAt: Scalars['DateTime'];
+  endsAt: Scalars['DateTime'];
+  enabled: Scalars['Boolean'];
+  price: ProductVariantPrice;
+};
+
+export type TaxRate = {
+  __typename?: 'TaxRate';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  value: Scalars['Float'];
+  enabled: Scalars['Boolean'];
+  variants: Array<ProductVariantPrice>;
+  zone: Zone;
+  category: TaxCategory;
+  variantsAggregate: TaxRateVariantsAggregateResponse;
+};
+
+
+export type TaxRateVariantsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductVariantPriceFilter>;
+  sorting?: Maybe<Array<ProductVariantPriceSort>>;
+};
+
+
+export type TaxRateVariantsAggregateArgs = {
+  filter?: Maybe<ProductVariantPriceAggregateFilter>;
+};
+
+export type ProductVariantPriceFilter = {
+  and?: Maybe<Array<ProductVariantPriceFilter>>;
+  or?: Maybe<Array<ProductVariantPriceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
+  store?: Maybe<ProductVariantPriceFilterStoreFilter>;
+  variant?: Maybe<ProductVariantPriceFilterProductVariantFilter>;
+};
+
+export type ProductVariantPriceFilterStoreFilter = {
+  and?: Maybe<Array<ProductVariantPriceFilterStoreFilter>>;
+  or?: Maybe<Array<ProductVariantPriceFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+};
+
+export type ProductVariantPriceFilterProductVariantFilter = {
+  and?: Maybe<Array<ProductVariantPriceFilterProductVariantFilter>>;
+  or?: Maybe<Array<ProductVariantPriceFilterProductVariantFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  dum_price?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  rating?: Maybe<NumberFieldComparison>;
+  trackInventory?: Maybe<BooleanFieldComparison>;
+};
+
+export type ProductVariantPriceSort = {
+  field: ProductVariantPriceSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ProductVariantPriceSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Price = 'price',
+  TaxIncluded = 'taxIncluded'
+}
+
+export type Zone = {
+  __typename?: 'Zone';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  members: Array<Country>;
+  stores: Array<Store>;
+  taxrates: Array<TaxRate>;
+  membersAggregate: ZoneMembersAggregateResponse;
+  storesAggregate: ZoneStoresAggregateResponse;
+  taxratesAggregate: ZoneTaxratesAggregateResponse;
+};
+
+
+export type ZoneMembersArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<CountryFilter>;
+  sorting?: Maybe<Array<CountrySort>>;
+};
+
+
+export type ZoneStoresArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StoreFilter>;
+  sorting?: Maybe<Array<StoreSort>>;
+};
+
+
+export type ZoneTaxratesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<TaxRateFilter>;
+  sorting?: Maybe<Array<TaxRateSort>>;
+};
+
+
+export type ZoneMembersAggregateArgs = {
+  filter?: Maybe<CountryAggregateFilter>;
+};
+
+
+export type ZoneStoresAggregateArgs = {
+  filter?: Maybe<StoreAggregateFilter>;
+};
+
+
+export type ZoneTaxratesAggregateArgs = {
+  filter?: Maybe<TaxRateAggregateFilter>;
+};
+
+export type Country = {
+  __typename?: 'Country';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  code: Scalars['String'];
+  name: Scalars['String'];
+  enabled: Scalars['Boolean'];
+  stores: Array<Store>;
+  zones: Array<Zone>;
+  storesAggregate: CountryStoresAggregateResponse;
+  zonesAggregate: CountryZonesAggregateResponse;
+};
+
+
+export type CountryStoresArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StoreFilter>;
+  sorting?: Maybe<Array<StoreSort>>;
+};
+
+
+export type CountryZonesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ZoneFilter>;
+  sorting?: Maybe<Array<ZoneSort>>;
+};
+
+
+export type CountryStoresAggregateArgs = {
+  filter?: Maybe<StoreAggregateFilter>;
+};
+
+
+export type CountryZonesAggregateArgs = {
+  filter?: Maybe<ZoneAggregateFilter>;
+};
+
+export type StoreFilter = {
+  and?: Maybe<Array<StoreFilter>>;
+  or?: Maybe<Array<StoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+  invoices?: Maybe<StoreFilterInvoiceFilter>;
+  zip?: Maybe<StoreFilterZipFilter>;
+  backlogs?: Maybe<StoreFilterStockBackLogFilter>;
+  cart?: Maybe<StoreFilterCartItemFilter>;
+  settlement?: Maybe<StoreFilterSettlementsFilter>;
+};
+
+export type StoreFilterInvoiceFilter = {
+  and?: Maybe<Array<StoreFilterInvoiceFilter>>;
+  or?: Maybe<Array<StoreFilterInvoiceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  type?: Maybe<InvoiceEnumFilterComparison>;
+  total?: Maybe<NumberFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  fees?: Maybe<NumberFieldComparison>;
+  tax?: Maybe<NumberFieldComparison>;
+  nulled?: Maybe<BooleanFieldComparison>;
+};
+
+export type StoreFilterZipFilter = {
+  and?: Maybe<Array<StoreFilterZipFilter>>;
+  or?: Maybe<Array<StoreFilterZipFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
+};
+
+export type StoreFilterStockBackLogFilter = {
+  and?: Maybe<Array<StoreFilterStockBackLogFilter>>;
+  or?: Maybe<Array<StoreFilterStockBackLogFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type StoreFilterCartItemFilter = {
+  and?: Maybe<Array<StoreFilterCartItemFilter>>;
+  or?: Maybe<Array<StoreFilterCartItemFilter>>;
+  id?: Maybe<IdFilterComparison>;
+};
+
+export type StoreFilterSettlementsFilter = {
+  and?: Maybe<Array<StoreFilterSettlementsFilter>>;
+  or?: Maybe<Array<StoreFilterSettlementsFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  taxamount?: Maybe<NumberFieldComparison>;
+  finalamount?: Maybe<NumberFieldComparison>;
+  transactionID?: Maybe<StringFieldComparison>;
+  remarks?: Maybe<StringFieldComparison>;
+  type?: Maybe<SettlementTypeFilterComparison>;
+};
+
+export type SettlementTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<SettlementType>;
+  neq?: Maybe<SettlementType>;
+  gt?: Maybe<SettlementType>;
+  gte?: Maybe<SettlementType>;
+  lt?: Maybe<SettlementType>;
+  lte?: Maybe<SettlementType>;
+  like?: Maybe<SettlementType>;
+  notLike?: Maybe<SettlementType>;
+  iLike?: Maybe<SettlementType>;
+  notILike?: Maybe<SettlementType>;
+  in?: Maybe<Array<SettlementType>>;
+  notIn?: Maybe<Array<SettlementType>>;
+};
+
+export type StoreSort = {
+  field: StoreSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum StoreSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  StoreName = 'storeName',
+  PhoneNumber = 'phoneNumber',
+  Officialemail = 'officialemail',
+  Zipcode = 'zipcode',
+  StreetAddress1 = 'streetAddress1',
+  StreetAddress2 = 'streetAddress2',
+  Gstin = 'GSTIN',
+  SingleStore = 'singleStore',
+  RentalStore = 'rentalStore',
+  ChannelMarkets = 'channelMarkets',
+  Services = 'services',
+  AssetApi = 'assetAPI',
+  MainApi = 'mainAPI'
+}
+
+export type ZoneFilter = {
+  and?: Maybe<Array<ZoneFilter>>;
+  or?: Maybe<Array<ZoneFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+};
+
+export type ZoneSort = {
+  field: ZoneSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ZoneSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Name = 'name'
+}
+
+export type StoreAggregateFilter = {
+  and?: Maybe<Array<StoreAggregateFilter>>;
+  or?: Maybe<Array<StoreAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+};
+
+export type ZoneAggregateFilter = {
+  and?: Maybe<Array<ZoneAggregateFilter>>;
+  or?: Maybe<Array<ZoneAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+};
+
+export type CountryFilter = {
+  and?: Maybe<Array<CountryFilter>>;
+  or?: Maybe<Array<CountryFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type CountrySort = {
+  field: CountrySortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum CountrySortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Code = 'code',
+  Name = 'name',
+  Enabled = 'enabled'
+}
+
+export type TaxRateFilter = {
+  and?: Maybe<Array<TaxRateFilter>>;
+  or?: Maybe<Array<TaxRateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type TaxRateSort = {
+  field: TaxRateSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum TaxRateSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Name = 'name',
+  Value = 'value',
+  Enabled = 'enabled'
+}
+
+export type CountryAggregateFilter = {
+  and?: Maybe<Array<CountryAggregateFilter>>;
+  or?: Maybe<Array<CountryAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type TaxRateAggregateFilter = {
+  and?: Maybe<Array<TaxRateAggregateFilter>>;
+  or?: Maybe<Array<TaxRateAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  value?: Maybe<NumberFieldComparison>;
+  enabled?: Maybe<BooleanFieldComparison>;
+};
+
+export type TaxCategory = {
+  __typename?: 'TaxCategory';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  rates: Array<TaxRate>;
+  ratesAggregate: TaxCategoryRatesAggregateResponse;
+};
+
+
+export type TaxCategoryRatesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<TaxRateFilter>;
+  sorting?: Maybe<Array<TaxRateSort>>;
+};
+
+
+export type TaxCategoryRatesAggregateArgs = {
+  filter?: Maybe<TaxRateAggregateFilter>;
+};
+
+export type ProductVariantPriceAggregateFilter = {
+  and?: Maybe<Array<ProductVariantPriceAggregateFilter>>;
+  or?: Maybe<Array<ProductVariantPriceAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  price?: Maybe<NumberFieldComparison>;
+  taxIncluded?: Maybe<BooleanFieldComparison>;
+};
+
+export type StockBackLogAggregateFilter = {
+  and?: Maybe<Array<StockBackLogAggregateFilter>>;
+  or?: Maybe<Array<StockBackLogAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type Serviceable = {
+  __typename?: 'Serviceable';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  type: ServiceableTypes;
+  mode: ServiceableOrderTypes;
+  products?: Maybe<Array<Product>>;
+  vendors?: Maybe<Array<Vendor>>;
+  productsAggregate: ServiceableProductsAggregateResponse;
+  vendorsAggregate: ServiceableVendorsAggregateResponse;
+};
+
+
+export type ServiceableProductsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<ProductFilter>;
+  sorting?: Maybe<Array<ProductSort>>;
+};
+
+
+export type ServiceableVendorsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<VendorFilter>;
+  sorting?: Maybe<Array<VendorSort>>;
+};
+
+
+export type ServiceableProductsAggregateArgs = {
+  filter?: Maybe<ProductAggregateFilter>;
+};
+
+
+export type ServiceableVendorsAggregateArgs = {
+  filter?: Maybe<VendorAggregateFilter>;
+};
+
+export enum ServiceableTypes {
+  Vendor = 'VENDOR',
+  Product = 'PRODUCT'
+}
+
+export enum ServiceableOrderTypes {
+  Immediate = 'IMMEDIATE',
+  Date = 'DATE'
+}
+
+export type VendorFilter = {
+  and?: Maybe<Array<VendorFilter>>;
+  or?: Maybe<Array<VendorFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+  zip?: Maybe<VendorFilterZipFilter>;
+};
+
+export type VendorFilterZipFilter = {
+  and?: Maybe<Array<VendorFilterZipFilter>>;
+  or?: Maybe<Array<VendorFilterZipFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
+};
+
+export type VendorSort = {
+  field: VendorSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum VendorSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  VendorName = 'vendorName',
+  PhoneNumber = 'phoneNumber',
+  Email = 'email'
+}
+
+export type VendorAggregateFilter = {
+  and?: Maybe<Array<VendorAggregateFilter>>;
+  or?: Maybe<Array<VendorAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+};
+
+export type ProductOptionGroupAggregateFilter = {
+  and?: Maybe<Array<ProductOptionGroupAggregateFilter>>;
+  or?: Maybe<Array<ProductOptionGroupAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  code?: Maybe<StringFieldComparison>;
+};
+
+export type ProductVariantSpecs = {
+  __typename?: 'ProductVariantSpecs';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  specs: Scalars['JSON'];
+};
+
+export type OrderItemFilter = {
+  and?: Maybe<Array<OrderItemFilter>>;
+  or?: Maybe<Array<OrderItemFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type OrderItemSort = {
+  field: OrderItemSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum OrderItemSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Quantity = 'quantity'
+}
+
+export type StockKeeping = {
+  __typename?: 'StockKeeping';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  quantity: Scalars['Float'];
+  available_quantity: Scalars['Float'];
+  threshold: Scalars['Float'];
+  multiple: Scalars['Boolean'];
+  backorder: Scalars['Boolean'];
+  stockstatus: Scalars['Boolean'];
+  sku: Scalars['String'];
+  type: StockKeepingType;
+  sales: Array<Sale>;
+  cancels: Array<Cancellation>;
+  movements: Array<StockMovement>;
+  store: Store;
+  variant: ProductVariant;
+  salesAggregate: StockKeepingSalesAggregateResponse;
+  cancelsAggregate: StockKeepingCancelsAggregateResponse;
+  movementsAggregate: StockKeepingMovementsAggregateResponse;
+};
+
+
+export type StockKeepingSalesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<SaleFilter>;
+  sorting?: Maybe<Array<SaleSort>>;
+};
+
+
+export type StockKeepingCancelsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<CancellationFilter>;
+  sorting?: Maybe<Array<CancellationSort>>;
+};
+
+
+export type StockKeepingMovementsArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<StockMovementFilter>;
+  sorting?: Maybe<Array<StockMovementSort>>;
+};
+
+
+export type StockKeepingSalesAggregateArgs = {
+  filter?: Maybe<SaleAggregateFilter>;
+};
+
+
+export type StockKeepingCancelsAggregateArgs = {
+  filter?: Maybe<CancellationAggregateFilter>;
+};
+
+
+export type StockKeepingMovementsAggregateArgs = {
+  filter?: Maybe<StockMovementAggregateFilter>;
+};
+
+export type Sale = {
+  __typename?: 'Sale';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  quantity: Scalars['Float'];
+  keeping: StockKeeping;
+};
+
+export type SaleFilter = {
+  and?: Maybe<Array<SaleFilter>>;
+  or?: Maybe<Array<SaleFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type SaleSort = {
+  field: SaleSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum SaleSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Quantity = 'quantity'
+}
+
+export type Cancellation = {
+  __typename?: 'Cancellation';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  quantity: Scalars['Float'];
+  keeping: StockKeeping;
+};
+
+export type CancellationFilter = {
+  and?: Maybe<Array<CancellationFilter>>;
+  or?: Maybe<Array<CancellationFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type CancellationSort = {
+  field: CancellationSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum CancellationSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Quantity = 'quantity'
+}
+
+export type StockMovement = {
+  __typename?: 'StockMovement';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  quantity: Scalars['Float'];
+  keeping: StockKeeping;
+};
+
+export type StockMovementFilter = {
+  and?: Maybe<Array<StockMovementFilter>>;
+  or?: Maybe<Array<StockMovementFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type StockMovementSort = {
+  field: StockMovementSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum StockMovementSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Quantity = 'quantity'
+}
+
+export type SaleAggregateFilter = {
+  and?: Maybe<Array<SaleAggregateFilter>>;
+  or?: Maybe<Array<SaleAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type CancellationAggregateFilter = {
+  and?: Maybe<Array<CancellationAggregateFilter>>;
+  or?: Maybe<Array<CancellationAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type StockMovementAggregateFilter = {
+  and?: Maybe<Array<StockMovementAggregateFilter>>;
+  or?: Maybe<Array<StockMovementAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type StockKeepingFilter = {
+  and?: Maybe<Array<StockKeepingFilter>>;
+  or?: Maybe<Array<StockKeepingFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+  available_quantity?: Maybe<NumberFieldComparison>;
+  threshold?: Maybe<NumberFieldComparison>;
+  multiple?: Maybe<BooleanFieldComparison>;
+  backorder?: Maybe<BooleanFieldComparison>;
+  stockstatus?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  type?: Maybe<StockKeepingTypeFilterComparison>;
+};
+
+export type StockKeepingTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<StockKeepingType>;
+  neq?: Maybe<StockKeepingType>;
+  gt?: Maybe<StockKeepingType>;
+  gte?: Maybe<StockKeepingType>;
+  lt?: Maybe<StockKeepingType>;
+  lte?: Maybe<StockKeepingType>;
+  like?: Maybe<StockKeepingType>;
+  notLike?: Maybe<StockKeepingType>;
+  iLike?: Maybe<StockKeepingType>;
+  notILike?: Maybe<StockKeepingType>;
+  in?: Maybe<Array<StockKeepingType>>;
+  notIn?: Maybe<Array<StockKeepingType>>;
+};
+
+export type StockKeepingSort = {
+  field: StockKeepingSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum StockKeepingSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Quantity = 'quantity',
+  AvailableQuantity = 'available_quantity',
+  Threshold = 'threshold',
+  Multiple = 'multiple',
+  Backorder = 'backorder',
+  Stockstatus = 'stockstatus',
+  Sku = 'sku',
+  Type = 'type'
+}
+
+export type ProductVariantAsset = {
+  __typename?: 'ProductVariantAsset';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  asset: Asset;
+  variant: ProductVariant;
+};
+
+export type OrderItemAggregateFilter = {
+  and?: Maybe<Array<OrderItemAggregateFilter>>;
+  or?: Maybe<Array<OrderItemAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+};
+
+export type StockKeepingAggregateFilter = {
+  and?: Maybe<Array<StockKeepingAggregateFilter>>;
+  or?: Maybe<Array<StockKeepingAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  quantity?: Maybe<NumberFieldComparison>;
+  available_quantity?: Maybe<NumberFieldComparison>;
+  threshold?: Maybe<NumberFieldComparison>;
+  multiple?: Maybe<BooleanFieldComparison>;
+  backorder?: Maybe<BooleanFieldComparison>;
+  stockstatus?: Maybe<BooleanFieldComparison>;
+  sku?: Maybe<StringFieldComparison>;
+  type?: Maybe<StockKeepingTypeFilterComparison>;
+};
+
+export type Order = {
+  __typename?: 'Order';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  totalPrice: Scalars['Float'];
+  address: Scalars['String'];
+  lines: Array<OrderLine>;
+  payment?: Maybe<Payment>;
+  user: User;
+  linesAggregate: OrderLinesAggregateResponse;
+};
+
+
+export type OrderLinesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<OrderLineFilter>;
+  sorting?: Maybe<Array<OrderLineSort>>;
+};
+
+
+export type OrderLinesAggregateArgs = {
+  filter?: Maybe<OrderLineAggregateFilter>;
+};
+
+export type OrderLineFilter = {
+  and?: Maybe<Array<OrderLineFilter>>;
+  or?: Maybe<Array<OrderLineFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  stage?: Maybe<OrderStageTypeFilterComparison>;
+  serviceable?: Maybe<OrderLineFilterServiceableOrdersFilter>;
+  refund?: Maybe<OrderLineFilterRefundFilter>;
+  pool?: Maybe<OrderLineFilterDeliveryPoolFilter>;
+  store?: Maybe<OrderLineFilterStoreFilter>;
+  invoice?: Maybe<OrderLineFilterInvoiceFilter>;
+};
+
+export type OrderLineFilterServiceableOrdersFilter = {
+  and?: Maybe<Array<OrderLineFilterServiceableOrdersFilter>>;
+  or?: Maybe<Array<OrderLineFilterServiceableOrdersFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  dateTime?: Maybe<DateFieldComparison>;
+};
+
+export type OrderLineFilterRefundFilter = {
+  and?: Maybe<Array<OrderLineFilterRefundFilter>>;
+  or?: Maybe<Array<OrderLineFilterRefundFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  reason?: Maybe<StringFieldComparison>;
+  destination?: Maybe<StringFieldComparison>;
+  transactionId?: Maybe<StringFieldComparison>;
+  stage?: Maybe<RefundEnumFilterComparison>;
+};
+
+export type RefundEnumFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<RefundEnum>;
+  neq?: Maybe<RefundEnum>;
+  gt?: Maybe<RefundEnum>;
+  gte?: Maybe<RefundEnum>;
+  lt?: Maybe<RefundEnum>;
+  lte?: Maybe<RefundEnum>;
+  like?: Maybe<RefundEnum>;
+  notLike?: Maybe<RefundEnum>;
+  iLike?: Maybe<RefundEnum>;
+  notILike?: Maybe<RefundEnum>;
+  in?: Maybe<Array<RefundEnum>>;
+  notIn?: Maybe<Array<RefundEnum>>;
+};
+
+export type OrderLineFilterDeliveryPoolFilter = {
+  and?: Maybe<Array<OrderLineFilterDeliveryPoolFilter>>;
+  or?: Maybe<Array<OrderLineFilterDeliveryPoolFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+};
+
+export type OrderLineFilterStoreFilter = {
+  and?: Maybe<Array<OrderLineFilterStoreFilter>>;
+  or?: Maybe<Array<OrderLineFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+};
+
+export type OrderLineFilterInvoiceFilter = {
+  and?: Maybe<Array<OrderLineFilterInvoiceFilter>>;
+  or?: Maybe<Array<OrderLineFilterInvoiceFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  type?: Maybe<InvoiceEnumFilterComparison>;
+  total?: Maybe<NumberFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  fees?: Maybe<NumberFieldComparison>;
+  tax?: Maybe<NumberFieldComparison>;
+  nulled?: Maybe<BooleanFieldComparison>;
+};
+
+export type OrderLineSort = {
+  field: OrderLineSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum OrderLineSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Stage = 'stage'
+}
+
+export type Payment = {
+  __typename?: 'Payment';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  amount: Scalars['Float'];
+  errorMessage?: Maybe<Scalars['String']>;
+  transactionId?: Maybe<Scalars['String']>;
+  order: Order;
+};
+
+export type OrderLineAggregateFilter = {
+  and?: Maybe<Array<OrderLineAggregateFilter>>;
+  or?: Maybe<Array<OrderLineAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  stage?: Maybe<OrderStageTypeFilterComparison>;
+};
+
+export type InvoiceAggregateFilter = {
+  and?: Maybe<Array<InvoiceAggregateFilter>>;
+  or?: Maybe<Array<InvoiceAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  type?: Maybe<InvoiceEnumFilterComparison>;
+  total?: Maybe<NumberFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  fees?: Maybe<NumberFieldComparison>;
+  tax?: Maybe<NumberFieldComparison>;
+  nulled?: Maybe<BooleanFieldComparison>;
+};
+
+export type ZipFilter = {
+  and?: Maybe<Array<ZipFilter>>;
+  or?: Maybe<Array<ZipFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
+  store?: Maybe<ZipFilterStoreFilter>;
+  vendors?: Maybe<ZipFilterVendorFilter>;
+};
+
+export type ZipFilterStoreFilter = {
+  and?: Maybe<Array<ZipFilterStoreFilter>>;
+  or?: Maybe<Array<ZipFilterStoreFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  storeName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  officialemail?: Maybe<StringFieldComparison>;
+  zipcode?: Maybe<StringFieldComparison>;
+  streetAddress1?: Maybe<StringFieldComparison>;
+  streetAddress2?: Maybe<StringFieldComparison>;
+  GSTIN?: Maybe<StringFieldComparison>;
+  singleStore?: Maybe<BooleanFieldComparison>;
+  rentalStore?: Maybe<BooleanFieldComparison>;
+  channelMarkets?: Maybe<BooleanFieldComparison>;
+  services?: Maybe<BooleanFieldComparison>;
+  assetAPI?: Maybe<StringFieldComparison>;
+  mainAPI?: Maybe<StringFieldComparison>;
+};
+
+export type ZipFilterVendorFilter = {
+  and?: Maybe<Array<ZipFilterVendorFilter>>;
+  or?: Maybe<Array<ZipFilterVendorFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  vendorName?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  email?: Maybe<StringFieldComparison>;
+};
+
+export type ZipSort = {
+  field: ZipSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum ZipSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Name = 'name',
+  Slug = 'slug',
+  Code = 'code'
+}
+
+export type CartItem = {
+  __typename?: 'CartItem';
+  id: Scalars['ID'];
+  quantity: Scalars['Float'];
+  cart: Cart;
+  variant: ProductVariant;
+  store: Store;
+  price: ProductVariantPrice;
+};
+
+export type Cart = {
+  __typename?: 'Cart';
+  id: Scalars['ID'];
+  items: Array<CartItem>;
+  user?: Maybe<User>;
+};
+
+export type CartItemFilter = {
+  and?: Maybe<Array<CartItemFilter>>;
+  or?: Maybe<Array<CartItemFilter>>;
+  id?: Maybe<IdFilterComparison>;
+};
+
+export type CartItemSort = {
+  field: CartItemSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum CartItemSortFields {
+  Id = 'id'
+}
+
+export type Settlements = {
+  __typename?: 'Settlements';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  amount: Scalars['Float'];
+  taxamount: Scalars['Float'];
+  finalamount: Scalars['Float'];
+  transactionID: Scalars['String'];
+  remarks: Scalars['String'];
+  type: SettlementType;
+  store: Store;
+};
+
+export type SettlementsFilter = {
+  and?: Maybe<Array<SettlementsFilter>>;
+  or?: Maybe<Array<SettlementsFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  taxamount?: Maybe<NumberFieldComparison>;
+  finalamount?: Maybe<NumberFieldComparison>;
+  transactionID?: Maybe<StringFieldComparison>;
+  remarks?: Maybe<StringFieldComparison>;
+  type?: Maybe<SettlementTypeFilterComparison>;
+};
+
+export type SettlementsSort = {
+  field: SettlementsSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum SettlementsSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  Amount = 'amount',
+  Taxamount = 'taxamount',
+  Finalamount = 'finalamount',
+  TransactionId = 'transactionID',
+  Remarks = 'remarks',
+  Type = 'type'
+}
+
+export type StoreBalance = {
+  __typename?: 'StoreBalance';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  balance: Scalars['Float'];
+  balanceVolume: Scalars['Float'];
+};
+
+export type ZipAggregateFilter = {
+  and?: Maybe<Array<ZipAggregateFilter>>;
+  or?: Maybe<Array<ZipAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  name?: Maybe<StringFieldComparison>;
+  slug?: Maybe<StringFieldComparison>;
+  code?: Maybe<NumberFieldComparison>;
+};
+
+export type CartItemAggregateFilter = {
+  and?: Maybe<Array<CartItemAggregateFilter>>;
+  or?: Maybe<Array<CartItemAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+};
+
+export type SettlementsAggregateFilter = {
+  and?: Maybe<Array<SettlementsAggregateFilter>>;
+  or?: Maybe<Array<SettlementsAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  amount?: Maybe<NumberFieldComparison>;
+  taxamount?: Maybe<NumberFieldComparison>;
+  finalamount?: Maybe<NumberFieldComparison>;
+  transactionID?: Maybe<StringFieldComparison>;
+  remarks?: Maybe<StringFieldComparison>;
+  type?: Maybe<SettlementTypeFilterComparison>;
+};
+
+export type VendorLicense = {
+  __typename?: 'VendorLicense';
+  id: Scalars['ID'];
+  deletedAt: Scalars['DateTime'];
+  tenureStart: Scalars['DateTime'];
+  tenureEnd: Scalars['DateTime'];
+  plans: VendorPlans;
+  vendor: Vendor;
+};
+
+export type VendorPlans = {
+  __typename?: 'VendorPlans';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  isActive: Scalars['Boolean'];
+  name: Scalars['String'];
+  planValue: Scalars['Float'];
+  priceStrategy: Scalars['String'];
+  tenureStrategy: VendorPlanTenure;
+  licences: Array<VendorLicense>;
+  licencesAggregate: VendorPlansLicencesAggregateResponse;
+};
+
+
+export type VendorPlansLicencesArgs = {
+  paging?: Maybe<OffsetPaging>;
+  filter?: Maybe<VendorLicenseFilter>;
+  sorting?: Maybe<Array<VendorLicenseSort>>;
+};
+
+
+export type VendorPlansLicencesAggregateArgs = {
+  filter?: Maybe<VendorLicenseAggregateFilter>;
+};
+
+export enum VendorPlanTenure {
+  Monthly = 'MONTHLY',
+  Halfyearly = 'HALFYEARLY',
+  Annual = 'ANNUAL'
+}
+
+export type VendorLicenseFilter = {
+  and?: Maybe<Array<VendorLicenseFilter>>;
+  or?: Maybe<Array<VendorLicenseFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  tenureStart?: Maybe<DateFieldComparison>;
+  tenureEnd?: Maybe<DateFieldComparison>;
+};
+
+export type VendorLicenseSort = {
+  field: VendorLicenseSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum VendorLicenseSortFields {
+  Id = 'id',
+  DeletedAt = 'deletedAt',
+  TenureStart = 'tenureStart',
+  TenureEnd = 'tenureEnd'
+}
+
+export type VendorLicenseAggregateFilter = {
+  and?: Maybe<Array<VendorLicenseAggregateFilter>>;
+  or?: Maybe<Array<VendorLicenseAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  tenureStart?: Maybe<DateFieldComparison>;
+  tenureEnd?: Maybe<DateFieldComparison>;
+};
+
+export type View = {
+  __typename?: 'View';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type Review = {
+  __typename?: 'Review';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  stars: Scalars['Int'];
+  text: Scalars['String'];
+  user: User;
+  variant: ProductVariant;
+};
+
+export type Address = {
+  __typename?: 'Address';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  fullName: Scalars['String'];
+  addressLine: Scalars['String'];
+  city: Scalars['String'];
+  state: Scalars['String'];
+  landmark: Scalars['String'];
+  postalCode: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  alternatePhoneNumber: Scalars['String'];
+  defaultShippingAddress: Scalars['Boolean'];
+  defaultBillingAddress: Scalars['Boolean'];
+  addressType: AddressType;
+  user?: Maybe<User>;
+};
+
+export enum AddressType {
+  Home = 'HOME',
+  Work = 'WORK'
+}
+
+export type ResetCode = {
+  __typename?: 'ResetCode';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt: Scalars['DateTime'];
+  code: Scalars['String'];
+  user: User;
+};
+
+export type OrderFilter = {
+  and?: Maybe<Array<OrderFilter>>;
+  or?: Maybe<Array<OrderFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  totalPrice?: Maybe<NumberFieldComparison>;
+  address?: Maybe<StringFieldComparison>;
+  line?: Maybe<OrderFilterOrderLineFilter>;
+};
+
+export type OrderFilterOrderLineFilter = {
+  and?: Maybe<Array<OrderFilterOrderLineFilter>>;
+  or?: Maybe<Array<OrderFilterOrderLineFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  stage?: Maybe<OrderStageTypeFilterComparison>;
+};
+
+export type OrderSort = {
+  field: OrderSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum OrderSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  TotalPrice = 'totalPrice',
+  Address = 'address'
+}
+
+export type AddressFilter = {
+  and?: Maybe<Array<AddressFilter>>;
+  or?: Maybe<Array<AddressFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  fullName?: Maybe<StringFieldComparison>;
+  addressLine?: Maybe<StringFieldComparison>;
+  city?: Maybe<StringFieldComparison>;
+  state?: Maybe<StringFieldComparison>;
+  landmark?: Maybe<StringFieldComparison>;
+  postalCode?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  alternatePhoneNumber?: Maybe<StringFieldComparison>;
+  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
+  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
+  addressType?: Maybe<AddressTypeFilterComparison>;
+};
+
+export type AddressTypeFilterComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  eq?: Maybe<AddressType>;
+  neq?: Maybe<AddressType>;
+  gt?: Maybe<AddressType>;
+  gte?: Maybe<AddressType>;
+  lt?: Maybe<AddressType>;
+  lte?: Maybe<AddressType>;
+  like?: Maybe<AddressType>;
+  notLike?: Maybe<AddressType>;
+  iLike?: Maybe<AddressType>;
+  notILike?: Maybe<AddressType>;
+  in?: Maybe<Array<AddressType>>;
+  notIn?: Maybe<Array<AddressType>>;
+};
+
+export type AddressSort = {
+  field: AddressSortFields;
+  direction: SortDirection;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum AddressSortFields {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  DeletedAt = 'deletedAt',
+  FullName = 'fullName',
+  AddressLine = 'addressLine',
+  City = 'city',
+  State = 'state',
+  Landmark = 'landmark',
+  PostalCode = 'postalCode',
+  PhoneNumber = 'phoneNumber',
+  AlternatePhoneNumber = 'alternatePhoneNumber',
+  DefaultShippingAddress = 'defaultShippingAddress',
+  DefaultBillingAddress = 'defaultBillingAddress',
+  AddressType = 'addressType'
+}
+
+export type OrderAggregateFilter = {
+  and?: Maybe<Array<OrderAggregateFilter>>;
+  or?: Maybe<Array<OrderAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  totalPrice?: Maybe<NumberFieldComparison>;
+  address?: Maybe<StringFieldComparison>;
+};
+
+export type AddressAggregateFilter = {
+  and?: Maybe<Array<AddressAggregateFilter>>;
+  or?: Maybe<Array<AddressAggregateFilter>>;
+  id?: Maybe<IdFilterComparison>;
+  createdAt?: Maybe<DateFieldComparison>;
+  updatedAt?: Maybe<DateFieldComparison>;
+  deletedAt?: Maybe<DateFieldComparison>;
+  fullName?: Maybe<StringFieldComparison>;
+  addressLine?: Maybe<StringFieldComparison>;
+  city?: Maybe<StringFieldComparison>;
+  state?: Maybe<StringFieldComparison>;
+  landmark?: Maybe<StringFieldComparison>;
+  postalCode?: Maybe<StringFieldComparison>;
+  phoneNumber?: Maybe<StringFieldComparison>;
+  alternatePhoneNumber?: Maybe<StringFieldComparison>;
+  defaultShippingAddress?: Maybe<BooleanFieldComparison>;
+  defaultBillingAddress?: Maybe<BooleanFieldComparison>;
+  addressType?: Maybe<AddressTypeFilterComparison>;
 };
 
 export type UserCountAggregate = {
