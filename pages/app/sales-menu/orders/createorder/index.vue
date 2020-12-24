@@ -269,7 +269,7 @@
         private selectedUser = ''
         private prodsSearch: any[] = []
         private prodSelect: any = ''
-        private assetURL = assetsURL
+        private assetURL = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL
         private priceId = ''
         private allPriceTags: any[] = []
         private prodName = ''

@@ -203,7 +203,7 @@
         private target: any = null
         private targetType: string = ''
         private assetMain: any = null
-        private assetUrl = assetsURL
+        private assetUrl = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL
 
         onClickUpload() {
             this.$refs.fileInput.click()
