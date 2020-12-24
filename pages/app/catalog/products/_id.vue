@@ -1017,6 +1017,7 @@ export default class ProductEdit extends Vue {
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/*');
         const apollo = this.$apollo;
+        const mains = this
         input.onchange = function (event: any) {
             // @ts-ignore
             const file = this.files[0];
@@ -1026,7 +1027,7 @@ export default class ProductEdit extends Vue {
                     file: file
                 }
             }).then(value1 => {
-                callback(`${assetsURL}/` + value1.data.createAsset.source, {title: file.filename});
+                callback(`${mains.$store.state.store.store ? mains.$store.state.store.store.assetAPI : assetsURL}/` + value1.data.createAsset.source, {title: file.filename});
             });
         };
         input.click();
@@ -1040,7 +1041,7 @@ export default class ProductEdit extends Vue {
                 file: file
             }
         }).then(value => {
-            success(`${assetsURL}/` + value.data.createAsset.source);
+            success(`${this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL}/` + value.data.createAsset.source);
         }).catch(error => {
             failure(error);
         });
