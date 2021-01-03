@@ -49,7 +49,7 @@
           </div>
           <div class="row">
             <div class="col-md-4">
-              <div class="card card-custom gutter-b">
+              <v-sheet elevation="4" style="border-radius: 6px">
                 <div class="card-header border-0 py-5" :style="{'background-color': theme.colors.theme.base.primary}">
                   <h3 class="card-title align-items-start flex-column">
                     <span class="card-label font-weight-bolder text-white">All Collections</span>
@@ -74,7 +74,7 @@
                     @select="onUpdateCollection"
                   ></a-tree>
                 </div>
-              </div>
+              </v-sheet>
             </div>
             <div class="col-md-8">
               <collection-edit :id="selected" v-if="selected"/>
@@ -175,11 +175,11 @@
                     menu: vls.inMenu,
                     add: true,
                     edit: true,
-                    children: twochildren
+                    children: twochildren,
+                    asset: vls.asset
                 };
                 onechindren.push(onNode);
             }
-            console.log(onechindren);
             this.allCollections = onechindren;
         }
 
@@ -195,7 +195,8 @@
                         menu: csitem.inMenu,
                         add: false,
                         edit: true,
-                        children: asitem
+                        children: asitem,
+                        asset: csitem.asset
                     })
                 }
             }

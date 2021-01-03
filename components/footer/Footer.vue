@@ -6,7 +6,9 @@
       <div class="text-dark order-2 order-md-1 d-flex align-items-center">
         <span class="text-muted font-weight-bold mr-2">2020&copy;</span>
         <a href="javascript:;" target="_blank" class="text-dark-75 text-hover-primary">
-            <img src="/master/logo/air.png" alt="" style="height: 50px; margin-left: -28px"> <img src="/images/logo.png" alt="" style="height: 50px; margin-left: -28px"> <span class="opacity-70 font-weight-bold text-muted">[ASSAM MART BUILD: 0.16.1]</span>
+            <span class="opacity-70 font-weight-bold text-muted" v-if="GetDefaultStore">
+                [{{GetDefaultStore.storeName}}]
+            </span>
         </a>
       </div>
       <!--end::Copyright-->
@@ -22,9 +24,17 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
+  import {mapState} from "vuex";
+  import {GetDefaultStoreDocument} from "~/gql";
 
-  @Component
+  @Component({
+      apollo: {
+          GetDefaultStore: {
+              query: GetDefaultStoreDocument
+          }
+      }
+  })
   export default class Footer extends Vue {
-
+      private GetDefaultStore
   }
 </script>

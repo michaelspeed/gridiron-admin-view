@@ -15,6 +15,7 @@ mutation administratorLogin($email: String!, $password: String!){
         store {
             id
         }
+        type
     }
 }
 
@@ -101,7 +102,10 @@ mutation updateOneStore(
     $streetAddress2: String,
     $GSTIN: String,
     $singleStore: Boolean,
-    $rentalStore: Boolean
+    $rentalStore: Boolean,
+    $assetAPI: String,
+    $mainAPI: String,
+    $services: Boolean
 ){
     updateOneStore(input:{
         id: $id,
@@ -114,7 +118,10 @@ mutation updateOneStore(
             streetAddress2: $streetAddress2,
             GSTIN: $GSTIN,
             singleStore: $singleStore,
-            rentalStore: $rentalStore
+            rentalStore: $rentalStore,
+            assetAPI: $assetAPI,
+            mainAPI: $mainAPI,
+            services: $services
         }
     }){
         id
@@ -170,7 +177,7 @@ mutation SetCategoryOnTaxRate($id: ID!, $categoryId: ID!){
     }
 }
 
-mutation CreateOneChannel($code: String, $token: String, $currencyCode: String, $pricesIncludeTax: Boolean, $defaultLanguageCode: String!){
+mutation CreateOneChannel($code: String, $token: String, $currencyCode: CurrencyCode, $pricesIncludeTax: Boolean, $defaultLanguageCode: LanguageCode!){
     createOneChannel(
         input:{
             channel:{
@@ -588,7 +595,7 @@ mutation createOneZip($code: Float!){
     }
 }
 
-mutation createOneMenu($title: String, $targetId: String, $target: String){
+mutation createOneMenu($title: String, $targetId: String, $target: MenuBuilderTypes){
     createOneMenu(
         input: {
             menu: {
@@ -673,7 +680,7 @@ mutation createOrderAdmin($orderLineDto: [OrderLineDto!]!, $address: String!, $u
     }
 }
 
-mutation updateOrderLine($id: ID!, $stage: String){
+mutation updateOrderLine($id: ID!, $stage: OrderStageType){
     updateOneOrderLine(
         input:{
             id: $id,
@@ -686,7 +693,7 @@ mutation updateOrderLine($id: ID!, $stage: String){
     }
 }
 
-mutation createOnePromotionVariantPrice($priceType: String, $value: Float, $startsAt: DateTime){
+mutation createOnePromotionVariantPrice($priceType: PricePromoType, $value: Float, $startsAt: DateTime){
     createOnePromotionVariantPrice(
         input: {
             promotionVariantPrice:{
@@ -817,6 +824,89 @@ mutation setHsnOnProduct($id: ID!, $relId: ID!){
     setHsnOnProduct(input:{
         id: $id,
         relationId: $relId
+    }) {
+        id
+    }
+}
+
+mutation createOneServiceable($name: String, $type: ServiceableTypes, $mode: ServiceableOrderTypes){
+    createOneServiceable(input: {
+        serviceable: {
+            name: $name,
+            type: $type,
+            mode: $mode
+        }
+    }) {
+        id
+    }
+}
+
+mutation addServiceToProduct($product: ID!, $service: ID!){
+    AddServiceToProduct(
+        product: $product,
+        service: $service
+    ) {
+        id
+    }
+}
+
+mutation addServiceToVendor($vendor: ID!, $service: ID!){
+    AddServiceToVendor(
+        vendor: $vendor
+        service: $service
+    ) {
+        id
+    }
+}
+
+mutation removeServiceableToProduct($product: ID!){
+    removeServiceableToProduct(product: $product) {
+        id
+    }
+}
+
+mutation removeServiceableToVendor($vendor: ID!){
+    removeServiceableToVendor(vendor: $vendor) {
+        id
+    }
+}
+
+mutation setLogoOnStore($id: ID!, $rid: ID!){
+    setLogoOnStore(
+        input: {
+            id: $id,
+            relationId: $rid
+        }
+    ) {
+        id
+    }
+}
+
+mutation setAssetOnCollection($id: ID!, $rid: ID!){
+    setAssetOnCollection(
+        input: {
+            id: $id,
+            relationId: $rid
+        }
+    ) {
+        id
+    }
+}
+
+mutation setAssetOnMenu($id: ID!, $rid: ID!){
+    setAssetOnMenu(
+        input: {
+            id: $id,
+            relationId: $rid
+        }
+    ) {
+        id
+    }
+}
+
+mutation deleteOneMenu($id: ID!){
+    deleteOneMenu(input:{
+        id: $id
     }) {
         id
     }

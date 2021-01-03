@@ -177,6 +177,70 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label>Serviceable</label>
+                                                <div v-if="product.serviceable">
+                                                    <v-sheet elevation="4" class="card card-custom gutter-b bgi-no-repeat" style="background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
+                                                        <div class="card-body">
+                                                            <span class="svg-icon svg-icon-3x svg-icon-success"></span>
+                                                            <div class="text-white font-weight-bolder font-size-h2">{{product.serviceable.name}}</div>
+                                                            <a href="javascript:;" class="text-muted text-hover-primary font-weight-bold font-size-lg">{{product.serviceable.mode}}</a>
+                                                        </div>
+                                                    </v-sheet>
+                                                </div>
+                                                <div>
+                                                    <a href="javascript:;" @click="serviceopen = true"
+                                                       class="btn btn-sm btn-light-success font-weight-bold mr-2">
+                                                        Add Serviceable
+                                                    </a>
+                                                    <a href="javascript:;" @click="onRemoveServiceFromProduct" v-if="product.serviceable"
+                                                       class="btn btn-sm btn-light-danger font-weight-bold mr-2">
+                                                        Remove Serviceable
+                                                    </a>
+                                                </div>
+                                                <v-bottom-sheet
+                                                    v-model="serviceopen"
+                                                >
+                                                    <div class="bg-white">
+                                                        <div class="card-header border-0 d-flex justify-content-between align-items-center">
+                                                            <h3 class="card-title align-items-start flex-column">
+                                                                <a href="javascript:;" @click="serviceopen = false">
+                                                                    <i class="fas fa-arrow-left font-size-h3 text-primary"></i>
+                                                                </a>
+                                                                <span class="card-label font-weight-bolder text-dark ml-6">Select Serviceable</span>
+                                                            </h3>
+                                                            <div class="card-toolbar">
+                                                                <v-text-field
+                                                                    style="width: 300px"
+                                                                    v-model="serviceSearch"
+                                                                    label="Search Serviceable"
+                                                                ></v-text-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body" v-if="!serviceloading">
+                                                            <div class="row">
+                                                                <div class="col-md-3" v-for="serv of serviceables">
+                                                                    <v-sheet elevation="3" class="card card-custom gutter-b" style="height: 150px; cursor: pointer" @click="onSelectServiceToVendor(serv.id)">
+                                                                        <div class="card-body">
+                                                                            <span class="svg-icon svg-icon-3x svg-icon-success"></span>
+                                                                            <div class="text-dark font-weight-bolder font-size-h2 mt-3">{{serv.name}}</div>
+
+                                                                            <a href="javascript:;" class="text-muted text-hover-primary font-weight-bold font-size-lg mt-1">{{serv.type}}</a>
+                                                                        </div>
+                                                                    </v-sheet>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body" v-if="serviceloading">
+                                                            <v-progress-linear
+                                                                color="lime"
+                                                                indeterminate
+                                                                reverse
+                                                            ></v-progress-linear>
+                                                        </div>
+                                                    </div>
+                                                </v-bottom-sheet>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>View Codes ({{ this.settingViewCodes.length }})</label>
                                                 <div>
                                                     <a href="javascript:;" @click="manageViewCode = true"
@@ -412,6 +476,7 @@
 <script lang="ts">
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import {
+    AddServiceToProductDocument,
     Asset,
     Collection,
     CreateAssetDocument,
@@ -420,8 +485,8 @@ import {
     GetAllFacetsDocument, GetAllHsnDocument, GetAllViewCodesDocument,
     GetFacetValuesDocument,
     GetOneProductDocument,
-    GetProductSaleDataDocument,
-    GetProductViewsDocument, Hsn, Product, SetHsnOnProductDocument,
+    GetProductSaleDataDocument, GetProductServiceablesDocument,
+    GetProductViewsDocument, Hsn, Product, RemoveServiceableToProductDocument, Serviceable, SetHsnOnProductDocument,
     UpdateProductCollectionDocument,
     UpdateProductDocument,
     ViewCode
@@ -513,6 +578,14 @@ import ProductSaleChart from "~/components/charts/ProductSaleChart";
                     offset: 0
                 }
             }
+        },
+        serviceables: {
+            query: GetProductServiceablesDocument,
+            variables() {
+                return {
+                    search: `%${this.serviceSearch}%`
+                }
+            }
         }
     }
 })
@@ -523,7 +596,6 @@ export default class ProductEdit extends Vue {
     private showassets = false;
     private addAsset = false;
     private myAssets: Asset[] = [];
-    private assetUrl = assetsURL;
     private selectedAssets: Asset[] = [];
     private featuredAssets: Asset | null = null;
     private addFacet = false;
@@ -581,6 +653,48 @@ export default class ProductEdit extends Vue {
     private addHSN = false
     private hsnsearch = ''
     private hsns: Hsn[]
+
+    private serviceSearch = ''
+    private serviceables: Serviceable[]
+    private serviceopen = false
+    private serviceloading = false
+
+    private assetUrl = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL;
+
+    onRemoveServiceFromProduct() {
+        this.$message.loading('Action in process')
+        this.$apollo.mutate({
+            mutation: RemoveServiceableToProductDocument,
+            variables: {
+                product: this.$route.params.id
+            }
+        })
+        .then(() => {
+            this.$message.success('Product Updated')
+        })
+        .catch(err => {
+            this.$message.error(err.message)
+        })
+    }
+
+    onSelectServiceToVendor(id) {
+        this.serviceloading = true
+        this.$apollo.mutate({
+            mutation: AddServiceToProductDocument,
+            variables: {
+                product: this.$route.params.id,
+                service: id
+            }
+        })
+        .then(response => {
+            this.serviceloading = false
+            this.serviceopen = false
+        })
+        .catch(error => {
+            this.$message.error(error.message)
+            this.serviceloading = false
+        })
+    }
 
     handleChangeChartType(value) {
         this.chartLoaded = false
@@ -903,6 +1017,7 @@ export default class ProductEdit extends Vue {
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/*');
         const apollo = this.$apollo;
+        const mains = this
         input.onchange = function (event: any) {
             // @ts-ignore
             const file = this.files[0];
@@ -912,7 +1027,7 @@ export default class ProductEdit extends Vue {
                     file: file
                 }
             }).then(value1 => {
-                callback(`${assetsURL}/` + value1.data.createAsset.source, {title: file.filename});
+                callback(`${mains.$store.state.store.store ? mains.$store.state.store.store.assetAPI : assetsURL}/` + value1.data.createAsset.source, {title: file.filename});
             });
         };
         input.click();
@@ -926,7 +1041,7 @@ export default class ProductEdit extends Vue {
                 file: file
             }
         }).then(value => {
-            success(`${assetsURL}/` + value.data.createAsset.source);
+            success(`${this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL}/` + value.data.createAsset.source);
         }).catch(error => {
             failure(error);
         });

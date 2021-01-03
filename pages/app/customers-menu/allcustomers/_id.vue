@@ -18,7 +18,7 @@
                         </div>
                         <div class="flex-row-auto offcanvas-mobile w-250px w-xxl-350px" id="kt_profile_aside" v-if="!$apollo.queries.user.loading">
                             <!--begin::Profile Card-->
-                            <div class="card card-custom card-stretch">
+                            <v-sheet elevation="4">
                                 <!--begin::Body-->
                                 <div class="card-body pt-4">
                                     <!--begin::Toolbar-->
@@ -129,7 +129,7 @@
                                     <!--end::Nav-->
                                 </div>
                                 <!--end::Body-->
-                            </div>
+                            </v-sheet>
                             <!--end::Profile Card-->
                         </div>
                         <!--end::Aside-->

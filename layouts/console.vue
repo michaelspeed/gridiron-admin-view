@@ -10,108 +10,105 @@
                         <!--begin::Nav Wrapper-->
                         <div
                             class="aside-nav d-flex flex-column align-items-center flex-column-fluid pb-10 pt-10 pt-lg-22">
-                            <!--begin::Nav-->
-                            <ul class="nav flex-column" v-if="admin">
-                                <!--begin::Item-->
-                                <a-popover placement="right" v-for="(menitem, index) of adminMenu" :key="index">
-                                    <template slot="title">
-                                        <div class="bg-primary">
-                                            <span class="text-white font-size-h3">{{$t(`${menitem.label}`)}}</span>
+                            <v-bottom-sheet v-model="sheetmenu" fullscreen transition="scroll-y-reverse-transition">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                        icon
+                                        color="primary"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                    >
+                                        <v-icon>mdi-apps</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-sheet elevation="4" style="height: 100%">
+                                    <div style="padding: 20px">
+                                        <div style="display: flex; justify-content: space-between; align-items: center">
+                                            <h1 class="text-primary h1">Menu</h1>
+                                            <v-btn
+                                                icon
+                                                color="red"
+                                                @click="sheetmenu = false"
+                                            >
+                                                <v-icon>mdi-close</v-icon>
+                                            </v-btn>
                                         </div>
-                                    </template>
-                                    <template slot="content">
-                                        <ul class="navi navi-hover navi-active navi-accent" v-if="!menitem.subs">
-                                            <li class="navi-item">
-                                                <a class="navi-link" href="javascript:;" @click="$router.push(menitem.to)">
-                                                    <span class="navi-icon">
-                                                        <span class="svg-icon svg-icon-primary svg-icon-2x mr-3"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo6\dist/../src/media/svg/icons\General\Settings-1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <path d="M7,3 L17,3 C19.209139,3 21,4.790861 21,7 C21,9.209139 19.209139,11 17,11 L7,11 C4.790861,11 3,9.209139 3,7 C3,4.790861 4.790861,3 7,3 Z M7,9 C8.1045695,9 9,8.1045695 9,7 C9,5.8954305 8.1045695,5 7,5 C5.8954305,5 5,5.8954305 5,7 C5,8.1045695 5.8954305,9 7,9 Z" fill="#000000"/>
-        <path d="M7,13 L17,13 C19.209139,13 21,14.790861 21,17 C21,19.209139 19.209139,21 17,21 L7,21 C4.790861,21 3,19.209139 3,17 C3,14.790861 4.790861,13 7,13 Z M17,19 C18.1045695,19 19,18.1045695 19,17 C19,15.8954305 18.1045695,15 17,15 C15.8954305,15 15,15.8954305 15,17 C15,18.1045695 15.8954305,19 17,19 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>
-                                                    </span>
-                                                    <span class="navi-text">{{$t(`${menitem.label}`)}}</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <ul class="navi navi-hover navi-active navi-accent" v-if="menitem.subs">
-                                            <li class="navi-item" v-for="(subitem) of menitem.subs" :key="subitem.id">
-                                                <a class="navi-link" href="javascript:;" @click="$router.push(subitem.to)">
-                                                    <span class="navi-icon">
-                                                        <span class="svg-icon svg-icon-primary svg-icon-2x mr-3"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo6\dist/../src/media/svg/icons\Shopping\Sort1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <rect fill="#000000" x="4" y="5" width="16" height="3" rx="1.5"/>
-        <path d="M7.5,11 L16.5,11 C17.3284271,11 18,11.6715729 18,12.5 C18,13.3284271 17.3284271,14 16.5,14 L7.5,14 C6.67157288,14 6,13.3284271 6,12.5 C6,11.6715729 6.67157288,11 7.5,11 Z M10.5,17 L13.5,17 C14.3284271,17 15,17.6715729 15,18.5 C15,19.3284271 14.3284271,20 13.5,20 L10.5,20 C9.67157288,20 9,19.3284271 9,18.5 C9,17.6715729 9.67157288,17 10.5,17 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>
-                                                    </span>
-                                                    <span class="navi-text">{{$t(`${subitem.label}`)}}</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </template>
-                                    <li class="nav-item mb-2">
-                                        <a href="javascript:;" @click="onClickMenu(menitem)"
-                                           class="nav-link btn btn-icon btn-hover-text-primary btn-lg active">
-                                            <i :class="menitem.icon"></i>
-                                        </a>
-                                    </li>
-                                </a-popover>
-                            </ul>
-                            <ul class="nav flex-column" v-if="vendor">
-                                <!--begin::Item-->
-                                <a-popover placement="right" v-for="(menitem, index) of vendorMenu" :key="index">
-                                    <template slot="title">
-                                        <div class="bg-primary">
-                                            <span class="text-white font-size-h3">{{$t(`${menitem.label}`)}}</span>
+                                        <hr/>
+                                    </div>
+                                    <div v-if="admin" style="padding: 20px">
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-xs-12" v-for="(menitem, index) of adminMenu" :key="index">
+                                                <div v-if="!menitem.subs">
+                                                    <v-btn text color="primary" @click="onClickRoute(menitem.to)">
+                                                        <v-icon
+                                                            color="amber"
+                                                            style="margin-right: 5px;"
+                                                        >
+                                                            mdi-{{menitem.icon}}
+                                                        </v-icon>
+                                                        {{ $t(`${menitem.label}`) }}
+                                                    </v-btn>
+                                                </div>
+                                                <div v-if="menitem.subs">
+                                                    <h2 class="h6 text-black-50">
+                                                        <v-icon
+                                                            class="text-black-50"
+                                                            style="margin-right: 5px;"
+                                                        >
+                                                            mdi-{{menitem.icon}}
+                                                        </v-icon>
+                                                        {{ $t(`${menitem.label}`) }}
+                                                    </h2>
+                                                    <div style="display: flex; flex-direction: column; align-items: flex-start">
+                                                        <v-btn text v-for="(subitem) of menitem.subs" :key="subitem.id" color="primary" @click="onClickRoute(subitem.to)">
+                                                            <v-icon
+                                                                color="amber"
+                                                                style="margin-right: 5px;"
+                                                            >
+                                                                mdi-{{subitem.icon}}
+                                                            </v-icon>
+                                                            {{ $t(`${subitem.label}`) }}
+                                                        </v-btn>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </template>
-                                    <template slot="content">
-                                        <ul class="navi navi-hover navi-active navi-accent" v-if="!menitem.subs">
-                                            <li class="navi-item">
-                                                <a class="navi-link" href="javascript:;" @click="$router.push(menitem.to)">
-                                                    <span class="navi-icon">
-                                                        <span class="svg-icon svg-icon-primary svg-icon-2x mr-3"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo6\dist/../src/media/svg/icons\General\Settings-1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <path d="M7,3 L17,3 C19.209139,3 21,4.790861 21,7 C21,9.209139 19.209139,11 17,11 L7,11 C4.790861,11 3,9.209139 3,7 C3,4.790861 4.790861,3 7,3 Z M7,9 C8.1045695,9 9,8.1045695 9,7 C9,5.8954305 8.1045695,5 7,5 C5.8954305,5 5,5.8954305 5,7 C5,8.1045695 5.8954305,9 7,9 Z" fill="#000000"/>
-        <path d="M7,13 L17,13 C19.209139,13 21,14.790861 21,17 C21,19.209139 19.209139,21 17,21 L7,21 C4.790861,21 3,19.209139 3,17 C3,14.790861 4.790861,13 7,13 Z M17,19 C18.1045695,19 19,18.1045695 19,17 C19,15.8954305 18.1045695,15 17,15 C15.8954305,15 15,15.8954305 15,17 C15,18.1045695 15.8954305,19 17,19 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>
-                                                    </span>
-                                                    <span class="navi-text">{{$t(`${menitem.label}`)}}</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <ul class="navi navi-hover navi-active navi-accent" v-if="menitem.subs">
-                                            <li class="navi-item" v-for="(subitem) of menitem.subs" :key="subitem.id">
-                                                <a class="navi-link" href="javascript:;" @click="$router.push(subitem.to)">
-                                                    <span class="navi-icon">
-                                                        <span class="svg-icon svg-icon-primary svg-icon-2x mr-3"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo6\dist/../src/media/svg/icons\Shopping\Sort1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <rect fill="#000000" x="4" y="5" width="16" height="3" rx="1.5"/>
-        <path d="M7.5,11 L16.5,11 C17.3284271,11 18,11.6715729 18,12.5 C18,13.3284271 17.3284271,14 16.5,14 L7.5,14 C6.67157288,14 6,13.3284271 6,12.5 C6,11.6715729 6.67157288,11 7.5,11 Z M10.5,17 L13.5,17 C14.3284271,17 15,17.6715729 15,18.5 C15,19.3284271 14.3284271,20 13.5,20 L10.5,20 C9.67157288,20 9,19.3284271 9,18.5 C9,17.6715729 9.67157288,17 10.5,17 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>
-                                                    </span>
-                                                    <span class="navi-text">{{$t(`${subitem.label}`)}}</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </template>
-                                    <li class="nav-item mb-2">
-                                        <a href="javascript:;" @click="onClickMenu(menitem)"
-                                           class="nav-link btn btn-icon btn-hover-text-primary btn-lg active">
-                                            <i :class="menitem.icon"></i>
-                                        </a>
-                                    </li>
-                                </a-popover>
-                            </ul>
-                            <!--end::Nav-->
+                                    </div>
+                                    <div v-if="vendor" style="padding: 20px">
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-xs-12" v-for="(menitem, index) of vendorMenu" :key="index">
+                                                <div v-if="!menitem.subs">
+                                                    <v-btn text color="primary" @click="onClickRoute(menitem.to)">
+                                                        {{ $t(`${menitem.label}`) }}
+                                                    </v-btn>
+                                                </div>
+                                                <div v-if="menitem.subs">
+                                                    <h2 class="h6 text-black-50">{{ $t(`${menitem.label}`) }}</h2>
+                                                    <div style="display: flex; flex-direction: column; align-items: flex-start">
+                                                        <v-btn text v-for="(subitem) of menitem.subs" :key="subitem.id" color="primary" @click="onClickRoute(subitem.to)">
+                                                            {{ $t(`${subitem.label}`) }}
+                                                        </v-btn>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div style="padding: 20px" class="right">
+                                        <div v-if="logoutloading">
+                                            <v-progress-linear
+                                                color="red"
+                                                indeterminate
+                                                reverse
+                                            ></v-progress-linear>
+                                        </div>
+                                        <v-btn color="red" text @click="onLogout" v-if="!logoutloading">
+                                            <v-icon>mdi-eject</v-icon>
+                                            Logout
+                                        </v-btn>
+                                    </div>
+                                </v-sheet>
+                            </v-bottom-sheet>
                         </div>
                         <!--end::Nav Wrapper-->
 
@@ -174,6 +171,10 @@
         <QuickPanel/>
         <!--end::Quick Panel-->
 
+        <!--Menu-->
+
+
+
 
         <!--begin::Scrolltop-->
         <div id="kt_scrolltop" class="scrolltop">
@@ -202,8 +203,14 @@
                                 </p>
                             </div>
 
-                            <a href="javascript:;" class="btn btn-warning font-weight-bold py-2 px-6" @click="onLogout">Logout
-                                Now</a>
+                            <a href="javascript:;" v-if="!logoutloading" class="btn btn-warning font-weight-bold py-2 px-6" @click="onLogout">Logout Now</a>
+                            <div v-if="logoutloading">
+                                <v-progress-linear
+                                    color="lime"
+                                    indeterminate
+                                    reverse
+                                ></v-progress-linear>
+                            </div>
 
                             <div class="d-flex justify-content-center align-items-center pt-10">
                                 <a href="javascript:;" @click="overlay = false">
@@ -219,137 +226,148 @@
 </template>
 
 <script>
-    import Header from "../components/Navigation/Header";
-    import Sidebar from "../components/Sidebar/Sidebar";
-    import Footer from "../components/footer/Footer";
-    import Notifications from "../components/notification/Notification";
-    import Actions from "../components/actions/Actions";
-    import UserPanel from "../components/actions/UserPanel";
-    import QuickPanel from "../components/actions/QuickPanel";
-    import {mapState} from "vuex";
-    import {Component, Vue} from "vue-property-decorator";
-    import {adminMenuData, menudata, vendorMenuData} from "../constants/menu";
+import Header from "../components/Navigation/Header";
+import Sidebar from "../components/Sidebar/SideBar";
+import Footer from "../components/footer/Footer";
+import Notifications from "../components/notification/Notification";
+import Actions from "../components/actions/Actions";
+import UserPanel from "../components/actions/UserPanel";
+import QuickPanel from "../components/actions/QuickPanel";
+import {mapState} from "vuex";
+import {Component, Vue} from "vue-property-decorator";
+import {adminMenuData, menudata, vendorMenuData} from "../constants/menu";
 
-    export default Vue.extend(({
-        components: {
-            Header,
-            Footer,
-            Notifications,
-            Sidebar
+export default Vue.extend(({
+    components: {
+        Header,
+        Footer,
+        Notifications,
+        Sidebar
+    },
+    head: {
+        bodyAttrs: {
+            class: 'header-fixed header-mobile-fixed sidebar-enabled page-loading',
+            id: 'kt_body'
         },
-        head: {
-            bodyAttrs: {
-                class: 'header-fixed header-mobile-fixed sidebar-enabled page-loading',
-                id: 'kt_body'
-            },
-        },
-        data() {
-            return {
-                datascroll: 'off',
-                menu: menudata,
-                subs: [],
-                overlay: false,
-                adminMenu: adminMenuData,
-                vendorMenu: vendorMenuData
+    },
+    data() {
+        return {
+            datascroll: 'off',
+            menu: menudata,
+            subs: [],
+            overlay: false,
+            adminMenu: adminMenuData,
+            vendorMenu: vendorMenuData,
+            sheetmenu: false,
+            logoutloading: false
+        }
+    },
+    mounted() {
+        const merpath = this.$route.path.split('/')
+        const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
+        if (findMenu && findMenu.subs) {
+            this.subs = findMenu.subs
+        } else {
+            this.subs = []
+        }
+        window.addEventListener("scroll", this.onScroll)
+    },
+    beforeDestroy() {
+        window.removeEventListener("scroll", this.onScroll)
+    },
+    methods: {
+        onScroll(event) {
+            if (window.top.scrollY > 111) {
+                document.body.setAttribute('data-header-scroll', 'on')
+            } else {
+                document.body.setAttribute('data-header-scroll', 'off')
             }
         },
-        mounted() {
-            const merpath = this.$route.path.split('/')
-            const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
-            if (findMenu && findMenu.subs) {
-                this.subs = findMenu.subs
+        onClickMenu(item) {
+            if (item.subs !== undefined) {
+                this.$router.push(item.subs[0].to)
+                this.subs = item.subs
             } else {
+                this.$router.push(item.to)
                 this.subs = []
             }
-            window.addEventListener("scroll", this.onScroll)
         },
-        beforeDestroy() {
-            window.removeEventListener("scroll", this.onScroll)
+        onClickRoute(to) {
+            this.$router.push(to)
+            this.sheetmenu = false
         },
-        methods: {
-            onScroll(event) {
-                if (window.top.scrollY > 111) {
-                    document.body.setAttribute('data-header-scroll', 'on')
-                } else {
-                    document.body.setAttribute('data-header-scroll', 'off')
-                }
-            },
-            onClickMenu(item) {
-                if (item.subs !== undefined) {
-                    this.$router.push(item.subs[0].to)
-                    this.subs = item.subs
-                } else {
-                    this.$router.push(item.to)
-                    this.subs = []
-                }
-            },
-            onLogout() {
+        onLogout() {
+            this.logoutloading = true
+            setTimeout(() => {
                 this.$store.dispatch('admin/resetAllStore')
                 this.$apolloHelpers.onLogout().then(() => {
+                    this.logoutloading = false
                     this.$router.push({
                         path: '/'
                     })
                 })
+            }, 3000)
+        }
+    },
+    watch: {
+        $route: function (val) {
+            const merpath = val.path.split('/')
+            const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
+            if (findMenu.subs) {
+                this.subs = findMenu.subs
+            } else {
+                this.subs = []
             }
         },
-        watch: {
-            $route: function (val) {
-                const merpath = val.path.split('/')
-                const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
-                if (findMenu.subs) {
-                    this.subs = findMenu.subs
-                } else {
-                    this.subs = []
-                }
-            },
-            admin: function (val) {
-                const merpath = this.$route.path.split('/')
-                const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
-                if (findMenu.subs) {
-                    this.subs = findMenu.subs
-                } else {
-                    this.subs = []
-                }
-            },
-            vendor: function (val) {
-                const merpath = this.$route.path.split('/')
-                const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
-                if (findMenu.subs) {
-                    this.subs = findMenu.subs
-                } else {
-                    this.subs = []
-                }
+        admin: function (val) {
+            const merpath = this.$route.path.split('/')
+            const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
+            if (findMenu.subs) {
+                this.subs = findMenu.subs
+            } else {
+                this.subs = []
             }
         },
-        computed: {
-            onGetRoutes() {
-                const paths = this.$route.path.split('/')
-                return paths
-            },
-            ...mapState({
-                admin: (store) => store.admin.administrator,
-                store: (store) => store.admin.store,
-                vendorStore: (store) => store.admin.vendorStore,
-                vendor: (store) => store.admin.vendor
-            })
+        vendor: function (val) {
+            const merpath = this.$route.path.split('/')
+            const findMenu = this.admin ? this.adminMenu.find(item => item.id === merpath[2]) : this.vendorMenu.find(item => item.id === merpath[2])
+            if (findMenu.subs) {
+                this.subs = findMenu.subs
+            } else {
+                this.subs = []
+            }
+        }
+    },
+    computed: {
+        onGetRoutes() {
+            const paths = this.$route.path.split('/')
+            return paths
         },
-    }))
+        ...mapState({
+            admin: (store) => store.admin.administrator,
+            store: (store) => store.admin.store,
+            vendorStore: (store) => store.admin.vendorStore,
+            vendor: (store) => store.admin.vendor
+        })
+    },
+}))
 </script>
 
 <style>
-    body {
-        font-family: Poppins, Helvetica, "sans-serif" !important;
-    }
+body {
+    font-family: Poppins, Helvetica, "sans-serif" !important;
+}
 
-    .page-enter-active, .page-leave-active {
-        transition: all .30s ease-out;
-    }
+.page-enter-active, .page-leave-active {
+    transition: all .30s ease-out;
+}
 
-    .page-enter, .page-leave-active {
-        opacity: 0;
-        transform-origin: 50% 50%;
-    }
-    .ant-popover-title {
-        background-color: #8950FC;
-    }
+.page-enter, .page-leave-active {
+    opacity: 0;
+    transform-origin: 50% 50%;
+}
+
+.ant-popover-title {
+    background-color: #8950FC;
+}
 </style>

@@ -49,6 +49,14 @@ query GetDefaultStore {
         singleStore
         rentalStore
         channelMarkets
+        assetAPI
+        mainAPI
+        services
+        logo {
+            id
+            preview
+            source
+        }
         balance {
             id
             balance
@@ -172,36 +180,66 @@ query getallcollection {
         inMenu
         name
         description
+        asset {
+            id
+            preview
+            source
+        }
         children {
             id
             isRoot
             inMenu
             name
             description
+            asset {
+                id
+                preview
+                source
+            }
             children {
                 id
                 isRoot
                 inMenu
                 name
                 description
+                asset {
+                    id
+                    preview
+                    source
+                }
                 children {
                     id
                     isRoot
                     inMenu
                     name
                     description
+                    asset {
+                        id
+                        preview
+                        source
+                    }
                     children {
                         id
                         isRoot
                         inMenu
                         name
                         description
+                        asset {
+                            id
+                            preview
+                            source
+                        }
                         children {
                             id
                             isRoot
                             inMenu
                             name
                             description
+                            asset {
+                                id
+                                preview
+                                source
+                            }
                         }
                     }
                 }
@@ -217,6 +255,11 @@ query GetOneCollection($id: ID!){
         isRoot
         inMenu
         description
+        asset {
+            id
+            preview
+            source
+        }
         seo {
             id
             urlKey
@@ -426,6 +469,11 @@ query GetOneProduct($id: ID!){
             id
             value
             code
+        }
+        serviceable {
+            id
+            name
+            mode
         }
         collection {
             id
@@ -1428,7 +1476,7 @@ query GetStoreInvoices($store: ID, $limit: Int, $offset: Int){
         }
         ,
         type:{
-            eq:"STORE"
+            eq: STORE
         }
     },paging: {
         limit: $limit
@@ -1814,5 +1862,72 @@ query GetAllHsn($limit: Int, $offset: Int, $search: String) {
         id
         code
         value
+    }
+}
+
+query GetServiceables($limit: Int, $offset: Int, $search: String){
+    serviceables(
+        filter: {
+            name: {
+                like: $search
+            }
+        },
+        paging: {
+            limit: $limit
+            offset: $offset
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        type
+        mode
+    }
+}
+
+query GetProductServiceables($search: String){
+    serviceables(
+        filter: {
+            name: {
+                like: $search
+            },
+            type: {
+                eq: PRODUCT
+            }
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        type
+        mode
+    }
+}
+
+query GetVendorServiceables($search: String){
+    serviceables(
+        filter: {
+            name: {
+                like: $search
+            },
+            type: {
+                eq: VENDOR
+            }
+        },
+        sorting:{
+            field:createdAt
+            direction:ASC
+        }
+    ) {
+        id
+        name
+        type
+        mode
     }
 }

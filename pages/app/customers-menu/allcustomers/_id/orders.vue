@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card card-custom">
+        <v-sheet elevation="4">
             <!--begin::Header-->
             <div class="card-header py-3">
                 <div class="card-title align-items-start flex-column">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <!--end::Form-->
-        </div>
+        </v-sheet>
     </div>
 </template>
 

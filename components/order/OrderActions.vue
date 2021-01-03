@@ -1,8 +1,8 @@
 <template>
     <div>
-        <a href="javascript:;" class="btn btn-sm btn-light-info" @click="$router.push(`/app/sales-menu/orders/${params.data.id}`)">
-            <i class="fas fa-edit"></i> View / Update
-        </a>
+        <v-btn text color="primary" @click="$router.push(`/app/sales-menu/orders/${params.data.id}`)">
+            <i class="fas fa-edit text-primary mr-2"></i> View / Update
+        </v-btn>
     </div>
 </template>
 

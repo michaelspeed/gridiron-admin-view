@@ -43,12 +43,36 @@
                 <div class="row">
                     <div class="col-md-4">
                         <v-card>
-                            <v-card-title>
-                                <h5>Menu </h5>
+                            <v-card-title style="width: 100%">
+                                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%">
+                                    <div>
+                                        <h5>Menu </h5>
+                                    </div>
+                                    <div>
+                                        <v-btn text color="red">
+                                            Reset Menu
+                                        </v-btn>
+                                    </div>
+                                </div>
                             </v-card-title>
                             <hr/>
                             <v-card-text v-if="MenuNodes !== null">
-                                <PrimeTree :value="MenuNodes" selectionMode="single" :selectionKeys.sync="root" :loading="GetMenuTree === undefined"></PrimeTree>
+                                <PrimeTree :value="MenuNodes" selectionMode="single" :selectionKeys.sync="root" :loading="GetMenuTree === undefined">
+                                    <template #default="slotProps">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
+                                            <b>{{slotProps.node.label}}</b>
+                                            <div>
+                                                <v-btn
+                                                    icon
+                                                    color="red"
+                                                    @click="onClickDelete(slotProps.node.key)"
+                                                >
+                                                    <v-icon>mdi-delete</v-icon>
+                                                </v-btn>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </PrimeTree>
                             </v-card-text>
                             <v-card-actions>
                                 <a href="javascript:;" class="btn btn-light-primary btn-sm font-weight-bold mr-2" @click="root = null">Add Root Menu Type</a>
@@ -68,7 +92,7 @@
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import RootMenu from '../../../../components/Menu/root-menu.vue';
-    import {GetMenuTreeDocument} from '../../../../gql';
+    import {DeleteOneMenuDocument, GetMenuTreeDocument} from '../../../../gql';
     import ChildMenu from '../../../../components/Menu/child-menu.vue';
 
     @Component({
@@ -86,11 +110,6 @@
 
         private GetMenuTree
         private MenuNodes: any | null = null
-
-        @Watch('root')
-        onChangeRoot() {
-            console.log(Object.keys(this.root))
-        }
 
         @Watch('GetMenuTree')
         onGetMenuTree() {
@@ -136,6 +155,21 @@
                 }
             }
             return childMod
+        }
+
+        onClickDelete(id) {
+            this.$apollo.mutate({
+                mutation: DeleteOneMenuDocument,
+                variables: {
+                    id
+                }
+            })
+            .then(() => {
+                this.$message.success('Menu Deleted')
+            })
+            .catch(err => {
+                this.$message.error(err.message)
+            })
         }
     }
 </script>

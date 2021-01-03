@@ -62,6 +62,14 @@
                 ></v-text-field>
             </div>
             <div class="mt-3">
+                <span>Icons names can be found here <a href="https://materialdesignicons.com/" target="_blank">Material Icons</a></span>
+                <v-text-field
+                    label="Meta Icon"
+                    outlined
+                    v-model="mainIcon"
+                ></v-text-field>
+            </div>
+            <div class="mt-3">
                 <a href="javascript:;" class="btn btn-light-primary btn-sm font-weight-bold mr-2" @click="onCreateRoot">Create Menu</a>
             </div>
         </v-card-text>
@@ -115,6 +123,8 @@
         private productVariants
         private collections
         private facetValues
+
+        private mainIcon = ''
 
         private tabs = 0
         private menuOptions = ''

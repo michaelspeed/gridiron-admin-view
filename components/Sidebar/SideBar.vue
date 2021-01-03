@@ -70,7 +70,7 @@
                 </div>
                 <!--end::Body-->
             </div>
-            <div v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b"
+            <v-sheet v-if="store && !vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
                  style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
                 <!--begin::Body-->
                 <div class="card-body">
@@ -85,8 +85,8 @@
                     </a>
                 </div>
                 <!--end::Body-->
-            </div>
-            <div v-if="vendorStore" class="card card-custom bgi-no-repeat gutter-b"
+            </v-sheet>
+            <v-sheet v-if="vendorStore" class="card card-custom bgi-no-repeat gutter-b" elevation="4"
                  style="height: 250px; background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 100% auto; background-image: url(/media/svg/patterns/rhone-2.svg)">
                 <!--begin::Body-->
                 <div class="card-body">
@@ -101,8 +101,195 @@
                     </a>
                 </div>
                 <!--end::Body-->
-            </div>
-            <div class="card card-custom bg-light-success gutter-b">
+            </v-sheet>
+            <v-sheet class="card card-custom gutter-b" elevation="4">
+                <div class="card-header border-0 pt-5">
+                    <div class="card-title font-weight-bolder">
+                        <div class="card-label">
+                            <h3 class="text-primary">Status</h3>
+                            <div class="font-size-sm text-muted mt-2">Server Status</div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="card-body d-flex flex-column" style="position: relative;" v-if="health">
+                    <div class="mt-5 mb-5">
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="primary"
+                                    >
+                                        mdi-database
+                                    </v-icon>
+                                    <!--end::Symbol-->
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Database</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.database.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="red"
+                                    >
+                                        mdi-web
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Socket</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.google.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+
+                        <div class="row row-paddingless">
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="amber"
+                                    >
+                                        mdi-memory
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Memory Heap</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.memory_heap.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="cyan"
+                                    >
+                                        mdi-console-network
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Memory RSS</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.memory_rss.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <v-icon
+                                        color="light-green"
+                                    >
+                                        mdi-nas
+                                    </v-icon>
+
+                                    <!--begin::Title-->
+                                    <div style="margin-left: 5px">
+                                        <div class="text-dark-75 font-weight-bolder">Storage</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">{{this.health.storage.status}}</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resize-triggers"><div class="expand-trigger"><div style="width: 268px; height: 482px;"></div></div><div class="contract-trigger"></div></div></div>
+                <hr/>
+                <div class="card-body d-flex flex-column" style="position: relative;">
+                    <div class="mt-5 mb-5">
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-primary font-weight-bolder">GridIron Core</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-danger font-weight-bolder">GridIron Orders</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+
+                        <div class="row row-paddingless">
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-info font-weight-bolder">Atmiyo MitoSIS</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">2.4.5</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-warning font-weight-bolder">GridIron Stocks</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <!--end::Item-->
+                        </div>
+                        <div class="row row-paddingless">
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-success font-weight-bolder">GridIron Shipping</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">0.17.1</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div style="margin-left: 5px">
+                                        <div class="text-success font-weight-bolder">GridIron Admin UI</div>
+                                        <div class="font-size-sm text-muted font-weight-bold">1.15.6</div>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </v-sheet>
+            <v-sheet class="card card-custom bg-light-success gutter-b" elevation="4">
                 <!--begin::Header-->
                 <div class="card-header align-items-center border-0 mt-4">
                     <h3 class="card-title align-items-start flex-column">
@@ -175,7 +362,7 @@
                     <!--end: Items-->
                 </div>
                 <!--end: Card Body-->
-            </div>
+            </v-sheet>
         </div>
         <!--end::Aside Secondary Content-->
     </div>
@@ -188,6 +375,7 @@ import {adminMenuData, menudata, vendorMenuData} from "../../constants/menu";
 import {mapState} from "vuex";
 import {GetOrderLinesDocument, GetVendorAccountDocument, SearchAllOrdersDocument} from "~/gql";
 import moment from "moment";
+import {mainAPI} from "~/constants/GlobalURL";
 
 @Component({
     components: {
@@ -238,6 +426,8 @@ export default class SideBar extends Vue {
     private orderLines
     private GetVendorAccount
 
+    private health: any = null
+
     getDate(date) {
         return moment(date).format('DD/MM HH:mm')
     }
@@ -251,6 +441,14 @@ export default class SideBar extends Vue {
         this.scrollbarscript.async = true
         document.body.appendChild(this.tempscript)
         document.body.appendChild(this.scrollbarscript)
+        this.$axios.$get(`${mainAPI}/health`)
+        .then((response) => {
+            console.log(response)
+            this.health = response.details
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     }
 
     @Watch('GetVendorAccount')

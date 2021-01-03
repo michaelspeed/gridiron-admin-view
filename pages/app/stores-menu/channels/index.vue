@@ -159,8 +159,8 @@
         private channelToken = ""
         private allCurrency = CurrencyCode()
         private allLanguage = LanguageCode()
-        private currency = ""
-        private language = ""
+        private currency: any = ""
+        private language: any = ""
         private priceIncluded: boolean = true
         private allChannels: any[] = []
         private apolloClient: any = null

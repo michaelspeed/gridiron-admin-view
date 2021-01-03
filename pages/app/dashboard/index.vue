@@ -20,6 +20,7 @@
 
     @Component({
         layout: 'console',
+        transition: 'slide-x-transition',
         components: {DashboardAdmin, DashboardVendor},
         computed: {
             ...mapState({

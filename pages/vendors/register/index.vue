@@ -11,12 +11,15 @@
                         <!--begin::Aside Top-->
                         <div class="d-flex flex-column-auto flex-column px-10">
                             <!--begin::Aside header-->
-                            <a href="#" class="login-logo">
-                                <img src="/images/logo.png" class="max-h-200px" alt=""/>
+                            <a href="#" class="login-logo mb-3">
+                                <img src="/images/airecommerce.png" class="max-h-100px" alt="" v-if="!GetDefaultStore"/>
+                                <img :src="`${GetDefaultStore.assetAPI}/${GetDefaultStore.logo.preview}`" class="max-h-100px" alt="" v-if="GetDefaultStore && GetDefaultStore.logo"/>
+                                <h1 class="text-white" v-if="!GetDefaultStore">Sign In To Admin</h1>
+                                <h1 class="text-white" v-if="GetDefaultStore">Sign In To {{GetDefaultStore.storeName}}</h1>
                             </a>
                             <div class="text-white font-weight-bold font-size-h4" style="margin-top: -10px; margin-bottom: 10px">
                                 Already have an Account ?
-                                <a href="/vendors/login" class="text-success font-weight-bolder">Sign In</a>
+                                <a href="/" class="text-success font-weight-bolder">Sign In</a>
                             </div>
                             <!--end::Aside header-->
 
@@ -265,7 +268,7 @@
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
     import {
-        FindAllVendorPlansDocument,
+        FindAllVendorPlansDocument, GetDefaultStoreDocument,
         RegisterVendorDocument,
         RegisterVendorMutationVariables,
         Vendor, VendorDto, VendorPlanPrice,
@@ -290,6 +293,9 @@
         apollo: {
             ZoneFindMany: {
                 query: ZoneFindManyDocument
+            },
+            GetDefaultStore: {
+                query: GetDefaultStoreDocument
             }
         },
     })
@@ -325,6 +331,7 @@
         private percentagePlan: any[] = []
 
         private ZoneFindMany
+        private GetDefaultStore
 
         @Watch('planId')
         onPlanChange() {

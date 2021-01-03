@@ -46,7 +46,7 @@
                         <!--end::Toolbar-->
                     </div>
                 </div>
-                <div class="card">
+                <v-sheet elevation="4">
                     <div class="card-body">
                         <div class="d-flex justify-content-center align-items-center m-20 w-100" v-if="$apollo.queries.getStockKeepingByStore.loading">
                             <div class="spinner spinner-primary spinner-lg mr-15"></div>
@@ -69,7 +69,7 @@
                             </ag-grid-vue>
                         </div>
                     </div>
-                </div>
+                </v-sheet>
             </div>
         </div>
     </div>
