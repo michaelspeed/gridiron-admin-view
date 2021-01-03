@@ -5,7 +5,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const config = {
     server: {
         host: '0.0.0.0',
-        port: 8080, // default: 3000
+        port: 9090, // default: 3000
     },
     /*
     ** Nuxt rendering mode
