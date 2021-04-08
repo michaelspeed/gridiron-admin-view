@@ -659,7 +659,7 @@ export default class ProductEdit extends Vue {
     private serviceopen = false
     private serviceloading = false
 
-    private assetUrl = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL;
+    private assetUrl = assetsURL;
 
     onRemoveServiceFromProduct() {
         this.$message.loading('Action in process')

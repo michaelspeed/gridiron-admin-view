@@ -20,10 +20,8 @@ export const actions = {
         client.query({
             query: GetVendorInfoDocument
         }).then(value => {
-            console.log(value)
             commit('setVendor', value.data.GetVendorInfo)
         }).catch(error => {
-            console.log(error)
             commit('setVendor', null)
         })
     }

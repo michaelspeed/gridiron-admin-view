@@ -79,7 +79,7 @@
                             <v-img
                                 contain
                                 v-if="logo"
-                                :src="`${assetUL}/${logo.preview}`"
+                                :src="`${assetUL}${logo.preview}`"
                                 style="height: 200px"
                             ></v-img>
                             <input type="file" style="display: none" ref="fileInput" accept="image/*"
@@ -180,7 +180,7 @@ export default class StoreConfiguration extends Vue {
     private serviceable = false
 
     private logo: any = undefined
-    private assetUL: any = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL;
+    private assetUL: any = assetsURL;
     private GetAllCountries
 
     public $refs: Vue['$refs'] & {

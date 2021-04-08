@@ -130,7 +130,7 @@
             fileInput: HTMLInputElement
         };
 
-        private assetUL: any = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL;
+        private assetUL: any = assetsURL;
 
         // collapse
         private activeNames = ['1', '2', '3']

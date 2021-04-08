@@ -13,7 +13,7 @@
                             <!--begin::Aside header-->
                             <a href="#" class="login-logo mb-3">
                                 <img src="/images/airecommerce.png" class="max-h-100px" alt="" v-if="!GetDefaultStore"/>
-                                <img :src="`${GetDefaultStore.assetAPI}/${GetDefaultStore.logo.preview}`" class="max-h-100px" alt="" v-if="GetDefaultStore && GetDefaultStore.logo"/>
+                                <img :src="`${images}/${GetDefaultStore.logo.preview}`" class="max-h-100px" alt="" v-if="GetDefaultStore && GetDefaultStore.logo"/>
                                 <h1 class="text-white" v-if="!GetDefaultStore">Sign In To Admin</h1>
                                 <h1 class="text-white" v-if="GetDefaultStore">Sign In To {{GetDefaultStore.storeName}}</h1>
                             </a>
@@ -267,6 +267,7 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
+import { assetsURL } from '../../../constants/GlobalURL';
     import {
         FindAllVendorPlansDocument, GetDefaultStoreDocument,
         RegisterVendorDocument,
@@ -304,6 +305,8 @@
         private planType = 1
 
         private loading = false
+
+        private images = assetsURL
 
         // reg
         private email = ''

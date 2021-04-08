@@ -272,7 +272,7 @@
         private showassets = false
         private addAsset = false
         private myAssets: Asset[] = []
-        private assetUrl = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL
+        private assetUrl = assetsURL
         private selectedAssets: Asset[] = []
         private featuredAssets: Asset | null = null
         private addFacet = false
