@@ -472,7 +472,7 @@
         private catSelect = ''
         private search = ''
 
-        private assetUrl = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL
+        private assetUrl = assetsURL
 
         private products
         private productVariants

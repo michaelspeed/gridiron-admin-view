@@ -155,7 +155,7 @@
     })
     export default class AssetsPreview extends Vue {
         @Prop() node: Asset
-        private assetUrl = this.$store.state.store.store ? this.$store.state.store.store.assetAPI : assetsURL
+        private assetUrl = assetsURL
         private preview: boolean = false
         private theme = GridironViewSettings
 

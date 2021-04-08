@@ -10,7 +10,7 @@
                         <div class="d-flex flex-center mb-15">
                             <a href="javascript:;">
                                 <img src="/images/airecommerce.png" class="max-h-100px" alt="" v-if="!GetDefaultStore"/>
-                                <img :src="`${GetDefaultStore.assetAPI}/${GetDefaultStore.logo.preview}`" class="max-h-100px" alt="" v-if="GetDefaultStore && GetDefaultStore.logo"/>
+                                <img :src="`${images}${GetDefaultStore.logo.preview}`" class="max-h-100px" alt="" v-if="GetDefaultStore && GetDefaultStore.logo"/>
                             </a>
                         </div>
                         <!--end::Login Header-->
@@ -256,6 +256,7 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
+import { assetsURL } from "../constants/GlobalURL";
 import {
     AdministratorLoginDocument,
     AdministratorLoginMutationVariables,
@@ -275,6 +276,7 @@ export default class Index extends Vue {
     private email: string = ''
     private password: string = ''
     private loading = false
+    private images = assetsURL
 
     private forgot = false
 
