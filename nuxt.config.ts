@@ -122,7 +122,7 @@ export default {
         authenticationType: 'Basic',
         clientConfigs: {
             default: {
-                httpEndpoint: 'https://megatron.oihelp.net',
+              httpEndpoint: 'https://megatron.oihelp.net',
                 /*httpEndpoint: 'http://localhost:5588/admin-api',*/
             },
         },

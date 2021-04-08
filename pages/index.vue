@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+ <v-app>
         <div class="d-flex flex-column flex-root">
             <!--begin::Login-->
             <div class="login login-3 login-signin-on d-flex flex-row-fluid" id="kt_login">
@@ -107,7 +107,7 @@
                   class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-15"
                   :style="{ backgroundImage: `url(/images/main.jpg)` }"
                 >
-                  &lt;!&ndash;begin: Aside Container &ndash;&gt;
+                &lt;!&ndash;begin: Aside Container &ndash;&gt;
                   <div class="d-flex flex-row-fluid flex-column justify-content-between">
                     &lt;!&ndash;begin: Aside header &ndash;&gt;
                     <a href="#" class="flex-column-auto">
